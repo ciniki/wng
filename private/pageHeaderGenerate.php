@@ -1,0 +1,254 @@
+<?php
+//
+// Description
+// -----------
+// This function will generate the header for the website, to be displayed 
+// at the top of the all pages.
+//
+// Arguments
+// --------- 
+// ciniki:
+// settings:        The web settings structure, similar to ciniki variable but only web specific information.
+// title:           The title to use for the page.
+//
+// Returns
+// -------
+//
+function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
+
+    //
+    // Store the header content
+    //
+    $content = '';
+
+    $headerblocks = array();
+    if( isset($request['site']['headersections']) ) {
+        foreach($request['site']['headersections'] as $section) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionRequestProcess');
+            $rc = ciniki_wng_sectionRequestProcess($ciniki, $tnid, $request, $section);
+            if( $rc['stat'] == 'exit' ) {
+                return $rc;
+            }
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.80', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
+            }
+
+            //
+            // Add any resulting blocks to the request['response']['blocks'] array
+            //
+            if( isset($rc['blocks']) ) {
+                foreach($rc['blocks'] as $block) {
+                    $headerblocks[] = $block;
+                }
+            }
+        }
+    }
+   
+    //
+    // Check for special case browsers, and add their information to the html_class
+    //
+    $html_class = '';
+    if( isset($_SERVER['HTTP_USER_AGENT']) ) {
+        if( preg_match('/Mozilla.*compatible; MSIE 9.0; Windows.*Trident/', $_SERVER['HTTP_USER_AGENT']) ) {
+            $html_class .= ($html_class != '' ? ' ':'') . 'browser-ie9 no-flexbox';
+        }
+    }
+    // Generate the head content
+    $content .= "<!DOCTYPE html>\n"
+        . "<html class='" . $html_class . "'>\n"
+        . "<head>\n";
+
+    if( isset($request['site']['settings']['header-site-title']) 
+        && isset($request['site']['settings']['header-site-title']) != ''
+        ) {
+        $content .= '<title>' . $request['site']['settings']['header-site-title'] . '</title>';
+    }
+    $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/favicon.png' type='image/png' />\n";
+
+    //
+    // Add CSS and javascript
+    //
+    $content .= "<script async defer src='" . $request['site']['cache_url'] . "/theme/site.js?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.js') . "'></script>\n";
+    $content .= "<link rel='stylesheet' type='text/css' media='all' href='" . $request['site']['cache_url'] . "/theme/site.css?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.css') . "'/>\n";
+
+    //
+    // Check head links
+    //
+
+/*    *** PROBABLY WON"T NEED THESE *** */
+/*    if( isset($ciniki['response']['head']['links']) ) {
+        foreach($ciniki['response']['head']['links'] as $link) {
+            $content .= "<link rel='" . $link['rel'] . "'" . (isset($link['title'])?" title='" . $link['title'] . "'":'') . " href='" . $link['href'] . "'/>\n";
+        }
+    }
+
+    //
+    // Check for head scripts
+    //
+    if( isset($ciniki['response']['head']['scripts']) ) {
+        foreach($ciniki['response']['head']['scripts'] as $script) {
+            $content .= "<script src='" . $script['src'] . "' type='" . $script['type'] . "'></script>\n";
+        }
+    }
+
+    if( isset($ciniki['response']['web-app']) && $ciniki['response']['web-app'] == 'yes' ) {
+        $content .= '<meta name="apple-mobile-web-app-capable" content="yes" />' . "\n";
+        $content .= '<meta id="apple_sbarstyle" name="apple-mobile-web-app-status-bar-style" content="black" />' . "\n";
+        $content .= '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />' . "\n";
+    }
+*/    
+    //
+    // Header to support mobile device resize
+    //
+    $content .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">' . "\n";
+    $content .= '<meta charset="UTF-8">' . "\n";
+
+/*    if( isset($settings['site-google-site-verification']) 
+        && $settings['site-google-site-verification'] != '' 
+        ) {
+        $content .= '<meta name="google-site-verification" content="' . $settings['site-google-site-verification'] . '"/>' . "\n";
+    }
+    if( isset($settings['site-pinterest-site-verification']) 
+        && $settings['site-pinterest-site-verification'] != '' 
+        ) {
+        $content .= '<meta name="p:domain_verify" content="' . $settings['site-pinterest-site-verification'] . '"/>' . "\n";
+    }
+
+    if( isset($settings['site-meta-robots']) 
+        && $settings['site-meta-robots'] != '' 
+        ) {
+        $content .= '<meta name="robots" content="' . $settings['site-meta-robots'] . '"/>' . "\n";
+    }
+*/
+    //
+    // Check for header Open Graph (Facebook) object information, for better linking into facebook
+    //
+    if( isset($ciniki['response']['head']['og']) ) {
+        $og_site_name = $ciniki['tenant']['name'];
+        foreach($ciniki['response']['head']['og'] as $og_type => $og_value) {
+            if( $og_value != '' ) {
+                if( $og_type == 'description' ) {
+                    $content .= "<meta name='$og_type' content='$og_value' />\n";
+                }
+                if( $og_type == 'site_name' ) {
+                    $og_site_name = $og_value;
+                }
+                $content .= '<meta property="og:' . $og_type . '" content="' . preg_replace('/"/', "'", $og_value) . '"/>' . "\n";
+            }
+        }
+        if( $og_site_name != '' ) {
+            $content .= "<meta property=\"og:site_name\" content=\"" . preg_replace('/"/', "\'", $og_site_name) . "\"/>\n";
+        }
+        if( $ciniki['response']['head']['og']['title'] == '' ) {
+            $content .= '<meta property="og:title" content="' . $ciniki['tenant']['details']['name'] . ' - ' . $title . '"/>' . "\n";
+        }
+    }
+
+    //
+    // Include google analytics
+    //
+    if( isset($settings['site-google-analytics-account']) && $settings['site-google-analytics-account'] != '' ) {
+        $content .= "<script type='text/javascript'>\n"
+            . "var _gaq = _gaq || [];\n"
+            . "_gaq.push(['_setAccount', '" . $settings['site-google-analytics-account'] . "']);\n"
+            . "_gaq.push(['_trackPageview']);\n"
+            . "(function() {\n"
+                . "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n"
+                . "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n"
+                . "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n"
+            . "})();\n"
+            . "</script>\n"
+            . "";
+    }
+
+    //
+    // Include google tag manager
+    //
+    if( isset($settings['site-google-gtm-code']) && $settings['site-google-gtm-code'] != '' ) {
+        $content .= "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
+            . "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
+            . "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src="
+            . "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);"
+            . "})(window,document,'script','dataLayer','"
+                . $settings['site-google-gtm-code'] 
+            . "');</script>"
+            . "";
+    }
+
+    //
+    // Include facebook pixel
+    //
+    if( isset($settings['site-facebook-pixel-id']) && $settings['site-facebook-pixel-id'] != '' ) {
+        $content .= "<script>"
+            . "!function(f,b,e,v,n,t,s)"
+            . "{if(f.fbq)return;n=f.fbq=function(){n.callMethod?"
+            . "n.callMethod.apply(n,arguments):n.queue.push(arguments)};"
+            . "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';"
+            . "n.queue=[];t=b.createElement(e);t.async=!0;"
+            . "t.src=v;s=b.getElementsByTagName(e)[0];"
+            . "s.parentNode.insertBefore(t,s)}(window,document,'script',"
+            . "'https://connect.facebook.net/en_US/fbevents.js');"
+            . "fbq('init', '" . $settings['site-facebook-pixel-id'] . "');"
+            . "fbq('track', 'PageView');"
+            . "</script>\n"
+            . "";
+    }
+
+    //
+    // Setup the background image
+    //
+/*    if( isset($settings['site-background-image']) && $settings['site-background-image'] > 0 ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'getScaledImageURL');
+        $rc = ciniki_web_getScaledImageURL($ciniki, $settings['site-background-image'], 'original', 0, 0, 90);
+        if( $rc['stat'] == 'ok' ) {
+            $content .= "<style>"
+                . "html {"
+                    . "background: url('" . $rc['url'] . "'); "
+                    . "background-repeat: repeat-y; "
+                    . "background-size: 100%; "
+                    . "background-attachment: fixed; "
+                    . "background-position-x: " . (isset($settings['site-background-position-x']) && $settings['site-background-position-x'] != '' ? $settings['site-background-position-x'] : '0') . ";"
+                    . "background-position-y: " . (isset($settings['site-background-position-y']) && $settings['site-background-position-y'] != '' ? $settings['site-background-position-y'] : '0') . ";"
+                . "}"
+                . "</style>"
+                . "";
+        }
+    } */
+
+    $content .= "</head>\n";
+
+    //
+    // Generate header of the page
+    //
+    $content .= "<body>\n";
+
+    //
+    // Include google tag manager
+    //
+    if( isset($settings['site-google-gtm-code']) && $settings['site-google-gtm-code'] != '' ) {
+        $content .= '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id='
+            . $settings['site-google-gtm-code'] 
+            . '" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>'
+            . '';
+    }
+
+    $content .= "<div id='page-container' class='"
+        . (isset($request['response']['page-container-class']) ? $request['response']['page-container-class'] : '')
+        . "'>";
+    $content .= "<header id='page-header'>";
+
+    //
+    // Generate the blocks
+    //
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');
+    $rc = ciniki_wng_blocksGenerate($ciniki, $tnid, $request, $headerblocks);
+    if( $rc['stat'] != 'ok' ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.57', 'msg'=>'', 'err'=>$rc['err']));
+    }
+    $content .= $rc['content'];
+
+    $content .= "</header>";
+
+    return array('stat'=>'ok', 'content'=>$content);
+}
+?>

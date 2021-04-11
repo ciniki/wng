@@ -1,0 +1,43 @@
+.block-textcolumns {
+    width: 100%;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+.block-textcolumns .content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.block-textcolumns .column {
+    width: 100%;
+    align-self: flex-start;
+    padding: 1rem;
+}
+.block-textcolumns .wrap {
+    padding: 1rem;
+}
+.block-textcolumns p {
+    padding-bottom: 1em;
+}
+@media screen and (min-width: 40em) {
+    .block-textcolumns.columns .column {
+        padding: 1.5em;
+    }
+    .block-textcolumns.columns-2 .column,
+    .block-textcolumns.columns-4 .column {
+        width: 50%;
+        flex-basis: 50%;
+    }
+    .block-textcolumns.columns-3 .column {
+        width: 33%;
+        flex-basis: 33%;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-textcolumns.columns-4 .column {
+        width: 24%;
+        flex-basis: 24%;
+    }
+}
+

@@ -1,0 +1,38 @@
+#
+# Description
+# -----------
+# This table stores the settings for each site.
+# 
+# The detail_key should start with:
+# site - Global site settings
+# header - settings for header
+# footer - settings for footer
+# 
+#
+# Fields
+# ------
+# tnid:             The tenant the domain is part of.
+#
+# site_id:          The ID of the site the setting is for.
+#
+# detail_key:       The dash notated index key to the setting value.
+#
+# detail_value:     The value of the setting.
+#
+# date_added:       The date and time the domain was added to the table.
+# last_updated:     The date and time the domain was last updated.
+#
+create table ciniki_wng_settings (
+    id int not null auto_increment,
+    uuid char(36) not null,
+    tnid int not null,
+    site_id int not null,
+    detail_key varchar(255) not null,
+    detail_value varchar(10000) not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    unique index (uuid),
+    unique index (tnid, site_id, detail_key),
+    index sync (tnid, uuid, last_updated)
+) ENGINE=InnoDB, COMMENT='v1.01';

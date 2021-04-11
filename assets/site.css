@@ -1,0 +1,210 @@
+/* Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+th {
+    text-align: left;
+}
+tr {
+    vertical-align: middle;
+}
+img {
+    max-width: 100%;
+    display: block;
+}
+input, button, textarea, select {
+    font: inherit;
+}
+:link, :visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Base Styles */
+
+html {
+    background: #eee;
+    color: #000;
+    font-family: arial, sans-serif;
+}
+
+body {
+
+}
+
+h1 {
+    
+}
+h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+h3 {
+    
+}
+
+/* Helper styles */
+.hidden {
+    display: none;
+}
+
+.button {
+    display: inline-block;
+    background: #ec2027;
+    color: #fff;
+    padding: 0.5em 1em;
+}
+p {
+    margin-bottom: 1em;
+}
+p:last-child {
+    margin-bottom: 0em;
+}
+
+.showat-30-em,
+.showat-40-em,
+.showat-50-em,
+.showat-60-em,
+.showat-70-em,
+.showat-80-em,
+.showat-90-em,
+.showat-custom-em {
+    display: none;
+}
+.hideat-30-em,
+.hideat-40-em,
+.hideat-50-em,
+.hideat-60-em,
+.hideat-70-em,
+.hideat-80-em,
+.hideat-90-em,
+.hideat-custom-em {
+    display: block;
+}
+/* XX-Small */
+@media screen and (min-width: 30em) {
+    .hideat-30-em { display: none; }
+    .showat-30-em { display: block; }
+}
+/* X-Small */
+@media screen and (min-width: 40em) {
+    .hideat-40-em { display: none; }
+    .showat-40-em { display: block; }
+}
+/* Small */
+@media screen and (min-width: 50em) {
+    .hideat-50-em { display: none; }
+    .showat-50-em { display: block; }
+}
+/* Medium */
+@media screen and (min-width: 60em) {
+    .hideat-60-em { display: none; }
+    .showat-60-em { display: block; }
+}
+/* Large */
+@media screen and (min-width: 70em) {
+    .hideat-70-em { display: none; }
+    .showat-70-em { display: block; }
+}
+/* X-Large */
+@media screen and (min-width: 80em) {
+    .hideat-80-em { display: none; }
+    .showat-80-em { display: block; }
+}
+/* XX-Large */
+@media screen and (min-width: 90em) {
+    .hideat-90-em { display: none; }
+    .showat-90-em { display: block; }
+}
+
+
+#page-container {
+    min-height: 100vh;
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+    background: #fff;
+    color: #000;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+@media screen and (min-width: 30em) {
+    #page-container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+}
+@media screen and (min-width: 60em) {
+    #page-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+#page-header {
+}
+
+#page-content {
+}
+
+#page-footer {
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+#page-footer .x-info {
+    display: none;
+}
+#page-footer .copyright {
+    font-size: 0.8rem;
+    color: #777;
+    text-align: center;
+    padding-top: 2em;
+}
+#page-footer .copyright p {
+    padding-top: 0.5em;
+}

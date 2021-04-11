@@ -1,0 +1,93 @@
+#
+# Description
+# -----------
+# This table stores the pages for a website.
+#
+# Fields
+# ------
+# id:                       The ID assigned to the record.
+# uuid:                     The Universal Unique ID.
+# tnid:                     The Tenant ID the record belongs to.
+#
+# site_id:                  The ID of the site the page is part of.
+# parent_id:                The ID of the parent page if a child page.
+#
+# ptype:                    The type of page.
+#
+#                               10 - Sections, standard design for wng
+#                               20 - Basic **future** same as ciniki.web custom page_type 
+#                               30 - Manual **future** no processing, raw html
+#                               40 - Redirect page to another URL
+#                               50 - Module **future** 
+#
+# sequence:                 The order to show the page in.
+#
+# title:                    The title of the page, will be used in the menu.
+# page_title:               The title to put at the top of the page.
+# permalink:                The permalink for the page, must be unique within sub pages.
+# path:                     The url path to this page. If the home page, then must be /. This path can be
+#                           added to the base_url of the site to get the complete url.
+#
+# menu_flags:               What menus the page should be a part of. Currently only header and footer, 
+#                           but more may be available in the future.
+#
+#                               0x01 - Header Menu
+#                               0x02 - Footer Menu
+#                               0x04 - 
+#                               0x08 - 
+#                               0x10 -
+#                               0x20 - Visible only to logged in customer/members
+#                               0x40 - Visible only to logged in members
+#                               0x80 -
+#
+# flags:                    The options for the page.
+#
+#                               0x01 - Public, Visible to all visitors
+#                               0x02 - Private page, must be logged in customer/member
+#                               0x04 - Members page, must be logged in member
+#                               0x08 - Simple Password protected page **future**
+#                               0x10 - 
+#                               0x20 - 
+#                               0x40 - 
+#                               0x80 - 
+#
+# password:                 The password for a page, which will require a simple 
+#                           password to access this or any child pages.
+#
+# redirect_url:             For page type 30, the URL to redirect visitors to.
+#
+# image_id:                 The ID of the image used for listing sub pages.
+# image_caption:            The caption for the image.
+# synopsis:                 The synopsis of the page, used in child page listings.
+#
+# date_added:               The UTC date and time the record was added.
+# last_updated:             The UTC date and time the record was last update.
+#
+create table ciniki_wng_pages (
+    id int not null auto_increment,
+    uuid char(36) not null,
+    tnid int not null,
+
+    site_id int not null,
+    parent_id int not null,
+    ptype tinyint unsigned not null,
+    sequence smallint unsigned not null,
+    title varchar(250) not null,
+    page_title varchar(250) not null,
+    permalink varchar(250) not null,
+    path varchar(1000) not null,
+    menu_flags tinyint not null,
+    flags int not null,
+    password varchar(50) not null,
+    redirect_url varchar(500) not null,
+    image_id int not null,
+    image_caption varchar(250) not null,
+    synopsis varchar(1000) not null,
+
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    unique index (uuid),
+    unique index (site_id, path),
+    index sync (tnid, uuid, last_updated)
+) ENGINE='InnoDB', COMMENT='v1.01';

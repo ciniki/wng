@@ -1,0 +1,33 @@
+.block-contentphoto .content {
+    width: 100%;
+}
+.block-contentphoto .image-wrap {
+    width: 100%;    
+}
+.block-contentphoto .image-wrap img {
+    width: 100%;
+}
+@media screen and (min-width: 40em) {
+    .block-contentphoto .content {
+        display: flex;
+    }
+    .block-contentphoto .image-wrap,
+    .block-contentphoto .content-wrap {
+        width: 50%;
+    }
+    .block-contentphoto.image-right .image-wrap {
+        order: 2;
+    }
+}
+.block-contentphoto .content-wrap {
+    padding: 1rem;
+}
+.block-contentphoto .title {
+}
+.block-contentphoto p {
+}
+@media screen and (min-width: 50em) {
+    .block-contentphoto .content-wrap {
+        padding: 2.5rem;
+    }
+}

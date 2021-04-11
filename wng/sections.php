@@ -1,0 +1,261 @@
+<?php
+//
+// Description
+// -----------
+// This function will return the list of available sections to the ciniki.wng module.
+//
+// Arguments
+// ---------
+// ciniki:
+// tnid:     
+// args:            The possible arguments for.
+//
+//
+// Returns
+// -------
+//
+function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
+
+    //
+    // Check to make sure the module is enabled
+    //
+    if( !isset($ciniki['tenant']['modules']['ciniki.wng']) ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.37', 'msg'=>"I'm sorry, the section you requested does not exist."));
+    }
+
+    $sections = array();
+
+    //
+    // Image, Menu with no drop downs/submenus
+    //
+    $sections['ciniki.wng.accountbuttons'] = array(
+        'name'=>'Account/Signin Buttons',
+        'module' => 'Website',
+        'settings'=>array(
+            'signin-label' => array('label'=>'Sign In Label', 'type'=>'text', 'hint'=>'Sign In'),
+            'logout-label' => array('label'=>'Logout Label', 'type'=>'text', 'hint'=>'Logout'),
+            'account-label' => array('label'=>'Account Label', 'type'=>'text', 'hint'=>'Account'),
+            'cart-label' => array('label'=>'Cart Label', 'type'=>'text', 'hint'=>'Cart'),
+            ),
+        );
+
+    //
+    // Image, Menu with no drop downs/submenus
+    //
+    $sections['ciniki.wng.headermenu'] = array(
+        'name'=>'Header Menu',
+        'module' => 'Website',
+        'settings'=>array()
+        );
+    if( ciniki_core_checkModuleActive($ciniki, 'ciniki.customers') ) {
+        $sections['ciniki.wng.headermenu']['settings']['account-buttons'] = array(
+            'label'=>'Sign In Buttons', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                'no' => 'No',
+                'yes' => 'Yes',
+                ));
+        $sections['ciniki.wng.headermenu']['settings']['signin-label'] = array(
+            'label'=>'Sign In Label', 
+            'type'=>'text', 
+            'hint'=>'Sign In',
+            );
+        $sections['ciniki.wng.headermenu']['settings']['logout-label'] = array(
+            'label'=>'Logout Label', 
+            'type'=>'text', 
+            'hint'=>'Logout',
+            );
+        $sections['ciniki.wng.headermenu']['settings']['account-label'] = array(
+            'label'=>'Account Label', 
+            'type'=>'text', 
+            'hint'=>'Account',
+            );
+        // Check if shopping cart enabled
+        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08) ) {
+            $sections['ciniki.wng.headermenu']['settings']['cart-label'] = array(
+                'label'=>'Cart Label', 
+                'type'=>'text', 
+                'hint'=>'Cart',
+                );
+        }
+    }
+    $sections['ciniki.wng.headermenu']['settings']['image-id'] = array(
+        'label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+        );
+    $sections['ciniki.wng.headermenu']['settings']['hide-home'] = array(
+        'label'=>'Home Link', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                'no' => 'Show',
+                'yes' => 'Hide',
+                ));
+    $sections['ciniki.wng.headermenu']['settings']['toggle-em'] = array('label'=>'Menu Size', 'type'=>'select', 
+                'default'=>'60',
+                'options'=>array(
+                    '30' => 'XX-Small',
+                    '40' => 'X-Small',
+                    '50' => 'Small',
+                    '60' => 'Medium',
+                    '70' => 'Large',
+                    '80' => 'X-Large',
+                    '90' => 'XX-Large',
+                    'custom' => 'Custom (Advanced)',
+                ));
+    if( ciniki_core_checkModuleActive($ciniki, 'ciniki.customers') ) {
+        $sections['ciniki.wng.headermenu']['settings']['account-toggle-hide'] = array(
+            'label'=>'Account Buttons', 'type'=>'toggle', 'default'=>'yes', 'toggles'=>array(
+                'no' => 'Always Visible',
+                'yes' => 'Only With Menu',
+                ));
+        // Check if shopping cart enabled
+        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08) ) {
+            $sections['ciniki.wng.headermenu']['settings']['cart-icon'] = array(
+                'label'=>'Cart Icon', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                    'no' => 'No',
+                    'yes' => 'Yes',
+                    ));
+        }
+    }
+
+    //
+    // Headline scroller
+    //
+    $sections['ciniki.wng.headlinescroll'] = array(
+        'name'=>'Headline Scroll',
+        'module' => 'Website',
+        'settings'=>array(
+            'speed'=>array('label'=>'Speed', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(    
+                'xslow' => 'X-Slow',
+                'slow' => 'Slow',
+                'medium' => 'Medium',
+                'fast' => 'Fast',
+                'xfast' => 'X-Fast',
+                )),
+            'headline-1'=>array('label'=>'Headline 1', 'type'=>'text'),
+            'headline-2'=>array('label'=>'Headline 2', 'type'=>'text'),
+            'headline-3'=>array('label'=>'Headline 3', 'type'=>'text'),
+            'headline-4'=>array('label'=>'Headline 4', 'type'=>'text'),
+            'headline-5'=>array('label'=>'Headline 5', 'type'=>'text'),
+            'headline-6'=>array('label'=>'Headline 6', 'type'=>'text'),
+            'headline-7'=>array('label'=>'Headline 7', 'type'=>'text'),
+            'headline-8'=>array('label'=>'Headline 8', 'type'=>'text'),
+            'headline-9'=>array('label'=>'Headline 9', 'type'=>'text'),
+            'headline-10'=>array('label'=>'Headline 10', 'type'=>'text'),
+            ),
+        );
+
+    //
+    // Testimonials/Quotes
+    //
+    $sections['ciniki.wng.testimonials'] = array(
+        'name'=>'Testimonials',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            ),
+        );
+    for($i = 1; $i <= 10; $i++) {
+        $sections['ciniki.wng.testimonials']['settings']["content-{$i}"] = array(
+            'label' => 'Testimonial #' . $i, 
+            'type' => 'textarea', 
+            'size' => 'medium', 
+            'separator' => 'yes',
+            );
+        $sections['ciniki.wng.testimonials']['settings']["author-{$i}"] = array(
+            'label' => 'Author', 
+            'type' => 'text', 
+            );
+    }
+
+    //
+    // Photo & Content
+    //
+    $sections['ciniki.wng.contentphoto'] = array(
+        'name'=>'Content & Photo',
+        'module' => 'Website',
+        'settings'=>array(
+            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
+            'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'toggles'=>array(    
+                'left' => 'Left',
+                'right' => 'Right',
+                )),
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
+            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
+            ),
+        );
+
+    //
+    // Child Pages
+    //
+    $sections['ciniki.wng.childpages'] = array(
+        'name'=>'Child Pages',
+        'module' => 'Website',
+        'settings'=>array(
+            ),
+        );
+
+    //
+    // Image/Content Carousel
+    //
+    $sections['ciniki.wng.carousel'] = array(
+        'name'=>'Image Carousel',
+        'module' => 'Website',
+        'settings'=>array(
+            'speed'=>array('label'=>'Speed', 'type'=>'toggle', 'toggles'=>array(    
+                'xslow' => 'X-Slow',
+                'slow' => 'Slow',
+                'medium' => 'Medium',
+                'fast' => 'Fast',
+                'xfast' => 'X-Fast',
+                )),
+            ),
+        );
+    for($i = 1; $i <= 15; $i++) {
+        $sections['ciniki.wng.carousel']['settings']["image-{$i}"] = array(
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+            );
+        $sections['ciniki.wng.carousel']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text');
+        $sections['ciniki.wng.carousel']['settings']["url-{$i}"] = array('label'=>'URL', 'type'=>'text');
+    }
+
+    //
+    // The 3 text column
+    //
+    $sections['ciniki.wng.threetextcol'] = array(
+        'name'=>'3 Text Columns',
+        'module' => 'Website',
+        'settings'=>array(
+            'section-title'=>array('label'=>'Title', 'type'=>'text'),
+            ),
+        );
+    for($i = 1; $i <= 3; $i++) {
+        $sections['ciniki.wng.threetextcol']['settings']["title-{$i}"] = array(
+            'label'=>"Column {$i} Title", 'type'=>'text', 'separator'=>'yes');
+        $sections['ciniki.wng.threetextcol']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea');
+        $sections['ciniki.wng.threetextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
+        $sections['ciniki.wng.threetextcol']['settings']["burl-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
+    }
+
+    //
+    // The 4 text column
+    //
+    $sections['ciniki.wng.fourtextcol'] = array(
+        'name'=>'4 Text Columns',
+        'module' => 'Website',
+        'settings'=>array(
+            'section-title'=>array('label'=>'Title', 'type'=>'text'),
+            ),
+        );
+    for($i = 1; $i <= 4; $i++) {
+        $sections['ciniki.wng.fourtextcol']['settings']["title-{$i}"] = array(
+            'label'=>"Title #1", 'type'=>'text', 'separator'=>'yes');
+        $sections['ciniki.wng.fourtextcol']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea');
+        $sections['ciniki.wng.fourtextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["url-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
+    }
+
+    return array('stat'=>'ok', 'sections'=>$sections);
+}
+?>

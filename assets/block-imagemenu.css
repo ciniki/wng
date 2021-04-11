@@ -1,0 +1,100 @@
+.block-imagemenu {
+    width: 100%;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+.block-imagemenu .content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.block-imagemenu .image-wrap {
+    display: inline-block;
+    max-height: 5rem;
+    margin-right: 1.5rem;
+}
+.block-imagemenu .image-wrap img {
+    max-widht: 500px;
+    max-height: 3.5rem;
+}
+@media screen and (min-width: 50em) {
+    .block-imagemenu .image-wrap img {
+        max-height: 5rem;
+    }
+}
+.block-imagemenu .image-wrap a {
+    display: block;
+}
+.block-imagemenu .main-menu nav {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+}
+.block-imagemenu nav > ul {
+    display: block;
+    list-style: none;
+}
+.block-imagemenu .main-menu nav > ul li {
+    display: inline-block;
+}
+.block-imagemenu nav > ul li.hidden {
+    display: none;
+}
+.block-imagemenu nav > ul li a {
+    display: block;
+    padding: 0.25rem;
+    padding-right: 1rem;
+}
+.block-imagemenu .hamburger-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    padding: 0.1rem;
+    margin-right: 0.5rem;
+}
+.block-imagemenu .hamburger-icon svg {
+    fill: #777;
+}
+.block-imagemenu .hamburger-menu {
+    width: 100%;
+    flex-basis: 2;
+    position: relative;
+}
+.block-imagemenu .hamburger-menu nav {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    max-width: 20rem;
+    width: 20em;
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    margin-right: 0px;
+    background: #fff;
+    z-index: 999;
+    box-shadow: 1px 1px 5px #555;
+}
+.block-imagemenu .hamburger-menu nav > ul li {
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+.block-imagemenu .hamburger-menu nav > ul li a {
+    padding: 0.5rem;
+}
+/* Specific styles for IE9 */
+html.no-flexbox .block-imagemenu .content {
+    position: relative;
+}
+html.no-flexbox .block-imagemenu .icons {
+    margin-top: 0.75rem;
+    float: right;
+}
+html.no-flexbox .block-imagemenu .image-wrap {
+    margin-top: 0.5rem;
+    max-width: 20%;
+}
+html.no-flexbox .block-imagemenu .main-menu {
+    margin-top: 1.5rem;
+    float: right;
+}

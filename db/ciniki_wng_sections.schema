@@ -1,0 +1,60 @@
+#
+# Description
+# -----------
+# This table stores the page sections for a website.
+#
+# Fields
+# ------
+# id:                       The ID assigned to the record.
+# uuid:                     The Universal Unique ID.
+# tnid:                     The Tenant ID the record belongs to.
+#
+# site_id:                  The ID of the site the section is on. 
+#                           Used for footer sections.
+# page_id:                  The ID of the page the section is on. 
+#
+# ref:                      The reference to the section, this is dot delimited package.module.section.id
+#
+# sequence:                 The Order to show the section in.
+#
+# flags:                    The options for this section. 
+#                           Header and Footer options are only valid for home page and define 
+#                           If the section is marked as a primary section
+#                           then the containing page path will be used as the base_url for any
+#                           dynamic individual item sub pages by the section (eg: event details page, etc)
+#
+#                               0x01 - Header
+#                               0x02 - Footer
+#                               0x04 - 
+#                               0x08 -
+#                               0x10 - Primary section to handle module requests. 
+#                               0x20 - 
+#                               0x40 - 
+#                               0x80 - 
+#
+# name:                     The name of the section, for internal use only will not be shown on website.
+#
+# settings:                 The php serialized array of settings for the section, passed to the section processor.
+#
+# date_added:               The UTC date and time the record was added.
+# last_updated:             The UTC date and time the record was last update.
+#
+create table ciniki_wng_sections (
+    id int not null auto_increment,
+    uuid char(36) not null,
+    tnid int not null,
+
+    site_id int not null,
+    page_id int not null,
+    ref varchar(250) not null,
+    sequence smallint unsigned not null,
+    flags tinyint not null,
+    label varchar(250) not null,
+    settings text not null,
+
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    unique index (uuid),
+    index sync (tnid, uuid, last_updated)
+) ENGINE='InnoDB', COMMENT='v1.01';

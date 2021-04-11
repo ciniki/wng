@@ -1,0 +1,80 @@
+<?php
+//
+// Description
+// -----------
+// Load the page details and sections
+// 
+// Arguments
+// ---------
+// ciniki: 
+// tnid:            The ID of the current tenant.
+// 
+// Returns
+// ---------
+// 
+function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
+
+    //
+    // Get the page details
+    //
+    $strsql = "SELECT ciniki_wng_pages.id, "
+        . "ciniki_wng_pages.site_id, "
+        . "ciniki_wng_pages.parent_id, "
+        . "ciniki_wng_pages.ptype, "
+        . "ciniki_wng_pages.sequence, "
+        . "ciniki_wng_pages.title, "
+        . "ciniki_wng_pages.page_title, "
+        . "ciniki_wng_pages.permalink, "
+        . "ciniki_wng_pages.path, "
+        . "ciniki_wng_pages.menu_flags, "
+        . "ciniki_wng_pages.flags, "
+        . "ciniki_wng_pages.password, "
+        . "ciniki_wng_pages.redirect_url, "
+        . "ciniki_wng_pages.image_id, "
+        . "ciniki_wng_pages.image_caption, "
+        . "ciniki_wng_pages.synopsis "
+        . "FROM ciniki_wng_pages "
+        . "WHERE ciniki_wng_pages.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+        . "AND ciniki_wng_pages.id = '" . ciniki_core_dbQuote($ciniki, $page_id) . "' "
+        . "";
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'page');
+    if( $rc['stat'] != 'ok' ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.22', 'msg'=>'Unable to load page', 'err'=>$rc['err']));
+    }
+    if( !isset($rc['page']) ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.23', 'msg'=>'Unable to find requested page'));
+    }
+    $page = $rc['page'];
+
+    //
+    // Load the sections
+    //
+    $strsql = "SELECT ciniki_wng_sections.id, "
+        . "ciniki_wng_sections.page_id, "
+        . "ciniki_wng_sections.sequence, "
+        . "ciniki_wng_sections.flags, "
+        . "ciniki_wng_sections.ref, "
+        . "ciniki_wng_sections.label, "
+        . "ciniki_wng_sections.settings "
+        . "FROM ciniki_wng_sections "
+        . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+        . "AND ciniki_wng_sections.page_id = '" . ciniki_core_dbQuote($ciniki, $page_id) . "' "
+        . "AND (ciniki_wng_sections.flags&0x03) = 0 " // Body sections only, no header or footer
+        . "ORDER BY sequence "
+        . "";
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
+    $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.wng', array(
+        array('container'=>'sections', 'fname'=>'id', 
+            'fields'=>array('id', 'page_id', 'sequence', 'flags', 'ref', 'label', 'settings')),
+        ));
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
+    $page['sections'] = isset($rc['sections']) ? $rc['sections'] : array();
+    foreach($page['sections'] as $sid => $section) {
+        $page['sections'][$sid]['settings'] = unserialize($section['settings']);
+    }
+
+    return array('stat'=>'ok', 'page'=>$page);
+}
+?>

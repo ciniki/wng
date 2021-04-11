@@ -1,0 +1,38 @@
+.block-headlinescroll {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.block-headlinescroll .wrap {
+    width: 100%;
+    padding-left: 0%;
+    position: relative;
+}
+@keyframes block-headlinescroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+.block-headlinescroll .content {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-name: block-headlinescroll;
+    animation-duration: 15s;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 1.1rem;
+}
+.block-headlinescroll .content:hover {
+    animation-play-state: paused;
+}
+.block-headlinescroll .item {
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 15em;
+}
+.block-headlinescroll .item:last-child {
+    padding-right: 1em;
+}
+
