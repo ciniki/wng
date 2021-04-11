@@ -172,13 +172,15 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
-    foreach($rc['sections'] as $sid => $section) {
-        $section['settings'] = unserialize($section['settings']);
-        if( ($section['flags']&0x01) == 0x01 ) {
-            $site['headersections'][] = $section;
-        }
-        if( ($section['flags']&0x02) == 0x02 ) {
-            $site['footersections'][] = $section;
+    if( isset($rc['sections']) ) {
+        foreach($rc['sections'] as $sid => $section) {
+            $section['settings'] = unserialize($section['settings']);
+            if( ($section['flags']&0x01) == 0x01 ) {
+                $site['headersections'][] = $section;
+            }
+            if( ($section['flags']&0x02) == 0x02 ) {
+                $site['footersections'][] = $section;
+            }
         }
     }
 
