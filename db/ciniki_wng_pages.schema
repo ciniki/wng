@@ -75,7 +75,7 @@ create table ciniki_wng_pages (
     title varchar(250) not null,
     page_title varchar(250) not null,
     permalink varchar(250) not null,
-    path varchar(1000) not null,
+    path varchar(500) not null,
     menu_flags tinyint not null,
     flags int not null,
     password varchar(50) not null,
