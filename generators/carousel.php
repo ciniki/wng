@@ -35,9 +35,9 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
             }
 
             //
-            // Make sure the image is in the cache
+            // Check if this should be setup as last item
             //
-            if( $iid == array_key_last($block['items']) ) {
+            if( $iid == count($block['items']) ) {
                 $class = 'prev';
             }
             $content .= "<div class='item {$class}'>";

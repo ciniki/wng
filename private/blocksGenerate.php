@@ -16,8 +16,6 @@ function ciniki_wng_blocksGenerate(&$ciniki, $tnid, $request, $blocks) {
 
     $content = '';
     foreach($blocks as $block) {
-
-        error_log("generate: " . $block['type']);
         //
         // Load the generator for the block
         //
