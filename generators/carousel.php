@@ -29,6 +29,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
             $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => 'original',
+                'maxwidth' => '2048'
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
