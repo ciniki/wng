@@ -74,8 +74,6 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         $page_num = 0;
         foreach($request['site']['headermenu'] as $page_id) {
             if( isset($request['site']['pages'][$page_id]) ) {
-                error_log($s['image-position']);
-                error_log($page_num . ' -- ' . count($request['site']['headermenu']));
                 if( isset($s['image-position']) && $s['image-position'] == 'center' 
                     && $page_num == ceil(count($request['site']['headermenu'])/2) 
                     && isset($s['image-id']) && $s['image-id'] > 0 
