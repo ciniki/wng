@@ -179,8 +179,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'settings'=>array(
             'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
             'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'toggles'=>array(    
-                'left' => 'Left',
-                'right' => 'Right',
+                'top-left' => 'Top Left',
+                'bottom-left' => 'Bottom Left',
+                'top-right' => 'Top Right',
+                'bottom-right' => 'Bottom Right',
                 )),
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
