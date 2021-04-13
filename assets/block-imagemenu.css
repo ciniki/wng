@@ -96,7 +96,7 @@
     text-align: center;
     width: 100%;
 }
-.block-imagemenu.center-logo nav li {
+.block-imagemenu.center-logo .main-menu nav li {
     line-height: 5rem;
     vertical-align: top;
 }
