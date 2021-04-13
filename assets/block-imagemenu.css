@@ -62,6 +62,9 @@
     padding: 0.1rem;
     margin-right: 0.5rem;
 }
+.block-imagemenu .hamburger-icon svg .shadow {
+    fill: transparent;
+}
 .block-imagemenu .hamburger-icon svg {
     fill: #777;
 }

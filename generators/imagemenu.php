@@ -113,7 +113,15 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>'; */
         // Hamburger Icon
         $content .= "<div onclick='C.imagemenu.toggle();' class='hamburger-icon'>";
-        $content .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>';
+//        $content .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>';
+        $content .= '<svg viewBox="0 0 110 110">'
+            . '<rect class="shadow" rx="10" x="4" y="78" width="104" height="20"></rect>'
+            . '<rect class="shadow" rx="10" x="4" y="18" width="104" height="20"></rect>'
+            . '<rect class="shadow" rx="10" x="4" y="48" width="104" height="20"></rect>'
+            . '<rect class="bar" rx="10" x="5" y="80" width="100" height="16"></rect>'
+            . '<rect class="bar" rx="10" x="5" y="20" width="100" height="16"></rect>'
+            . '<rect class="bar" rx="10" x="5" y="50" width="100" height="16"></rect>'
+            . '</svg>';
         $content .= '</div>';
         $content .= '</div>';
 
