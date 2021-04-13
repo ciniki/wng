@@ -126,6 +126,20 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
         $mod_dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $module['package'] . '-mods/' . $module['module']; 
         if( file_exists($mod_dir . '/wng/site.css') ) {
             $css .= file_get_contents($mod_dir . '/wng/site.css');
+            //
+            // Check for any images that need to be copied
+            //
+            if( ($dh = opendir($mod_dir . '/wng')) !== false ) {
+                while( ($file = readdir($dh)) !== false ) {
+                    $mod_filename = $mod_dir . '/wng/' . $file;
+                    $cache_filename = $site['cache_dir'] . '/theme/' . $file;
+                    if( preg_match("/\.(jpg|png)$/", $file) 
+                        && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
+                        ) {
+                        copy($mod_filename, $cache_filename);
+                    }
+                }
+            }
         }
         if( file_exists($mod_dir . '/wng/site.js') ) {
             $js .= file_get_contents($mod_dir . '/wng/site.js');
