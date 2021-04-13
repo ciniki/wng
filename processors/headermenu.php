@@ -199,6 +199,6 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
 //    $blocks[] = array('type'=>'content', 'content'=>'<pre>' . print_r($request['site'], true) . '</pre>');
     
 
-    return array('stat'=>'ok', 'blocks'=>array($block));
+    return array('stat'=>'ok', 'blocks'=>$blocks);
 }
 ?>
