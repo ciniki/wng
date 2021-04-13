@@ -47,7 +47,6 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='image' style='background:url(" . $rc['url'] . ") center; background-size:cover;'>";
 //            $content .= "<img alt='" . (isset($image['title']) ? $image['title'] : '') . "' src='" . $rc['url'] . "'>";
-            $content .= '</div>';
     
             if( isset($block['titles']) && $block['titles'] == 'yes' ) {
                 $content .= "<div class='title'>";
@@ -58,8 +57,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
                 }
                 $content .= '</div>';
             }
-
-
+            $content .= '</div>';
 
             if( isset($item['url']) ) {
                 $content .= "</a>";
