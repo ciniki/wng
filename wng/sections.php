@@ -80,6 +80,12 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     $sections['ciniki.wng.headermenu']['settings']['image-id'] = array(
         'label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
         );
+    $sections['ciniki.wng.headermenu']['settings']['image-position'] = array(
+        'label'=>'Image Position', 'type'=>'toggle', 'default'=>'left', 'toggles'=>array(
+                'left' => 'Left',
+                'center' => 'Center',
+//                'right' => 'Right', // **Future**
+                ));
     $sections['ciniki.wng.headermenu']['settings']['hide-home'] = array(
         'label'=>'Home Link', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
                 'no' => 'Show',

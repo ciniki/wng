@@ -10,7 +10,7 @@
     position: relative;
     height: 20rem;
     height: 100%;
-    z-index: 950;
+    z-index: 550;
 }
 .block-carousel .content .item {
     position: absolute;
@@ -20,19 +20,19 @@
     max-width: 100%;
     transform: translateX(100%);
     transition-duration: 1s;
-    z-index: 900;
+    z-index: 500;
 }
 .block-carousel .content .current {
     position: relative;
     transform: translateX(0%);
-    z-index: 950;
+    z-index: 550;
 }
 .block-carousel .content .next {
-    z-index: 940;
+    z-index: 540;
 }
 .block-carousel .content .prev {
     transform: translateX(-100%);
-    z-index: 900;
+    z-index: 500;
 }
 .block-carousel .title {
     min-height: 3rem;
@@ -46,7 +46,7 @@
     top: 0px;
     width: 100%;
     height: 500px;
-    z-index: 980;
+    z-index: 580;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

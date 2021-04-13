@@ -128,9 +128,15 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     //
     // Setup the headermenu
     //
-    $site['headermenu'][] = $site['homepage_id'];
+    $add_homepage_id = $site['homepage_id'];
     if( isset($site['pages'][$site['homepage_id']]['children']) ) {
         foreach($site['pages'][$site['homepage_id']]['children'] as $child_pid) {
+            if( $add_homepage_id > 0 
+                && $site['pages'][$child_pid]['sequence'] >= $site['pages'][$add_homepage_id]['sequence'] 
+                ) {
+                $site['headermenu'][] = $add_homepage_id;
+                $add_homepage_id = 0;
+            }
             if( !isset($site['pages'][$child_pid]) ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.18', 'msg'=>'Missing child page'));
             }

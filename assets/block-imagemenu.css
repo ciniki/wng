@@ -10,13 +10,18 @@
     justify-content: space-between;
 }
 .block-imagemenu .image-wrap {
+    max-height: 5rem;
+}
+.block-imagemenu nav li.image {
     display: inline-block;
     max-height: 5rem;
+}
+.block-imagemenu .image-wrap {
     margin-right: 1.5rem;
 }
 .block-imagemenu .image-wrap img {
     max-widht: 500px;
-    max-height: 3.5rem;
+    max-height: 5rem;
 }
 @media screen and (min-width: 50em) {
     .block-imagemenu .image-wrap img {
@@ -46,6 +51,11 @@
     padding: 0.25rem;
     padding-right: 1rem;
 }
+.block-imagemenu nav > ul img {
+    max-height: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 .block-imagemenu .hamburger-icon {
     width: 2.5rem;
     height: 2.5rem;
@@ -72,7 +82,7 @@
     border-right: 1px solid #aaa;
     margin-right: 0px;
     background: #fff;
-    z-index: 999;
+    z-index: 900;
     box-shadow: 1px 1px 5px #555;
 }
 .block-imagemenu .hamburger-menu nav > ul li {
@@ -81,6 +91,15 @@
 }
 .block-imagemenu .hamburger-menu nav > ul li a {
     padding: 0.5rem;
+}
+.block-imagemenu.center-logo .main-menu {
+    flex-basis: 100%;
+    text-align: center;
+    width: 100%;
+}
+.block-imagemenu.center-logo nav li {
+    line-height: 5rem;
+    vertical-align: top;
 }
 /* Specific styles for IE9 */
 html.no-flexbox .block-imagemenu .content {

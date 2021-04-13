@@ -71,8 +71,28 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
 
     $mainmenu = array();
     if( isset($request['site']['headermenu']) ) {
+        $page_num = 0;
         foreach($request['site']['headermenu'] as $page_id) {
             if( isset($request['site']['pages'][$page_id]) ) {
+                error_log($s['image-position']);
+                error_log($page_num . ' -- ' . count($request['site']['headermenu']));
+                if( isset($s['image-position']) && $s['image-position'] == 'center' 
+                    && $page_num == ceil(count($request['site']['headermenu'])/2) 
+                    && isset($s['image-id']) && $s['image-id'] > 0 
+                    ) {
+                    $page = $request['site']['pages'][$request['site']['homepage_id']];
+                    $item = array(
+                        'title' => $page['title'],
+                        'selected' => 'no',
+                        'url' => $request['base_url'] . $page['path'],
+                        'image-id' => $s['image-id'],
+                        );
+                    if( isset($request['uri_split'][0]) || $request['uri_split'][0] == '' ) {
+                        $item['selected'] == 'yes';
+                    }
+                    $mainmenu[] = $item;
+                    $page_num++;
+                }
                 $page = $request['site']['pages'][$page_id];
                 $item = array(
                     'title' => $page['title'],
@@ -91,6 +111,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     $item['hidden'] = 'yes';
                 }
                 $mainmenu[] = $item;
+                $page_num++;
             }
         }
     }
@@ -163,17 +184,23 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             }
         }
     }
-
-    $blocks[] = array(
+    $block = array(
         'type' => 'imagemenu',
-        'image-id' => isset($s['image-id']) ? $s['image-id'] : $s['image-id'],
+        'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
         'main-menu' =>  $mainmenu,
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         'hamburger-menu' =>  $hamburgermenu,
         );
+    if( isset($s['image-position']) && $s['image-position'] == 'center' ) {
+        $block['image-toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
+        $block['class'] = 'center-logo';
+    }
+
+    $blocks[] = $block;
+
 //    $blocks[] = array('type'=>'content', 'content'=>'<pre>' . print_r($request['site'], true) . '</pre>');
     
 
-    return array('stat'=>'ok', 'blocks'=>$blocks);
+    return array('stat'=>'ok', 'blocks'=>array($block));
 }
 ?>

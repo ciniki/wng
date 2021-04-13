@@ -44,10 +44,10 @@ function ciniki_wng_sectionAdd(&$ciniki) {
     //
     // Check if header or footer 
     //
+    if( !isset($args['flags']) ) {
+        $args['flags'] = 0;
+    }
     if( $args['page_id'] == 'header' || $args['page_id'] == 'footer' ) {
-        if( !isset($args['flags']) ) {
-            $args['flags'] = 0;
-        }
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
         $rc = ciniki_wng_siteLoad($ciniki, $args['tnid'], $args['site_id']);
         if( $rc['stat'] != 'ok' ) {

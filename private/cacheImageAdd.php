@@ -70,8 +70,8 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         $filename = '/w' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
         $size = 'w' . $maxwidth;
     }
-    $img_filename = $site['cache_dir'] . '/images/' . $filename;
-    $img_url = $site['cache_url'] . '/images/' . $filename;
+    $img_filename = $site['cache_dir'] . '/images' . $filename;
+    $img_url = $site['cache_url'] . '/images' . $filename;
 
     //
     // Check last_updated against the file timestamp, if the file exists

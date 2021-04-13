@@ -39,7 +39,9 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         //
         // Make sure the image is in the cache
         //
-        $content .= "<div class='image-wrap'>";
+        $content .= "<div class='image-wrap"
+            . (isset($block['image-toggle-em']) && $block['image-toggle-em'] != '' ? ' hideat-' . $block['image-toggle-em'] . '-em': '')
+            . "'>";
         $content .= "<a href='" . $request['base_url'] . "'>";
         $content .= "<img alt='Home' src='" . $rc['url'] . "' />";
         $content .= "</a>";
@@ -58,9 +60,31 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             $content .= "<li class='" 
                 . (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')
                 . (isset($item['hidden']) && $item['hidden'] == 'yes' ? ' hidden': '')
+                . (isset($item['image-id']) && $item['image-id'] > 0 ? ' image': '')
                 . (isset($item['class']) ? $item['class'] : '') 
                 . "'>";
-            $content .= "<a href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+            $content .= "<a href='" . $item['url'] . "'>";
+            if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+                //
+                // Copy image to cache
+                //
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+                $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+                    'image_id' => $item['image-id'],
+                    'version' => 'original',
+                    ));
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+                }
+
+                //
+                // Make sure the image is in the cache
+                //
+                $content .= "<img alt='" . $item['title'] . "' src='" . $rc['url'] . "' />";
+            } else {
+                $content .= $item['title'];
+            }
+            $content .= '</a>';
             $content .= "</li>";
         }
         $content .= "</ul></nav>";

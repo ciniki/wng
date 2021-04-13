@@ -71,6 +71,16 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.21', 'msg'=>'Unable to load page', 'err'=>$rc['err']));
     }
     $request['page'] = $rc['page'];
+
+    //
+    // Check if there should be a page title
+    //
+    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
+        $request['response']['blocks'][] = array(
+            'type' => 'title',
+            'title' => $request['page']['page_title'],
+            );
+    }
     
     //
     // Process the sections building the request['response']['blocks'] array
