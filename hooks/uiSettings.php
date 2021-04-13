@@ -23,12 +23,11 @@ function ciniki_wng_hooks_uiSettings(&$ciniki, $tnid, $args) {
     // Check permissions for what menu items should be available
     //
     if( isset($ciniki['tenant']['modules']['ciniki.wng'])
-        && ($ciniki['session']['user']['perms']&0x01) == 0x01
-//        && (isset($args['permissions']['owners'])
+        && (isset($args['permissions']['owners'])
 //            || isset($args['permissions']['employees'])
-//            || isset($args['permissions']['resellers'])
-//            || ($ciniki['session']['user']['perms']&0x01) == 0x01
-//            )
+            || isset($args['permissions']['resellers'])
+            || ($ciniki['session']['user']['perms']&0x01) == 0x01
+            )
         ) {
         //
         // Get the list of active sites
