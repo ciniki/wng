@@ -197,7 +197,7 @@ if( $site == null ) {
 }
 
 //
-// No Site Found, switch to web module
+// No ciniki.wng site found, revert to ciniki.web module
 //
 if( $site == null ) {
     $ciniki['request'] = $request;
@@ -207,7 +207,7 @@ if( $site == null ) {
 }
 
 //
-// Redirect to primary domain disabled so multiple domains and sites can be on 1 tenant.
+// Note: Redirect to primary domain disabled so multiple domains and sites can be on 1 tenant.
 //
 
 //
@@ -215,7 +215,7 @@ if( $site == null ) {
 //
 if( isset($site['domain_flags']) && ($site['domain_flags']&0x10) == 0x10 && $request['ssl'] == 'no' ) {
     Header('HTTP/1.1 301 Moved Permanently'); 
-    Header('Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['REQUEST_URI']);
+    Header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     exit;
 }
 
