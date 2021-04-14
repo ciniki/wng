@@ -113,6 +113,13 @@ function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, &$request) {
     }
     $content .= "</div>";
 
+    if( isset($ciniki['config']['ciniki.wng']['poweredby.url']) && $ciniki['config']['ciniki.wng']['poweredby.url'] != '' ) {
+        $content .= "<div class='poweredby'>";
+        $content .= "<span class='poweredby'>Powered by <a href='" . $ciniki['config']['ciniki.wng']['poweredby.url'] . "'>" . $ciniki['config']['ciniki.wng']['poweredby.name'] . "</a></span>";
+        $content .= "</div>";
+    }
+
+
     //
     // Close the footer
     //

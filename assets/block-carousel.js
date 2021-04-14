@@ -31,6 +31,7 @@ C.carousel = {
     },
     start: function(e,d) {
         this.delay = d;
-        setTimeout(function(){C.carousel.next();},(d*2));
+        /* Add extra delay for first slide, give time to get everything loaded */
+        setTimeout(function(){C.carousel.next();},(d+3000));
     }
 };
