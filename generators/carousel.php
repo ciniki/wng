@@ -13,6 +13,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
    
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
     //
     // Skip if nothing
     //
@@ -66,6 +67,13 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
                     $content .= '&nbsp;';
                 }
                 $content .= '</div>';
+            }
+            if( isset($item['content']) && $item['content'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.90', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= "<div class='text'>" . $rc['content'] . "</div>";
             }
             $content .= '</div>';
 

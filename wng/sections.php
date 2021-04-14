@@ -211,7 +211,8 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'name'=>'Image Carousel',
         'module' => 'Website',
         'settings'=>array(
-            'speed'=>array('label'=>'Speed', 'type'=>'toggle', 'toggles'=>array(    
+            'speed'=>array('label'=>'Speed', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(    
+                'none' => 'No Auto Advance',
                 'xslow' => 'X-Slow',
                 'slow' => 'Slow',
                 'medium' => 'Medium',
@@ -238,6 +239,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 ));
         $sections['ciniki.wng.carousel']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text');
         $sections['ciniki.wng.carousel']['settings']["url-{$i}"] = array('label'=>'URL', 'type'=>'text');
+        $sections['ciniki.wng.carousel']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small');
     }
 
     //

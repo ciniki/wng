@@ -1,6 +1,7 @@
 C.carousel = {
     cur: 0,
-    delay: 5000,
+    delay: 0,
+    timer: null,
     prev: function() {
         this.open(C.carousel.cur-1);
     },
@@ -8,6 +9,7 @@ C.carousel = {
         this.open(C.carousel.cur+1);
     },
     open: function(i) {
+        clearTimeout(this.timer);
         var e = C.gE('carousel-items');
         var max = (e.children.length - 1);
         if( i < 0 ) {
@@ -27,11 +29,13 @@ C.carousel = {
             }
         }
         this.cur = i;
-        setTimeout(function(){C.carousel.next();},this.delay);
+        if( this.delay > 0 ) {
+            this.timer = setTimeout(function(){C.carousel.next();},this.delay);
+        }
     },
     start: function(e,d) {
         this.delay = d;
         /* Add extra delay for first slide, give time to get everything loaded */
-        setTimeout(function(){C.carousel.next();},(d+3000));
+        this.timer = setTimeout(function(){C.carousel.next();},(d+3000));
     }
 };

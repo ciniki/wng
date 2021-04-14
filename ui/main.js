@@ -700,7 +700,7 @@ function ciniki_wng_main() {
     //
     // The panel to edit a section
     //
-    this.section = new M.panel('Section', 'ciniki_wng_main', 'section', 'mc', 'medium', 'sectioned', 'ciniki.wng.main.section');
+    this.section = new M.panel('Section', 'ciniki_wng_main', 'section', 'mc', 'large', 'sectioned', 'ciniki.wng.main.section');
     this.section.data = null;
     this.section.section_id = 0;
     this.section.site_id = 0;

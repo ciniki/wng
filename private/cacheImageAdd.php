@@ -77,7 +77,7 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     // Check last_updated against the file timestamp, if the file exists
     //
     if( !file_exists($img_filename) || filemtime($img_filename) < $img['last_updated'] ) {
-
+error_log('rebuild');
         //
         // Load the image from the database
         //
