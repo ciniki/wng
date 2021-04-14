@@ -224,6 +224,18 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.carousel']['settings']["image-{$i}"] = array(
             'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
             );
+        $sections['ciniki.wng.carousel']['settings']["image-position-{$i}"] = array(
+            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
+                'top-left' => 'Top Left',
+                'top-center' => 'Top Center',
+                'top-right' => 'Top Right',
+                'center-left' => 'Left',
+                'center-center' => 'Centered',
+                'center-right' => 'Right',
+                'bottom-left' => 'Bottom Left',
+                'bottom-center' => 'Bottom Center',
+                'bottom-right' => 'Bottom Right',
+                ));
         $sections['ciniki.wng.carousel']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text');
         $sections['ciniki.wng.carousel']['settings']["url-{$i}"] = array('label'=>'URL', 'type'=>'text');
     }
