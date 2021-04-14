@@ -13,7 +13,7 @@
 // Returns
 // -------
 //
-function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, $request) {
+function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, &$request) {
     global $start_time;
 
     //

@@ -1,11 +1,10 @@
 C.carousel = {
     cur: 0,
+    delay: 5000,
     prev: function() {
-        console.log('prev');
         this.open(C.carousel.cur-1);
     },
     next: function() {
-        console.log('next');
         this.open(C.carousel.cur+1);
     },
     open: function(i) {
@@ -16,7 +15,6 @@ C.carousel = {
         } else if( i > max ) {
             i = 0;
         }
-        console.log('goto: ' + i);
         for(var j in e.children) {
             if( j == i ) {
                 e.children[j].className = 'item current';
@@ -29,5 +27,10 @@ C.carousel = {
             }
         }
         this.cur = i;
+        setTimeout(function(){C.carousel.next();},this.delay);
     },
+    start: function(e,d) {
+        this.delay = d;
+        setTimeout(function(){C.carousel.next();},(d*2));
+    }
 };

@@ -17,6 +17,16 @@ function ciniki_wng_pageGenerate(&$ciniki, $tnid, &$request) {
     $content = '';
 
     //
+    // Generate the blocks
+    //
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');
+    $rc = ciniki_wng_blocksGenerate($ciniki, $tnid, $request, $request['response']['blocks']);
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
+    $block_content = $rc['content'];
+   
+    //
     // Generate the header
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pageHeaderGenerate');
@@ -31,16 +41,8 @@ function ciniki_wng_pageGenerate(&$ciniki, $tnid, &$request) {
     //
     $content .= '<div id="page-content">';
 
-    //
-    // Generate the blocks
-    //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');
-    $rc = ciniki_wng_blocksGenerate($ciniki, $tnid, $request, $request['response']['blocks']);
-    if( $rc['stat'] != 'ok' ) {
-        return $rc;
-    }
-    $content .= $rc['content'];
-   
+    $content .= $block_content;
+
     //
     // Close the page content
     //

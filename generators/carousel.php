@@ -12,7 +12,14 @@
 function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
-        
+   
+    //
+    // Skip if nothing
+    //
+    if( !isset($block['items']) || count($block['items']) < 1 ) {
+        return array('stat'=>'ok', 'content'=>'');
+    }
+
     $content .= "<div class='block-carousel"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
@@ -105,6 +112,28 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
     $content .= '</div>';
     $content .= '</div>';
 
-    return array('stat'=>'ok', 'content'=>$content);
+    //
+    // Setup javascript to initialize and set speed
+    //
+    $js = '';
+    if( isset($block['speed']) && $block['speed'] != 'none' ) {
+        if( $block['speed'] == 'xslow' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,20000);});";
+        } 
+        elseif( $block['speed'] == 'slow' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,15000);});";
+        }
+        elseif( $block['speed'] == 'medium' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,10000);});";
+        }
+        elseif( $block['speed'] == 'fast' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,6000);});";
+        }
+        elseif( $block['speed'] == 'xfast' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,3000);});";
+        }
+    }
+
+    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }
 ?>

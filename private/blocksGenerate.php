@@ -12,7 +12,7 @@
 // Returns
 // -------
 //
-function ciniki_wng_blocksGenerate(&$ciniki, $tnid, $request, $blocks) {
+function ciniki_wng_blocksGenerate(&$ciniki, $tnid, &$request, $blocks) {
 
     $content = '';
     foreach($blocks as $block) {
@@ -31,7 +31,7 @@ function ciniki_wng_blocksGenerate(&$ciniki, $tnid, $request, $blocks) {
                     $content .= $rc['content'];
                 }
                 if( isset($rc['js']) ) {
-                    $ciniki['response']['js'] .= $rc['js'];
+                    $request['response']['js'] .= $rc['js'];
                 }
             }
         }

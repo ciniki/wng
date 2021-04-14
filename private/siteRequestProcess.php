@@ -43,6 +43,10 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     $request['response'] = array(
         // The blocks that are returned by the sections
         'blocks' => array(),
+        // The javascript that are returned by the blocks
+        'js' => '',
+        // The css that are returned by the blocks
+        'css' => '',
         // Setup the array with meta variables required by facebook and others
         'og' => array(
             'url' => '',
