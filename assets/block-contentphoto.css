@@ -45,6 +45,7 @@
 }
 .block-contentphoto .button {
     margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 .block-contentphoto.iconlistphoto .content-wrap {
     display: flex;
