@@ -21,7 +21,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
         'page_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Page'),
         'sequence'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Order'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
-        'ref'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section Reference'),
+        'ref'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section'),
         'label'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Name'),
         ));
     if( $rc['stat'] != 'ok' ) {

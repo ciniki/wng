@@ -19,6 +19,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     $request['breadcrumbs'][] = array(
         'page_id' => $page_id,
+        'page-class' => 'page-' . $request['site']['pages'][$page_id]['permalink'],
         'title' => $request['site']['pages'][$page_id]['title'],
         'url' => $request['site']['pages'][$page_id]['path'],
         );

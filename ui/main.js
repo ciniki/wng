@@ -776,6 +776,7 @@ function ciniki_wng_main() {
             p.data = rsp.section;
             p.data.availablesections = rsp.availablesections;
             p.sections.general.fields.ref.options = [];
+            p.sections.general.fields.ref.options[''] = 'Select a section';
             for(var i in rsp.availablesections) {
                 p.sections.general.fields.ref.options[i] = rsp.availablesections[i].module + ' - ' + rsp.availablesections[i].name;
             }

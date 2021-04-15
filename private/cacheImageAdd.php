@@ -77,7 +77,6 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     // Check last_updated against the file timestamp, if the file exists
     //
     if( !file_exists($img_filename) || filemtime($img_filename) < $img['last_updated'] ) {
-error_log('rebuild');
         //
         // Load the image from the database
         //
@@ -119,6 +118,7 @@ error_log('rebuild');
         } else {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.85', 'msg'=>'Unable to load image'));
         }
+        touch($img_filename, $img['last_updated']);
     }
 
     return array('stat'=>'ok', 'url'=>$img_url, 'filename'=>$img_filename);

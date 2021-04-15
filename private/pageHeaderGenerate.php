@@ -230,9 +230,23 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             . '';
     }
 
-    $content .= "<div id='page-container' class='"
-        . (isset($request['response']['page-container-class']) ? $request['response']['page-container-class'] : '')
-        . "'>";
+    //
+    // Add the breadcrumb page-class to page class
+    //
+    $page_classes = (isset($request['response']['page-container-class']) ? $request['response']['page-container-class'] : '');
+    if( isset($request['breadcrumbs']) ) {
+        foreach($request['breadcrumbs'] as $crumb) {
+            // Skip home page when in sub pages
+            if( $crumb['url'] == '/' && count($request['breadcrumbs']) > 1 ) {
+                continue;
+            }
+            if( isset($crumb['page-class']) && $crumb['page-class'] != '' ) {
+                $page_classes .= ($page_classes != '' ? ' ' : '') . $crumb['page-class'];
+            }
+        }
+    }
+
+    $content .= "<div id='page-container' class='" . $page_classes . "'>";
     $content .= "<header id='page-header'>";
 
     //

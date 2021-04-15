@@ -1,0 +1,47 @@
+<?php
+//
+// Description
+// -----------
+// This section displays a list of buttons 
+// 
+// Arguments
+// ---------
+// ciniki: 
+// tnid:            The ID of the current tenant.
+// 
+// Returns
+// ---------
+// 
+function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
+    
+    $blocks = array();
+    $s = isset($section['settings']) ? $section['settings'] : array();
+
+    $items = array();
+    for($i = 1; $i < 15; $i++) {
+        if( isset($s["button-{$i}-text"]) && $s["button-{$i}-text"] != '' 
+            && isset($s["button-{$i}-url"]) && $s["button-{$i}-url"] != '' 
+            ) {
+            $items[] = array(
+                'text' => $s["button-{$i}-text"],
+                'url' => $s["button-{$i}-url"],
+                );
+        }
+    }
+    if( count($items) > 0 ) {
+        $block = array(
+            'type' => 'buttons',
+            );
+        if( isset($s['title']) && $s['title'] > 0 ) {
+            $block['title'] = $s['title'];
+        }
+        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
+            $block['subtitle'] = $s['subtitle'];
+        }
+        $block['list'] = $items;
+        $blocks[] = $block;
+    }
+
+    return array('stat'=>'ok', 'blocks'=>$blocks);
+}
+?>

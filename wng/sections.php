@@ -171,10 +171,47 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     }
 
     //
-    // Photo & Content
+    // Basic Text Content
+    //
+    $sections['ciniki.wng.content'] = array(
+        'name'=>'Text',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
+            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
+            ),
+        );
+
+    //
+    // A series of buttons
+    //
+    $sections['ciniki.wng.buttons'] = array(
+        'name'=>'Buttons',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            ),
+        );
+    for($i = 1; $i < 15; $i++ ) {
+        $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
+            'label' => "Button {$i} Text", 'type' => 'text', 'separator' => 'yes',
+            );
+        $sections['ciniki.wng.buttons']['settings']["button-{$i}-url"] = array(
+            'label' => "Button {$i} URL", 'type' => 'text',
+            );
+    }
+
+    //
+    // Text Content & Photo
     //
     $sections['ciniki.wng.contentphoto'] = array(
-        'name'=>'Content & Photo',
+        'name'=>'Text & Photo',
         'module' => 'Website',
         'settings'=>array(
             'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
@@ -192,6 +229,46 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
             'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
             ),
+        );
+
+    //
+    // List Content & Photo
+    //
+    $sections['ciniki.wng.iconlistphoto'] = array(
+        'name'=>'List & Photo',
+        'module' => 'Website',
+        'settings'=>array(
+            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
+            'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'toggles'=>array(    
+                'top-left' => 'Top Left',
+                'bottom-left' => 'Bottom Left',
+                'top-right' => 'Top Right',
+                'bottom-right' => 'Bottom Right',
+                )),
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            ),
+        );
+
+    for($i = 1; $i <= 6; $i++) {
+        $sections['ciniki.wng.iconlistphoto']['settings']["icon-{$i}"] = array(
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+            );
+        $sections['ciniki.wng.iconlistphoto']['settings']["text-{$i}"] = array(
+            'label'=>'Text', 'type'=>'textarea', 'size'=>'small',
+            );
+    }
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-1-text'] = array(
+        'label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes',
+        );
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-1-url'] = array(
+        'label'=>'Button 1 URL', 'type'=>'text',
+        );
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-2-text'] = array(
+        'label'=>'Button 2 Text', 'type'=>'text',
+        );
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-2-url'] = array(
+        'label'=>'Button 2 URL', 'type'=>'text',
         );
 
     //
