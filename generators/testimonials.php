@@ -25,6 +25,7 @@ function ciniki_wng_generators_testimonials(&$ciniki, $tnid, $request, $block) {
             $content .= "<h2>" . $block['title'] . "</h2>";
         }
 
+
         foreach($block['data'] as $testimonial) {
             $content .= "<div class='testimonial-wrap'>";
             $content .= "<div class='testimonial'>";
@@ -36,7 +37,6 @@ function ciniki_wng_generators_testimonials(&$ciniki, $tnid, $request, $block) {
                 $content .= $rc['content'];
             }
 
-            $content .= '</div>';
             $content .= "<div class='author'>";
             if( isset($testimonial['author']) && $testimonial['author'] != '' ) {
                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $testimonial['author']);   
@@ -48,6 +48,7 @@ function ciniki_wng_generators_testimonials(&$ciniki, $tnid, $request, $block) {
                 }
             }
             
+            $content .= '</div>';
             $content .= '</div>';
             $content .= '</div>';
         }
