@@ -225,9 +225,14 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
             'content' => array('label'=>'Content', 'type'=>'textarea'),
             'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-1-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-1-url'),
             'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
             'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-2-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-2-url'),
             'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
+            'button-3-text' => array('label'=>'Button 3 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-3-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-3-url'),
+            'button-3-url' => array('label'=>'Button URL', 'type'=>'text'),
             ),
         );
 

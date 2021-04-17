@@ -26,7 +26,10 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         foreach($block['list'] as $item) {
             if( isset($item['text']) && $item['text'] != '' ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
-                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, $item['url']);
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                    isset($item['page']) ? $item['page'] : 0,
+                    $item['url']
+                    );
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
                 }

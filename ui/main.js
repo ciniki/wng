@@ -615,6 +615,10 @@ function ciniki_wng_main() {
         });
     }
     this.site.addClose('Cancel');
+    // Override to stop save pos and always return to top
+    this.site.savePos = function() {
+        return true;
+    }
 
 
     //
@@ -756,11 +760,52 @@ function ciniki_wng_main() {
                         'M.ciniki_wng_main.section.setFieldValue(\'' + i + '\',0); '
                         + 'return true;');
                 }
+                else if( this.sections._settings.fields[i].type != null 
+                    && this.sections._settings.fields[i].type == 'select'
+                    && this.sections._settings.fields[i].pages != null 
+                    && this.sections._settings.fields[i].pages == 'yes'
+                    ) {
+                    this.sections._settings.fields[i].options = {}
+                    this.sections._settings.fields[i].complex_options = {'value':'v', 'name':'l'};
+                    var onum=0;
+                    for(var j in M.ciniki_wng_main.site.data.headerpages) {
+                        var p = M.ciniki_wng_main.site.data.headerpages[j];
+                        this.sections._settings.fields[i].options[onum] = {'v':p.id, 'l':p.name};
+                        onum++;
+                    }
+                    if( this.sections._settings.fields[i].url != null 
+                        && this.sections._settings.fields[i].url != ''
+                        ) {
+                        this.sections._settings.fields[i].options['_custom_'] = {'v':0, 'l':'Custom URL'};
+                        this.sections._settings.fields[i].onchange = 'M.ciniki_wng_main.section.showHideSettingFields();';
+                    }
+                }
             }
             this.sections._settings.visible = 'yes';
         }
         this.refreshSection("_settings");
         this.showHideSection("_settings");
+        this.showHideSettingFields();
+    }
+    this.section.showHideSettingFields = function() {
+        for(var i in this.sections._settings.fields) {
+            if( this.sections._settings.fields[i].type != null 
+                && this.sections._settings.fields[i].type == 'select'
+                && this.sections._settings.fields[i].pages != null 
+                && this.sections._settings.fields[i].pages == 'yes'
+                && this.sections._settings.fields[i].url != null 
+                && this.sections._settings.fields[i].url != ''
+                ) {
+                var fid = this.sections._settings.fields[i].url;
+                var v = this.formValue(i);
+                if( v == 0 ) {
+                    this.sections._settings.fields[fid].visible = 'yes';
+                } else {
+                    this.sections._settings.fields[fid].visible = 'no';
+                }
+                this.showHideFormField('_settings', fid);
+            }
+        }
     }
     this.section.open = function(cb, id, pid, sid, list) {
         if( id != null ) { this.section_id = id; }

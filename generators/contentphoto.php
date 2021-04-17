@@ -99,25 +99,20 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         // Check for any buttons
         //
         $buttons = '';
-        if( isset($block['button-1-text']) && $block['button-1-text'] != '' 
-            && isset($block['button-1-url']) && $block['button-1-url'] != '' 
-            ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
-            $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, $block['button-1-url']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
+        for($i = 1; $i < 10; $i++) {
+            if( isset($block["button-{$i}-text"]) && $block["button-{$i}-text"] != '' ) {
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                    isset($block["button-{$i}-page"]) ? $block["button-{$i}-page"] : 0,
+                    isset($block["button-{$i}-url"]) ? $block["button-{$i}-url"] : ''
+                    );
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+                }
+                if( isset($rc['url']) && $rc['url'] != '' ) {
+                    $buttons .= "<a class='button' href='" . $rc['url'] . "'>" . $block["button-{$i}-text"] . "</a>";
+                }
             }
-            $buttons .= "<a class='button' href='" . $rc['url'] . "'>" . $block['button-1-text'] . "</a>";
-        }
-        if( isset($block['button-2-text']) && $block['button-2-text'] != '' 
-            && isset($block['button-2-url']) && $block['button-2-url'] != '' 
-            ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
-            $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, $block['button-2-url']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
-            }
-            $buttons .= "<a class='button' href='" . $rc['url'] . "'>" . $block['button-2-text'] . "</a>";
         }
         if( $buttons != '' ) {
             $content .= "<div class='buttons'>" . $buttons . "</div>";

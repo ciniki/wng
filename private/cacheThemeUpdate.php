@@ -32,7 +32,15 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
         return $rc;
     }
     $tenant_storage_dir = $rc['storage_dir'];
-    
+   
+    //
+    // Make sure the cache dir exists
+    //
+    if( !is_dir($site['cache_dir'] . '/theme') ) {
+        if( mkdir($site['cache_dir'] . '/theme', 0755, true) === false ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.67', 'msg'=>'Unable to cache theme'));
+        }
+    }
 
     // FIXME: Implement ciniki_wng_sites.theme
 
@@ -169,11 +177,6 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     // Check the theme dir exists in cache
     //
     $old_css = '';
-    if( !is_dir($site['cache_dir'] . '/theme') ) {
-        if( mkdir($site['cache_dir'] . '/theme', 0755, true) === false ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.67', 'msg'=>'Unable to cache theme'));
-        }
-    }
     if( file_exists($site['cache_dir'] . '/theme/site.css') ) {
         $old_css = file_get_contents($site['cache_dir'] . '/theme/site.css');
     }

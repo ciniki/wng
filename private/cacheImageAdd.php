@@ -22,6 +22,7 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     }
 
     $version = isset($args['version']) ? $args['version'] : 'original';
+    $padding_color = isset($args['padding']) ? $args['padding'] : '';
     $maxwidth = isset($args['maxwidth']) ? $args['maxwidth'] : 0;
     $maxheight = isset($args['maxheight']) ? $args['maxheight'] : 0;
     $quality = isset($args['quality']) ? $args['quality'] : 60;
@@ -61,13 +62,25 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         $extension = 'jpg';
     }
     if( $maxwidth == 0 && $maxheight == 0 ) {
-        $filename = '/o/' . $img['uuid'] . '.' . $extension;
+        if( $padding_color != '' ) {
+            $filename = '/op/' . $img['uuid'] . '.' . $extension;
+        } else {
+            $filename = '/o/' . $img['uuid'] . '.' . $extension;
+        }
         $size = 'o';
     } elseif( $maxwidth == 0 ) {
-        $filename = '/h' . $maxheight . '/' . $img['uuid'] . '.' . $extension;
+        if( $padding_color != '' ) {
+            $filename = '/hp' . $maxheight . '/' . $img['uuid'] . '.' . $extension;
+        } else {
+            $filename = '/h' . $maxheight . '/' . $img['uuid'] . '.' . $extension;
+        }
         $size = 'h' . $maxheight;
     } else {
-        $filename = '/w' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
+        if( $padding_color != '' ) {
+            $filename = '/wp' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
+        } else {
+            $filename = '/w' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
+        }
         $size = 'w' . $maxwidth;
     }
     $img_filename = $site['cache_dir'] . '/images' . $filename;
@@ -94,6 +107,15 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
             || ($maxheight > 0 && $maxheight < $image->getImageHeight()) 
             ) {
             $image->scaleImage($maxwidth, $maxheight);
+        }
+
+        //
+        // Pad the image if requested. Done after scaling to save memory.
+        //
+        if( $padding_color != '' && $maxwidth > 0 && $maxwidth > $maxheight ) {
+            $image->borderImage($padding_color, 0, ($image->getImageWidth() - $image->getImageHeight()/2));
+        } elseif( $padding_color != '' && $maxheight > 0 && $maxheight > $maxwidth ) {
+            $image->borderImage($padding_color, 0, ($image->getImageHeight() - $image->getImageWidth()/2));
         }
 
         //

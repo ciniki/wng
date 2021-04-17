@@ -12,10 +12,13 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $url) {
-   
+function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
+  
     $target = '';
-    if( isset($url[0]) && $url[0] == '/' ) {
+    if( $page_id > 0 && isset($request['site']['pages'][$page_id]['path']) ) {
+        $url = $request['base_url'] . $request['site']['pages'][$page_id]['path'];
+    }
+    elseif( isset($url[0]) && $url[0] == '/' ) {
         $url = $request['base_url'] . $url;
     }
 

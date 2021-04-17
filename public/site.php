@@ -111,9 +111,25 @@ function ciniki_wng_site($ciniki) {
     $rsp = array('stat'=>'ok', 'site'=>$site, 'headerpages'=>array());
 
     //
+    // The breadcrumbs are used to determine where in the sitemap/tree we 
+    // are at and only show sub pages for that item.
+    //
+    function buildBreadcrumbs($breadcrumbs, $page_id, $sitepages) {
+        array_unshift($breadcrumbs, $page_id);
+        if( isset($sitepages[$page_id]['parent_id']) 
+            && $sitepages[$page_id]['parent_id'] > 0 
+            && $sitepages[$page_id]['path'] != '/'
+            ) {
+            $breadcrumbs = buildBreadcrumbs($breadcrumbs, $sitepages[$page_id]['parent_id'], $sitepages);
+        }
+        return $breadcrumbs;
+    }
+    $breadcrumbs = buildBreadcrumbs(array(), $args['page_id'], $site['pages']);
+
+    //
     // Flatten the header and footer menu to a single list
     //
-    function flattenMenu($pages, $depth, $list, $sitepages) {
+    function flattenMenu($pages, $depth, $list, $sitepages, $breadcrumbs) {
         foreach($list as $page_id) {
             $indent = '';
             for($i=0;$i<$depth;$i++) {
@@ -121,17 +137,20 @@ function ciniki_wng_site($ciniki) {
             }
             $pages[] = array('id' => $page_id, 'name' => $indent . $sitepages[$page_id]['title']);
             // Do not follow children of home page
-            if( isset($sitepages[$page_id]['children']) && $sitepages[$page_id]['parent_id'] > 0 ) {
-                $pages = flattenMenu($pages, $depth+1, $sitepages[$page_id]['children'], $sitepages);
+            if( isset($sitepages[$page_id]['children']) 
+                && $sitepages[$page_id]['parent_id'] > 0 
+                && in_array($page_id, $breadcrumbs)
+                ) {
+                $pages = flattenMenu($pages, $depth+1, $sitepages[$page_id]['children'], $sitepages, $breadcrumbs);
             }
         }
         return $pages;
     }
     if( isset($site['headermenu']) && count($site['headermenu']) > 0 ) {
-        $rsp['headerpages'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages']);
+        $rsp['headerpages'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], $breadcrumbs);
     }
     if( isset($site['footermenu']) && count($site['footermenu']) > 0 ) {
-        $rsp['footerpages'] = flattenMenu(array(), 0, $site['footermenu'], $site['pages']);
+        $rsp['footerpages'] = flattenMenu(array(), 0, $site['footermenu'], $site['pages'], $breadcrumbs);
     }
     $rsp['headersections'] = isset($site['headersections']) ? $site['headersections'] : array();
     $rsp['footersections'] = isset($site['footersections']) ? $site['footersections'] : array();
