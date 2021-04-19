@@ -15,6 +15,10 @@
     .block-contentphoto:not(.iconlistphoto) .content-wrap {
         width: 50%;
     }
+    .block-contentphoto.image-bottom-left:not(.iconlistphoto) .image-wrap {
+        order: 1;
+    }
+    .block-contentphoto.image-bottom-left:not(.iconlistphoto) .content-wrap,
     .block-contentphoto.image-bottom-right:not(.iconlistphoto) .image-wrap,
     .block-contentphoto.image-top-right:not(.iconlistphoto) .image-wrap {
         order: 2;
@@ -28,6 +32,10 @@
     .block-contentphoto .content-wrap {
         width: 50%;
     }
+    .block-contentphoto.image-bottom-left .image-wrap {
+        order: 1;
+    }
+    .block-contentphoto.image-bottom-left .content-wrap,
     .block-contentphoto.image-bottom-right .image-wrap,
     .block-contentphoto.image-top-right .image-wrap {
         order: 2;
