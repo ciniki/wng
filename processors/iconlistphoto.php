@@ -22,10 +22,10 @@ function ciniki_wng_processors_iconlistphoto(&$ciniki, $tnid, &$request, $sectio
             'type' => 'contentphoto',
             'class' => 'iconlistphoto', 
             );
-        if( isset($s['title']) && $s['title'] > 0 ) {
+        if( isset($s['title']) && $s['title'] != '' ) {
             $block['title'] = $s['title'];
         }
-        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
+        if( isset($s['subtitle']) && $s['subtitle'] != '' ) {
             $block['subtitle'] = $s['subtitle'];
         }
         if( isset($s['image-id']) && $s['image-id'] > 0 ) {
