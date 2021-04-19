@@ -154,6 +154,15 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     }
 
     //
+    // Remove the Home from footermenu if only item in menu
+    //
+    if( isset($site['footermenu'][0]) && count($site['footermenu']) == 1 
+        && $site['footermenu'][0] == $site['homepage_id'] 
+        ) {
+        $site['footermenu'] = array();
+    }
+
+    //
     // Get the sections for the header and footer
     //
     $site['headersections'] = array();
