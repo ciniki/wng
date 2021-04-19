@@ -135,6 +135,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
                 && $site['pages'][$child_pid]['sequence'] >= $site['pages'][$add_homepage_id]['sequence'] 
                 ) {
                 $site['headermenu'][] = $add_homepage_id;
+                $site['footermenu'][] = $add_homepage_id;
                 $add_homepage_id = 0;
             }
             if( !isset($site['pages'][$child_pid]) ) {

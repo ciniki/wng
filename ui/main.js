@@ -776,7 +776,7 @@ function ciniki_wng_main() {
                     if( this.sections._settings.fields[i].url != null 
                         && this.sections._settings.fields[i].url != ''
                         ) {
-                        this.sections._settings.fields[i].options['_custom_'] = {'v':0, 'l':'Custom URL'};
+                        this.sections._settings.fields[i].options['_custom_'] = {'v':'', 'l':'Custom URL'};
                         this.sections._settings.fields[i].onchange = 'M.ciniki_wng_main.section.showHideSettingFields();';
                     }
                 }

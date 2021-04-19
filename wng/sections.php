@@ -120,6 +120,27 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     }
 
     //
+    // Footer Menu - No Image
+    //
+    $sections['ciniki.wng.footermenu'] = array(
+        'name'=>'Footer Menu',
+        'module' => 'Website',
+        'settings'=>array()
+        );
+    $sections['ciniki.wng.footermenu']['settings']['toggle-em'] = array('label'=>'Menu Size', 'type'=>'select', 
+                'default'=>'60',
+                'options'=>array(
+                    '30' => 'XX-Small',
+                    '40' => 'X-Small',
+                    '50' => 'Small',
+                    '60' => 'Medium',
+                    '70' => 'Large',
+                    '80' => 'X-Large',
+                    '90' => 'XX-Large',
+                    'custom' => 'Custom (Advanced)',
+                ));
+
+    //
     // Headline scroller
     //
     $sections['ciniki.wng.headlinescroll'] = array(

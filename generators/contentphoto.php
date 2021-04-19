@@ -55,6 +55,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         if( isset($block['title']) && $block['title'] != '' ) {
             $content .= "<h2>" . $block['title'] . "</h2>";
         }
+        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            $content .= "<h3>" . $block['subtitle'] . "</h3>";
+        }
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
