@@ -769,8 +769,8 @@ function ciniki_wng_main() {
                     this.sections._settings.fields[i].options = {}
                     this.sections._settings.fields[i].complex_options = {'value':'v', 'name':'l'};
                     var onum=0;
-                    for(var j in M.ciniki_wng_main.site.data.headerpages) {
-                        var p = M.ciniki_wng_main.site.data.headerpages[j];
+                    for(var j in M.ciniki_wng_main.site.data.pagelist) {
+                        var p = M.ciniki_wng_main.site.data.pagelist[j];
                         this.sections._settings.fields[i].options[onum] = {'v':p.id, 'l':p.name};
                         onum++;
                     }

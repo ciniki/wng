@@ -139,7 +139,7 @@ function ciniki_wng_site($ciniki) {
             // Do not follow children of home page
             if( isset($sitepages[$page_id]['children']) 
                 && $sitepages[$page_id]['parent_id'] > 0 
-                && in_array($page_id, $breadcrumbs)
+                && ($breadcrumbs == null || in_array($page_id, $breadcrumbs))
                 ) {
                 $pages = flattenMenu($pages, $depth+1, $sitepages[$page_id]['children'], $sitepages, $breadcrumbs);
             }
@@ -148,6 +148,7 @@ function ciniki_wng_site($ciniki) {
     }
     if( isset($site['headermenu']) && count($site['headermenu']) > 0 ) {
         $rsp['headerpages'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], $breadcrumbs);
+        $rsp['pagelist'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], null);
     }
     if( isset($site['footermenu']) && count($site['footermenu']) > 0 ) {
         $rsp['footerpages'] = flattenMenu(array(), 0, $site['footermenu'], $site['pages'], $breadcrumbs);
