@@ -230,8 +230,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
             'label' => "Button {$i} Text", 'type' => 'text', 'separator' => 'yes',
             );
+        $sections['ciniki.wng.buttons']['settings']["button-{$i}-page"] = array(
+            'label' => "Page", 'type' => 'select', 'pages' => 'yes', 'url' => "button-{$i}-url",
+            );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-url"] = array(
-            'label' => "Button {$i} URL", 'type' => 'text',
+            'label' => "URL", 'type' => 'text',
             );
     }
 

@@ -24,6 +24,7 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
             ) {
             $items[] = array(
                 'text' => $s["button-{$i}-text"],
+                'page' => isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0 ? $s["button-{$i}-page"] : 0,
                 'url' => $s["button-{$i}-url"],
                 );
         }
