@@ -127,6 +127,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'module' => 'Website',
         'settings'=>array()
         );
+    $sections['ciniki.wng.footermenu']['settings']['hide-home'] = array(
+        'label'=>'Home Link', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                'no' => 'Show',
+                'yes' => 'Hide',
+                ));
     $sections['ciniki.wng.footermenu']['settings']['toggle-em'] = array('label'=>'Menu Size', 'type'=>'select', 
                 'default'=>'60',
                 'options'=>array(
@@ -202,8 +207,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
             'content' => array('label'=>'Content', 'type'=>'textarea'),
             'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-1-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text'),
             'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
             'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
+            'button-2-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text'),
             'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
             ),
         );

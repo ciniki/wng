@@ -327,6 +327,7 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },
             'fields':{
                 'cart-active':{'label':'Enable Cart', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'cart-currency-display':{'label':'Display Currency', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
             }},
         'cartmessages':{'label':'Cart Messages', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },

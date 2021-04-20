@@ -101,9 +101,25 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             // Add any resulting blocks to the request['response']['blocks'] array
             //
             if( isset($rc['blocks']) ) {
-                foreach($rc['blocks'] as $block) {
-                    $request['response']['blocks'][] = $block;
+                //
+                // If a section processes a sub page, it may return clear to remove
+                // and previous blocks. This allows for handling of page 2 content from
+                // a section.
+                //
+                if( isset($rc['clear']) && $rc['clear'] == 'yes' ) {
+                    $request['response']['blocks'] = $rc['blocks'];
+                } else {
+                    foreach($rc['blocks'] as $block) {
+                        $request['response']['blocks'][] = $block;
+                    }
                 }
+            }
+            //
+            // A section could return it should be the only section on a page,
+            // and don't process any other sections
+            //
+            if( isset($rc['stop']) && $rc['stop'] == 'yes' ) {
+                break;
             }
         }
     }

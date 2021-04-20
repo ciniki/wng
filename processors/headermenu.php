@@ -85,7 +85,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                         'url' => $request['base_url'] . $page['path'],
                         'image-id' => $s['image-id'],
                         );
-                    if( isset($request['uri_split'][0]) || $request['uri_split'][0] == '' ) {
+                    if( !isset($request['uri_split'][0]) || $request['uri_split'][0] == '' ) {
                         $item['selected'] == 'yes';
                     }
                     $mainmenu[] = $item;
