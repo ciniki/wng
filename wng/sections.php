@@ -288,7 +288,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
 
     for($i = 1; $i <= 6; $i++) {
         $sections['ciniki.wng.iconlistphoto']['settings']["icon-{$i}"] = array(
-            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'icon',
             );
         $sections['ciniki.wng.iconlistphoto']['settings']["text-{$i}"] = array(
             'label'=>'Text', 'type'=>'textarea', 'size'=>'small',
@@ -390,6 +390,42 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.fourtextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
         $sections['ciniki.wng.fourtextcol']['settings']["url-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
     }
+
+    //
+    // Google Map
+    //
+    $sections['ciniki.wng.googlemap'] = array(
+        'name'=>'Google Map',
+        'module' => 'Website',
+        'settings'=>array(
+            'title'=>array('label'=>'Title', 'type'=>'text'),
+            'zoom'=>array('label'=>'Initial Zoom', 'type'=>'toggle', 'default'=>'13', 'toggles'=>array(
+                '8' => '8',
+                '9' => '9',
+                '10' => '10',
+                '11' => '11',
+                '12' => '12',
+                '13' => '13',
+                '14' => '14',
+                '15' => '15',
+                )),
+            'latitude'=>array('label'=>'Latitude', 'type'=>'text'),
+            'longitude'=>array('label'=>'Longitude', 'type'=>'text'),
+            ),
+        );
+
+    $sections['ciniki.wng.contactform'] = array(
+        'name'=>'Contact Form',
+        'module' => 'Website',
+        'settings'=>array(
+            'title'=>array('label'=>'Title', 'type'=>'text'),
+            'intro'=>array('label'=>'Intro Message', 'type'=>'textarea', 'size'=>'medium'),
+            'phone'=>array('label'=>'Phone Number Field', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                'no' => 'No',
+                'yes' => 'Yes',
+                )),
+            ),
+        );
 
     return array('stat'=>'ok', 'sections'=>$sections);
 }
