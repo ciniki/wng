@@ -11,6 +11,7 @@
 // 
 function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
     $content = '';
 
     if( (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0) ) {
@@ -25,7 +26,6 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         //
         foreach($block['list'] as $item) {
             if( isset($item['text']) && $item['text'] != '' ) {
-                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
                     isset($item['page']) ? $item['page'] : 0,
                     $item['url']

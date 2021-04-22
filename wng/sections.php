@@ -78,7 +78,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         }
     }
     $sections['ciniki.wng.headermenu']['settings']['image-id'] = array(
-        'label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+        'label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',
         );
     $sections['ciniki.wng.headermenu']['settings']['image-position'] = array(
         'label'=>'Image Position', 'type'=>'toggle', 'default'=>'left', 'toggles'=>array(
@@ -206,11 +206,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
             'content' => array('label'=>'Content', 'type'=>'textarea'),
-            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
-            'button-1-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text'),
+            'button-1-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text', 'separator'=>'yes'),
+            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text'),
             'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
-            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
-            'button-2-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text'),
+            'button-2-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text', 'separator'=>'yes'),
+            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text'),
             'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
             ),
         );
@@ -227,11 +227,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         );
     for($i = 1; $i < 15; $i++ ) {
-        $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
-            'label' => "Button {$i} Text", 'type' => 'text', 'separator' => 'yes',
-            );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-page"] = array(
-            'label' => "Page", 'type' => 'select', 'pages' => 'yes', 'url' => "button-{$i}-url",
+            'label' => "Page", 'type' => 'select', 'pages' => 'yes', 'separator' => 'yes',
+            );
+        $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
+            'label' => "Button {$i} Text", 'type' => 'text', 
             );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-url"] = array(
             'label' => "URL", 'type' => 'text',
@@ -245,7 +245,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'name'=>'Text & Photo',
         'module' => 'Website',
         'settings'=>array(
-            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
+            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium'),
             'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'toggles'=>array(    
                 'top-left' => 'Top Left',
                 'bottom-left' => 'Bottom Left',
@@ -255,14 +255,14 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
             'content' => array('label'=>'Content', 'type'=>'textarea'),
-            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes'),
-            'button-1-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-1-url'),
+            'button-1-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-1-text' => array('label'=>'Button 1 Text', 'type'=>'text'),
             'button-1-url' => array('label'=>'Button URL', 'type'=>'text'),
-            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text', 'separator'=>'yes'),
-            'button-2-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-2-url'),
+            'button-2-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text'),
             'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
-            'button-3-text' => array('label'=>'Button 3 Text', 'type'=>'text', 'separator'=>'yes'),
-            'button-3-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'url'=>'button-3-url'),
+            'button-3-page' => array('label'=>'Page', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-3-text' => array('label'=>'Button 3 Text', 'type'=>'text'),
             'button-3-url' => array('label'=>'Button URL', 'type'=>'text'),
             ),
         );
@@ -274,7 +274,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'name'=>'List & Photo',
         'module' => 'Website',
         'settings'=>array(
-            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all'),
+            'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium'),
             'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'toggles'=>array(    
                 'top-left' => 'Top Left',
                 'bottom-left' => 'Bottom Left',
@@ -308,16 +308,6 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         );
 
     //
-    // Child Pages
-    //
-    $sections['ciniki.wng.childpages'] = array(
-        'name'=>'Child Pages',
-        'module' => 'Website',
-        'settings'=>array(
-            ),
-        );
-
-    //
     // Image/Content Carousel
     //
     $sections['ciniki.wng.carousel'] = array(
@@ -336,7 +326,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         );
     for($i = 1; $i <= 15; $i++) {
         $sections['ciniki.wng.carousel']['settings']["image-{$i}"] = array(
-            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes',
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',
             );
         $sections['ciniki.wng.carousel']['settings']["image-position-{$i}"] = array(
             'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(

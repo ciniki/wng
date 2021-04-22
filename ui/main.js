@@ -769,16 +769,16 @@ function ciniki_wng_main() {
                     this.sections._settings.fields[i].options = {}
                     this.sections._settings.fields[i].complex_options = {'value':'v', 'name':'l'};
                     var onum=0;
+                    this.sections._settings.fields[i].options[onum++] = {'v':'', 'l':'None'};
+                    var u_fid = i.replace(/page/, 'url');
+                    if( this.sections._settings.fields[u_fid] != null ) {
+                        this.sections._settings.fields[i].options[onum++] = {'v':'0', 'l':'Custom URL'};
+                        this.sections._settings.fields[i].onchange = 'M.ciniki_wng_main.section.showHideSettingFields();';
+                    }
                     for(var j in M.ciniki_wng_main.site.data.pagelist) {
                         var p = M.ciniki_wng_main.site.data.pagelist[j];
                         this.sections._settings.fields[i].options[onum] = {'v':p.id, 'l':p.name};
                         onum++;
-                    }
-                    if( this.sections._settings.fields[i].url != null 
-                        && this.sections._settings.fields[i].url != ''
-                        ) {
-                        this.sections._settings.fields[i].options['_custom_'] = {'v':'', 'l':'Custom URL'};
-                        this.sections._settings.fields[i].onchange = 'M.ciniki_wng_main.section.showHideSettingFields();';
                     }
                 }
             }
@@ -794,17 +794,24 @@ function ciniki_wng_main() {
                 && this.sections._settings.fields[i].type == 'select'
                 && this.sections._settings.fields[i].pages != null 
                 && this.sections._settings.fields[i].pages == 'yes'
-                && this.sections._settings.fields[i].url != null 
-                && this.sections._settings.fields[i].url != ''
+//                && this.sections._settings.fields[i].url != null 
+//                && this.sections._settings.fields[i].url != ''
                 ) {
-                var fid = this.sections._settings.fields[i].url;
+                var t_fid = i.replace(/page/, 'text');
+                var u_fid = i.replace(/page/, 'url');
                 var v = this.formValue(i);
-                if( v == 0 ) {
-                    this.sections._settings.fields[fid].visible = 'yes';
+                if( v != '' && v == 0 ) {
+                    this.sections._settings.fields[u_fid].visible = 'yes';
                 } else {
-                    this.sections._settings.fields[fid].visible = 'no';
+                    this.sections._settings.fields[u_fid].visible = 'no';
                 }
-                this.showHideFormField('_settings', fid);
+                if( v != '' ) {
+                    this.sections._settings.fields[t_fid].visible = 'yes';
+                } else {
+                    this.sections._settings.fields[t_fid].visible = 'no';
+                }
+                this.showHideFormField('_settings', t_fid);
+                this.showHideFormField('_settings', u_fid);
             }
         }
     }
