@@ -71,6 +71,20 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             foreach($block['list'] as $item) {
                 $content .= "<div class='list-item'>";
 
+                $url = '';
+                if( isset($item['link-page']) && $item['link-page'] != '' ) {
+                    $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                        isset($item["link-page"]) ? $item["link-page"] : 0,
+                        isset($item["link-url"]) ? $item["link-url"] : ''
+                        );
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
+                    }
+                    $url = $rc['url'];
+                }
+                if( $url != '' ) {
+                    $content .= "<a href='" . $rc['url'] . "'>";
+                }
                 if( isset($item['icon-id']) && $item['icon-id'] > 0 ) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
                     $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
@@ -92,8 +106,14 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.88', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                 }
                 $content .= $rc['content'];
+                if( $url != '' ) {
+                    $content .= "<span class='link'>" . $item["link-text"] . "</span>";
+                }
                 $content .= "</div>";
                 $content .= "</div>";
+                if( $url != '' ) {
+                    $content .= "</a>";
+                }
             }
             $content .= "</div>";
         }
@@ -104,7 +124,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         $buttons = '';
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
         for($i = 1; $i < 10; $i++) {
-            if( isset($block["button-{$i}-text"]) && $block["button-{$i}-text"] != '' ) {
+            if( isset($block["button-{$i}-page"]) && $block["button-{$i}-page"] != '' 
+                && isset($block["button-{$i}-text"]) && $block["button-{$i}-text"] != '' 
+                ) {
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
                     isset($block["button-{$i}-page"]) ? $block["button-{$i}-page"] : 0,
                     isset($block["button-{$i}-url"]) ? $block["button-{$i}-url"] : ''

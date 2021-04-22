@@ -41,13 +41,20 @@ function ciniki_wng_processors_iconlistphoto(&$ciniki, $tnid, &$request, $sectio
                 if( isset($s["icon-{$i}"]) && $s["icon-{$i}"] > 0 ) {
                     $item['icon-id'] = $s["icon-{$i}"];
                 }
+                if( isset($s["link-{$i}-page"]) && $s["link-{$i}-page"] != '' ) {
+                    $item['link-page'] = $s["link-{$i}-page"];
+                    $item['link-text'] = isset($s["link-{$i}-text"]) ? $s["link-{$i}-text"] : '';
+                    $item['link-url'] = isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : '';
+                }
                 $block['list'][] = $item;
             }
         }
 
         // Buttons
+        $block['button-1-page'] = isset($s['button-1-page']) ? $s['button-1-page'] : '';
         $block['button-1-text'] = isset($s['button-1-text']) ? $s['button-1-text'] : '';
         $block['button-1-url'] = isset($s['button-1-url']) ? $s['button-1-url'] : '';
+        $block['button-2-page'] = isset($s['button-2-page']) ? $s['button-2-page'] : '';
         $block['button-2-text'] = isset($s['button-2-text']) ? $s['button-2-text'] : '';
         $block['button-2-url'] = isset($s['button-2-url']) ? $s['button-2-url'] : '';
 

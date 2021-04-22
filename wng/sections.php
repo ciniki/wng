@@ -228,10 +228,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         );
     for($i = 1; $i < 15; $i++ ) {
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-page"] = array(
-            'label' => "Page", 'type' => 'select', 'pages' => 'yes', 'separator' => 'yes',
+            'label' => "Button {$i}", 'type' => 'select', 'pages' => 'yes', 'separator' => 'yes',
             );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
-            'label' => "Button {$i} Text", 'type' => 'text', 
+            'label' => "Text", 'type' => 'text', 
             );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-url"] = array(
             'label' => "URL", 'type' => 'text',
@@ -293,18 +293,33 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.iconlistphoto']['settings']["text-{$i}"] = array(
             'label'=>'Text', 'type'=>'textarea', 'size'=>'small',
             );
+        $sections['ciniki.wng.iconlistphoto']['settings']["link-{$i}-page"] = array(
+            'label'=>'Link to', 'type'=>'select', 'pages'=>'yes', 
+            );
+        $sections['ciniki.wng.iconlistphoto']['settings']["link-{$i}-text"] = array(
+            'label'=>'Text', 'type'=>'text', 
+            );
+        $sections['ciniki.wng.iconlistphoto']['settings']["link-{$i}-url"] = array(
+            'label'=>'Custom URL', 'type'=>'text',
+            );
     }
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-1-page'] = array(
+        'label'=>'Button 1 Page', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes',
+        );
     $sections['ciniki.wng.iconlistphoto']['settings']['button-1-text'] = array(
-        'label'=>'Button 1 Text', 'type'=>'text', 'separator'=>'yes',
+        'label'=>'Text', 'type'=>'text', 
         );
     $sections['ciniki.wng.iconlistphoto']['settings']['button-1-url'] = array(
-        'label'=>'Button 1 URL', 'type'=>'text',
+        'label'=>'Custom URL', 'type'=>'text',
+        );
+    $sections['ciniki.wng.iconlistphoto']['settings']['button-2-page'] = array(
+        'label'=>'Button 2 Page', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes',
         );
     $sections['ciniki.wng.iconlistphoto']['settings']['button-2-text'] = array(
-        'label'=>'Button 2 Text', 'type'=>'text',
+        'label'=>'Text', 'type'=>'text',
         );
     $sections['ciniki.wng.iconlistphoto']['settings']['button-2-url'] = array(
-        'label'=>'Button 2 URL', 'type'=>'text',
+        'label'=>'Custom URL', 'type'=>'text',
         );
 
     //

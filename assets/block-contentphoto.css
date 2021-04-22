@@ -49,7 +49,8 @@
 }
 .block-contentphoto .title {
 }
-.block-contentphoto p {
+.block-contentphoto.iconlistphoto p {
+    margin-bottom: 0px;
 }
 .block-contentphoto .button {
     margin-right: 1.5rem;
