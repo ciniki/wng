@@ -12,12 +12,12 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_processors_content(&$ciniki, $tnid, &$request, $section) {
+function ciniki_wng_processors_text(&$ciniki, $tnid, &$request, $section) {
 
     $blocks = array();
 
     if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
-        $section['settings']['type'] = 'contentphoto';
+        $section['settings']['type'] = 'text';
         $blocks[] = $section['settings'];
     }
 

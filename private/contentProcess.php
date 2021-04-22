@@ -68,13 +68,13 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
             }
             if( isset($args['module']) && strstr($args['module'], '.') ) {
                 list($pkg, $mod) = explode('.', $args['module']);
-                $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'web', 'processEmbed');
+                $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'processEmbed');
                 if( $rc['stat'] == 'ok' ) {
                     //
                     // If the function exists, call function to get embed content
                     //
                     $fn = $rc['function_call'];
-                    $rc = $fn($ciniki, $settings, $request['tnid'], $args);
+                    $rc = $fn($ciniki, $tnid, $request, $args);
                     if( $rc['stat'] == 'ok' ) {
                         //
                         // Content is plain and can be substituded
@@ -86,13 +86,13 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
                         // Content is list of blocks that need to be processed and included
                         //
                         // *** Might need this in the future, copied from ciniki.web module *** 
-/*                        elseif( isset($rc['blocks']) ) {
+                        elseif( isset($rc['blocks']) ) {
                             ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processBlocks');
-                            $rc = ciniki_web_processBlocks($ciniki, $settings, $request['tnid'], $rc['blocks']);
+                            $rc = ciniki_wng_blocksGenerate($ciniki, $settings, $request['tnid'], $rc['blocks']);
                             if( $rc['stat'] == 'ok' ) {
                                 $processed_content = str_replace($match, $rc['content'], $processed_content);
                             }
-                        } */
+                        } 
                     }
                 }
             }

@@ -18,7 +18,7 @@ function ciniki_wng_generators_content(&$ciniki, $tnid, $request, $block) {
     //
     // Check for a image
     //
-    $image_content = '';
+/*    $image_content = '';
     if( isset($block['aside_image_id']) && $block['aside_image_id'] > 0 ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'getScaledImageURL');
         $rc = ciniki_web_getScaledImageURL($ciniki, $block['aside_image_id'], 'original', '500', 0);
@@ -33,7 +33,7 @@ function ciniki_wng_generators_content(&$ciniki, $tnid, $request, $block) {
         }
         $image_content .= "</div></aside>";
     }
-
+*/
     //
     // Make sure there is content to edit
     //
