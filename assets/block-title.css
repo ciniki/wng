@@ -1,4 +1,6 @@
+.block-title .content {
+    padding: 1rem;
+}
 .block-title h1 {
     font-size: 1.5rem;
-    padding: 1rem;
 }
