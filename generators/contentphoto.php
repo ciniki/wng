@@ -135,7 +135,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 if( isset($rc['url']) && $rc['url'] != '' ) {
-                    $buttons .= "<a class='button' href='" . $rc['url'] . "'>" . $block["button-{$i}-text"] . "</a>";
+                    $buttons .= "<a class='"
+                        . (isset($block['button-class']) && $block['button-class'] != '' ? $block['button-class'] : 'button')
+                        . "' href='" . $rc['url'] . "'>" . $block["button-{$i}-text"] . "</a>";
                 }
             }
         }
