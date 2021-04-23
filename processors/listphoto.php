@@ -33,7 +33,7 @@ function ciniki_wng_processors_listphoto(&$ciniki, $tnid, &$request, $section) {
         }
         $block['image-position'] = isset($s['image-position']) ? $s['image-position'] : 'top-right';
         $block['list'] = array();
-        for($i = 1; $i <= 6; $i++) {
+        for($i = 1; $i <= 10; $i++) {
             if( isset($s["text-{$i}"]) && $s["text-{$i}"] != '' ) {
                 $item = array(
                     'text' => $s["text-{$i}"],
