@@ -27,15 +27,11 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // Check first element of uri_split to see if a child page exists for it.
     //
-    if( isset($request['uri_split'][$request['cur_uri_pos']]) && $request['uri_split'][$request['cur_uri_pos']] != '' && isset($request['site']['pages'][$page_id]['children']) ) {
+    if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) && $request['uri_split'][($request['cur_uri_pos']+1)] != '' && isset($request['site']['pages'][$page_id]['children']) ) {
         foreach($request['site']['pages'][$page_id]['children'] as $child_id) {
             if( isset($request['site']['pages'][$child_id]['permalink']) 
-                && $request['site']['pages'][$child_id]['permalink'] == $request['uri_split'][$request['cur_uri_pos']]
+                && $request['site']['pages'][$child_id]['permalink'] == $request['uri_split'][($request['cur_uri_pos']+1)]
                 ) {
-                //
-                // Shift the path array, and return results from the child page
-                //
-                //array_shift($request['uri_split']);
                 $request['cur_uri_pos']++;
                 return ciniki_wng_pageRequestProcess($ciniki, $tnid, $request, $child_id);
             }
@@ -45,7 +41,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // Check if special pages (Account, cart, search), must be at top level of site
     //
-    if( $request['cur_uri_pos'] == 0 && isset($request['uri_split'][0]) ) {
+    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountRequestProcess');

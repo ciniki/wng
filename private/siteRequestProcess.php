@@ -35,7 +35,7 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     }
 
     $request['breadcrumbs'] = array();
-    $request['cur_uri_pos'] = 0;
+    $request['cur_uri_pos'] = -1;   // Start at -1 because home does not have a position
 
     //
     // Setup response details

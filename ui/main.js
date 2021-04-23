@@ -676,7 +676,7 @@ function ciniki_wng_main() {
         this.site_id = sid;
         this.reset();
         this.data = {};
-        this.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.headerpages;
+        this.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
 //        for(var i in M.ciniki_wng_main.site.data.headerpages) {
 //            this.sections.parent.fields.parent_id.options[M.ciniki_wng_main.site.data.headerpages[i].id] = M.ciniki_wng_main.site.data.headerpages[i].name;
 //        }
@@ -750,6 +750,7 @@ function ciniki_wng_main() {
             //
             // Setup addDropImage for each field that requires it
             //
+            console.log(this.data);
             for(var i in this.sections._settings.fields) {
                 if( this.sections._settings.fields[i].type != null 
                     && this.sections._settings.fields[i].type == 'image_id'

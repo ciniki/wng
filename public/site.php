@@ -129,13 +129,15 @@ function ciniki_wng_site($ciniki) {
     //
     // Flatten the header and footer menu to a single list
     //
-    function flattenMenu($pages, $depth, $list, $sitepages, $breadcrumbs) {
+    function flattenMenu($pages, $depth, $list, $sitepages, $breadcrumbs, $skiplist=array()) {
         foreach($list as $page_id) {
             $indent = '';
             for($i=0;$i<$depth;$i++) {
                 $indent .= ' - ';
             }
-            $pages[] = array('id' => $page_id, 'name' => $indent . $sitepages[$page_id]['title']);
+            if( !in_array($page_id, $skiplist) ) {
+                $pages[] = array('id' => $page_id, 'name' => $indent . $sitepages[$page_id]['title']);
+            }
             // Do not follow children of home page
             if( isset($sitepages[$page_id]['children']) 
                 && $sitepages[$page_id]['parent_id'] > 0 
@@ -146,12 +148,20 @@ function ciniki_wng_site($ciniki) {
         }
         return $pages;
     }
+    $skiplist = array();
     if( isset($site['headermenu']) && count($site['headermenu']) > 0 ) {
         $rsp['headerpages'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], $breadcrumbs);
         $rsp['pagelist'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], null);
+        foreach($rsp['headerpages'] as $p) {
+            $skiplist[] = $p['id'];
+        }
     }
     if( isset($site['footermenu']) && count($site['footermenu']) > 0 ) {
         $rsp['footerpages'] = flattenMenu(array(), 0, $site['footermenu'], $site['pages'], $breadcrumbs);
+        $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['footermenu'], $site['pages'], null, $skiplist);
+        foreach($rsp['footerpages'] as $p) {
+            $skiplist[] = $p['id'];
+        }
     }
     $rsp['headersections'] = isset($site['headersections']) ? $site['headersections'] : array();
     $rsp['footersections'] = isset($site['footersections']) ? $site['footersections'] : array();
@@ -170,6 +180,7 @@ function ciniki_wng_site($ciniki) {
             }
         }
     }
+    $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['orphans'], $site['pages'], null, $skiplist);
     
 
     //

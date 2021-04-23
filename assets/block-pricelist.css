@@ -1,6 +1,30 @@
 .block-pricelist .content {
     padding: 0rem 1rem 1rem 1rem;
 }
+.block-pricelist .price {
+    display: table-row;
+}
+.block-pricelist .price .label,
+.block-pricelist .price .amount,
+.block-pricelist .price .buttons {
+    display: table-cell;
+    vertical-align: middle;
+    padding-bottom: 0.5rem;
+}
+.block-pricelist .price .amount {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.block-pricelist .price form {
+    white-space: pre;
+    -webkit-appearance: none;
+}
+.block-pricelist .price form input {
+    box-shadow: none;
+    -webkit-appearance: none;
+}
+.block-pricelist .price .quantity {
+}
 @media screen and (min-width: 50em) {
     .block-pricelist .content {
         padding: 0rem 2rem 1rem 2rem;
