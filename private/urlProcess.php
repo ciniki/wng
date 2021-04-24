@@ -18,7 +18,7 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
     $display_url = preg_replace("/^\s*https?:\/\//", '', $url);
     if( $page_id > 0 && isset($request['site']['pages'][$page_id]['path']) ) {
         $url = $request['base_url'] . $request['site']['pages'][$page_id]['path'];
-        $display_url = $request['site']['pages'][$page_id]['name'];
+        $display_url = $request['site']['pages'][$page_id]['title'];
     }
     elseif( isset($url[0]) && $url[0] == '/' ) {
         $url = $request['base_url'] . $url;
