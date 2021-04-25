@@ -32,7 +32,7 @@ function ciniki_wng_generators_asideimage(&$ciniki, $tnid, $request, $block) {
             'maxwidth' => 1024,
             ));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.104', 'msg'=>'', 'err'=>$rc['err']));
         }
 
         //

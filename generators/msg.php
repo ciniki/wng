@@ -16,10 +16,12 @@ function ciniki_wng_generators_msg(&$ciniki, $tnid, $request, $block) {
     if( isset($block['content']) && $block['content'] != '' ) {      
         $content .= "<div class='block-msg"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . (isset($block['level']) && $block['level'] != '' ? ' ' . $block['level'] : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
         
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
         $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);   
         if( $rc['stat'] != 'ok' ) {
             return $rc;

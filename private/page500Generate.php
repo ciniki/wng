@@ -13,55 +13,46 @@
 // Returns
 // -------
 //
-function ciniki_wng_page500Generate(&$ciniki, $settings, $errors) {
+function ciniki_wng_page500Generate(&$ciniki, $tnid, $request) {
 
-    //
-    // Store the content created by the page
-    // Make sure everything gets generated ok before returning the content
-    //
     $content = '';
-    $page_content = '';
-
-    //
-    // FIXME: Check if anything has changed, and if not load from cache
-    //
-    
 
     //
     // Add the header
     //
-//  header("HTTP/1.0 404 Not Found");
     header("Status: 500 Internal Server Error", true, 500);
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'generatePageHeader');
-    $rc = ciniki_web_generatePageHeader($ciniki, $settings, 'Internal Server Error', array());
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pageHeaderGenerate');
+    $rc = ciniki_wng_pageHeaderGenerate($ciniki, $tnid, $request);
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
     $content .= $rc['content'];
 
-    $content .= "<div id='content'>\n";
-    $content .= "<article class='page'>\n";
-    $content .= "<div class='entry-content'>\n";
-    $content .= "<header class='entry-title'><h1 class='entry-title'>We seem to have hit a snag</h1></header>";
-    $content .= "<p>I'm sorry, but we seem to be having trouble processing your request.  You can continue browsing the site while we fix the problem.</p>";
+    $content .= "<div class='block-text'>\n";
+    $content .= "<div class='wrap'>\n";
+    $content .= "<div class='content'>\n";
+    $content .= "<h1 class='entry-title'>We seem to have hit a snag</h1>";
+    $content .= "<p>I'm sorry, but we seem to be having trouble processing your request.  "
+        . "You can continue browsing the site while we fix the problem."
+        . "</p>";
     $content .= "</div>";
-    $content .= "</article>";
+    $content .= "</div>";
     $content .= "</div>";
 
     $err_msg = "Web ERR [500]: " . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] ';
 
     if( isset($errors['err']['code']) ) {
-        $ciniki['request']['error_codes_msg'] = 'err:' . $errors['err']['code'];
+        $request['error_codes_msg'] = 'err:' . $errors['err']['code'];
         $err_msg .= '[' . $errors['err']['code'] . ':' . $errors['err']['msg'] . ']';
     } else {
-        $ciniki['request']['error_codes_msg'] = "I'm sorry, we seem to have run into a spot of trouble.";
+        $request['error_codes_msg'] = "I'm sorry, we seem to have run into a spot of trouble.";
         $err_msg .= "I'm sorry, we seem to have run into a spot of trouble.";
     }
     // Check for nested errors
     if( isset($errors['err']['err']) ) {
         $err = $errors['err'];
         while( isset($err['err']) ) {
-            $ciniki['request']['error_codes_msg'] .= ',' . $err['err']['code'];
+            $request['error_codes_msg'] .= ',' . $err['err']['code'];
             $err_msg .= '[' . $err['err']['code'] . ':' . $err['err']['msg'] . ']';
             $err = $err['err'];
         }
@@ -83,8 +74,8 @@ function ciniki_wng_page500Generate(&$ciniki, $settings, $errors) {
     //
     // Add the footer
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'generatePageFooter');
-    $rc = ciniki_web_generatePageFooter($ciniki, $settings);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pageFooterGenerate');
+    $rc = ciniki_wng_pageFooterGenerate($ciniki, $tnid, $request);
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }

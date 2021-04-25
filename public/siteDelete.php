@@ -65,7 +65,7 @@ function ciniki_wng_siteDelete(&$ciniki) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbSingleCount');
     $rc = ciniki_core_dbSingleCount($ciniki, $strsql, 'ciniki.wng', 'num');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.15', 'msg'=>'Unable to load get the number of items', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.96', 'msg'=>'Unable to load get the number of items', 'err'=>$rc['err']));
     }
     $num_items = isset($rc['num']) ? $rc['num'] : '';
     if( $num_items > 0 ) {

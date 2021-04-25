@@ -48,7 +48,7 @@ function ciniki_wng_checkAccess(&$ciniki, $tnid, $method) {
         'ciniki.wng.siteSearch',
         'ciniki.wng.siteUpdate',
         )) ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.14', 'msg'=>'Access denied'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.95', 'msg'=>'Access denied'));
     }
 
 

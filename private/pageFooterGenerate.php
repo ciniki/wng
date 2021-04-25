@@ -66,7 +66,7 @@ function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, &$request) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');
     $rc = ciniki_wng_blocksGenerate($ciniki, $tnid, $request, $footerblocks);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.57', 'msg'=>'', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.100', 'msg'=>'', 'err'=>$rc['err']));
     }
     $content .= $rc['content'];
 

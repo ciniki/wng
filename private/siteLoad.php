@@ -96,7 +96,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
             ),
         ));
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.13', 'msg'=>'Unable to load pages', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.94', 'msg'=>'Unable to load pages', 'err'=>$rc['err']));
     }
     $site['homepage_id'] = 0;
     $site['pages'] = isset($rc['pages']) ? $rc['pages'] : array();

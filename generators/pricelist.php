@@ -99,22 +99,8 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 }
                 if( isset($request['settings']['page-cart-inventory-members-display']) 
                     && $request['settings']['page-cart-inventory-members-display'] == 'yes' 
-                    && isset($ciniki['session']['customer']['member_status'])
-                    && $ciniki['session']['customer']['member_status'] == 10
-                    ) {
-                    $inv = 'yes';
-                }
-                if( isset($request['settings']['page-cart-inventory-dealers-display']) 
-                    && $request['settings']['page-cart-inventory-dealers-display'] == 'yes' 
-                    && isset($ciniki['session']['customer']['dealer_status'])
-                    && $ciniki['session']['customer']['dealer_status'] == 10
-                    ) {
-                    $inv = 'yes';
-                }
-                if( isset($request['settings']['page-cart-inventory-distributor-display']) 
-                    && $request['settings']['page-cart-inventory-distributor-display'] == 'yes' 
-                    && isset($ciniki['session']['customer']['distributor_status'])
-                    && $ciniki['session']['customer']['distributor_status'] == 10
+                    && isset($request['session']['customer']['member_status'])
+                    && $request['session']['customer']['member_status'] == 10
                     ) {
                     $inv = 'yes';
                 }
@@ -148,7 +134,9 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 $content .= "<input type='hidden' name='action' value='add'/>";
                 $content .= "<input type='hidden' name='object' value='" . $price['object'] . "'/>";
                 $content .= "<input type='hidden' name='object_id' value='" . $price['object_id'] . "'/>";
-                $content .= "<input type='hidden' name='price_id' value='" . $price['price_id'] . "'/>";
+                if( isset($price['price_id']) ) {
+                    $content .= "<input type='hidden' name='price_id' value='" . $price['price_id'] . "'/>";
+                }
                 $content .= "<input type='hidden' name='final_price' value='" . $final_price . "'/>";
                 // Check what time of field the quantity should be based on how many are available
                 /*if( isset($price['limited_units']) && $price['limited_units'] == 'yes' 

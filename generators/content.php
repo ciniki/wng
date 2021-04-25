@@ -47,7 +47,7 @@ function ciniki_wng_generators_content(&$ciniki, $tnid, $request, $block) {
             if( isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h2" . ((isset($block['wide'])&&$block['wide']=='yes')?" class='wide'":'') . ">" . $block['title'] . "</h2>";
             }
-            $content .= $image_content;
+//            $content .= $image_content;
             $content .= $rc['content'];
         }
     }
@@ -55,7 +55,7 @@ function ciniki_wng_generators_content(&$ciniki, $tnid, $request, $block) {
         if( isset($block['title']) && $block['title'] != '' ) {
             $content .= "<h2>" . $block['title'] . "</h2>";
         }
-        $content .= $image_content;
+//        $content .= $image_content;
         $content .= $block['html'];
     }
 

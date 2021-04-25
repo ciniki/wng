@@ -40,7 +40,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 'maxwidth' => 2048,
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.102', 'msg'=>'', 'err'=>$rc['err']));
             }
 
             //
@@ -62,7 +62,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.88', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= $rc['content'];
         } 
@@ -78,7 +78,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                         isset($item["link-url"]) ? $item["link-url"] : ''
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.117', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
                     }
                     $url = $rc['url'];
                 }
@@ -132,7 +132,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                     isset($block["button-{$i}-url"]) ? $block["button-{$i}-url"] : ''
                     );
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.110', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 if( isset($rc['url']) && $rc['url'] != '' ) {
                     $buttons .= "<a class='"
@@ -158,7 +158,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 'maxwidth' => 2048,
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.106', 'msg'=>'', 'err'=>$rc['err']));
             }
 
             //

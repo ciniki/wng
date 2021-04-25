@@ -30,7 +30,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
                 return $rc;
             }
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.80', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.101', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
             }
 
             //

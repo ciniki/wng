@@ -93,11 +93,11 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         $rc = ciniki_wng_pageGenerate($ciniki, $tnid, $request);
     }
     if( $rc['stat'] == '503' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'generatePage503');
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page503Generate');
         $rc = ciniki_wng_page503Generate($ciniki, $tnid, $request, $rc);
     }
     elseif( $rc['stat'] == '404' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'generatePage404');
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page404Generate');
         $rc = ciniki_wng_page404Generate($ciniki, $tnid, $request, $rc);
     }
     elseif( $rc['stat'] == 'json' ) {
@@ -106,18 +106,22 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         $rc['content'] = json_encode($rc);
     }
     elseif( $rc['stat'] != 'ok' && $rc['stat'] != 'exit' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'generatePage500');
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page500Generate');
         $rc = ciniki_wng_page500Generate($ciniki, $tnid, $request, $rc);
     } 
-    elseif( !isset($rc['content']) ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'generatePage404');
+    elseif( !isset($rc['content']) && $rc['stat'] != 'exit' ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page404Generate');
         $rc = ciniki_wng_page404Generate($ciniki, $tnid, $request, null);
     }
+
+    $exit = isset($rc['stat']) && $rc['stat'] == 'exit' ? 'yes' : 'no';
 
     // 
     // Final content to be sent back
     //
-    $content = $rc['content'];
+    if( isset($rc['content']) ) {
+        $content = $rc['content'];
+    }
 
     //
     // Save module session information
@@ -126,6 +130,10 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     $rc = ciniki_wng_sessionSave($ciniki, $tnid, $request);
     if( $rc['stat'] != 'ok' ) {
         error_log('ciniki.wng: Unable to save session');
+    }
+
+    if( $exit == 'yes' ) {
+        return array('stat'=>'exit');
     }
 
     //
@@ -168,6 +176,7 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         //
         print $content;
     }
+
 
     return array('stat'=>'ok');
 }

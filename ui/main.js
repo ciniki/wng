@@ -319,6 +319,10 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'account' ? 'yes' : 'no'); },
             'fields':{
                 'account-active':{'label':'Customer Logins', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+//                'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-forgot-link-text':{'label':'Forgot Link Text', 'type':'text'},
+//                'account-allowed-attempts':{'label':'Allowed Attempts', 'type':'text'},
+//                'account-lock-hours':{'label':'Lock Hours', 'type':'text'},
             }},
         //
         // cart page settings

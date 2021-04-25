@@ -27,7 +27,10 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // Check first element of uri_split to see if a child page exists for it.
     //
-    if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) && $request['uri_split'][($request['cur_uri_pos']+1)] != '' && isset($request['site']['pages'][$page_id]['children']) ) {
+    if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) 
+        && $request['uri_split'][($request['cur_uri_pos']+1)] != '' 
+        && isset($request['site']['pages'][$page_id]['children']) 
+        ) {
         foreach($request['site']['pages'][$page_id]['children'] as $child_id) {
             if( isset($request['site']['pages'][$child_id]['permalink']) 
                 && $request['site']['pages'][$child_id]['permalink'] == $request['uri_split'][($request['cur_uri_pos']+1)]
@@ -45,19 +48,43 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountRequestProcess');
-            return ciniki_wng_accountRequestProcess($ciniki, $tnid, $request);
+            $rc = ciniki_wng_accountRequestProcess($ciniki, $tnid, $request);
         } 
         elseif( $request['uri_split'][0] == 'cart' ) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cartRequestProcess');
-            return ciniki_wng_cartRequestProcess($ciniki, $tnid, $request);
+            $rc = ciniki_wng_cartRequestProcess($ciniki, $tnid, $request);
         }
         elseif( $request['uri_split'][0] == 'search' ) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'searchRequestProcess');
-            return ciniki_wng_searchRequestProcess($ciniki, $tnid, $request);
+            $rc = ciniki_wng_searchRequestProcess($ciniki, $tnid, $request);
         }
+
+        //
+        // Check if error returned
+        //
+        if( isset($rc['blocks']) ) {
+            foreach($rc['blocks'] as $block) {
+                $request['response']['blocks'][] = $block;
+            }
+        }
+
+        return $rc;
     }
+
+    //
+    // If there is a url request and nothing handled it, return a 404 error
+    //
+    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) ) {
+        //
+        // No child page found, 404 error
+        //
+        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.118', 'msg'=>'Page not found'));
+    }
+//    elseif( $request['cur_uri_pos'] >= 0 && isset($request['uri_split'][($request['cur_uri_pos'])]) ) {
+//        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.92', 'msg'=>'Page not found'));
+//    }
 
     //
     // Load the page details and sections

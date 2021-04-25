@@ -17,7 +17,7 @@ function ciniki_wng_pathsUpdate(&$ciniki, $tnid, $site_id) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
     $rc = ciniki_wng_siteLoad($ciniki, $tnid, $site_id);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.25', 'msg'=>'Unable to load site', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.99', 'msg'=>'Unable to load site', 'err'=>$rc['err']));
     }
     $site = isset($rc['site']) ? $rc['site'] : array();
 

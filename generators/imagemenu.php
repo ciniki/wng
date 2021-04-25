@@ -33,7 +33,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             'version' => 'original',
             ));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.108', 'msg'=>'', 'err'=>$rc['err']));
         }
 
         //
@@ -74,7 +74,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                     'version' => 'original',
                     ));
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.87', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.107', 'msg'=>'', 'err'=>$rc['err']));
                 }
 
                 //

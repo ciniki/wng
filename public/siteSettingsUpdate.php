@@ -35,6 +35,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'header-image-id',
         'header-social-icons',
         'account-active',
+        'account-password-change',
+        'account-forgot-link-text',
         // Cart options
         'cart-active',
         'cart-noaccount-message',

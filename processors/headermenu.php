@@ -22,7 +22,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
     if( ciniki_core_checkModuleActive($ciniki, 'ciniki.customers')
         && isset($s['account-buttons']) && $s['account-buttons'] == 'yes' 
         ) {
-        if( isset($ciniki['customer']['id']) && $ciniki['customer']['id'] > 0 ) {
+        if( isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0 ) {
             $block = array(
                 'type' => 'accountbuttons',
                 'data' => array(
@@ -53,8 +53,8 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         //
         if( isset($request['site']['settings']['cart-active']) && $request['site']['settings']['cart-active'] == 'yes' ) {
             $num_items = '';
-            if( isset($ciniki['session']['cart']['num_items']) && $ciniki['session']['cart']['num_items'] > 0 ) {
-                $num_items = ' (' . $ciniki['session']['cart']['num_items'] . ')';
+            if( isset($request['session']['cart']['num_items']) && $request['session']['cart']['num_items'] > 0 ) {
+                $num_items = ' (' . $request['session']['cart']['num_items'] . ')';
             }
             array_unshift($block['data'], array(
                 'label' => (isset($s['cart-label']) && $s['cart-label'] != '' ? $s['cart-label'] : 'Cart') . $num_items,
@@ -150,8 +150,8 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             //
             if( isset($request['site']['settings']['cart-active']) && $request['site']['settings']['cart-active'] == 'yes' ) {
                 $num_items = '';
-                if( isset($ciniki['session']['cart']['num_items']) && $ciniki['session']['cart']['num_items'] > 0 ) {
-                    $num_items = ' (' . $ciniki['session']['cart']['num_items'] . ')';
+                if( isset($request['session']['cart']['num_items']) && $request['session']['cart']['num_items'] > 0 ) {
+                    $num_items = ' (' . $request['session']['cart']['num_items'] . ')';
                 }
                 $hamburgermenu[] = array(
                     'title' => (isset($s['cart-label']) && $s['cart-label'] != '' ? $s['cart-label'] : 'Cart') . $num_items,
@@ -162,7 +162,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             //
             // Check if customer logged in
             //
-            if( isset($ciniki['customer']['id']) && $ciniki['customer']['id'] > 0 ) {
+            if( isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0 ) {
                 $hamburgermenu[] = array(
                     'title' => (isset($s['account-label']) && $s['account-label'] != '' ? $s['account-label'] : 'Account'),
                     'selected' => (isset($request['uri_split'][0]) && $request['uri_split'][0] == 'account' ? 'yes' : 'no'),
