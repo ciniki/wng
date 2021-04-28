@@ -1109,6 +1109,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $ciniki['emailqueue'][] = array('to'=>$ciniki['config']['ciniki.core']['alerts.notify'],
                     'subject'=>'Web Cart ERR 500',
                     'textmsg'=>$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n"
+                        . "carterrors:\n"
                         . $carterrors . "\n"
                         . "Customer: \n" 
                         . print_r($request['session']['customer'], true) 
