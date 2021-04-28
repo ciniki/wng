@@ -15,6 +15,7 @@ function ciniki_wng_sessionStart(&$ciniki, $tnid, &$request) {
 
     session_start();
 
+    //error_log(print_r($_SESSION,true));
     //
     // Load the session variables into the request
     //
@@ -28,6 +29,16 @@ function ciniki_wng_sessionStart(&$ciniki, $tnid, &$request) {
             'change_log_id' => 'web.' . date('Ymd.His'),
             );
         $_SESSION = array();
+    }
+
+    //
+    // The following variable must be setup for core_dbAddModuleHistory
+    //
+    if( !isset($ciniki['session']['user']['id']) ) {
+        $ciniki['session']['user']['id'] = -2;
+    }
+    if( !isset($ciniki['session']['change_log_id']) ) {
+        $ciniki['session']['change_log_id'] = $request['session']['change_log_id'];
     }
 
     return array('stat'=>'ok');

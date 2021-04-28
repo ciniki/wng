@@ -1,0 +1,55 @@
+.block-cart {
+    padding: 1rem;
+}
+.block-cart table.items {
+    width: 100%;
+}
+.block-cart .icon svg {
+    width: 1rem;
+}
+.block-cart .details,
+.block-cart .details tbody,
+.block-cart .details tr,
+.block-cart .details th,
+.block-cart .details td {
+    display: block;
+    width: 100%;
+}
+.block-cart .items th,
+.block-cart .items td {
+    padding: 0.25rem;
+}
+.block-cart .details th,
+.block-cart .details td {
+    padding: 0.5rem;
+}
+@media screen and (min-width: 35em) {
+    .block-cart .items th,
+    .block-cart .items td {
+        padding: 0.5rem 0.5rem;
+    }
+    .block-cart .items th,
+    .block-cart .items td {
+        padding: 0.5rem 0.5rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-cart .shipto .details tr {
+        display: inline-block;
+        width: 50%;
+    }
+}
+.block-cart .customer-notes {
+    margin-bottom: 1rem;
+}
+.block-cart .customer-notes label {
+    width: 100%;
+    padding: 0.5rem;
+}
+.block-cart .customer-notes textarea {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border-radius: 0px;
+    -webkit-appearance: none;
+}

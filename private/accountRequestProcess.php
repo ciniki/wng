@@ -55,7 +55,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         && (!isset($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] != '443' ) 
         ) {
         header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-        exit;
+        return array('stat'=>'exit');
     }
 
 

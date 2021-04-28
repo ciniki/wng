@@ -129,11 +129,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request) {
                         ) {
                         header('Location: ' . $request['session']['login_referer']);
                         $request['session']['login_referer'] = '';
-                        exit;
+                        return array('stat'=>'exit');
                     }
                     if( $settings['account-signin-redirect'] != '' ) {
                         header('Location: ' . $request['ssl_domain_base_url'] . $settings['account-signin-redirect']);
-                        exit;
+                        return array('stat'=>'exit');
                     }
                 }
                 // No redirects, return ok for default page to show

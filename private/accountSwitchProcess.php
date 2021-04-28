@@ -71,15 +71,15 @@ function ciniki_wng_accountSwitchProcess(&$ciniki, $tnid, $request, $customer_id
             && isset($request['session']['login_referer']) && $request['session']['login_referer'] != '' ) {
             header('Location: ' . $request['session']['login_referer']);
             $request['session']['login_referer'] = '';
-            exit;
+            return array('stat'=>'exit');
         }
         if( $redirect != '' ) {
             header('Location: ' . $request['ssl_domain_base_url'] . $redirect);
-            exit;
+            return array('stat'=>'exit');
         }
     } 
     header('Location: ' . ($request['ssl_domain_base_url'] != '' ? $request['ssl_domain_base_url'] : '') . '/account');
-    exit;
+    return array('stat'=>'exit');
 
     return array('stat'=>'ok');
 }

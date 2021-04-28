@@ -332,11 +332,34 @@ function ciniki_wng_main() {
             'fields':{
                 'cart-active':{'label':'Enable Cart', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'cart-currency-display':{'label':'Display Currency', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'cart-registration-child-select':{'label':'Registration Children', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'cart-child-create-button':{'label':'Create Child Button', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'cart-customer-notes':{'label':'Customer Notes', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'paypal-ec-site':{'label':'Paypal Site', 'type':'toggle', 'default':'sandbox', 
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x200000); },
+                    'toggles':{'sandbox':'Sandbox (Test)', 'live':'Live'},
+                    },
+                'paypal-ec-clientid':{'label':'Username', 'type':'text',
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x200000); },
+                    },
+                'paypal-ec-password':{'label':'Password', 'type':'text',
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x200000); },
+                    },
+                'paypal-ec-signature':{'label':'Signature', 'type':'text',
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x200000); },
+                    },
+                'stripe-pk':{'label':'Stripe Public Key', 'type':'text',
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x800000); },
+                    },
+                'stripe-sk':{'label':'Stripe Secret Key', 'type':'text',
+                    'visible':function() { M.modFlagSet('ciniki.sapos', 0x800000); },
+                    },
             }},
         'cartmessages':{'label':'Cart Messages', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },
             'fields':{
                 'cart-noaccount-message':{'label':'No Account Message', 'type':'textarea'},
+                'cart-bottom-message':{'label':'Below Cart Message', 'type':'textarea'},
                 'cart-checkout-message':{'label':'Checkout Message', 'type':'textarea'},
                 'cart-payment-success-message':{'label':'Payment Success', 'type':'textarea'},
                 'cart-payment-success-emails':{'label':'Email Notifications', 'type':'text'},
@@ -344,9 +367,9 @@ function ciniki_wng_main() {
         'cartdonations':{'label':'Cart Donation Request', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' && M.modFlagOn('ciniki.sapos', 0x02000000) ? 'yes' : 'no'); },
             'fields':{
-                'cart-donation-message':{'label':'Message', 'type':'textarea'},
+                'cart-donation-message':{'label':'Message', 'type':'textarea', 'size':'small'},
                 'cart-donation-amounts':{'label':'Amounts', 'type':'text'},
-                'cart-donation-thankyou':{'label':'Thank You', 'type':'textarea'},
+                'cart-donation-thankyou':{'label':'Thank You', 'type':'textarea', 'size':'small'},
             }},
         //
         // Custom CSS
@@ -378,7 +401,7 @@ function ciniki_wng_main() {
         //
         // Meta Information
         //
-        'cartdonations':{'label':'Meta Tags', 'data':'settings',
+        'meta':{'label':'Meta Tags', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'meta' ? 'yes' : 'no'); },
             'fields':{
                 'meta-google-analytics-account':{'label':'Google Analytics', 'type':'text'},
@@ -514,7 +537,6 @@ function ciniki_wng_main() {
         }
         var p = M.ciniki_wng_main.site;
         p.data = rsp;
-        console.log(rsp);
         if( M.emWidth() < 70 ) {
             p.size = 'large';
             if( p.view == 'menu' ) {
@@ -754,7 +776,6 @@ function ciniki_wng_main() {
             //
             // Setup addDropImage for each field that requires it
             //
-            console.log(this.data);
             for(var i in this.sections._settings.fields) {
                 if( this.sections._settings.fields[i].type != null 
                     && this.sections._settings.fields[i].type == 'image_id'

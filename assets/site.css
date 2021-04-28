@@ -104,6 +104,18 @@ p {
 p:last-child {
     margin-bottom: 0em;
 }
+.alignright {
+    text-align: right;
+}
+.aligncenter {
+    text-align: center;
+}
+.alignleft {
+    text-align: left;
+}
+.clickable {
+    cursor: pointer;
+}
 
 .showat-30-em,
 .showat-40-em,

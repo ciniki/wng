@@ -27,7 +27,7 @@
 #                               0x02 - Footer
 #                               0x04 - 
 #                               0x08 -
-#                               0x10 - Primary section to handle module requests. 
+#                               0x10 - 
 #                               0x20 - 
 #                               0x40 - 
 #                               0x80 - 

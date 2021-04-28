@@ -13,7 +13,7 @@
 // Returns
 // -------
 //
-function ciniki_wng_page500Generate(&$ciniki, $tnid, $request) {
+function ciniki_wng_page500Generate(&$ciniki, $tnid, $request, $errors) {
 
     $content = '';
 
@@ -57,7 +57,6 @@ function ciniki_wng_page500Generate(&$ciniki, $tnid, $request) {
             $err = $err['err'];
         }
     }
-
     error_log($err_msg);
 
     //
