@@ -363,7 +363,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // FIXME: Add check for cookies
     //
 
-    error_log(print_r($_POST,true));
     //
     // Check if a item is being added to the cart
     //

@@ -166,7 +166,6 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
                     $fn = $rc['function_call'];
                     $rc = $fn($ciniki, $tnid, $request, $item);
                     if( $rc['stat'] == 'ok' && isset($rc['blocks']) ) {
-                        error_log('add blocks');
                         foreach($rc['blocks'] as $block) {
                             $blocks[] = $block;
                         }
