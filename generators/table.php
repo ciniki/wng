@@ -1,0 +1,77 @@
+<?php
+//
+// Description
+// -----------
+// table
+// 
+// Arguments
+// ---------
+// ciniki: 
+// tnid:            The ID of the current tenant.
+// 
+function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
+
+    $content = '';
+
+        
+    $content .= "<div class='block-table"
+        . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . "'>";
+    $content .= "<div class='wrap'>";
+    $content .= "<div class='content'>";
+
+    if( isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<h2>" . $block['title'] . "</h2>";
+    }
+
+    $content .= "<div class='table'>";
+    $content .= "<table>";
+    $num_cols = 0;
+    if( !isset($block['headers']) || $block['headers'] == 'yes' ) {
+        $content .= "<thead><tr>";
+        foreach($block['columns'] as $column) {
+            $content .= "<th" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">"
+                . $column['label']
+                . "</th>";
+            $num_cols++;
+        }
+        $content .= "</tr></thead>";
+    }
+    $content .= "<tbody>";
+    $count = 0;
+    foreach($block['rows'] as $row) {
+        $content .= "<tr>";
+        foreach($block['columns'] as $column) {
+            $content .= "<td" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
+            if( isset($column['strsub']) && $column['strsub'] != '' ) {
+                $value = $column['strsub'];
+                if( preg_match('/{_([a-zA-Z0-9_]+)_}/', $column['strsub'], $m) ) {
+                    foreach($m as $field) {
+                        if( isset($row[$field]) ) {
+                            $value = str_replace("{_{$field}_}", $row[$field], $value);
+                        } 
+                    }
+                }
+                $content .= $value;
+            }
+            if( isset($column['field']) && isset($row[$column['field']]) ) {
+                $content .= $row[$column['field']];
+            } 
+            $content .= "</td>";
+        }
+        $content .= "</tr>";
+        $count++;
+    }
+    if( $count == 0 && isset($block['empty']) ) {
+        $content .= "<tr><td class='empty' colspan='" . $num_cols . "'>" . $block['empty'] . "</td></tr>";
+    }
+    $content .= "</table>";
+    $content .= "</div>";
+
+    $content .= '</div>';
+    $content .= '</div>';
+    $content .= '</div>';
+
+    return array('stat'=>'ok', 'content'=>$content);
+}
+?>

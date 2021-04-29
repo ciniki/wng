@@ -173,6 +173,12 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "</td>";
 
+            if( isset($block['descriptions']) && $block['descriptions'] == 'yes' 
+                && isset($price['description']) && $price['description'] != '' 
+                ) {
+                $content .= "<tr class='description'><td colspan='3'>" . $price['description'] . "</td></tr>";
+            }
+
             $content .= "</tr>";
         }
 

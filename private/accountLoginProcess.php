@@ -108,9 +108,13 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request) {
                 }
 
                 //
+                // FIXME: Figure out what to do with email attached to multiple accounts
+                //
+
+                //
                 // If multiple accounts, setup the redirect upon choosing an account
                 //
-/*                if( isset($request['session']['customers']) && count($request['session']['customers']) > 1 
+                if( isset($request['session']['customers']) && count($request['session']['customers']) > 1 
                     && (!isset($settings['account-child-logins']) || $settings['account-child-logins'] == 'yes')
                     ) {
                     if( isset($settings['account-signin-redirect']) && ($settings['account-signin-redirect']) ) {
@@ -123,7 +127,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request) {
                 //
                 // Check for a redirect
                 //
-                else */if( isset($settings['account-signin-redirect']) ) {
+                elseif( isset($settings['account-signin-redirect']) ) {
                     if( $settings['account-signin-redirect'] == 'back' 
                         && isset($request['session']['login_referer']) && $request['session']['login_referer'] != '' 
                         ) {
@@ -136,6 +140,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request) {
                         return array('stat'=>'exit');
                     }
                 }
+
                 // No redirects, return ok for default page to show
                 return array('stat'=>'authenticated');
             }

@@ -1,0 +1,14 @@
+.block-table {
+    width: 100%;
+}
+.block-table .content {
+    padding: 1rem;
+}
+.block-table table {
+    width: 100%;
+    border: 1px solid #000;
+}
+.block-table th,
+.block-table td {
+    padding: 0.5em;
+}

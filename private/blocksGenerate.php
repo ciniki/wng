@@ -16,6 +16,12 @@ function ciniki_wng_blocksGenerate(&$ciniki, $tnid, &$request, $blocks) {
 
     $content = '';
     foreach($blocks as $block) {
+        if( !isset($block['type']) ) {
+            error_log('Broken Block');
+            error_log(print_r($block, true));
+            // Skip broken blocks;
+            continue;
+        }
         //
         // Load the generator for the block
         //

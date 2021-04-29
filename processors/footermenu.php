@@ -46,7 +46,7 @@ function ciniki_wng_processors_footermenu(&$ciniki, $tnid, &$request, $section) 
 
     $block = array(
         'type' => 'imagemenu',
-        'class' => 'footermenu',
+        'class' => 'footer-menu',
         'main-menu' =>  $mainmenu,
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         );

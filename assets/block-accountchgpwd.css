@@ -1,0 +1,24 @@
+.block-accountchgpwd .input label {
+    display: block;
+    width: 100%;
+    padding: 0.5em 0em;
+}
+.block-accountchgpwd .input input {
+    display: block;
+    width: 100%;
+}
+@media screen and (min-width: 40em) {
+    .block-accountchgpwd .content {
+        max-width: 40em;
+        margin: 0 auto;
+    }
+    .block-accountchgpwd .input label {
+        display: inline-block;
+        padding: 0.5em;
+        width: 30%;
+    }
+    .block-accountchgpwd .input input {
+        display: inline-block;
+        width: 70%;
+    }
+}

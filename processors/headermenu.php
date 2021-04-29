@@ -186,6 +186,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         'type' => 'imagemenu',
         'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
         'main-menu' =>  $mainmenu,
+        'class' => 'header-menu',
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         'hamburger-menu' =>  $hamburgermenu,
         );

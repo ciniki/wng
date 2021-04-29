@@ -320,7 +320,9 @@ function ciniki_wng_main() {
             'fields':{
                 'account-active':{'label':'Customer Logins', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
 //                'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-forgot-link-text':{'label':'Forgot Link Text', 'type':'text'},
+                'account-children-update':{'label':'Add/Remove Children', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
 //                'account-allowed-attempts':{'label':'Allowed Attempts', 'type':'text'},
 //                'account-lock-hours':{'label':'Lock Hours', 'type':'text'},
             }},
@@ -827,14 +829,14 @@ function ciniki_wng_main() {
                 var t_fid = i.replace(/page/, 'text');
                 var u_fid = i.replace(/page/, 'url');
                 var v = this.formValue(i);
-                if( this.sections._settings.fiels[u_fid] != null ) {
+                if( this.sections._settings.fields[u_fid] != null ) {
                     if( v != '' && v == 0 ) {
                         this.sections._settings.fields[u_fid].visible = 'yes';
                     } else {
                         this.sections._settings.fields[u_fid].visible = 'no';
                     }
                 }
-                if( this.sections._settings.fiels[t_fid] != null ) {
+                if( this.sections._settings.fields[t_fid] != null ) {
                     if( v != '' ) {
                         this.sections._settings.fields[t_fid].visible = 'yes';
                     } else {

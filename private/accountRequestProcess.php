@@ -24,6 +24,8 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         'url' => $request['ssl_domain_base_url'] . '/account',
         );
 
+    $blocks = array();
+
     //
     // Set no caching
     //
@@ -111,33 +113,24 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         return ciniki_wng_accountSwitchProcess($ciniki, $tnid, $request, $request['uri_split'][2]);
     }
 
-//    $request['response']['blocks'][] = array(
-//        'type' => 'html',
-//        'html' => "<pre>server" . print_r($_SERVER, true) . "</pre>",
-//        );
-    $request['response']['blocks'][] = array(
-        'type' => 'content',
-        'content' => "<br/></br><center>Account Page - Now logged in</center><br/><br/><br/>",
-        );
-    
-    return array('stat'=>'ok');
-
 //    print "<pre>" . print_r($request, true) . "</pre>";
 //    print "<pre>" . print_r($ciniki['tenant'], true) . "</pre>";
 //    exit;
 
     //
-    // Gather the submodule menu items
+    // Gather the account menu items
     //
-/*    $submenu = array();
+    $items = array();
     foreach($ciniki['tenant']['modules'] as $module => $m) {
         list($pkg, $mod) = explode('.', $module);
-        $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'web', 'accountSubMenuItems');
+        $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountMenuItems');
         if( $rc['stat'] == 'ok' ) {
             $fn = $rc['function_call'];
-            $rc = $fn($ciniki, $settings, $tnid);
-            if( $rc['stat'] == 'ok' && isset($rc['submenu']) ) {
-                $submenu = array_merge($submenu, $rc['submenu']);
+            $rc = $fn($ciniki, $tnid, $request, array(
+                'base_url' => $request['base_url'] . '/account',
+                ));
+            if( $rc['stat'] == 'ok' && isset($rc['items']) ) {
+                $items = array_merge($items, $rc['items']);
             }
         }
     }
@@ -145,191 +138,61 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Sort the menu items by priority
     //
-    usort($submenu, function($a, $b) {
+    usort($items, function($a, $b) {
         if( $a['priority'] == $b['priority'] ) {
             return 0;
         }
         // Sort so largest priority is top of list or first menu item
         return ($a['priority'] < $b['priority'])?1:-1;
     });
-*/
+
+    $blocks[] = array(
+        'type' => 'imagemenu',
+        'class' => 'account-menu',
+        'main-menu' => $items,
+        'toggle-em' => 'custom',
+        );
+
     //
-    // Check for a module to process the request
+    // Find the menu item to handle the request
     //
-    $requested_item = null;
-    $base_url = $request['base_url'] . '/account';
-    if( isset($request['uri_split'][0]) && $request['uri_split'][0] != '' ) {
-        $requested_page_url = $base_url . '/' . $request['uri_split'][0];
-        foreach($submenu as $item) {
-            if( strncmp($requested_page_url, $item['url'], strlen($requested_page_url)) == 0 ) {
-                $requested_item = $item;
+    if( isset($request['uri_split'][1]) ) {
+        $item_permalink = $request['base_url'] . '/account/' . $request['uri_split'][1];
+        foreach($items as $item) {
+            if( strncmp($item_permalink, $item['url'], strlen($item_permalink)) == 0 && isset($item['ref']) ) {
+                list($pkg, $mod, $method) = explode('.', $item['ref']);
+                $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountRequestProcess');
+                if( $rc['stat'] == 'ok' ) {
+                    $fn = $rc['function_call'];
+                    $rc = $fn($ciniki, $tnid, $request, $item);
+                    if( $rc['stat'] == 'ok' && isset($rc['blocks']) ) {
+                        error_log('add blocks');
+                        foreach($rc['blocks'] as $block) {
+                            $blocks[] = $block;
+                        }
+                    }
+                }
                 break;
             }
         }
     } 
-    //
-    // Nothing requested, default to the first item in the submenu
-    //
-    elseif( isset($submenu[0]) ) {
-        $requested_item = $submenu[0];
-        if( !isset($request['uri_split'][0]) ) {
-            $request['uri_split'] = explode('/', preg_replace('#' . $base_url . '#', '', $requested_item['url'], 1));
-            if( isset($request['uri_split'][0]) && $request['uri_split'][0] == '' ) {
-                array_shift($request['uri_split']);
-            }
-        }
-    } 
-
-    if( $requested_item == null ) {
-        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.web.13', 'msg'=>'Requested page not found.'));
-    }
 
     //
-    // Process the request
+    // Display default account page
     //
-    $content = '';
-    $rc = ciniki_core_loadMethod($ciniki, $requested_item['package'], $requested_item['module'], 'wng', 'accountProcessRequest');
-    if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.web.14', 'msg'=>'Requested page not found.', 'err'=>$rc['err']));
-    }
-    $fn = $rc['function_call'];
-    $rc = $fn($ciniki, $tnid, $request, array(
-        'page_title'=>'Account', 
-        'breadcrumbs'=>$breadcrumbs,
-        'base_url'=>$base_url,
-        ));
-    if( $rc['stat'] != 'ok' ) {
-        return $rc;
-    }
-    $page = $rc['page'];
-    if( isset($page['breadcrumbs']) ) {
-        $breadcrumbs = $page['breadcrumbs'];
+    else {
+        $blocks[] = array(
+            'type' => 'content',
+            'content' => "</br><center>Choose from the menu above to update your account.</center><br/><br/><br/>",
+            );
+
     }
 
-/*    //
-    // Check if a container class was set
-    //
-    if( isset($page['container-class']) && $page['container-class'] != '' ) {
-        if( !isset($ciniki['request']['page-container-class']) ) { 
-            $ciniki['request']['page-container-class'] = $page['container-class'];
-        } else {
-            $ciniki['request']['page-container-class'] .= ' ' . $page['container-class'];
-        }
-    } */
-
-    //
-    // Process the blocks of content before header incase require includes in header
-    //
-/*    $block_content = "<div class='entry-content'>\n";
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processBlocks');
-    if( isset($page['blocks']) ) {
-        $rc = ciniki_web_processBlocks($ciniki, $settings, $ciniki['request']['tnid'], $page['blocks']);
-        if( $rc['stat'] != 'ok' ) {
-            return $rc;
-        }
-        $block_content .= $rc['content'];
-    }
-    $block_content .= "</div>";
-    $block_content .= "</article>";
-
-    //
-    // Add the header
-    //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'generatePageHeader');
-    $rc = ciniki_web_generatePageHeader($ciniki, $settings, 'Account', $submenu);
-    if( $rc['stat'] != 'ok' ) { 
-        return $rc;
-    }
-    $page_content = $rc['content'];
+//    $blocks[] = array(
+//        'type' => 'html',
+//        'html' => "<pre>" . print_r($items, true) . "</pre>",
+//        );
     
-    //
-    // Check if article title and breadcrumbs should be displayed above content
-    //
-    if( (isset($settings['theme']['header-article-title']) && $settings['theme']['header-article-title'] == 'yes')
-        || (isset($settings['theme']['header-breadcrumbs']) && $settings['theme']['header-breadcrumbs'] == 'yes')
-        ) {
-        $page_content .= "<div class='page-header'>";
-        if( isset($settings['theme']['header-article-title']) && $settings['theme']['header-article-title'] == 'yes' ) {
-            $page_content .= "<h1 class='page-header-title'>" . $page['title'] . "</h1>";
-        }
-        if( isset($settings['theme']['header-breadcrumbs']) && $settings['theme']['header-breadcrumbs'] == 'yes' && isset($breadcrumbs) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processBreadcrumbs');
-            $rc = ciniki_web_processBreadcrumbs($ciniki, $settings, $ciniki['request']['tnid'], $breadcrumbs);
-            if( $rc['stat'] == 'ok' ) {
-                $page_content .= $rc['content'];
-            }
-        }
-        $page_content .= "</div>";
-    }
-
-    $page_content .= "<div id='content'>";
-
-    if( isset($settings['page-account-sidebar']) && $settings['page-account-sidebar'] == 'left' ) {
-        //
-        // Add the sidebar content
-        //
-        $page_content .= "<div class='sidebar-menu-toggle'>"
-            . "<button type='button' id='sidebar-menu-toggle' class='sidebar-menu-toggle'><i class='fa fa-bars'></i></button>"
-            . "</div>";
-        $page_content .= "<aside id='sidebar-menu' class='col-left-narrow sidebar-menu'>";
-        $page_content .= "<div class='aside-content sidebar-menu'>";
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processBlockMenu');
-        $rc = ciniki_web_processBlockMenu($ciniki, $settings, $ciniki['request']['tnid'], array('title'=>'', 'menu'=>$sidebar_menu));
-        if( $rc['stat'] != 'ok' ) {
-            return $rc;
-        }
-        $page_content .= $rc['content'];
-        $page_content .= "</div>";
-        $page_content .= "</aside>";
-
-        $page_content .= "<article class='page col-right-wide'>\n";
-    } elseif( isset($settings['page-account-sidebar']) && $settings['page-account-sidebar'] == 'right' ) {
-        $page_content .= "<article class='page col-left-wide'>\n";
-    } else {
-        $page_content .= "<article class='page'>\n";
-    }
-
-    $page_content .= "<header class='entry-title'><h1 id='entry-title' class='entry-title'>$article_title</h1></header>";
-
-    $page_content .= $block_content;
-
-    if( isset($settings['page-account-sidebar']) && $settings['page-account-sidebar'] == 'right' ) {
-        //
-        // Add the sidebar content
-        //
-        $page_content .= "<div class='sidebar-menu-toggle'>"
-            . "<button type='button' id='sidebar-menu-toggle' class='sidebar-menu-toggle'><i class='fa fa-bars'></i></button>"
-            . "</div>";
-        $page_content .= "<aside id='sidebar-menu' class='col-right-narrow sidebar-menu'>";
-        $page_content .= "<div class='aside-content sidebar-menu'>";
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processBlockMenu');
-        $rc = ciniki_web_processBlockMenu($ciniki, $settings, $ciniki['request']['tnid'], array('title'=>'', 'menu'=>$sidebar_menu));
-        if( $rc['stat'] != 'ok' ) {
-            return $rc;
-        }
-        $page_content .= $rc['content'];
-        $page_content .= "</div>";
-        $page_content .= "</aside>";
-    }
-
-    $page_content .= "</div>";
-
-    //
-    // Add the footer
-    //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'generatePageFooter');
-    $rc = ciniki_web_generatePageFooter($ciniki, $settings);
-    if( $rc['stat'] != 'ok' ) { 
-        return $rc;
-    }
-    $page_content .= $rc['content'];
-
-    $request['response']['blocks'][] = array(
-        'type' => 'content',
-        'content' => "<br/></br><center>Account Page - Not yet implemented</center><br/><br/><br/>",
-        );
-   */
-
-    return array('stat'=>'ok');
+    return array('stat'=>'ok', 'blocks'=>$blocks);
 }
 ?>
