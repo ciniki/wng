@@ -63,7 +63,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
         ) {
         $content .= '<title>' . $request['site']['settings']['header-site-title'] . '</title>';
     }
-    $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/favicon.png' type='image/png' />\n";
+    $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";
 
     //
     // Add CSS and javascript
