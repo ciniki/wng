@@ -111,6 +111,12 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     if( isset($request['page']['sections']) ) {
         foreach($request['page']['sections'] as $section) {
+            //
+            // Skip hidden sections
+            //
+            if( ($section['flags']&0x10) == 0x10 ) {
+                continue;
+            }
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionRequestProcess');
             $rc = ciniki_wng_sectionRequestProcess($ciniki, $tnid, $request, $section);
             if( $rc['stat'] == 'exit' ) {
