@@ -148,17 +148,17 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         } elseif( isset($content) && $content != '' ) {
             print $content;
         }
-        header("Connection: close");
         $contentlength = ob_get_length();
         header("Content-Length: $contentlength");
+        header("Connection: close");
         ob_end_flush();
-        ob_end_flush();
+        ob_flush();
         flush();
         session_write_close();
         while(ob_get_level() > 0) {
             ob_end_clean();
         }
-
+        error_log('processing mail queue');
         if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
             ciniki_core_emailQueueProcess($ciniki);

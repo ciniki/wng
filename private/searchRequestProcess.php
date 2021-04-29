@@ -22,4 +22,3 @@ function ciniki_wng_searchRequestProcess(&$ciniki, $tnid, &$request) {
     return array('stat'=>'ok');
 }
 ?>
-

@@ -497,7 +497,7 @@ function ciniki_wng_main() {
         }
         if( s == 'headersections' || s == 'pagesections' || s == 'footersections' ) {
             switch(j) {
-                case 0: return d.label;
+                case 0: return d.label + ((d.flags&0x10) == 0x10 ? ' (Hidden)' : '');
             }
         }
     }
@@ -744,6 +744,7 @@ function ciniki_wng_main() {
                 },
             'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'small'},
             'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
+            'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
             }},
         '_settings':{'label':'Settings', 'visible':'hidden', 'fields':{
             }},
@@ -826,15 +827,19 @@ function ciniki_wng_main() {
                 var t_fid = i.replace(/page/, 'text');
                 var u_fid = i.replace(/page/, 'url');
                 var v = this.formValue(i);
-                if( v != '' && v == 0 ) {
-                    this.sections._settings.fields[u_fid].visible = 'yes';
-                } else {
-                    this.sections._settings.fields[u_fid].visible = 'no';
+                if( this.sections._settings.fiels[u_fid] != null ) {
+                    if( v != '' && v == 0 ) {
+                        this.sections._settings.fields[u_fid].visible = 'yes';
+                    } else {
+                        this.sections._settings.fields[u_fid].visible = 'no';
+                    }
                 }
-                if( v != '' ) {
-                    this.sections._settings.fields[t_fid].visible = 'yes';
-                } else {
-                    this.sections._settings.fields[t_fid].visible = 'no';
+                if( this.sections._settings.fiels[t_fid] != null ) {
+                    if( v != '' ) {
+                        this.sections._settings.fields[t_fid].visible = 'yes';
+                    } else {
+                        this.sections._settings.fields[t_fid].visible = 'no';
+                    }
                 }
                 this.showHideFormField('_settings', t_fid);
                 this.showHideFormField('_settings', u_fid);
