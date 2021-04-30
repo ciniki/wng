@@ -52,7 +52,9 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
         
         $content .= "<table class='pricelist'>";
         foreach($block['prices'] as $pid => $price) {
-            $content .= "<tr class='price'>";
+            $content .= "<tr class='price"
+                . (isset($price['user-amount']) && $price['user-amount'] == 'yes' ? ' user-amount' : '')
+                . "'>";
             if( isset($price['name']) && $price['name'] != '' ) {
                 $content .= "<td class='label'>" . $price['name'] . "</td>";
             }
@@ -70,7 +72,7 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
             }
 
             // Apply the discounts
-            if( !isset($price['variable-amount']) || $price['variable-amount'] != 'yes' ) {
+            if( !isset($price['user-amount']) || $price['user-amount'] != 'yes' ) {
                 $content .= "<td class='amount'>";
                 if( $final_price != $price['unit_amount'] ) {
                     $content .= '<del>' . numfmt_format_currency($intl_currency_fmt, $price['unit_amount'], $intl_currency) . '</del>' . $discount . ' ';
@@ -117,7 +119,7 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
 */
             // Check if sold out
             $sold_out = '';
-            if( isset($price['variable-amount']) && $price['variable-amount'] == 'yes' ) {
+            if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
                 $content .= "<td class='buttons' colspan='2'>";
             } else {
                 $content .= "<td class='buttons'>";
@@ -145,10 +147,10 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 }
                 $content .= "<input type='hidden' name='final_price' value='" . $final_price . "'/>";
 
-                if( isset($price['variable-amount']) && $price['variable-amount'] == 'yes' ) {
+                if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
                     $content .= "<input type='hidden' name='quantity' value='1'/>"; 
-                    $content .= "<span class='variable-amount'>"
-                        . "<input class='variable-amount' name='user_amount' type='text' value='' placeholder='$25' size='8'/>"
+                    $content .= "<span class='user-amount'>"
+                        . "<input class='user-amount' name='user_amount' type='text' value='' placeholder='$25' size='8'/>"
                         . "</span>";
                 }
 
