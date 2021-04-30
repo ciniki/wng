@@ -44,7 +44,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // Check if special pages (Account, cart, search), must be at top level of site
     //
-    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) ) {
+    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) && $request['uri_split'][0] != '' ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountRequestProcess');
@@ -76,7 +76,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // If there is a url request and nothing handled it, return a 404 error
     //
-    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) ) {
+    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) && $request['uri_split'][0] != '' ) {
         //
         // No child page found, 404 error
         //
