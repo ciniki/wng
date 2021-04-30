@@ -81,7 +81,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
             elseif( preg_match("/^block-.*\.js/", $file) ) {
                 $js .= file_get_contents($asset_dir . '/' . $file);
             }
-            elseif( preg_match("/\.(jpg|png)$/", $file) 
+            elseif( preg_match("/\.(jpg|png|svg)$/", $file) 
                 && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
                 ) {
                 copy($theme_filename, $cache_filename);
@@ -111,7 +111,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
             while( ($file = readdir($dh)) !== false ) {
                 $theme_filename = $theme_dir . '/' . $file;
                 $cache_filename = $site['cache_dir'] . '/theme/' . $file;
-                if( preg_match("/\.(jpg|png)$/", $file) 
+                if( preg_match("/\.(jpg|png|svg)$/", $file) 
                     && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
                     ) {
                     copy($theme_filename, $cache_filename);
@@ -141,7 +141,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                 while( ($file = readdir($dh)) !== false ) {
                     $mod_filename = $mod_dir . '/wng/' . $file;
                     $cache_filename = $site['cache_dir'] . '/theme/' . $file;
-                    if( preg_match("/\.(jpg|png)$/", $file) 
+                    if( preg_match("/\.(jpg|png|svg)$/", $file) 
                         && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
                         ) {
                         copy($mod_filename, $cache_filename);
