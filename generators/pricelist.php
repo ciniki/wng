@@ -70,20 +70,22 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
             }
 
             // Apply the discounts
-            $content .= "<td class='amount'>";
-            if( $final_price != $price['unit_amount'] ) {
-                $content .= '<del>' . numfmt_format_currency($intl_currency_fmt, $price['unit_amount'], $intl_currency) . '</del>' . $discount . ' ';
-                $content .= numfmt_format_currency($intl_currency_fmt, $final_price, $intl_currency);
-                if( isset($request['settings']['cart-currency-display']) && $request['settings']['cart-currency-display'] == 'yes' ) {
-                    $content .= ' ' . $intl_currency;
+            if( !isset($price['variable-amount']) || $price['variable-amount'] != 'yes' ) {
+                $content .= "<td class='amount'>";
+                if( $final_price != $price['unit_amount'] ) {
+                    $content .= '<del>' . numfmt_format_currency($intl_currency_fmt, $price['unit_amount'], $intl_currency) . '</del>' . $discount . ' ';
+                    $content .= numfmt_format_currency($intl_currency_fmt, $final_price, $intl_currency);
+                    if( isset($request['settings']['cart-currency-display']) && $request['settings']['cart-currency-display'] == 'yes' ) {
+                        $content .= ' ' . $intl_currency;
+                    }
+                } else {
+                    $content .= numfmt_format_currency($intl_currency_fmt, $price['unit_amount'], $intl_currency);
+                    if( isset($request['settings']['cart-currency-display']) && $request['settings']['cart-currency-display'] == 'yes' ) {
+                        $content .= ' ' . $intl_currency;
+                    }
                 }
-            } else {
-                $content .= numfmt_format_currency($intl_currency_fmt, $price['unit_amount'], $intl_currency);
-                if( isset($request['settings']['cart-currency-display']) && $request['settings']['cart-currency-display'] == 'yes' ) {
-                    $content .= ' ' . $intl_currency;
-                }
+                $content .= "</td>";
             }
-            $content .= "</td>";
         
             //
             // Check if display stock level
@@ -115,7 +117,11 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
 */
             // Check if sold out
             $sold_out = '';
-            $content .= "<td class='buttons'>";
+            if( isset($price['variable-amount']) && $price['variable-amount'] == 'yes' ) {
+                $content .= "<td class='buttons' colspan='2'>";
+            } else {
+                $content .= "<td class='buttons'>";
+            }
             if( isset($price['limited_units']) && isset($price['units_available']) 
                 && $price['limited_units'] == 'yes' && $price['units_available'] < 1 
                 ) {
@@ -128,7 +134,7 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 && isset($request['site']['settings']['cart-active']) 
                 && $request['site']['settings']['cart-active'] == 'yes'
                 && isset($ciniki['tenant']['modules']['ciniki.sapos']) 
-                && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08)
+                && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08)  // Shopping cart enabled
                 ) {
                 $content .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
                 $content .= "<input type='hidden' name='action' value='add'/>";
@@ -138,6 +144,14 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                     $content .= "<input type='hidden' name='price_id' value='" . $price['price_id'] . "'/>";
                 }
                 $content .= "<input type='hidden' name='final_price' value='" . $final_price . "'/>";
+
+                if( isset($price['variable-amount']) && $price['variable-amount'] == 'yes' ) {
+                    $content .= "<input type='hidden' name='quantity' value='1'/>"; 
+                    $content .= "<span class='variable-amount'>"
+                        . "<input class='variable-amount' name='user_amount' type='text' value='' placeholder='$25' size='8'/>"
+                        . "</span>";
+                }
+
                 // Check what time of field the quantity should be based on how many are available
                 /*if( isset($price['limited_units']) && $price['limited_units'] == 'yes' 
                     && isset($price['units_available']) && $price['units_available'] > 1 
@@ -148,8 +162,8 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                         $content .= "<option value='$i'>$i</option>";
                     }
                     $content .= "</select></span>";
-                }
-                else*/if( isset($price['limited_units']) && $price['limited_units'] == 'yes' 
+                } */
+                elseif( isset($price['limited_units']) && $price['limited_units'] == 'yes' 
                     && isset($price['limited_units']) && $price['units_available'] == 1 ) {
                     $content .= "<input type='hidden' name='quantity' value='1'/>"; 
                 }
