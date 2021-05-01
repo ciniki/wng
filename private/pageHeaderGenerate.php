@@ -101,21 +101,22 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     $content .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">' . "\n";
     $content .= '<meta charset="UTF-8">' . "\n";
 
-/*    if( isset($settings['site-google-site-verification']) 
-        && $settings['site-google-site-verification'] != '' 
+    if( isset($request['site']['settings']['meta-google-site-verification']) 
+        && $request['site']['settings']['meta-google-site-verification'] != '' 
         ) {
-        $content .= '<meta name="google-site-verification" content="' . $settings['site-google-site-verification'] . '"/>' . "\n";
+        $content .= '<meta name="google-site-verification" content="' . $request['site']['settings']['meta-google-site-verification'] . '"/>' . "\n";
     }
-    if( isset($settings['site-pinterest-site-verification']) 
-        && $settings['site-pinterest-site-verification'] != '' 
+    if( isset($request['site']['settings']['meta-pinterest-site-verification']) 
+        && $request['site']['settings']['meta-pinterest-site-verification'] != '' 
         ) {
-        $content .= '<meta name="p:domain_verify" content="' . $settings['site-pinterest-site-verification'] . '"/>' . "\n";
+        $content .= '<meta name="p:domain_verify" content="' . $request['site']['settings']['meta-pinterest-site-verification'] . '"/>' . "\n";
     }
 
-    if( isset($settings['site-meta-robots']) 
-        && $settings['site-meta-robots'] != '' 
+/*
+    if( isset($request['site']['settings']['site-meta-robots']) 
+        && $request['site']['settings']['site-meta-robots'] != '' 
         ) {
-        $content .= '<meta name="robots" content="' . $settings['site-meta-robots'] . '"/>' . "\n";
+        $content .= '<meta name="robots" content="' . $request['site']['settings']['site-meta-robots'] . '"/>' . "\n";
     }
 */
     //
@@ -145,10 +146,12 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Include google analytics
     //
-    if( isset($settings['site-google-analytics-account']) && $settings['site-google-analytics-account'] != '' ) {
+    error_log('check');
+    if( isset($request['site']['settings']['meta-google-analytics-account']) && $request['site']['settings']['meta-google-analytics-account'] != '' ) {
+        error_log('insert');
         $content .= "<script type='text/javascript'>\n"
             . "var _gaq = _gaq || [];\n"
-            . "_gaq.push(['_setAccount', '" . $settings['site-google-analytics-account'] . "']);\n"
+            . "_gaq.push(['_setAccount', '" . $request['site']['settings']['meta-google-analytics-account'] . "']);\n"
             . "_gaq.push(['_trackPageview']);\n"
             . "(function() {\n"
                 . "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n"
@@ -162,13 +165,13 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Include google tag manager
     //
-    if( isset($settings['site-google-gtm-code']) && $settings['site-google-gtm-code'] != '' ) {
+    if( isset($request['site']['settings']['google-gtm-code']) && $request['site']['settings']['google-gtm-code'] != '' ) {
         $content .= "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
             . "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
             . "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src="
             . "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);"
             . "})(window,document,'script','dataLayer','"
-                . $settings['site-google-gtm-code'] 
+                . $request['site']['settings']['google-gtm-code'] 
             . "');</script>"
             . "";
     }
@@ -176,7 +179,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Include facebook pixel
     //
-    if( isset($settings['site-facebook-pixel-id']) && $settings['site-facebook-pixel-id'] != '' ) {
+    if( isset($request['site']['settings']['facebook-pixel-id']) && $request['site']['settings']['facebook-pixel-id'] != '' ) {
         $content .= "<script>"
             . "!function(f,b,e,v,n,t,s)"
             . "{if(f.fbq)return;n=f.fbq=function(){n.callMethod?"
@@ -186,7 +189,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             . "t.src=v;s=b.getElementsByTagName(e)[0];"
             . "s.parentNode.insertBefore(t,s)}(window,document,'script',"
             . "'https://connect.facebook.net/en_US/fbevents.js');"
-            . "fbq('init', '" . $settings['site-facebook-pixel-id'] . "');"
+            . "fbq('init', '" . $request['site']['settings']['facebook-pixel-id'] . "');"
             . "fbq('track', 'PageView');"
             . "</script>\n"
             . "";
