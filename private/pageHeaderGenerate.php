@@ -146,9 +146,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Include google analytics
     //
-    error_log('check');
     if( isset($request['site']['settings']['meta-google-analytics-account']) && $request['site']['settings']['meta-google-analytics-account'] != '' ) {
-        error_log('insert');
         $content .= "<script type='text/javascript'>\n"
             . "var _gaq = _gaq || [];\n"
             . "_gaq.push(['_setAccount', '" . $request['site']['settings']['meta-google-analytics-account'] . "']);\n"
