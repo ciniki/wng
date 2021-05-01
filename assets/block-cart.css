@@ -34,6 +34,9 @@
     }
 }
 @media screen and (min-width: 50em) {
+    .block-cart .details tbody {
+        display: flex;
+    }
     .block-cart .shipto .details tr {
         display: inline-block;
         width: 50%;
