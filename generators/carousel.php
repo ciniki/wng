@@ -51,7 +51,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='item {$class}'>";
             $content .= "<div class='item-wrap'>";
-            if( isset($item['url']) ) {
+            if( isset($item['url']) && $item['url'] != '' ) {
                 $content .= "<a href='" . $item['url'] . "' />";
             }
             $content .= "<div class='image' style='background:url(" . $rc['url'] . ") "

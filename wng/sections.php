@@ -453,7 +453,14 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         );
 
-    $sections['ciniki.wng.contactform'] = array(
+    $sections['ciniki.wng.title'] = array(
+        'name'=>'Title',
+        'module' => 'Website',
+        'settings'=>array(
+            'title'=>array('label'=>'Title', 'type'=>'text'),
+            ),
+        ); 
+/*    $sections['ciniki.wng.contactform'] = array(
         'name'=>'Contact Form',
         'module' => 'Website',
         'settings'=>array(
@@ -464,7 +471,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'yes' => 'Yes',
                 )),
             ),
-        );
+        ); */
 
     return array('stat'=>'ok', 'sections'=>$sections);
 }
