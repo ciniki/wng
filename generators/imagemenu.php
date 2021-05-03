@@ -42,7 +42,11 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='image-wrap"
             . (isset($block['image-toggle-em']) && $block['image-toggle-em'] != '' ? ' hideat-' . $block['image-toggle-em'] . '-em': '')
             . "'>";
-        $content .= "<a href='" . $request['base_url'] . "'>";
+        if( $request['base_url'] == '' ) {
+            $content .= "<a href='/'>";
+        } else {
+            $content .= "<a href='" . $request['base_url'] . "'>";
+        }
         $content .= "<img alt='Home' src='" . $rc['url'] . "' />";
         $content .= "</a>";
         $content .= '</div>';
