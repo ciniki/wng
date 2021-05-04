@@ -16,6 +16,7 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
   
     $target = '';
     $display_url = preg_replace("/^\s*https?:\/\//", '', $url);
+    $display_url = preg_replace("/\/\s*$/", '', $display_url);
     if( $page_id > 0 && isset($request['site']['pages'][$page_id]['path']) ) {
         $url = $request['base_url'] . $request['site']['pages'][$page_id]['path'];
         $display_url = $request['site']['pages'][$page_id]['title'];
@@ -35,6 +36,7 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
         $display_url = $url;
         $url = "http://" . $url;
     } 
+
 
     //
     // Check if the url is a email address, without the mailto

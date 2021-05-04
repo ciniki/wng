@@ -288,7 +288,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
 
     for($i = 1; $i <= 10; $i++) {
         $sections['ciniki.wng.listphoto']['settings']["text-{$i}"] = array(
-            'label'=>'Text', 'type'=>'textarea', 'size'=>'small', 'separator'=>'yes',
+            'label'=>"Item {$i}", 'type'=>'textarea', 'size'=>'small', 'separator'=>'yes',
             );
         $sections['ciniki.wng.listphoto']['settings']["link-{$i}-page"] = array(
             'label'=>'Link to', 'type'=>'select', 'pages'=>'yes', 
