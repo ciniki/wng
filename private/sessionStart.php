@@ -21,6 +21,15 @@ function ciniki_wng_sessionStart(&$ciniki, $tnid, &$request) {
     //
     if( isset($_SESSION['tnid']) && $_SESSION['tnid'] == $tnid ) {
         $request['session'] = $_SESSION;
+        if( !isset($request['session']['tnid']) ) {
+            $request['session']['tnid'] = $tnid;
+        }
+        if( !isset($request['session']['user']['id']) ) {
+            $request['session']['user']['id'] = -2;
+        }
+        if( !isset($request['session']['change_log_id']) ) {
+            $request['session']['change_log_id'] = 'web.' . date('Ymd.His');
+        }
     } 
     else {
         $request['session'] = array(
