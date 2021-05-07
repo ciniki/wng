@@ -185,6 +185,36 @@ if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
             }
         }
     }
+    //
+    // Check if domain is a forward
+    //
+    if( $site != null ) {
+        $strsql = "SELECT domains.domain, "
+            . "domains.flags "
+            . "FROM ciniki_tenant_domains AS aliases "
+            . "INNER JOIN ciniki_tenant_domains AS domains ON ("
+                . "aliases.parent_id = domains.id "
+                . "AND aliases.tnid = domains.tnid "
+                . "AND domains.status = 1 "
+                . ") "
+            . "WHERE aliases.domain = '" . ciniki_core_dbQuote($ciniki, $_SERVER['HTTP_HOST']) . "' "
+            . "AND aliases.status = 1 "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'alias');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.6', 'msg'=>'Unable to load sites', 'err'=>$rc['err']));
+        }
+        if( isset($rc['alias']['domain']) && $rc['alias']['domain'] != '' ) {
+            Header('HTTP/1.1 301 Moved Permanently'); 
+            if( ($rc['alias']['flags']&0x10) == 0x10 ) {
+                header('Location: https://' . $rc['alias']['domain'] . $_SERVER['REQUEST_URI']);
+            } else {
+                header('Location: http://' . $rc['alias']['domain'] . $_SERVER['REQUEST_URI']);
+            }
+            exit;
+        }
+    }
+
     if( $site != null ) {
         $request['domain'] = $site['domain'];
     }
