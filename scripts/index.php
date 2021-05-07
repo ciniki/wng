@@ -185,10 +185,11 @@ if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
             }
         }
     }
+
     //
-    // Check if domain is a forward
+    // Nothing found, Check if domain is a forward
     //
-    if( $site != null ) {
+    if( $site == null ) {
         $strsql = "SELECT domains.domain, "
             . "domains.flags "
             . "FROM ciniki_tenant_domains AS aliases "
