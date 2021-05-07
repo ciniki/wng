@@ -34,7 +34,7 @@
 #                               ...
 #                               0x80000000 - 
 #
-# theme:                    The name of the theme used by the site. **future**
+# theme:                    The directory name to look in each module for theme files (css, js, images)
 #
 # date_added:               The UTC date and time the record was added.
 # last_updated:             The UTC date and time the record was last update.

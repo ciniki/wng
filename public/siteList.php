@@ -55,7 +55,8 @@ function ciniki_wng_siteList($ciniki) {
         . "sites.domain_id, "
         . "domains.domain, "
         . "sites.permalink, "
-        . "sites.flags "
+        . "sites.flags, "
+        . "sites.theme "
         . "FROM ciniki_wng_sites AS sites "
         . "LEFT JOIN ciniki_tenant_domains AS domains ON ( "
             . "sites.domain_id = domains.id "
@@ -66,7 +67,7 @@ function ciniki_wng_siteList($ciniki) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
     $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.wng', array(
         array('container'=>'sites', 'fname'=>'id', 
-            'fields'=>array('id', 'name', 'status', 'status_text', 'domain_id', 'domain', 'permalink', 'flags'),
+            'fields'=>array('id', 'name', 'status', 'status_text', 'domain_id', 'domain', 'permalink', 'flags', 'theme'),
             'maps'=>array('status_text'=>$maps['site']['status']),
             ),
         ));

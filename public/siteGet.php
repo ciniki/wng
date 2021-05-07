@@ -63,6 +63,7 @@ function ciniki_wng_siteGet($ciniki) {
             'domain_id'=>'',
             'permalink'=>'',
             'flags'=>'0',
+            'theme'=>'',
         );
     }
 
@@ -75,7 +76,8 @@ function ciniki_wng_siteGet($ciniki) {
             . "ciniki_wng_sites.status, "
             . "ciniki_wng_sites.domain_id, "
             . "ciniki_wng_sites.permalink, "
-            . "ciniki_wng_sites.flags "
+            . "ciniki_wng_sites.flags, "
+            . "ciniki_wng_sites.theme "
             . "FROM ciniki_wng_sites "
             . "WHERE ciniki_wng_sites.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
             . "AND ciniki_wng_sites.id = '" . ciniki_core_dbQuote($ciniki, $args['site_id']) . "' "
@@ -83,7 +85,7 @@ function ciniki_wng_siteGet($ciniki) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
         $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.wng', array(
             array('container'=>'sites', 'fname'=>'id', 
-                'fields'=>array('name', 'status', 'domain_id', 'permalink', 'flags'),
+                'fields'=>array('name', 'status', 'domain_id', 'permalink', 'flags', 'theme'),
                 ),
             ));
         if( $rc['stat'] != 'ok' ) {

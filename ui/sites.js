@@ -77,6 +77,7 @@ function ciniki_wng_sites() {
                 'complex_options':{'value':'id', 'name':'domain'},
                 },
             'flags':{'label':'Options', 'type':'flags', 'flags':{'1':{'name':'Default'}}},
+            'theme':{'label':'Theme', 'type':'text'},
             }},
         '_buttons':{'label':'', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_sites.site.save();'},
@@ -98,7 +99,6 @@ function ciniki_wng_sites() {
             }
             var p = M.ciniki_wng_sites.site;
             p.data = rsp.site;
-            console.log(rsp);
             p.sections.general.fields.domain_id.options = rsp.domains;
             p.refresh();
             p.show(cb);

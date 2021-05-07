@@ -94,37 +94,6 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     //
 
     //
-    // Check if there is a theme defined to be applied on top of core theme.
-    // **Note**: This is not implemented but a placeholder for the future.
-    //
-    if( isset($site['theme']) && $site['theme'] != '' ) {
-        $theme = $site['theme'];
-        $theme_dir = $ciniki['config']['ciniki.core']['modules_dir'] . '/wng/themes/' . $theme;
-        $css = '';
-        if( file_exists($theme_dir . '/style.css') ) {
-            $css .= file_get_contents($theme_dir . '/style.css');
-        }
-        if( file_exists($theme_dir . '/site.js') ) {
-            $css .= file_get_contents($theme_dir . '/site.js');
-        }
-        if( ($dh = opendir($theme_dir)) !== false ) {
-            while( ($file = readdir($dh)) !== false ) {
-                $theme_filename = $theme_dir . '/' . $file;
-                $cache_filename = $site['cache_dir'] . '/theme/' . $file;
-                if( preg_match("/\.(jpg|png|svg)$/", $file) 
-                    && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
-                    ) {
-                    copy($theme_filename, $cache_filename);
-                }
-            }
-        }
-    }
-
-    //
-    // FIXME: Apply the theme settings
-    //
-
-    //
     // Check for any modules with additional css or js files
     //
     foreach($ciniki['tenant']['modules'] as $module) {
@@ -132,6 +101,10 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
         // Check if the module has the file wng/site.csss
         //
         $mod_dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $module['package'] . '-mods/' . $module['module']; 
+        if( !file_exists($mod_dir . '/wng') ) {
+            // Skip if no wng directory in module
+            continue;
+        }
         if( file_exists($mod_dir . '/wng/site.css') ) {
             $css .= file_get_contents($mod_dir . '/wng/site.css');
             //
@@ -152,8 +125,38 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
         if( file_exists($mod_dir . '/wng/site.js') ) {
             $js .= file_get_contents($mod_dir . '/wng/site.js');
         }
+
+        //
+        // Check if theme directory exists in module
+        //
+        if( isset($site['theme']) && $site['theme'] != '' && file_exists($mod_dir . '/wng/' . $site['theme']) ) {
+            if( file_exists($mod_dir . '/wng/' . $site['theme'] . '/site.css') ) {
+                $css .= file_get_contents($mod_dir . '/wng/' . $site['theme'] . '/site.css');
+                //
+                // Check for any images that need to be copied
+                //
+                if( ($dh = opendir($mod_dir . '/wng/' . $site['theme'])) !== false ) {
+                    while( ($file = readdir($dh)) !== false ) {
+                        $mod_filename = $mod_dir . '/wng/' . $site['theme'] . '/' . $file;
+                        $cache_filename = $site['cache_dir'] . '/theme/' . $file;
+                        if( preg_match("/\.(jpg|png|svg)$/", $file) 
+                            && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
+                            ) {
+                            copy($mod_filename, $cache_filename);
+                        }
+                    }
+                }
+            }
+            if( file_exists($mod_dir . '/wng/' . $site['theme'] . '/site.js') ) {
+                $js .= file_get_contents($mod_dir . '/wng/' . $site['theme'] . '/site.js');
+            }
+        }
     }
 
+    //
+    // Check if specific theme file for this website
+    //
+    
 
     //
     // Apply the theme-css-overrides settings
