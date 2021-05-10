@@ -158,7 +158,6 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         while(ob_get_level() > 0) {
             ob_end_clean();
         }
-        error_log('processing mail queue');
         if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
             ciniki_core_emailQueueProcess($ciniki);

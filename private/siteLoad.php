@@ -153,6 +153,11 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
             }
         }
     }
+    if( $add_homepage_id > 0 ) {
+        $site['headermenu'][] = $add_homepage_id;
+        $site['footermenu'][] = $add_homepage_id;
+        $add_homepage_id = 0;
+    }
 
     //
     // Remove the Home from footermenu if only item in menu
