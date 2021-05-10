@@ -140,7 +140,7 @@ function ciniki_wng_main() {
                 'title':{'label':'Menu Title', 'required':'yes', 'type':'text'},
                 'page_title':{'label':'Page Title', 'type':'text'},
                 'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
-                'menu_flags':{'label':'Menu Options', 'type':'flags', 
+                'menu_flags':{'label':'Menu Options', 'type':'flags', 'field':'menu_flags',
                     'visible':function() { 
                         if( M.ciniki_wng_main.site.data.page != null 
                             && M.ciniki_wng_main.site.data.page.parent_id == M.ciniki_wng_main.site.data.site.homepage_id 
@@ -464,6 +464,9 @@ function ciniki_wng_main() {
             }
             return '';
         }
+        if( s == '' ) {
+            return this.data.page != null ? this.data.page[i] : '';
+        }
         return this.data[i];
     }
     this.site.switchTab = function(t) {
@@ -492,9 +495,10 @@ function ciniki_wng_main() {
         return '';
     }
     this.site.cellValue = function(s, i, j, d) {
+        console.log(d);
         if( s == 'headerpages' || s == 'footerpages' || s == 'orphanpages' ) {
             switch(j) {
-                case 0: return d.name;
+                case 0: return d.name + ((d.flags&0x01) == 0 ? ' (Hidden)' : '');
             }
         }
         if( s == 'headersections' || s == 'pagesections' || s == 'footersections' ) {

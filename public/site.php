@@ -136,7 +136,11 @@ function ciniki_wng_site($ciniki) {
                 $indent .= ' - ';
             }
             if( !in_array($page_id, $skiplist) ) {
-                $pages[] = array('id' => $page_id, 'name' => $indent . $sitepages[$page_id]['title']);
+                $pages[] = array(
+                    'id' => $page_id, 
+                    'name' => $indent . $sitepages[$page_id]['title'],
+                    'flags' => $sitepages[$page_id]['flags'],
+                    );
             }
             // Do not follow children of home page
             if( isset($sitepages[$page_id]['children']) 
