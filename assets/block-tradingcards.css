@@ -1,0 +1,19 @@
+.block-tradingcards .content {
+    width: 100%;
+}
+.block-tradingcards .items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem;
+    justify-content: space-evenly;
+}
+.block-tradingcards .item {
+    min-width: 17rem;
+    max-width: 17rem;
+    margin: 1rem;
+}
+.block-tradingcards .image {
+    min-height: 17rem;
+    max-width: 100%;
+}
