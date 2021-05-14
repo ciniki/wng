@@ -495,7 +495,6 @@ function ciniki_wng_main() {
         return '';
     }
     this.site.cellValue = function(s, i, j, d) {
-        console.log(d);
         if( s == 'headerpages' || s == 'footerpages' || s == 'orphanpages' ) {
             switch(j) {
                 case 0: return d.name + ((d.flags&0x01) == 0 ? ' (Hidden)' : '');
