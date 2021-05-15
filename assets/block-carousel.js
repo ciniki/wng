@@ -1,16 +1,16 @@
 C.carousel = {
-    cur: 0,
-    delay: 0,
-    timer: null,
-    prev: function() {
-        this.open(C.carousel.cur-1);
+    cur: {},
+    delay: {},
+    timer: {},
+    prev: function(id) {
+        this.open(id,C.carousel.cur[id]-1);
     },
-    next: function() {
-        this.open(C.carousel.cur+1);
+    next: function(id) {
+        this.open(id,C.carousel.cur[id]+1);
     },
-    open: function(i) {
-        clearTimeout(this.timer);
-        var e = C.gE('carousel-items');
+    open: function(id,i) {
+        clearTimeout(this.timer[id]);
+        var e = C.gE('carousel-items-'+id);
         var max = (e.children.length - 1);
         if( i < 0 ) {
             i = max;
@@ -28,14 +28,17 @@ C.carousel = {
                 e.children[j].className = 'item';
             }
         }
-        this.cur = i;
-        if( this.delay > 0 ) {
-            this.timer = setTimeout(function(){C.carousel.next();},this.delay);
+        this.cur[id] = i;
+        if( this.delay[id] > 0 ) {
+            this.timer[id] = setTimeout(function(){C.carousel.next(id);},this.delay[id]);
         }
     },
-    start: function(e,d) {
-        this.delay = d;
+    start: function(e,id,d) {
+        this.cur[id] = 0;
+        this.delay[id] = d;
         /* Add extra delay for first slide, give time to get everything loaded */
-        this.timer = setTimeout(function(){C.carousel.next();},(d+3000));
+        if( d > 0 ) {
+            this.timer[id] = setTimeout(function(){C.carousel.next(id);},(d+3000));
+        }
     }
 };

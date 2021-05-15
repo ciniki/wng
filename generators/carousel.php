@@ -9,7 +9,7 @@
 // ciniki: 
 // tnid:            The ID of the current tenant.
 // 
-function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
+function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
    
@@ -21,11 +21,18 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
         return array('stat'=>'ok', 'content'=>'');
     }
 
+    //
+    // Use the sequence number to give each carousel a unique id which 
+    // allows several carousels on the same page
+    //
+    $carousel_id = isset($block['sequence']) ? $block['sequence'] : 1;
+
     $content .= "<div class='block-carousel"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";
-    $content .= "<div class='content' id='carousel-items'>";
+    $content .= "<div class='content' id='carousel-items-{$carousel_id}'>";
+
 
     $class = 'current';
     foreach($block['items'] as $iid => $item) {
@@ -54,18 +61,25 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
             if( isset($item['url']) && $item['url'] != '' ) {
                 $content .= "<a href='" . $item['url'] . "' />";
             }
-            $content .= "<div class='image' style='background:url(" . $rc['url'] . ") "
+            $content .= "<div class='image' style='background:#fff url(" . $rc['url'] . ") "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
-                . "; background-size:cover;'>";
+                . ";";
+            if( isset($block['padded']) && $block['padded'] == 'yes' ) {
+                $content .= "background-size:contain;background-repeat:no-repeat;";
+            } else {
+                $content .= "background-size:cover;";
+            }
+            $content .= "'>";
 //            $content .= "<img alt='" . (isset($image['title']) ? $image['title'] : '') . "' src='" . $rc['url'] . "'>";
     
-            if( isset($block['titles']) && $block['titles'] == 'yes' ) {
+            $content .= "<div class='text-overlay'>";
+            if( isset($block['titles']) && $block['titles'] == 'yes' && isset($item['title']) && $item['title'] != '' ) {
                 $content .= "<div class='title'>";
-                if( isset($item['title']) ) {
+//                if( isset($item['title']) ) {
                     $content .= $item['title'];
-                } else {
-                    $content .= '&nbsp;';
-                }
+//                } else {
+//                    $content .= '&nbsp;';
+//                }
                 $content .= '</div>';
             }
             if( isset($item['content']) && $item['content'] != '' ) {
@@ -75,6 +89,8 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
                 }
                 $content .= "<div class='text'>" . $rc['content'] . "</div>";
             }
+            $content .= '</div>';
+
             $content .= '</div>';
 
             if( isset($item['url']) ) {
@@ -100,13 +116,13 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='buttons'>";
 
         $content .= "<div class='button-wrap prev'>";
-        $content .= "<div class='button' onclick='C.carousel.prev();'>";
+        $content .= "<div class='button' onclick='C.carousel.prev({$carousel_id});'>";
         $content .= '<svg viewBox="0 0 80 80" stroke="#fff" fill="none"><polyline stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="50,70 20,40 50,10"/></svg>';
         $content .= "</div>";
         $content .= '</div>';
 
         $content .= "<div class='button-wrap next'>";
-        $content .= "<div class='button' onclick='C.carousel.next();'>";
+        $content .= "<div class='button' onclick='C.carousel.next({$carousel_id});'>";
         $content .= '<svg viewBox="0 0 80 80" stroke="#fff" fill="none"><polyline stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="30,70 60,40 30,10"/></svg>';
         $content .= "</div>";
         $content .= '</div>';
@@ -127,20 +143,25 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, $request, $block) {
     $js = '';
     if( isset($block['speed']) && $block['speed'] != 'none' ) {
         if( $block['speed'] == 'xslow' ) {
-            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,20000);});";
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},20000);});";
         } 
         elseif( $block['speed'] == 'slow' ) {
-            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,15000);});";
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},15000);});";
         }
         elseif( $block['speed'] == 'medium' ) {
-            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,10000);});";
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},10000);});";
         }
         elseif( $block['speed'] == 'fast' ) {
-            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,6000);});";
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},6000);});";
         }
         elseif( $block['speed'] == 'xfast' ) {
-            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,3000);});";
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},3000);});";
+        } 
+        else {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},0);});";
         }
+    } else {
+        $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},0);});";
     }
 
     return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);

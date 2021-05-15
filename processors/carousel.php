@@ -37,6 +37,7 @@ function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
     $blocks[] = array(
         'type' => 'carousel',
         'titles' => $titles,
+        'sequence' => $section['sequence'],
         'speed' => isset($s['speed']) ? $s['speed'] : 'medium',
         'items' => $items,
         );
