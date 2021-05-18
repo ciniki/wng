@@ -52,10 +52,14 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         }
 
         $content .= "<div class='content-wrap'>"; 
-        if( isset($block['title']) && $block['title'] != '' ) {
+        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+            $content .= "<h1>" . $block['title'] . "</h1>";
+        } elseif( isset($block['title']) && $block['title'] != '' ) {
             $content .= "<h2>" . $block['title'] . "</h2>";
         }
-        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            $content .= "<h2>" . $block['subtitle'] . "</h2>";
+        } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
             $content .= "<h3>" . $block['subtitle'] . "</h3>";
         }
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');

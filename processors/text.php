@@ -18,6 +18,7 @@ function ciniki_wng_processors_text(&$ciniki, $tnid, &$request, $section) {
 
     if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
         $section['settings']['type'] = 'text';
+        $section['settings']['sequence'] = $section['sequence'];
         $blocks[] = $section['settings'];
     }
 
