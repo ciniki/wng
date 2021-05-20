@@ -24,7 +24,8 @@ function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
                 'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '&nbsp;',
-                'url' => isset($s["url-{$i}"]) ? $s["url-{$i}"] : '',
+                'page' => isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0,
+                'url' => isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : '',
                 'image-position' => isset($s["image-position-{$i}"]) ? str_replace('-', ' ', $s["image-position-{$i}"]) : 'center center',
                 'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 );

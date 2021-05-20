@@ -21,7 +21,7 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     // Load everything about the site needed for header, menu, breadcrumbs and footer
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
-    $rc = ciniki_wng_siteLoad($ciniki, $tnid, $request['site_id']);
+    $rc = ciniki_wng_siteLoad($ciniki, $tnid, $request['site_id'], 'yes');
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.9', 'msg'=>'Unable to load site', 'err'=>$rc['err']));
     }
@@ -65,7 +65,7 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         && $ciniki['config']['ciniki.wng']['cache.rebuild'] == 'always'
         ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheRebuild');
-        $rc = ciniki_wng_cacheRebuild($ciniki, $tnid, $request['site']['id']);
+        $rc = ciniki_wng_cacheRebuild($ciniki, $tnid, $request['site']);
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.66', 'msg'=>'Unable to rebuild cache', 'err'=>$rc['err']));
         }
@@ -79,13 +79,19 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.10', 'msg'=>'Site not setup', 'err'=>$rc['err']));
     }
-    
+
     //
     // Process the page, generate appropriate error page if required
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pageRequestProcess');
     $rc = ciniki_wng_pageRequestProcess($ciniki, $tnid, $request, $request['site']['homepage_id']);
-    if( $rc['stat'] == 'ok' ) {
+    if( $rc['stat'] == 'ok' && isset($rc['json']) && $rc['json'] == 'yes' ) {
+        header("Content-Type: text/plain; charset=utf-8");
+        header("Cache-Control: no-cache, must-revalidate");
+        unset($rc['json']);
+        $rc['content'] = json_encode($rc);
+    }
+    elseif( $rc['stat'] == 'ok' ) {
         //
         // Page request processes successfully, now generate HTML content
         //
@@ -99,11 +105,6 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     elseif( $rc['stat'] == '404' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page404Generate');
         $rc = ciniki_wng_page404Generate($ciniki, $tnid, $request, $rc);
-    }
-    elseif( $rc['stat'] == 'json' ) {
-        header("Content-Type: text/plain; charset=utf-8");
-        header("Cache-Control: no-cache, must-revalidate");
-        $rc['content'] = json_encode($rc);
     }
     elseif( $rc['stat'] != 'ok' && $rc['stat'] != 'exit' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'page500Generate');

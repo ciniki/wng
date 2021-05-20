@@ -838,6 +838,7 @@ function ciniki_wng_main() {
                     } else {
                         this.sections._settings.fields[u_fid].visible = 'no';
                     }
+                    this.showHideFormField('_settings', u_fid);
                 }
                 if( this.sections._settings.fields[t_fid] != null ) {
                     if( v != '' ) {
@@ -845,9 +846,8 @@ function ciniki_wng_main() {
                     } else {
                         this.sections._settings.fields[t_fid].visible = 'no';
                     }
+                    this.showHideFormField('_settings', t_fid);
                 }
-                this.showHideFormField('_settings', t_fid);
-                this.showHideFormField('_settings', u_fid);
             }
         }
     }

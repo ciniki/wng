@@ -17,12 +17,16 @@ function ciniki_wng_cacheRebuild(&$ciniki, $tnid, $site_id) {
     //
     // Load the site
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
-    $rc = ciniki_wng_siteLoad($ciniki, $tnid, $site_id, 'yes');
-    if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.83', 'msg'=>'Unable to load site', 'err'=>$rc['err']));
+    if( is_array($site_id) ) {
+        $site = $site_id;
+    } else {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
+        $rc = ciniki_wng_siteLoad($ciniki, $tnid, $site_id, 'yes');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.83', 'msg'=>'Unable to load site', 'err'=>$rc['err']));
+        }
+        $site = isset($rc['site']) ? $rc['site'] : array();
     }
-    $site = isset($rc['site']) ? $rc['site'] : array();
 
     //
     // Make sure required directories are created
@@ -42,11 +46,10 @@ function ciniki_wng_cacheRebuild(&$ciniki, $tnid, $site_id) {
     // Rebuild the theme cache
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheThemeUpdate');
-    $rc = ciniki_wng_cacheThemeUpdate($ciniki, $tnid, $site_id);
+    $rc = ciniki_wng_cacheThemeUpdate($ciniki, $tnid, $site);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
-
 
     return array('stat'=>'ok');
 }

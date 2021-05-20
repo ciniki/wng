@@ -267,6 +267,10 @@ else {
 }
 
 //
+// Setup the API url
+$request['api_url'] = $request['base_url'] . '/api';
+
+//
 // Load the tenant information
 //
 $strsql = "SELECT uuid, name "

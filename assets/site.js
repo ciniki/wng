@@ -37,3 +37,50 @@ C.cC = function(e, c) {
 C.gE = function(i) {
     return document.getElementById(i);
 };
+//
+// Call back to API
+//
+C.getBg = function(c,p,f){
+    var u='';
+    if(p!=null){
+        for(i in p){
+            u+=(u==''?'?':'&')+i+'='+encodeURIComponent(p[i]);
+        }
+    };
+    u=c+u;
+    var x=new XMLHttpRequest();
+    x.open('GET',u,true);
+    x.onreadystatechange = function() {
+        if(x.readyState==4&&x.status==200){
+            var r=eval('('+x.responseText+')');
+            if(r.stat!='ok'&&r.stat!='noavail'){
+                console.log(x.responseText);
+            }
+            f(r);
+        };
+        if(x.readyState>2&&x.status>=300){
+            f({'stat':'fail', 'err':{'code':'300', 'msg':'Error connecting to server.'}});
+            console.log('apierr:'+x.status);
+        }
+    };
+    x.send(null);
+};
+// Clear a element in the dom
+C.clr=function(i){
+    var e=(typeof i=='object'?i:this.gE(i));
+    if(e!=null&e.children!=null){
+        while(e.children.length>0){
+            e.removeChild(e.children[0]);
+        }
+    }
+    return e;
+};
+// Create a new element
+C.aE=function(t,i,c,h,f){
+    var e=document.createElement(t);
+    if(i!=null){e.setAttribute('id',i);}
+    if(c!=null){e.className=c;}
+    if(h!=null){e.innerHTML=h;}
+    if(f!=null&&f!=''){e.setAttribute('onclick',f);}
+    return e;
+};

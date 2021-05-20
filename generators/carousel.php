@@ -13,6 +13,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
    
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
     //
     // Skip if nothing
@@ -49,6 +50,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
             }
+            $image = $rc;
 
             //
             // Check if this should be setup as last item
@@ -58,10 +60,19 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             }
             $content .= "<div class='item {$class}'>";
             $content .= "<div class='item-wrap'>";
-            if( isset($item['url']) && $item['url'] != '' ) {
-                $content .= "<a href='" . $item['url'] . "' />";
+            $url = 'no';
+            if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request,
+                    isset($item['page']) ? $item['page'] : 0,
+                    isset($item['url']) ? $item['url'] : ''
+                    );
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.97', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
+                }
+                $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
+                $url = 'yes';
             }
-            $content .= "<div class='image' style='background:#fff url(" . $rc['url'] . ") "
+            $content .= "<div class='image' style='background:#fff url(" . $image['url'] . ") "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
                 . ";";
             if( isset($block['padded']) && $block['padded'] == 'yes' ) {
@@ -70,17 +81,12 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 $content .= "background-size:cover;";
             }
             $content .= "'>";
-//            $content .= "<img alt='" . (isset($image['title']) ? $image['title'] : '') . "' src='" . $rc['url'] . "'>";
             $content .= '</div>';
 
             $content .= "<div class='info'>";
             if( isset($block['titles']) && $block['titles'] == 'yes' && isset($item['title']) && $item['title'] != '' ) {
                 $content .= "<div class='title'>";
-//                if( isset($item['title']) ) {
                     $content .= $item['title'];
-//                } else {
-//                    $content .= '&nbsp;';
-//                }
                 $content .= '</div>';
             }
             if( isset($item['content']) && $item['content'] != '' ) {
@@ -92,7 +98,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             }
             $content .= '</div>';
 
-            if( isset($item['url']) ) {
+            if( $url == 'yes' ) {
                 $content .= "</a>";
             }
             $content .= '</div>';

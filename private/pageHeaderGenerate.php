@@ -75,7 +75,9 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     // Check for head scripts
     //
     if( isset($request['response']['js']) ) {
-        $content .= "<script type='text/javascript'>" . $request['response']['js'] . "</script>";
+        $content .= "<script type='text/javascript'>" 
+            . $request['response']['js'] 
+            . "</script>";
     }
 
     //

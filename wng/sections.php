@@ -390,7 +390,8 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'bottom-right' => 'Bottom Right',
                 ));
         $sections['ciniki.wng.carousel']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text');
-        $sections['ciniki.wng.carousel']['settings']["url-{$i}"] = array('label'=>'URL', 'type'=>'text');
+        $sections['ciniki.wng.carousel']['settings']["link-{$i}-page"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes');
+        $sections['ciniki.wng.carousel']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
         $sections['ciniki.wng.carousel']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small');
     }
 
