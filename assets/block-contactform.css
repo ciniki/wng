@@ -1,0 +1,78 @@
+.block-contactform .content {
+    padding: 1rem;
+}
+/* Address details */
+.block-contactform .details {
+    padding-bottom: 1rem;
+}
+.block-contactform .detail {
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.block-contactform .icon,
+.block-contactform .item {
+    vertical-align: middle;
+}
+.block-contactform .item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.block-contactform .icon {
+    padding: 1rem 1.5rem 1rem 0rem;
+    display: flex;
+}
+.block-contactform svg {
+    height: 3rem;
+    fill: #aaa;
+}
+.block-contactform .label {
+    font-size: 1.1rem;
+}
+.block-contactform .value {
+    font-size: 1rem;
+}
+/* Form details */
+.block-contactform .hidden {
+    display: none;
+}
+.block-contactform form {
+    width: 100%;
+}
+.block-contactform label {
+    width: 100%;
+    display: block;
+}
+.block-contactform .input,
+.block-contactform .textarea {
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+.block-contactform .input input,
+.block-contactform .textarea textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.block-contactform .textarea textarea {
+    height: 7rem;
+}
+.block-contactform {
+}
+
+
+
+@media screen and (min-width: 50em) {
+    .block-contactform .content {
+        display: flex;
+        flex-direction: row;
+    }
+    .block-contactform .content > div {
+        width: 50%;
+    }
+}

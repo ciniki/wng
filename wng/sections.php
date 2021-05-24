@@ -437,9 +437,9 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     $sections['ciniki.wng.googlemap'] = array(
         'name'=>'Google Map',
         'module' => 'Website',
-        'settings'=>array(
-            'title'=>array('label'=>'Title', 'type'=>'text'),
-            'zoom'=>array('label'=>'Initial Zoom', 'type'=>'toggle', 'default'=>'13', 'toggles'=>array(
+        'settings'=> array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'zoom' => array('label'=>'Initial Zoom', 'type'=>'toggle', 'default'=>'13', 'toggles'=>array(
                 '8' => '8',
                 '9' => '9',
                 '10' => '10',
@@ -461,18 +461,38 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'title'=>array('label'=>'Title', 'type'=>'text'),
             ),
         ); 
-/*    $sections['ciniki.wng.contactform'] = array(
+
+    $sections['ciniki.wng.contactform'] = array(
         'name'=>'Contact Form',
         'module' => 'Website',
         'settings'=>array(
             'title'=>array('label'=>'Title', 'type'=>'text'),
-            'intro'=>array('label'=>'Intro Message', 'type'=>'textarea', 'size'=>'medium'),
-            'phone'=>array('label'=>'Phone Number Field', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
-                'no' => 'No',
-                'yes' => 'Yes',
+            'contact-intro' => array('label'=>'Contact Intro', 'type'=>'textarea', 'size'=>'small'),
+            'address' => array('label'=>'Address', 'type'=>'text'),
+            'phone' => array('label'=>'Phone', 'type'=>'text'),
+            'email' => array('label'=>'Email', 'type'=>'text'),
+            'contact-outro' => array('label'=>'Contact Message', 'type'=>'textarea', 'size'=>'small'),
+            'form-position' => array('label'=>'Form Position', 'type'=>'toggle', 'default'=>'bottom-right', 'separator'=>'yes', 'toggles'=>array(
+                'top-left' => 'Top Left',
+                'bottom-left' => 'Bottom Left',
+                'top-right' => 'Top Right',
+                'bottom-right' => 'Bottom Right',
                 )),
+            'form-intro'=>array('label'=>'Form Intro', 'type'=>'textarea', 'size'=>'medium'),
             ),
-        ); */
+        );
+    // Extra fields for contact form
+    for($i = 1; $i <= 5; $i++) {
+        $sections['ciniki.wng.contactform']['settings']["field-{$i}-label"] = array(
+            'label' => "Extra Field {$i}", 'type' => 'text',
+            );
+    }
+    $sections['ciniki.wng.contactform']['settings']['notify-emails'] = array(
+        'label' => 'Emails', 'type' => 'text',
+        );
+    $sections['ciniki.wng.contactform']['settings']['submitted-message'] = array(
+        'label'=>'Thank You Message', 'type'=>'textarea', 'size'=>'medium',
+        );
 
     return array('stat'=>'ok', 'sections'=>$sections);
 }
