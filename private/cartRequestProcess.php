@@ -916,7 +916,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             }
         }
         if( $unavailable != '' ) {
-            $carterrors = 'The following items are no longer available and have been removed from your cart: ' . $unavailable;
+            $carterrors = "We're sorry, the following items are no longer available and have been removed from your cart: " . $unavailable;
             $cart_edit = 'yes';
             $display_cart = 'yes';
         }
@@ -2269,8 +2269,8 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
             } else { */
                 if( $display_cart == 'review' ) {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input class='button submit' type='submit' name='continue' value='Back'/>";
+                    $content .= "<span class='submit'>"
+                        . "<input class='button submit' type='submit' name='continue' value='Back'/></span>";
                     if( $stripe_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                         $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                     }
