@@ -32,7 +32,7 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
                     $item['url']
                     );
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.146', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 $content .= "<div class='file'>"
                     . "<a target='_blank' class='" . (isset($block['link-class']) ? $block['link-class'] : 'link') . "' href='" . $rc['url'] . "'>" 

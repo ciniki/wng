@@ -141,7 +141,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryDash');
     $rc = ciniki_core_dbDetailsQueryDash($ciniki, 'ciniki_sapos_settings', 'tnid', $tnid, 'ciniki.sapos', 'settings', '');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.web.15', 'msg'=>'Unable to load settings', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.15', 'msg'=>'Unable to load settings', 'err'=>$rc['err']));
     }
     $sapos_settings = isset($rc['settings']) ? $rc['settings'] : array();
     
@@ -183,7 +183,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     $fn = $rc['function_call'];
                     $rc = $fn($ciniki, $tnid, $request);
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.web.98', 'msg'=>'Unable to load account information', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.98', 'msg'=>'Unable to load account information', 'err'=>$rc['err']));
                     }
                 }
             }
@@ -336,7 +336,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $request['session']['cart']['num_items'] = 0;
     } 
     elseif( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.web.25', 'msg'=>'Error processing shopping cart, please try again.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.25', 'msg'=>'Error processing shopping cart, please try again.'));
     } 
     else {
         $cart = $rc['cart'];
@@ -387,6 +387,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     $item = $item['item'];
                     if( $item['object'] == $_POST['object']
                         && $item['object_id'] == $_POST['object_id'] 
+                        && isset($_POST['quantity'])
                         && ((!isset($_POST['price_id']) && $item['price_id'] == 0) || $item['price_id'] == $_POST['price_id'])
                         && ($item['flags']&0x08) == 0
                         ) {
@@ -395,7 +396,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         // Update the quantity
                         //
 //                      if( $item['quantity'] != $_POST['quantity'] ) {
-                        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'web', 'cartItemUpdate');
+                        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemUpdate');
                         $rc = ciniki_sapos_wng_cartItemUpdate($ciniki, $tnid, $request, array(
                             'item_id'=>$item['id'], 
                             'quantity'=>$item['quantity'] + $_POST['quantity'],

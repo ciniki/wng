@@ -203,7 +203,7 @@ if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'alias');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.6', 'msg'=>'Unable to load sites', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.127', 'msg'=>'Unable to load sites', 'err'=>$rc['err']));
         }
         if( isset($rc['alias']['domain']) && $rc['alias']['domain'] != '' ) {
             Header('HTTP/1.1 301 Moved Permanently'); 
