@@ -1,0 +1,131 @@
+.block-basiccalendar .content {
+    padding: 1rem;
+}
+.block-basiccalendar .calendar {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(7, minmax(3rem, 1fr));
+    grid-template-rows: 3rem;
+    grid-auto-rows: minmax(5rem, auto);
+    overflow: auto;
+}
+.block-basiccalendar .day-name {
+    text-align: center;
+    line-height: 2rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+.block-basiccalendar .day {
+    padding: 0.5rem;
+    text-align: right;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+}
+.block-basiccalendar .event.row-2,
+.block-basiccalendar .day:nth-of-type(n + 1):nth-of-type(-n + 7) {
+    grid-row: 2;
+}
+.block-basiccalendar .event.row-3,
+.block-basiccalendar .day:nth-of-type(n + 8):nth-of-type(-n + 14) {
+    grid-row: 3;
+}
+.block-basiccalendar .event.row-4,
+.block-basiccalendar .day:nth-of-type(n + 15):nth-of-type(-n + 21) {
+    grid-row: 4;
+}
+.block-basiccalendar .event.row-5,
+.block-basiccalendar .day:nth-of-type(n + 22):nth-of-type(-n + 28) {
+    grid-row: 5;
+}
+.block-basiccalendar .event.row-6,
+.block-basiccalendar .day:nth-of-type(n + 29):nth-of-type(-n + 35) {
+    grid-row: 6;
+}
+.block-basiccalendar .event.row-7,
+.block-basiccalendar .day:nth-of-type(n + 36):nth-of-type(-n + 42) {
+    grid-row: 7;
+}
+.block-basiccalendar .day:nth-of-type(7n + 1) {
+    grid-column: 1/1;
+}
+.block-basiccalendar .day:nth-of-type(7n + 2) {
+    grid-column: 2/2;
+}
+.block-basiccalendar .day:nth-of-type(7n + 3) {
+    grid-column: 3/3;
+}
+.block-basiccalendar .day:nth-of-type(7n + 4) {
+    grid-column: 4/4;
+}
+.block-basiccalendar .day:nth-of-type(7n + 5) {
+    grid-column: 5/5;
+}
+.block-basiccalendar .day:nth-of-type(7n + 6) {
+    grid-column: 6/6;
+}
+.block-basiccalendar .day:nth-of-type(7n + 7) {
+    grid-column: 7/7;
+}
+.block-basiccalendar .start-col-1 { grid-column-start: 1; }
+.block-basiccalendar .start-col-2 { grid-column-start: 2; }
+.block-basiccalendar .start-col-3 { grid-column-start: 3; }
+.block-basiccalendar .start-col-4 { grid-column-start: 4; }
+.block-basiccalendar .start-col-5 { grid-column-start: 5; }
+.block-basiccalendar .start-col-6 { grid-column-start: 6; }
+.block-basiccalendar .start-col-7 { grid-column-start: 7; }
+.block-basiccalendar .end-col-1 { grid-column-end: 2; }
+.block-basiccalendar .end-col-2 { grid-column-end: 3; }
+.block-basiccalendar .end-col-3 { grid-column-end: 4; }
+.block-basiccalendar .end-col-4 { grid-column-end: 5; }
+.block-basiccalendar .end-col-5 { grid-column-end: 6; }
+.block-basiccalendar .end-col-6 { grid-column-end: 7; }
+.block-basiccalendar .end-col-7 { grid-column-end: 8; }
+
+/* Event positioning */
+.block-basiccalendar .event {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+    align-self: start;
+    z-index: 2;
+    font-size: 0.8rem;
+}
+.block-basiccalendar .slice-0 { margin-top: 2.5rem; }
+.block-basiccalendar .slice-1 { margin-top: 5rem; }
+.block-basiccalendar .slice-2 { margin-top: 7.5rem; }
+.block-basiccalendar .slice-3 { margin-top: 10rem; }
+.block-basiccalendar .slice-4 { margin-top: 12.5rem; }
+.block-basiccalendar .slice-5 { margin-top: 15rem; }
+.block-basiccalendar .slice-6 { margin-top: 17.5rem; }
+.block-basiccalendar .slice-7 { margin-top: 20rem; }
+.block-basiccalendar .slice-8 { margin-top: 22.5rem; }
+.block-basiccalendar .slice-9 { margin-top: 25rem; }
+
+@media (min-width: 50em) {
+    .block-basiccalendar .calendar {
+        grid-template-columns: repeat(7, minmax(5rem, 1fr));
+        grid-template-rows: 4rem;
+        grid-auto-rows: minmax(7rem, auto);
+    }
+    .block-basiccalendar .day-name {
+        line-height: 2rem;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    .block-basiccalendar .day {
+        font-size: 1rem;
+    }
+    .block-basiccalendar .day {
+        font-size: 1rem;
+    }
+}
+@media (min-width: 60em) {
+    .block-basiccalendar .calendar {
+        grid-template-columns: repeat(7, minmax(7rem, 1fr));
+        grid-template-rows: 4rem;
+        grid-auto-rows: minmax(9rem, auto);
+    }
+}
