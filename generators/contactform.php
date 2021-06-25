@@ -75,8 +75,13 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['phone-label']) && $block['phone-label'] != '' ? $block['phone-label'] : "Phone")
-                . "</div><div class='value'>" . $rc['content'] . "</div></div>";
-            $content .= "</div>";
+                . "</div>";
+            if( preg_match("/([0-9][0-9][0-9][^0-9][0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9])/", $rc['content'], $m) ) {
+                $content .= "<div class='value'><a href='tel:{$m[1]}'>" . $rc['content'] . "</a></div>";
+            } else {
+                $content .= "<div class='value'>" . $rc['content'] . "</div>";
+            }
+            $content .= "</div></div>";
         }
 
         // Email
