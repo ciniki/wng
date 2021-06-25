@@ -803,8 +803,11 @@ function ciniki_wng_main() {
                     var onum=0;
                     this.sections._settings.fields[i].options[onum++] = {'v':'', 'l':'None'};
                     var u_fid = i.replace(/page/, 'url');
+                    var t_fid = i.replace(/page/, 'text');
                     if( this.sections._settings.fields[u_fid] != null ) {
                         this.sections._settings.fields[i].options[onum++] = {'v':'0', 'l':'Custom URL'};
+                    }
+                    if( this.sections._settings.fields[t_fid] != null || this.sections._settings.fields[u_fid] != null ) {
                         this.sections._settings.fields[i].onchange = 'M.ciniki_wng_main.section.showHideSettingFields();';
                     }
                     for(var j in M.ciniki_wng_main.site.data.pagelist) {
@@ -821,6 +824,7 @@ function ciniki_wng_main() {
         this.showHideSettingFields();
     }
     this.section.showHideSettingFields = function() {
+        console.log('test');
         for(var i in this.sections._settings.fields) {
             if( this.sections._settings.fields[i].type != null 
                 && this.sections._settings.fields[i].type == 'select'
@@ -841,6 +845,7 @@ function ciniki_wng_main() {
                     this.showHideFormField('_settings', u_fid);
                 }
                 if( this.sections._settings.fields[t_fid] != null ) {
+        console.log('test: text');
                     if( v != '' ) {
                         this.sections._settings.fields[t_fid].visible = 'yes';
                     } else {
