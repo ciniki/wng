@@ -268,7 +268,8 @@ else {
 
 //
 // Setup the API url
-$request['api_url'] = $request['base_url'] . '/api';
+//
+$request['api_url'] = $request['base_url'] . '/cpi';
 
 //
 // Load the tenant information

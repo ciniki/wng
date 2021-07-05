@@ -13,6 +13,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
 
     //
     // Skip if nothing
