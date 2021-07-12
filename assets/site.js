@@ -84,3 +84,11 @@ C.aE=function(t,i,c,h,f){
     if(f!=null&&f!=''){e.setAttribute('onclick',f);}
     return e;
 };
+// Encode string
+C.eU = function(s) {
+    return encodeURIComponent(s);
+}
+// Decode string
+C.dU = function(s) {
+    return decodeURIComponent(s);
+}

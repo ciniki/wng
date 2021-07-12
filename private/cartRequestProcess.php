@@ -2284,9 +2284,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                             );
                         $js .= "var stripeCheckout = StripeCheckout.configure({"
                                 . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
-                                . 'image: "' . $request['cache_url'] . '/theme/stripe_checkout.jpg", '
+                                . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
                                 . 'locale: "auto", '
-                                . 'name: "' . $ciniki['tenant']['details']['name'] . '", '
+                                . 'name: "' . $request['site']['header-site-title'] . '", '
                                 . 'description: "", '
                                 . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
                                 . 'zipCode: true, '
