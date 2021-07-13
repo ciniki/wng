@@ -129,6 +129,9 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 ) {
                 $content .= ' Sold Out';
             }
+            elseif( isset($price['inprogress']) && $price['inprogress'] == 'yes' ) {
+                $content .= ' In Progress';
+            }
             //
             // If quantity is limited, and not sold out
             //
