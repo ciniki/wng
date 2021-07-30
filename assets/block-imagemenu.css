@@ -1,7 +1,11 @@
 .block-imagemenu {
     width: 100%;
-    padding-bottom: 0.5rem;
+/*    padding-bottom: 0.5rem;
     padding-top: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem; */
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
 }
 .block-imagemenu .content {
     display: flex;

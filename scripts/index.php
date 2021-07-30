@@ -93,7 +93,7 @@ if( (isset($_SERVER['HTTP_CLUSTER_HTTPS']) && $_SERVER['HTTP_CLUSTER_HTTPS'] == 
 
 $site = null;
 //
-// Check if the request is for the master domain
+// Check if incoming request is for the master domain, and check for sites running under master domain
 //
 if( isset($_SERVER['HTTP_HOST']) && $ciniki['config']['ciniki.wng']['master.domain'] == $_SERVER['HTTP_HOST'] ) {
     $tenant_permalink = isset($request['uri_split'][0]) ? $request['uri_split'][0] : '';
@@ -135,14 +135,45 @@ if( isset($_SERVER['HTTP_HOST']) && $ciniki['config']['ciniki.wng']['master.doma
             }
         }
         if( $site != null ) {
+            //
+            // WNG site was found for tenant with sitename of $tenant_permalink
+            //
             array_shift($request['uri_split']);
+        } else {
+            //
+            // No tenants where found with a WNG site and sitename of $tenant_permalink
+            // Now check to see if tenant exists in ciniki.web format
+            //
+            $strsql = "SELECT tenants.id, "
+                . "tenants.status "
+                . "FROM ciniki_tenants AS tenants "
+                . "WHERE tenants.sitename = '" . ciniki_core_dbQuote($ciniki, $tenant_permalink) . "' "
+                . "";
+            $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'site');
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.5', 'msg'=>'Unable to load item', 'err'=>$rc['err']));
+            }
+            if( isset($rc['site']) ) {
+                //
+                // If active tenant, redirect to their website
+                //
+                if( $rc['site']['status'] == 1 ) {
+                    $ciniki['request'] = $request;
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processRequest');
+                    $rc = ciniki_web_processRequest($ciniki);
+                    exit;
+                }
+                // 
+                // FIXME: if status not active, then setup a page for "Tenant Parked" page
+                //
+            } 
         }
     }
 }
 
 //
 // Request is not a tenant request under the master domain, check the domain for sites
-// This could include master domain sites
+// This includes any master domain sites
 //
 if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
     $request['domain'] = $_SERVER['HTTP_HOST'];
