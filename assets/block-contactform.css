@@ -5,6 +5,9 @@
 .block-contactform .details {
     padding-bottom: 1rem;
 }
+.block-contactform .intro {
+    margin-bottom: 1rem;
+}
 .block-contactform .detail {
     padding-bottom: 1rem;
     padding-right: 1rem;
@@ -32,20 +35,52 @@
 }
 .block-contactform .label {
     font-size: 1.1rem;
+    font-weight: bold;
 }
 .block-contactform .value {
     font-size: 1rem;
+}
+.block-contactform .hours table td {
+    padding: 0.1rem 1rem 0.1rem 0rem;
 }
 /* Form details */
 .block-contactform .hidden {
     display: none;
 }
+.block-contactform .form-details h2 {
+    margin-bottom: 0.5rem;
+}
+.block-contactform .form-details.no-title {
+    margin-top: 1rem;
+}
+.block-contactform .form {
+    padding: 1rem;
+    border: 1px solid #aaa;
+    background: #eee;
+}
+.block-contactform .form-intro {
+    margin-bottom: 1rem;
+}
 .block-contactform form {
     width: 100%;
 }
 .block-contactform label {
+    font-size: 1.1rem;
+    font-weight: bold;
     width: 100%;
     display: block;
+}
+.block-contactform .address-details .staff .label {
+    padding-top: 1rem;
+}
+.block-contactform .address-details .staff .label:first-child {
+    padding-top: 0rem;
+}
+.block-contactform .address-details .staff,
+.block-contactform .address-details .hours,
+.block-contactform .address-details .directions {
+    align-items: flex-start;
+    padding-bottom: 2rem;
 }
 .block-contactform .input,
 .block-contactform .textarea {
@@ -64,15 +99,36 @@
 }
 .block-contactform {
 }
-
-
-
+.block-contactform .content {
+    display: flex;
+    flex-direction: column;
+}
+.block-contactform .address-details {
+    order: 1;
+}
+.block-contactform .form-details {
+    order: 2;
+}
+@media screen and (min-width: 40em) {
+    .block-contactform .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
 @media screen and (min-width: 50em) {
     .block-contactform .content {
-        display: flex;
-        flex-direction: row;
+        display: block;
+        position: relative;
     }
-    .block-contactform .content > div {
-        width: 50%;
+    .block-contactform .address-details {
+        padding-right: 0.5rem;
+    }
+    .block-contactform .form-details {
+        padding-left: 1.5rem;
+        float: right;
+        min-width: 50%;
+    }
+    .block-contactform .form-details.no-title {
+        margin-top: 2.5rem;
     }
 }

@@ -223,6 +223,16 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         }
     }
 
+    $staff = array();
+    for($i = 1; $i <= 5; $i++) {
+        if( isset($s["staff-{$i}-name"]) && $s["staff-{$i}-name"] != '' ) {
+            $staff[] = array(
+                'name' => $s["staff-{$i}-name"],
+                'phone' => isset($s["staff-{$i}-phone"]) ? $s["staff-{$i}-phone"] : '',
+                'email' => isset($s["staff-{$i}-email"]) ? $s["staff-{$i}-email"] : '',
+                );
+        }
+    }
     $blocks[] = array(
         'type' => 'contactform',
         'form-position' => 'bottom-right',
@@ -230,14 +240,26 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         'contact-intro' => isset($s['contact-intro']) ? $s['contact-intro'] : '',
         'address' => isset($s['address']) ? $s['address'] : '',
         'phone' => isset($s['phone']) ? $s['phone'] : '',
+        'fax' => isset($s['fax']) ? $s['fax'] : '',
         'email' => isset($s['email']) ? $s['email'] : '',
+        'staff' => $staff,
+        'hours-monday' => isset($s['hours-monday']) ? $s['hours-monday'] : '',
+        'hours-tuesday' => isset($s['hours-tuesday']) ? $s['hours-tuesday'] : '',
+        'hours-wednesday' => isset($s['hours-wednesday']) ? $s['hours-wednesday'] : '',
+        'hours-thursday' => isset($s['hours-thursday']) ? $s['hours-thursday'] : '',
+        'hours-friday' => isset($s['hours-friday']) ? $s['hours-friday'] : '',
+        'hours-saturday' => isset($s['hours-saturday']) ? $s['hours-saturday'] : '',
+        'hours-sunday' => isset($s['hours-sunday']) ? $s['hours-sunday'] : '',
+        'directions' => isset($s['directions']) ? $s['directions'] : '',
         'contact-outro' => isset($s['contact-outro']) ? $s['contact-outro'] : '',
         'status' => ($success_message != '' ? 'success' : ($error_message != '' ? 'error' : '')),
         'success-message' => $success_message,
         'error-message' => $error_message,
+        'form-title' => isset($s['form-title']) ? $s['form-title'] : '',
         'form-intro' => isset($s['form-intro']) ? $s['form-intro'] : '',
         'fields' => $fields,
         );
+
 
     return array('stat'=>'ok', 'blocks'=>$blocks);
 }
