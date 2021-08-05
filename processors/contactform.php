@@ -235,6 +235,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
     }
     $blocks[] = array(
         'type' => 'contactform',
+        'class' => 'limit-width center',
         'form-position' => 'bottom-right',
         'title' => isset($s['title']) ? $s['title'] : '',
         'contact-intro' => isset($s['contact-intro']) ? $s['contact-intro'] : '',
