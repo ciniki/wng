@@ -60,6 +60,7 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
 
     //
     // Update the cache 
+    // FIXME: Convert to theme rebuild
     //
     if( isset($ciniki['config']['ciniki.wng']['cache.rebuild']) 
         && $ciniki['config']['ciniki.wng']['cache.rebuild'] == 'always'

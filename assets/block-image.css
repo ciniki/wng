@@ -1,0 +1,17 @@
+.block-image .content {
+    padding: 1rem;
+}
+.block-image h1,
+.block-image h2 {
+    padding-bottom: 1rem;
+}
+.block-image img {
+    margin: 0 auto;
+}
+@media screen and (min-width: 50em) {
+    .block-asideimage {
+        float: right;
+        max-width: 40%;
+        margin-left: 1rem;
+    }
+}

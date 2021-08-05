@@ -5,15 +5,84 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 1rem;
-    justify-content: space-evenly;
+    justify-content: center;
+    padding: 0.5rem;
 }
 .block-tradingcards .item {
-    min-width: 17rem;
-    max-width: 17rem;
-    margin: 1rem;
+    min-width: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+}
+.block-tradingcards .item-wrap {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .block-tradingcards .image {
-    min-height: 17rem;
     max-width: 100%;
+    width: 100%;
+    padding-bottom: 100%;
+}
+.block-tradingcards .details {
+    padding-top: 1rem;
+}
+.block-tradingcards .title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.block-tradingcards .meta {
+    font-style: italic;
+}
+.block-tradingcards .synopsis {
+    padding-top: 1rem;
+}
+.block-tradingcards .buttons {
+    padding-top: 1rem;
+    bottom: 0px;
+    width: 100%;
+    align-self: flex-end;
+}
+.block-tradingcards .buttons .button {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+@media screen and (min-width: 40em) {
+    .block-tradingcards .items {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .block-tradingcards .item {
+        width: 50%;
+        max-width: 50%;
+        padding: 0.5rem;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-tradingcards .item {
+        width: 33.33333%;
+        max-width: 33.33333%;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-tradingcards .item {
+        width: 25%;
+        max-width: 25%;
+    }
+}
+@media screen and (min-width: 100em) {
+    .block-tradingcards .item {
+        width: 20%;
+        max-width: 20%;
+    }
+}
+@media screen and (min-width: 120em) {
+    .block-tradingcards .item {
+        width: 16.66666%;
+        max-width: 16.66666%;
+    }
 }

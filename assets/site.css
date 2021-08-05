@@ -100,9 +100,14 @@ h3 {
 
 .button {
     display: inline-block;
-    background: #333;
+    background: #555;
     color: #fff;
     padding: 0.5em 1em;
+    border: 1px solid #555;
+}
+.button:hover {
+    background: #fff;
+    color: #555;
 }
 p {
     margin-bottom: 1em;
@@ -179,16 +184,23 @@ p:last-child {
     .showat-90-em { display: block; }
 }
 
-
 #page-container {
     min-height: 100vh;
     width: 100%;
-    max-width: 90rem;
     margin: 0 auto;
     background: #fff;
     color: #333;
     padding: 0rem;
 }
+
+/* Content limits, only some blocks add these rules */
+.limit-width { 
+    max-width: 80em; 
+}
+.limit-width.center {
+    margin: 0 auto;
+}
+
 /*@media screen and (min-width: 30em) {
     #page-container {
         padding-left: 0.5rem;

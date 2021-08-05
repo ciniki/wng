@@ -36,7 +36,6 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
     foreach($block['items'] as $iid => $item) {
 
         $content .= "<div class='item'>";
-        $content .= "<div class='item-wrap'>";
         if( isset($item['url']) ) {
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $item['url']);
             if( $rc['stat'] != 'ok' ) {
@@ -44,6 +43,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<a href='" . $rc['url'] . "'>";
         }
+        $content .= "<div class='item-wrap'>";
 
         if( isset($item['image-id']) && $item['image-id'] > 0 ) {
             //
@@ -70,6 +70,9 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         if( isset($item['title']) ) {
             $content .= "<div class='title'>" . $item['title'] . "</div>";
         }
+        if( isset($item['meta']) && $item['meta'] != '' ) {
+            $content .= "<div class='meta'>" . $item['meta'] . "</div>";
+        }
         if( isset($item['synopsis']) ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['synopsis']);
             if( $rc['stat'] != 'ok' ) {
@@ -77,6 +80,8 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='synopsis'>" . $rc['content'] . "</div>";
         }
+        $content .= "</div>";   // Close details
+
         $content .= "<div class='buttons'>";
         for($i = 1; $i <= 10; $i++) {
             if( (!isset($item["button-{$i}-page"]) || $item["button-{$i}-page"] != '')
@@ -98,12 +103,11 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "</div>";
 
-        $content .= "</div>";   // Close details
 
+        $content .= '</div>';
         if( isset($item['url']) ) {
             $content .= "</a>";
         }
-        $content .= '</div>';
         $content .= '</div>';
     }
     $content .= '</div>';

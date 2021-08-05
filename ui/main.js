@@ -124,7 +124,7 @@ function ciniki_wng_main() {
         'adminbuttons':{'label':'', 'aside':'yes',
             'visible':function() { return (M.ciniki_wng_main.site.view_aside == 'yes' && M.ciniki_wng_main.site.sections._tabs.selected == 'settings' && (M.userPerms&0x01) == 0x01 ? 'yes' : 'no'); },
             'buttons':{
-                'rebuildcache':{'label':'Rebuild Cache', 'fn':'M.ciniki_wng_main.site.rebuildCache();'},
+                'clearcache':{'label':'Clear Cache', 'fn':'M.ciniki_wng_main.site.clearCache();'},
                 'rebuildindex':{'label':'Rebuild Index', 
                     'visible':function() { return M.modFlagSet('ciniki.wng', 0x4000); },
                     'fn':'M.ciniki_wng_main.site.rebuildIndex();',
@@ -631,8 +631,15 @@ function ciniki_wng_main() {
             });
         }
     }
-    this.site.rebuildCache = function() {
-        M.alert('FIXME: add interface');
+    this.site.clearCache = function() {
+        M.api.getJSONCb('ciniki.wng.cacheClear', {'tnid':M.curTenantID, 'site_id':this.site_id}, function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.api.err(rsp);
+                return false;
+            }
+            M.alert('Cache cleared');
+            M.ciniki_wng_main.site.open();
+        });
     }
     this.site.rebuildIndex = function() {
         M.alert('FIXME: add interface');
