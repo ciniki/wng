@@ -103,7 +103,6 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "</div>";
 
-
         $content .= '</div>';
         if( isset($item['url']) ) {
             $content .= "</a>";
