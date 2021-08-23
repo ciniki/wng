@@ -10,7 +10,7 @@
 .block-contentphoto .content-wrap {
     padding: 1rem;
 }
-.block-contentphoto .content-wrap h2 {
+.block-contentphoto .content-wrap .title-wrap {
     padding-bottom: 1rem;
 }
 .block-contentphoto .content-wrap p {

@@ -127,7 +127,11 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
             if( isset($price['limited_units']) && isset($price['units_available']) 
                 && $price['limited_units'] == 'yes' && $price['units_available'] < 1 
                 ) {
-                $content .= ' Sold Out';
+                if( isset($price['sold-out-msg']) && $price['sold-out-msg'] != '' ) {
+                    $content .= ' ' . $price['sold-out-msg'];
+                } else {
+                    $content .= ' Sold Out';
+                }
             }
             elseif( isset($price['inprogress']) && $price['inprogress'] == 'yes' ) {
                 $content .= ' In Progress';

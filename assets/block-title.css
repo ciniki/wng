@@ -5,7 +5,7 @@
     font-size: 1.5rem;
 }
 @media screen and (min-width: 40em) {
-    .block-contentphoto .content {
-        padding: 2rem;
+    .block-title .content {
+        padding: 1rem 2rem;
     }
 }
