@@ -40,6 +40,7 @@ function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
         'titles' => $titles,
         'sequence' => $section['sequence'],
         'speed' => isset($s['speed']) ? $s['speed'] : 'medium',
+        'image-format' => isset($s['image-format']) ? $s['image-format'] : 'cropped',
         'items' => $items,
         );
 

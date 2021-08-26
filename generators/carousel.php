@@ -75,7 +75,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             $content .= "<div class='image' style='background:#fff url(" . $image['url'] . ") "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
                 . ";";
-            if( isset($block['padded']) && $block['padded'] == 'yes' ) {
+            if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
                 $content .= "background-size:contain;background-repeat:no-repeat;";
             } else {
                 $content .= "background-size:cover;";

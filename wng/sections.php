@@ -371,6 +371,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'fast' => 'Fast',
                 'xfast' => 'X-Fast',
                 )),
+            'image-format'=>array('label'=>'Images', 'type'=>'toggle', 'default'=>'cropped', 'toggles'=>array(
+                'cropped' => 'Cropped',
+                'padded' => 'Padded',
+                )),
             ),
         );
     for($i = 1; $i <= 15; $i++) {
