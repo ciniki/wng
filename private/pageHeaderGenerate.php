@@ -68,7 +68,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Add CSS and javascript
     //
-    $content .= "<script async defer src='" . $request['site']['cache_url'] . "/theme/site.js?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.js') . "'></script>\n";
+    $content .= "<script src='" . $request['site']['cache_url'] . "/theme/site.js?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.js') . "'></script>\n";
     $content .= "<link rel='stylesheet' type='text/css' media='all' href='" . $request['site']['cache_url'] . "/theme/site.css?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.css') . "'/>\n";
 
     //
