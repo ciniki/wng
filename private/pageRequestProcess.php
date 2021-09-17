@@ -130,6 +130,9 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             if( $rc['stat'] == 'exit' ) {
                 return $rc;
             }
+            if( $rc['stat'] == '404' ) {
+                return $rc;
+            }
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.56', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
             }
