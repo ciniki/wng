@@ -144,7 +144,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                         $mod_filename = $mod_dir . '/wng/' . $site['theme'] . '/' . $file;
                         $cache_filename = $site['cache_dir'] . '/theme/' . $file;
                         if( preg_match("/\.(jpg|png|svg)$/", $file) 
-                            && (!file_exists($cache_filename) || filesize($cache_filename) < filesize($theme_filename)) 
+                            && (!file_exists($cache_filename) || filesize($cache_filename) != filesize($theme_filename)) 
                             ) {
                             copy($mod_filename, $cache_filename);
                         }
