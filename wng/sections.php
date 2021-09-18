@@ -523,6 +523,28 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'label'=>'Thank You Message', 'type'=>'textarea', 'size'=>'medium',
         );
 
+    //
+    // Section for display address/social icons in header
+    //
+    $sections['ciniki.wng.socialicons'] = array(
+        'name'=>'Social Icons',
+        'module' => 'Website',
+        'settings'=>array(
+            'content' => array('label'=>'Content', 'type'=>'text'),
+            'toggle-em' => array('label'=>'Show on screen', 'type'=>'select', 
+                'default'=>'60',
+                'options'=>array(
+                    '30' => 'XX-Small',
+                    '40' => 'X-Small',
+                    '50' => 'Small',
+                    '60' => 'Medium',
+                    '70' => 'Large',
+                    '80' => 'X-Large',
+                    '90' => 'XX-Large',
+                    'custom' => 'Custom (Advanced)',
+                    )),
+            ));
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>

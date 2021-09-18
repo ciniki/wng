@@ -235,7 +235,6 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'header' ? 'yes' : 'no'); },
             'fields':{
                 'header-site-title':{'label':'Site Title', 'type':'text'},
-                'header-social-icons':{'label':'Show Social Icons', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
                 // FIXME: Add header-seo-title, header-seo-description
             }},
         'headersections':{'label':'Header Sections', 'type':'simplegrid', 'num_cols':1,
@@ -754,7 +753,7 @@ function ciniki_wng_main() {
             'ref':{'label':'Section Content', 'type':'select', 'options':{}, 
                 'onchange':'M.ciniki_wng_main.section.setSectionOptions',
                 },
-            'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'small'},
+            'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'medium'},
             'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
             'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
             }},

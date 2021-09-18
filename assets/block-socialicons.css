@@ -1,0 +1,21 @@
+.block-socialicons .wrap {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.block-socialicons .content,
+.block-socialicons .icons {
+    width: 50%;
+}
+.block-socialicons .icons {
+    text-align: right;
+    padding-right: 1rem;
+}
+.block-socialicons .content {
+    padding: 1rem;
+}
+.block-socialicons .icon img {
+    display: inline-block;
+    width: 2.5rem;
+    height: 3rem;
+    padding: 0.5rem 0.25rem;
+}
