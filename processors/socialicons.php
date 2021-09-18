@@ -33,7 +33,7 @@ function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section)
         ) {
         $icons[] = array(
             'type' => 'instagram',
-            'username' => $request['site']['settings']['social-instagram-username'],
+            'url' => 'https://instagram.com/' . $request['site']['settings']['social-instagram-username'],
             );
     }
     if( isset($request['site']['settings']['social-twitter-username']) 
@@ -41,7 +41,7 @@ function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section)
         ) {
         $icons[] = array(
             'type' => 'twitter',
-            'username' => $request['site']['settings']['social-twitter-username'],
+            'url' => 'https://twitter.com/' . $request['site']['settings']['social-twitter-username'],
             );
     }
     
