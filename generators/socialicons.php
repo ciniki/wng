@@ -24,6 +24,7 @@ function ciniki_wng_generators_socialicons(&$ciniki, $tnid, $request, $block) {
 
         $content .= "<div class='block-socialicons"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . ' showat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
         $content .= "<div class='wrap'>";
 
