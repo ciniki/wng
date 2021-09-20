@@ -7,11 +7,24 @@
     width: 50%;
 }
 .block-socialicons .icons {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
     text-align: right;
     padding-right: 1rem;
 }
 .block-socialicons .content {
     padding: 1rem;
+}
+.block-socialicons a {
+    display: inline-block;
+    vertical-align: middle;
+}
+.block-socialicons .icon {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0px;
 }
 .block-socialicons .icon img {
     display: inline-block;
