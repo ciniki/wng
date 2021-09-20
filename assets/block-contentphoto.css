@@ -46,6 +46,39 @@
     padding-left: 1rem;
     vertical-align: middle;
 }
+/* Phone and Email */
+.block-contentphoto .detail {
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.block-contentphoto .detail .icon,
+.block-contentphoto .detail .item {
+    vertical-align: middle;
+}
+.block-contentphoto .detail .item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.block-contentphoto .detail .icon {
+    padding: 1rem 1.5rem 1rem 0rem;
+    display: flex;
+}
+.block-contentphoto .detail svg {
+    height: 3rem;
+    fill: #aaa;
+}
+.block-contentphoto .detail .label {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.block-contentphoto .detail .value {
+    font-size: 1rem;
+}
 @media screen and (min-width: 40em) {
     .block-contentphoto .content {
         padding: 2rem;
