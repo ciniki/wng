@@ -1,9 +1,6 @@
 .block-title .content {
     padding: 1rem;
 }
-.block-title h1 {
-    font-size: 1.5rem;
-}
 @media screen and (min-width: 40em) {
     .block-title .content {
         padding: 1rem 2rem;
