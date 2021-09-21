@@ -25,10 +25,34 @@
     display: inline-block;
     vertical-align: middle;
     line-height: 0px;
+    padding-right: 0.5rem;
+    padding-top: 0.1rem;
 }
-.block-socialicons .icon img {
-    display: inline-block;
-    width: 2.5rem;
-    height: 3rem;
-    padding: 0.5rem 0.25rem;
+.block-socialicons .icon .fab {
+    font-family: 'Font Awesome 5 Brands';
+    font-weight: 400;
+    background: #333;
+    font-size: 1.4rem;
+    color: #fff;
+    padding-top: 0.3rem;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    text-align: center;
+}
+.block-socialicons .icon .fa-facebook-f {
+    padding-top: 0.4rem;
+}
+.block-socialicons .icon .fa-facebook-f:before {
+    content: "\f39e";
+}
+.block-socialicons .icon .fa-instagram:before {
+    content: "\f16d";
+    font-size: 1.3rem;
+}
+.block-socialicons .icon .fa-twitter:before {
+    content: "\f099";
+    font-size: 1.2rem;
+    padding-top: 0.5rem;
+    padding-left: 0.1rem;
 }

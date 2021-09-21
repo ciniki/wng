@@ -50,15 +50,18 @@ function ciniki_wng_generators_socialicons(&$ciniki, $tnid, $request, $block) {
             foreach($block['icons'] as $icon) {
                 if( $icon['type'] == 'facebook' ) {
                     $content .= "<span class='icon'><a href='" . $icon['url'] . "'>"
-                        . "<img src='" . $request['site']['cache_url'] . "/theme/facebook.svg'/>"
+                        . "<i class='fab fa-facebook-f'></i>"
+//                        . "<img src='" . $request['site']['cache_url'] . "/theme/facebook.svg'/>"
                         . "</a></span>";
                 } elseif( $icon['type'] == 'instagram' ) {
                     $content .= "<span class='icon'><a href='" . $icon['url'] . "'>"
-                        . "<img src='" . $request['site']['cache_url'] . "/theme/instagram.svg'/>"
+                        . '<i class="fab fa-instagram"></i>'
+//                        . "<img src='" . $request['site']['cache_url'] . "/theme/instagram.svg'/>"
                         . "</a></span>";
                 } elseif( $icon['type'] == 'twitter' ) {
                     $content .= "<span class='icon'><a href='" . $icon['url'] . "'>"
-                        . "<img src='" . $request['site']['cache_url'] . "/theme/twitter.svg'/>"
+                        . "<i class='fab fa-twitter'></i>"
+//                        . "<img src='" . $request['site']['cache_url'] . "/theme/twitter.svg'/>"
                         . "</a></span>";
                 }
             }
