@@ -1,0 +1,17 @@
+.block-multipagenav .wrap {
+    padding: 1rem;
+}
+.block-multipagenav .content {
+    text-align: center;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+}
+.block-multipagenav a {
+    padding: 1rem 0.5rem;
+    display: inline-block;
+}
+@media screen and (min-width: 40em) {
+    .block-multipagenav .wrap {
+        padding: 1rem 2rem;
+    }
+}
