@@ -61,25 +61,30 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     } else {
         $extension = 'jpg';
     }
+    if( $version == 'thumbnail' ) {
+        $v = 't';
+    } else {
+        $v = 'o';
+    }
     if( $maxwidth == 0 && $maxheight == 0 ) {
         if( $padding_color != '' ) {
-            $filename = '/op/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}op/" . $img['uuid'] . '.' . $extension;
         } else {
-            $filename = '/o/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}o/" . $img['uuid'] . '.' . $extension;
         }
         $size = 'o';
     } elseif( $maxwidth == 0 ) {
         if( $padding_color != '' ) {
-            $filename = '/hp' . $maxheight . '/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}hp" . $maxheight . '/' . $img['uuid'] . '.' . $extension;
         } else {
-            $filename = '/h' . $maxheight . '/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}h" . $maxheight . '/' . $img['uuid'] . '.' . $extension;
         }
         $size = 'h' . $maxheight;
     } else {
         if( $padding_color != '' ) {
-            $filename = '/wp' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}wp" . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
         } else {
-            $filename = '/w' . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
+            $filename = "/{$v}w" . $maxwidth . '/' . $img['uuid'] . '.' . $extension;
         }
         $size = 'w' . $maxwidth;
     }
