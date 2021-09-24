@@ -35,8 +35,6 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
                 }
-                    error_log(print_r($rc,true));
-
                 $content .= "<a href='" . $rc['url'] . "'>";
             }
             $content .= "<div class='item-wrap'>";
