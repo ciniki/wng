@@ -34,6 +34,7 @@ C.carousel = {
         }
     },
     start: function(e,id,d) {
+        console.log('starting');
         this.cur[id] = 0;
         this.delay[id] = d;
         /* Add extra delay for first slide, give time to get everything loaded */
