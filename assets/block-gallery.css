@@ -1,0 +1,44 @@
+.block-gallery h1,
+.block-gallery h2 {
+    padding: 1rem;
+}
+.block-gallery .item {
+    padding-bottom: 2rem;
+}
+.block-gallery img {
+    margin: 0 auto;
+}
+@media screen and (min-width: 40em) {
+    .block-gallery h2 {
+        padding: 1rem 2rem 0rem 2rem;
+    }
+    .block-gallery .items {
+        display: flex;
+        flex-flow: row wrap;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        justify-content: center;
+    }
+    .block-gallery .item {
+        padding: 1rem;
+        flex-basis: 50%;
+    }
+    .block-gallery .item img {
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-gallery .item {
+        flex-basis: 33.3%;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-gallery .item {
+        flex-basis: 25%;
+    }
+}
+@media screen and (min-width: 100em) {
+    .block-gallery .item {
+        flex-basis: 20%;
+    }
+}
