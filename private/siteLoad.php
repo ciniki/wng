@@ -89,7 +89,8 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
         . "pages.permalink, "
         . "pages.menu_flags, "
         . "pages.flags, "
-        . "pages.path "
+        . "pages.path, "
+        . "pages.redirect_url "
         . "FROM ciniki_wng_pages AS pages "
         . "WHERE pages.site_id = '" . ciniki_core_dbQuote($ciniki, $site_id) . "' "
         . "AND pages.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
@@ -98,7 +99,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');
     $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.wng', array(
         array('container'=>'pages', 'fname'=>'id', 
-            'fields'=>array('id', 'parent_id', 'ptype', 'sequence', 'title', 'permalink', 'menu_flags', 'flags', 'path'),
+            'fields'=>array('id', 'parent_id', 'ptype', 'sequence', 'title', 'permalink', 'menu_flags', 'flags', 'path', 'redirect_url'),
             ),
         ));
     if( $rc['stat'] != 'ok' ) {

@@ -69,7 +69,9 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 . (isset($item['image-id']) && $item['image-id'] > 0 ? ' image': '')
                 . (isset($item['class']) ? $item['class'] : '') 
                 . "'>";
-            $content .= "<a href='" . $item['url'] . "'>";
+            $content .= "<a"
+                . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
+                . " href='" . $item['url'] . "'>";
             if( isset($item['image-id']) && $item['image-id'] > 0 ) {
                 //
                 // Copy image to cache

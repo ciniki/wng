@@ -152,6 +152,12 @@ function ciniki_wng_main() {
                     'flags':{'1':{'name':'Header'},'2':{'name':'Footer'}},
                     },
                 'flags1':{'label':'Visible', 'type':'flagtoggle', 'bit':0x01, 'field':'flags', 'default':'on'},
+                'ptype':{'label':'Format', 'type':'toggle', 
+                    'onchange':'M.ciniki_wng_main.site.switchType',
+                    'toggles':{
+                        '10':'Sectioned',
+                        '40':'Redirect',
+                    }},
 //                'flags4':{'label':'Password', 'type':'flagtoggle', 'bit':0x08, 'field':'flags_4', 'default':'off',
 //                    'active':(M.modFlagSet('ciniki.web', 0x2000)),
 //                    'on_fields':['page_password'],
@@ -168,7 +174,13 @@ function ciniki_wng_main() {
 //                        'page_redirect_url':{'label':'URL', 'type':'text'},
 //                    }},
         'pagesections':{'label':'Sections', 'type':'simplegrid', 'num_cols':1,
-            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
+            'active':function() { 
+                if( M.ciniki_wng_main.site.view == 'page' && M.ciniki_wng_main.site.data.page.ptype == '10' ) {
+                    return 'yes';
+                }
+                return 'no';
+                },
+//            'visible':function() { return (M.ciniki_wng_main.site.view == 'page' &&? 'yes' : 'hidden'); },
             'addTxt':'Add Section',
             'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);");',
             'seqDrop':function(e,from,to) {
@@ -191,6 +203,16 @@ function ciniki_wng_main() {
                     });
                 },
             },
+        'pageredirect':{'label':'Redirect', 
+            'active':function() { 
+                if( M.ciniki_wng_main.site.view == 'page' && M.ciniki_wng_main.site.data.page.ptype == '40' ) {
+                    return 'yes';
+                }
+                return 'no';
+                },
+            'fields':{
+                'redirect_url':{'label':'URL', 'type':'text'},
+                }},
 //        'pagebuttons':{'label':'',
 //            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
 //            'buttons':{
@@ -454,7 +476,7 @@ function ciniki_wng_main() {
         }
     }
     this.site.fieldValue = function(s, i, d) {
-        if( s == 'pagedetails' ) {
+        if( s == 'pagedetails' || 'pageredirect' ) {
             return this.data.page != null ? this.data.page[i] : '';
         }
         if( this.sections[s] != null && this.sections[s].data != null && this.sections[s].data == 'settings' ) {
@@ -480,6 +502,9 @@ function ciniki_wng_main() {
             }
         }
         this.open();
+    }
+    this.site.switchType = function(e,s,f) {
+        this.save("M.ciniki_wng_main.site.openPage(" + this.page_id + ");");
     }
     this.site.listClass = function(s, i, d) {
         if( i == this.view ) {

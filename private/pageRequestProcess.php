@@ -15,6 +15,17 @@
 function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
 
     //
+    // Check if the page is a redirect
+    //
+    if( isset($request['site']['pages'][$page_id]['ptype']) 
+        && $request['site']['pages'][$page_id]['ptype'] == 40
+        && isset($request['site']['pages'][$page_id]['redirect_url']) 
+        ) {
+        header("Location: " . $request['site']['pages'][$page_id]['redirect_url']);
+        exit;
+    }
+
+    //
     // Add to breadcrumbs
     //
     $request['breadcrumbs'][] = array(
