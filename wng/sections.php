@@ -86,6 +86,14 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'center' => 'Center',
 //                'right' => 'Right', // **Future**
                 ));
+    $sections['ciniki.wng.headermenu']['settings']['dropdown'] = array(
+        'label'=>'Dropdown Menus', 'type'=>'toggle', 'default'=>'off', 'toggles'=>array(
+                'off' => 'Off',
+                'hamburger' => 'Mobile',
+                'full' => 'Desktop',
+                'both' => 'Both',
+//                'right' => 'Right', // **Future**
+                ));
     $sections['ciniki.wng.headermenu']['settings']['hide-home'] = array(
         'label'=>'Home Link', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
                 'no' => 'Show',

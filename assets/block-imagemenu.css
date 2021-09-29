@@ -95,8 +95,52 @@
     display: block;
     border-bottom: 1px solid #aaa;
 }
+.block-imagemenu .hamburger-menu nav > ul > li ul {
+    display: none;
+}
+.block-imagemenu .hamburger-menu nav > ul > li ul li {
+    border-bottom: 0px;
+    border-top: 1px solid #aaa;
+    padding-left: 2rem;
+}
 .block-imagemenu .hamburger-menu nav > ul li a {
     padding: 0.5rem;
+    vertical-align: middle;
+}
+.block-imagemenu .hamburger-menu nav > ul li.dropdown a {
+    display: inline-block;
+    width: 80%;
+}
+.block-imagemenu .hamburger-menu nav > ul li a.dropdown {
+    display: inline-block;
+    width: 20%;
+    text-align: right;
+    vertical-align: middle;
+    padding: 0;
+    line-height: 0.9rem;
+    cursor: pointer;
+}
+.block-imagemenu .hamburger-menu nav > ul > li.dropdown.dd-show ul {
+    display: block;
+}
+.block-imagemenu .hamburger-menu nav .svg {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-left: 1px solid #ddd;
+}
+.block-imagemenu .hamburger-menu nav svg {
+    height: 1rem;
+    fill: #777;
+    padding: 0rem;
+    margin: 0rem;
+}
+.block-imagemenu .hamburger-menu nav li.dd-show svg.close,
+.block-imagemenu .hamburger-menu nav svg.expand {
+    display: inline;
+}
+.block-imagemenu .hamburger-menu nav li.dd-show svg.expand,
+.block-imagemenu .hamburger-menu nav svg.close {
+    display: none;
 }
 .block-imagemenu.center-logo .main-menu {
     flex-basis: 100%;

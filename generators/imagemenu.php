@@ -13,13 +13,21 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-        
     $content .= "<div class='block-imagemenu"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
-    
+
+    $dropdown_hmg = 'no';
+    $dropdown_full = 'no';
+    if( isset($block['dropdown']) && ($block['dropdown'] == 'full' || $block['dropdown'] == 'both') ) {
+        $dropdown_full = 'yes';
+    }
+    if( isset($block['dropdown']) && ($block['dropdown'] == 'hamburger' || $block['dropdown'] == 'both') ) {
+        $dropdown_hmg = 'yes';
+    }
+
     //
     // Add the image, if it's not set to be the home in the menu
     //
@@ -59,6 +67,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
     //
     if( isset($block['main-menu']) && count($block['main-menu']) > 0 ) {
         $content .= "<div class='main-menu " 
+            . ($dropdown_full == 'yes' ? 'dropdown ' : '')
             . 'showat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
         $content .= "<nav id='block-imagemenu-main-menu' class=''><ul>";
@@ -137,17 +146,50 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
 
         // Menu
         $content .= "<div class='hamburger-menu " 
+            . ($dropdown_hmg == 'yes' ? ' dropdown' : '')
             . 'hideat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
         $content .= "<nav id='block-imagemenu-hamburger-menu' class='hidden'><ul>";
+        $num = 1;
         foreach($block['hamburger-menu'] as $item) {
-            $content .= "<li class='" 
-                . (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')
+            $class = (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')
                 . (isset($item['hidden']) && $item['hidden'] == 'yes' ? ' hidden': '')
-                . (isset($item['class']) ? $item['class'] : '') 
-                . "'>";
-            $content .= "<a href='" . $item['url'] . "'>" . $item['title'] . '</a>';
-            $content .= "</li>";
+                . (isset($item['class']) ? ' ' . $item['class'] : '') 
+                . "";
+            if( $dropdown_hmg == 'yes' && isset($item['items']) && count($item['items']) > 0 ) {
+                $content .= "<li id='hmg-{$num}' class='dropdown {$class}'>";
+                $content .= "<a class='item' href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                $content .= "<a class='dropdown' onclick='C.hmgT(\"hmg-{$num}\");'><div class='svg'>";
+                $content .= '<svg class="expand" viewBox="0 0 100 100">'
+                    . '<rect rx="7" x="5" y="45" width="90" height="15"></rect>'
+                    . '<rect rx="7" x="45" y="5" width="15" height="90"></rect>'
+                    . '</svg>'
+                    . '<svg class="close" viewBox="0 0 100 100">'
+                    . '<rect rx="7" x="5" y="45" width="90" height="15"></rect>'
+                //    . '<rect rx="7" x="45" y="5" width="15" height="90"></rect>'
+                    . '</svg>'
+                    . "</div></a>";
+                //
+                // Add the submenu
+                //
+                $content .= "<ul>";
+                foreach($item['items'] as $subitem) {
+                    $content .= "<li class='"
+                        . (isset($subitem['selected']) && $subitem['selected'] == 'yes' ? ' selected': '')
+                        . (isset($subitem['hidden']) && $subitem['hidden'] == 'yes' ? ' hidden': '')
+                        . (isset($subitem['class']) ? ' ' . $subitem['class'] : '') 
+                        . "'>";
+                    $content .= "<a href='" . $subitem['url'] . "'>" . $subitem['title'] . '</a>';
+                    $content .= "</li>";
+                }
+                $content .= "</ul>";
+                $content .= "</li>";
+                $num++;
+            } else {
+                $content .= "<li class='{$class}'>";
+                $content .= "<a href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                $content .= "</li>";
+            }
         }
         $content .= "</ul></nav>";
         $content .= "</div>";

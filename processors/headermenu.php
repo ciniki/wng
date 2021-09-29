@@ -115,6 +115,31 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     }
                     $item['url'] = $page['redirect_url'];
                 }
+                //
+                // Check for submenu items
+                //
+                if( isset($page['children']) && isset($s['dropdown']) 
+                    && $page_id != $request['site']['homepage_id'] 
+                    && ($s['dropdown'] == 'full' || $s['dropdown'] == 'both') 
+                    ) {
+                    foreach($page['children'] as $child) {
+                        if( isset($request['site']['pages'][$page_id]) ) {
+                            $subpage = $request['site']['pages'][$page_id];
+                            $subitem = array(
+                                'title' => $subpage['title'],
+                                'selected' => 'no',
+                                'url' => $request['base_url'] . $subpage['path'],
+                                );
+                            if( isset($request['uri_split'][1]) && $request['uri_split'][1] == $subpage['permalink'] ) {
+                                $subitem['selected'] = 'yes';
+                            }
+                            if( !isset($item['items']) ) {
+                                $item['items'] = array();
+                            }
+                            $item['items'][] = $subitem;
+                        }
+                    }
+                }
                 $mainmenu[] = $item;
                 $page_num++;
             }
@@ -144,6 +169,31 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 }
                 if( $page_id == $request['site']['homepage_id'] && isset($s['hide-home']) && $s['hide-home'] == 'yes' ) {
                     $item['hidden'] = 'yes';
+                }
+                //
+                // Check for submenu items
+                //
+                if( isset($page['children']) && isset($s['dropdown']) 
+                    && $page_id != $request['site']['homepage_id'] 
+                    && ($s['dropdown'] == 'hamburger' || $s['dropdown'] == 'both') 
+                    ) {
+                    foreach($page['children'] as $child) {
+                        if( isset($request['site']['pages'][$child]) ) {
+                            $subpage = $request['site']['pages'][$child];
+                            $subitem = array(
+                                'title' => $subpage['title'],
+                                'selected' => 'no',
+                                'url' => $request['base_url'] . $subpage['path'],
+                                );
+                            if( isset($request['uri_split'][1]) && $request['uri_split'][1] == $subpage['permalink'] ) {
+                                $subitem['selected'] = 'yes';
+                            }
+                            if( !isset($item['items']) ) {
+                                $item['items'] = array();
+                            }
+                            $item['items'][] = $subitem;
+                        }
+                    }
                 }
                 $hamburgermenu[] = $item;
             }
@@ -194,12 +244,16 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
         'main-menu' =>  $mainmenu,
         'class' => 'header-menu',
+        'dropdown' => isset($s['dropdown']) ? $s['dropdown'] : '',
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         'hamburger-menu' =>  $hamburgermenu,
         );
     if( isset($s['image-position']) && $s['image-position'] == 'center' ) {
         $block['image-toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
         $block['class'] = 'center-logo';
+    }
+    if( isset($s['dropdown']) && $s['dropdown'] != '' && $s['dropdown'] != 'off' ) {
+        $block['dropdown'] = $s['dropdown'];
     }
 
     $blocks[] = $block;
