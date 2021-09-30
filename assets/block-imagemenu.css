@@ -91,12 +91,32 @@
     z-index: 900;
     box-shadow: 1px 1px 5px #555;
 }
-.block-imagemenu .hamburger-menu nav > ul li {
+.block-imagemenu .main-menu nav > ul > li ul {
+    border: 1px solid #aaa;
+    position: absolute;
+    background: #fff;
+    box-shadow: 1px 1px 5px #555;
+}
+.block-imagemenu .main-menu nav > ul > li ul li {
     display: block;
     border-bottom: 1px solid #aaa;
 }
+.block-imagemenu .hamburger-menu nav > ul li {
+    position: relative;
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+.block-imagemenu .main-menu nav > ul > li ul,
 .block-imagemenu .hamburger-menu nav > ul > li ul {
     display: none;
+}
+.block-imagemenu .main-menu nav > ul > li ul li {
+    border-bottom: 0px;
+    border-top: 1px solid #aaa;
+    line-height: 1em;
+    padding: 0.6rem 1rem 0.3rem 1rem;
+    min-width: 10rem;
+    text-align: left;
 }
 .block-imagemenu .hamburger-menu nav > ul > li ul li {
     border-bottom: 0px;
@@ -104,12 +124,21 @@
     padding-left: 2rem;
 }
 .block-imagemenu .hamburger-menu nav > ul li a {
-    padding: 0.5rem;
+    padding: 0.8rem 1rem 0.7rem 1rem;
     vertical-align: middle;
+    line-height: 1em;
+}
+.block-imagemenu .main-menu nav > ul li.dropdown a {
+    display: inline-block;
+    width: auto;
 }
 .block-imagemenu .hamburger-menu nav > ul li.dropdown a {
     display: inline-block;
     width: 80%;
+}
+.block-imagemenu .main-menu nav > ul li.dropdown a.dropdown {
+    display: inline-block;
+    padding: 0rem;
 }
 .block-imagemenu .hamburger-menu nav > ul li a.dropdown {
     display: inline-block;
@@ -120,13 +149,25 @@
     line-height: 0.9rem;
     cursor: pointer;
 }
+.block-imagemenu .main-menu nav > ul > li.dropdown:hover ul,
+.block-imagemenu .main-menu nav > ul > li.dropdown.dd-show ul,
 .block-imagemenu .hamburger-menu nav > ul > li.dropdown.dd-show ul {
     display: block;
+}
+.block-imagemenu .main-menu nav .svg {
+    display: inline-block;
+    padding-right: 0.5rem;
 }
 .block-imagemenu .hamburger-menu nav .svg {
     display: inline-block;
     padding: 0.5rem 1rem;
     border-left: 1px solid #ddd;
+}
+.block-imagemenu .main-menu nav svg {
+    width: 0.8rem;
+    fill: #aaa;
+    padding: 0rem;
+    margin: 0rem;
 }
 .block-imagemenu .hamburger-menu nav svg {
     height: 1rem;
@@ -134,10 +175,16 @@
     padding: 0rem;
     margin: 0rem;
 }
+.block-imagemenu .main-menu nav li:hover svg.close,
+.block-imagemenu .main-menu nav li.dd-show svg.close,
+.block-imagemenu .main-menu nav svg.expand,
 .block-imagemenu .hamburger-menu nav li.dd-show svg.close,
 .block-imagemenu .hamburger-menu nav svg.expand {
     display: inline;
 }
+.block-imagemenu .main-menu nav li:hover svg.expand,
+.block-imagemenu .main-menu nav li.dd-show svg.expand,
+.block-imagemenu .main-menu nav svg.close,
 .block-imagemenu .hamburger-menu nav li.dd-show svg.expand,
 .block-imagemenu .hamburger-menu nav svg.close {
     display: none;
@@ -150,6 +197,9 @@
 .block-imagemenu.center-logo .main-menu nav li {
     line-height: 5rem;
     vertical-align: top;
+}
+.block-imagemenu.center-logo .main-menu nav ul li li {
+    line-height: 2rem;
 }
 /* Specific styles for IE9 */
 html.no-flexbox .block-imagemenu .content {

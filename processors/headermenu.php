@@ -123,8 +123,8 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     && ($s['dropdown'] == 'full' || $s['dropdown'] == 'both') 
                     ) {
                     foreach($page['children'] as $child) {
-                        if( isset($request['site']['pages'][$page_id]) ) {
-                            $subpage = $request['site']['pages'][$page_id];
+                        if( isset($request['site']['pages'][$child]) ) {
+                            $subpage = $request['site']['pages'][$child];
                             $subitem = array(
                                 'title' => $subpage['title'],
                                 'selected' => 'no',
@@ -169,6 +169,13 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 }
                 if( $page_id == $request['site']['homepage_id'] && isset($s['hide-home']) && $s['hide-home'] == 'yes' ) {
                     $item['hidden'] = 'yes';
+                }
+                if( $page['ptype'] == 40 && $page['redirect_url'] != '' ) {
+                    // Only redirect to new tab if redirect is to a different site
+                    if( preg_match("/https?:\/\//", $page['redirect_url']) ) {
+                        $item['target'] = '_blank';
+                    }
+                    $item['url'] = $page['redirect_url'];
                 }
                 //
                 // Check for submenu items

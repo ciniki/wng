@@ -92,8 +92,3 @@ C.eU = function(s) {
 C.dU = function(s) {
     return decodeURIComponent(s);
 }
-// Toggle submenu in hamburger menu
-C.hmgT = function(id) {
-    var e = C.gE(id);
-    C.tC(e,'dd-show');
-}
