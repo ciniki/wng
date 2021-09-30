@@ -96,6 +96,7 @@
     position: absolute;
     background: #fff;
     box-shadow: 1px 1px 5px #555;
+    z-index: 1110;
 }
 .block-imagemenu .main-menu nav > ul > li ul li {
     display: block;
@@ -114,7 +115,7 @@
     border-bottom: 0px;
     border-top: 1px solid #aaa;
     line-height: 1em;
-    padding: 0.6rem 1rem 0.3rem 1rem;
+    padding: 0.6rem 1rem 0.5rem 1rem;
     min-width: 10rem;
     text-align: left;
 }
