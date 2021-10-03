@@ -1,0 +1,21 @@
+.block-msg .content {
+    padding: 2rem 1rem;
+}
+.block-msg .content p {
+    padding: 1rem;
+}
+.block-msg.success .content p {
+    background: #bffbbb;
+}
+.block-msg.warning .content p {
+    background: #fbe1bb;
+}
+.block-msg.error .content p {
+    background: #fbbbbb;
+}
+@media screen and (min-width: 40em) {
+    .block-msg .content {
+        padding: 2rem 2rem;
+    }
+}
+

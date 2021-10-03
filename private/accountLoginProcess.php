@@ -164,12 +164,8 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     );
                 $display_form = 'forgot';
             } else {
-                $blocks[] = array(
-                    'type' => 'msg', 
-                    'level' => 'success', 
-                    'content' => "A link has been sent to your email to get a new password.",
-                    );
-                $display_form = 'no';
+                header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+                return array('stat'=>'exit');
             }
         } else {
             $blocks[] = array(
@@ -179,6 +175,15 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 );
             $display_form = 'forgot';
         }
+    }
+
+    elseif( isset($_GET['forgot-success']) ) {
+        $blocks[] = array(
+            'type' => 'msg', 
+            'level' => 'success', 
+            'content' => "A link has been sent to your email to get a new password.",
+            );
+        $display_form = 'no';
     }
 
     //
@@ -217,10 +222,16 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 $blocks[] = array(
                     'type' => 'msg', 
                     'level' => 'error', 
-                    'content' => "Unable to set your new password, please try again.",
+                    'content' => "Invalid password reset link, please try again.",
                     );
+                error_log('ERR PWD RESET: ' . print_r($rc['err']['code'], true));
                 $display_form = 'reset';
             } else {
+                if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
+                    header("Location: " . $request['session']['login-return-url'] . '?reset-pwd-success');
+                    unset($request['session']['login-return-url']);
+                    return array('stat'=>'exit');
+                }
                 $blocks[] = array(
                     'type' => 'msg', 
                     'level' => 'success', 
@@ -229,6 +240,21 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 $display_form = 'login';
             }
         }
+    }
+    elseif( isset($_GET['reset-pwd-success']) ) {
+        if( isset($request['session']['login-return-url']) ) {
+            $request['session']['login-return-url'] = '';
+        }
+        if( isset($request['session']['loginform']) ) {
+            $request['session']['loginform'] = '';
+        }
+
+        $blocks[] = array(
+            'type' => 'msg', 
+            'level' => 'success', 
+            'content' => "Your password has been reset, you can now login.",
+            );
+        $display_form = 'login';
     }
 
     if( $display_form == 'login' || $display_form == 'forgot' ) {
@@ -242,10 +268,14 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 $request['session']['login_referer'] = $_SERVER['HTTP_REFERER'];
             }
         }
+        if( isset($args['return-url']) && $args['return-url'] != '' ) {
+            $request['session']['login-return-url'] = $args['return-url'];
+        }
         $request['session']['loginform'] = 'yes';
 
+
         $block = array(
-            'title' => 'Login',
+            'title' => 'Sign In',
             'type' => 'accountlogin',
             'email' => isset($_POST['email']) ? $_POST['email'] : '',
             'startform' => $display_form,

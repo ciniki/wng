@@ -1,6 +1,11 @@
 .block-accountlogin .content {
     padding: 1rem;
 }
+.block-accountlogin .reset-form,
+.block-accountlogin .signin-form,
+.block-accountlogin .forgotpassword-form {
+    padding: 1rem 0rem;
+}
 .block-accountlogin .content h2 {
     padding-bottom: 1rem;
 }
@@ -28,6 +33,9 @@
     text-align: center;
 }
 .block-accountlogin .forgot-link a.button {
+}
+.block-accountlogin .forgotpassword-form p {
+    padding: 1rem 0rem;
 }
 @media screen and (min-width: 40em) {
     .block-accountlogin .content {

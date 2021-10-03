@@ -18,10 +18,6 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
 
-    if( isset($block['title']) && $block['title'] != '' ) {
-        $content .= "<h2>" . $block['title'] . "</h2>";
-    }
-
     $startform = isset($block['startform']) && $block['startform'] == 'forgot' ? 'forgot' : 'login';
     if( !isset($block['forgot']) || $block['forgot'] != 'yes' ) {
         $startform = 'login';
@@ -36,8 +32,13 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     //
     $content .= "<div id='signin-form' class='signin-form' style='display:"
         . ($startform == 'login' ? 'block;' : 'none;')
-        . "'>"
-        . "<form method='POST' action=''>"
+        . "'>";
+    if( isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<h2>" . $block['title'] . "</h2>";
+    } else {
+        $content .= "<h2>Sign In</h2>";
+    }
+    $content .= "<form method='POST' action=''>"
         . "<input type='hidden' name='action' value='signin'>"
         . "<div class='input first-field'>"
             . "<label for='email'>Email</label>"
@@ -54,7 +55,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         . "<br/>";
     if( isset($block['forgot']) && $block['forgot'] == 'yes' ) {
         $content .= "<div class='forgot-link'><p>"
-            . "<a class='color' href='javscript:void(0);' onclick='swapLoginForm(\"forgotpassword\");return false;'>";
+            . "<a class='' href='javscript:void(0);' onclick='swapLoginForm(\"forgotpassword\");return false;'>";
         if( isset($block['forgot-link-text']) && $block['forgot-link-text'] != '' ) {
             $content .= $block['forgot-link-text'];
         } else {
@@ -73,11 +74,16 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         $content .= "<div id='forgotpassword-form' class='forgotpassword-form' style='display:"
             . ($startform == 'forgot' ? 'block;' : 'none;')
-            . "'>"
-            . "<p>Please enter your email address and you will receive a link to create a new password.</p>"
+            . "'>";
+        if( isset($block['forgot-title']) && $block['forgot-title'] != '' ) {
+            $content .= "<h2>" . $block['forgot-title'] . "</h2>";
+        } else {
+            $content .= "<h2>Forgot Password</h2>";
+        }
+        $content .= "<p>Please enter your email address and you will receive a link to create a new password.</p>"
             . "<form method='POST' action=''>"
             . "<input type='hidden' name='action' value='forgot'>\n"
-            . "<div class='input'>"
+            . "<div class='input first-field last-field'>"
                 . "<label for='forgotemail'>Email</label>"
                 . "<input id='forgotemail' type='email' class='text' maxlength='250' name='email' value='$email' />"
             . "</div>\n" 
@@ -87,7 +93,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "</form>"
             . "<br/>"
             . "<div class='forgot-link'><p>"
-                . "<a class='color' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
+                . "<a class='' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
                 . "Sign In"
                 . "</a></p></div>\n"
             . "</div>\n";

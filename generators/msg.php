@@ -14,7 +14,7 @@ function ciniki_wng_generators_msg(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( isset($block['content']) && $block['content'] != '' ) {      
-        $content .= "<div class='block-msg"
+        $content .= "<div class='block-msg limit-width center"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['level']) && $block['level'] != '' ? ' ' . $block['level'] : '')
             . "'>";

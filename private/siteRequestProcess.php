@@ -134,21 +134,31 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         error_log('ciniki.wng: Unable to save session');
     }
 
-    if( $exit == 'yes' ) {
+/*    if( $exit == 'yes' ) {
+        if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
+            ciniki_core_emailQueueProcess($ciniki);
+        }
+        if( isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0 ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'smsQueueProcess');
+            ciniki_core_smsQueueProcess($ciniki);
+        }
         return array('stat'=>'exit');
-    }
+    } */
 
     //
     // Check for emailqueue
     //
     if( (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) || (isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0) ) {
         ob_start();
-        if( isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false ) {
-            ob_start("ob_gzhandler");
-            print $content;
-            ob_end_flush();
-        } elseif( isset($content) && $content != '' ) {
-            print $content;
+        if( isset($content) && $content != '' ) {
+            if( isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false ) {
+                ob_start("ob_gzhandler");
+                print $content;
+                ob_end_flush();
+            } else {
+                print $content;
+            }
         }
         $contentlength = ob_get_length();
         header("Content-Length: $contentlength");
@@ -177,7 +187,6 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         //
         print $content;
     }
-
 
     return array('stat'=>'ok');
 }
