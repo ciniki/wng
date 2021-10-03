@@ -13,7 +13,7 @@
 // Returns
 // -------
 //
-function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request) {
+function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array()) {
 
     //
     // Check if the customer is logged in

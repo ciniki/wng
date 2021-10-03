@@ -9,19 +9,28 @@
 }
 .block-imagemenu .content {
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     align-items: center;
     justify-content: space-between;
 }
 .block-imagemenu .image-wrap {
     max-height: 5rem;
 }
+@media screen and (max-width: 40em) {
+    .block-imagemenu .image-wrap {
+        width: 80%;
+    }
+    .block-imagemenu .icons {
+        width: 20%;
+        text-align: right;
+    }
+}
 .block-imagemenu nav li.image {
     display: inline-block;
     max-height: 5rem;
 }
 .block-imagemenu .image-wrap {
-    margin-right: 1.5rem;
+    padding-right: 1.5rem;
 }
 .block-imagemenu .image-wrap img {
     max-widht: 500px;
@@ -74,7 +83,8 @@
 }
 .block-imagemenu .hamburger-menu {
     width: 100%;
-    flex-basis: 2;
+    flex-grow: 2;
+    flex-basis: 100%;
     position: relative;
 }
 .block-imagemenu .hamburger-menu nav {

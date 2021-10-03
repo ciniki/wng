@@ -1211,10 +1211,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $content .= "<p class='formerror'>$signup_err_msg</p>";
         }
         $content .="<input type='hidden' name='action' value='signin'>\n"
-            . "<div class='input'><label for='email'>Email</label>"
+            . "<div class='input first-field'><label for='email'>Email</label>"
                 . "<input id='email' type='email' class='text' maxlength='250' name='email' value='$post_email' />"
             . "</div>" 
-            . "<div class='input'><label for='password'>Password</label>"
+            . "<div class='input last-field'><label for='password'>Password</label>"
                 . "<input id='password' type='password' class='text' maxlength='100' name='password' value='' />"
             . "</div>"
             . "<div class='submit'><input type='submit' class='button' value='Sign In' /></div>"
@@ -1241,7 +1241,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         }
         $content .= "<input type='hidden' name='action' value='forgot'>\n"
             . "<input type='hidden' name='redirect' value='" . $request['ssl_domain_base_url'] . "/cart' />"
-            . "<div class='input'><label for='forgotemail'>Email </label>"
+            . "<div class='input first-field last-field'><label for='forgotemail'>Email </label>"
                 . "<input id='forgotemail' type='email' class='text' maxlength='250' name='email' value='$post_email' />"
             . "</div>\n" 
             . "<div class='submit'><input type='submit' class='button' value='Get New Password' /></div>\n"
@@ -1292,12 +1292,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             'value'=>(isset($_POST['phone'])?$_POST['phone']:''), 
             'autocomplete'=>'tel',
             );
+        $cname = ' first-field';
         foreach($fields as $fid => $field) {
-            $content .= "<div class='input'><label for='$fid'>" 
+            if( $fid == 'phone' ) {
+                $cname = ' last-field';
+            }
+            $content .= "<div class='input{$cname}'><label for='$fid'>" 
                 . $field['name'] . (array_key_exists($fid, $required_account_fields)?' *':'') . "</label>"
                 . "<input type='" . $field['type'] . "' class='" . $field['class'] . "' name='$fid' value='" . $field['value'] . "'"
                 . (isset($field['autocomplete']) && $field['autocomplete'] != '' ? " autocomplete='" . $field['autocomplete'] . "'" : '')
                 . ">";
+            $cname = '';
             if( isset($errors[$fid]) && $errors[$fid] != '' ) {
                 $content .= "<p class='formerror'>" . $errors[$fid] . "</p>";
             }
@@ -1322,7 +1327,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             );
         $form = '';
         $form .= "<h2>Billing Address</h2>";
-        $form .= "<div class='input country'>"
+        $form .= "<div class='input country first-field'>"
             . "<label for='country'>Country" . (array_key_exists('country', $required_account_fields)?' *':'') . "</label>"
             . "<select id='country_code' type='select' class='select' name='country' onchange='updateProvince()'>"
             . "<option value=''></option>";
@@ -1368,7 +1373,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $form .= "</select>";
         }
         $form .= "</div>";
-        $form .= "<div class='input postal'>"
+        $form .= "<div class='input postal last-field'>"
             . "<label for='postal'>ZIP/Postal Code" . (array_key_exists('postal', $required_account_fields)?' *':'') . "</label>"
             . "<input type='text' class='text' name='postal' value='" . $address['postal'] . "' autocomplete='address postal-code'>"
             . "</div>";

@@ -89,6 +89,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                 && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
                 ) {
                 copy($theme_filename, $cache_filename);
+                touch($cache_filename, filemtime($theme_filename));
             }
         }
     }
@@ -119,9 +120,11 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                     $mod_filename = $mod_dir . '/wng/' . $file;
                     $cache_filename = $site['cache_dir'] . '/theme/' . $file;
                     if( preg_match("/\.(jpg|png|svg|eot|ttf|woff|woff2)$/", $file) 
-                        && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
+                        && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($mod_filename)) 
                         ) {
+                        error_log('copy');
                         copy($mod_filename, $cache_filename);
+                        touch($cache_filename, filemtime($mod_filename));
                     }
                 }
             }
