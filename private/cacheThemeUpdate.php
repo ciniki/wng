@@ -122,7 +122,6 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                     if( preg_match("/\.(jpg|png|svg|eot|ttf|woff|woff2)$/", $file) 
                         && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($mod_filename)) 
                         ) {
-                        error_log('copy');
                         copy($mod_filename, $cache_filename);
                         touch($cache_filename, filemtime($mod_filename));
                     }
