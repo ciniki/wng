@@ -1,0 +1,343 @@
+<?php
+//
+// Description
+// -----------
+// Generate the form, typically produced by ciniki.forms module, but could
+// also be from wng or other modules.
+// 
+// Arguments
+// ---------
+// ciniki: 
+// tnid:            The ID of the current tenant.
+// 
+function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
+
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+
+    $content = '';
+
+    if( isset($block['form-sections']) ) {
+        
+        $content .= "<div class='block-form"
+            . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . "'>";
+        $content .= "<div class='wrap'>";
+        $content .= "<div class='content'>";
+
+        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+            $content .= "<h1>" . $block['title'] . "</h1>";
+        } elseif( isset($block['title']) && $block['title'] != '' ) {
+            $content .= "<h2>" . $block['title'] . "</h2>";
+        }
+
+        //
+        // Check if guidelines specified
+        //
+        if( isset($block['guidelines']) && $block['guidelines'] != '' ) {
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['guidelines']);
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            if( isset($rc['content']) && $rc['content'] != '' ) {
+                $content .= "<div class='guidelines'>{$rc['content']}</div>";
+            }
+        }
+        $section_list = '';
+        $sections = '';
+        $cur_section_id = '';
+        foreach($block['form-sections'] as $sid => $section) {
+            if( isset($section['fields']) && count($section['fields']) > 0 ) {
+                if( $cur_section_id == '' ) {
+                    $cur_section_id = $section['id'];
+                    $cur_section_label = $section['label'];
+                }
+                $sections .= "<div id='s-{$section['id']}' class='section"
+                    // Add class for when selected if open by default
+                    . ($cur_section_id == $section['id'] ? ' selected' : '')
+                    . "'>"; 
+                if( isset($section['label']) && $section['label'] != '' ) {
+                    $sections .= "<h2>" . $section['label'] . "</h2>";
+                }
+                if( isset($section['description']) && $section['description'] != '' ) {
+                    $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $section['description']);
+                    if( $rc['stat'] != 'ok' ) {
+                        return $rc;
+                    }
+                    if( isset($rc['content']) && $rc['content'] != '' ) {
+                        $sections .= "<div class='section-description'>{$rc['content']}</div>";
+                    }
+                }
+                
+                //
+                // Check if this section is repeatable
+                //
+                $repeats = 1;
+                $cur_repeat_num = 1;
+                if( isset($section['flags']) && ($section['flags']&0x01) == 0x01 ) {
+                    $repeats = $section['max_repeats'];
+                }
+                if( $repeats > 1 ) {
+                    $sections .= "<div class='tabs repeat-tabs'>";
+                    for($i = 1; $i <= $repeats; $i++ ) {
+                        $sections .= "<a id='t-{$section['id']}-{$i}' onclick='C.form.sR(\"{$section['id']}\",{$i});' class='tab" 
+                            . ($i == $cur_repeat_num ? ' selected' : '')
+                            . ($i <= $section['min_repeats'] ? ' required' : '')
+                            . "'>{$i}</a>";
+                    }
+                    $sections .= "</div>";
+                }
+
+                for($i = 1; $i <= $repeats; $i++ ) {
+                    if( $repeats > 1 ) {
+                        $sections .= "<div id='s-{$section['id']}-{$i}' class='repeated-fields"
+                            . ($repeats > 1 ? ' repeatable' : '')
+                            . ($repeats > 1 && $cur_repeat_num == $i ? ' selected' : '')
+                            . ($repeats > 1 && $i <= $section['min_repeats'] ? ' required' : '')
+                            . "'>";
+                        if( isset($section['repeat-prefix']) && $section['repeat-prefix'] != '' ) {
+                            $sections .= "<h2>{$section['repeat-prefix']} {$i}</h2>";
+                        }
+                    }
+/*                    if( $repeats > 1 ) {
+                        $sections .= "<div id='d-{$section['id']}-{$i}' class='fields'>";
+                    } else {
+                        $sections .= "<div id='d-{$section['id']}' class='fields'>";
+                    } */
+                    $sections .= "<div class='fields'>";
+                    foreach($section['fields'] AS $field) {
+                        if( $repeats > 1 ) {
+                            $field['id'] .= "-{$i}";
+                            if( isset($field['values'][$i]) ) {
+                                $field['value'] = $field['values'][$i];
+                            } else {
+                                $field['value'] = '';
+                            }
+                        }
+                        if( $field['ftype'] == 'break' ) {
+                            // Close previous section
+                            $sections .= "</div>";
+                            if( isset($field['label']) && $field['label'] != '' ) {
+                                $sections .= "<h2>" . $field['label'] . "</h2>";
+                            }
+                            if( isset($field['description']) && $field['description'] != '' ) {
+                                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+                                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['description']);
+                                if( $rc['stat'] != 'ok' ) {
+                                    return $rc;
+                                }
+                                if( isset($rc['content']) && $rc['content'] != '' ) {
+                                    $sections .= "<div class='section-description'>{$rc['content']}</div>";
+                                }
+                            }
+                            $sections .= "<div class='fields'>";
+
+                            continue;
+                        }
+                        $req = '';
+                        if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
+                            $req = ' required';
+                            if( $repeats > 1 && $i > $section['min_repeats'] ) {
+                                $req = '';
+                            }
+                        }
+                        $field_description = '';
+                        if( isset($field['description']) && $field['description'] != '' ) {
+                            $field_description = "<div class='field-description'>"
+                                . $field['description']
+                                . "</div>";
+                        }
+
+                        $sections .= "<div class='field field-{$field['ftype']}{$req}"
+                            . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
+                            . "'>";
+
+                        if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        } 
+                        elseif( $field['ftype'] == 'number' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        }
+                        elseif( $field['ftype'] == 'price' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='text' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        }
+                        elseif( $field['ftype'] == 'phone' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='tel' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        }
+                        elseif( $field['ftype'] == 'date' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='date' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        }
+                        elseif( $field['ftype'] == 'url' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='url' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ">";
+                        }
+                        elseif( $field['ftype'] == 'address' ) {
+                            $sections .= "<label for='f-{$field['id']}-address1' class='{$req}'>Line 1</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address1'"
+                                . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
+                                . ">";
+                            $sections .= "<label for='f-{$field['id']}-address1'>Line 2</label>";
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address2'"
+                                . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
+                                . ">";
+                            $sections .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-city'"
+                                . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
+                                . ">"; 
+                            $sections .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-province'"
+                                . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
+                                . ">"; 
+                            $sections .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
+                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-postal'"
+                                . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
+                                . ">"; 
+                        }
+                        elseif( $field['ftype'] == 'textarea' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<textarea id='f-{$field['id']}'>"
+                                . (isset($field['value']) ? $field['value'] : '')
+                                . "</textarea>";
+                        }
+                        elseif( $field['ftype'] == 'select' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<select id='f-{$field['id']}'>";
+                            $sections .= "<option value=''></option>";
+                            for($i = 0;$i < 20;$i++) {
+                                if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
+                                    $value = $field["option-{$i}"];
+                                    $sections .= "<option value='{$value}'"
+                                        . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
+                                        . ">{$value}</option>";
+                                }
+                            }
+                            $sections .= "</select>";
+                        }
+                        //
+                        // FIXME: Add other field types
+                        //
+                        elseif( $field['ftype'] == 'radio' ) {
+                        }
+                        elseif( $field['ftype'] == 'checkbox' ) {
+                        }
+                        elseif( $field['ftype'] == 'content' ) {
+                        }
+                        elseif( $field['ftype'] == 'image' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/{$field['value']}'/></div>";
+                            $sections .= "<div class='hidden'>"
+                                . "<input type='file' id='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iU(event,\"{$section['id']}\",\"{$field['id']}\");'/>"
+                                . "</div>";
+                            $sections .= "<div class='form-buttons'>";
+                            $sections .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
+                            $sections .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
+                            $sections .= "</div>";
+                        }
+                        elseif( $field['ftype'] == 'document' ) {
+                        }
+                        elseif( $field['ftype'] == 'termsofuse' ) {
+                            $sections .= "<label for='termsofuse' class='required hidden'>" 
+                                . (isset($field['prefix']) ? $field['prefix'] . ' ' : '') 
+                                . $field['label']
+                                . "</label>";
+                            $sections .= "<input type='checkbox' id='termsofuse'"
+                                . ($field['value'] == 'yes' ? ' checked' : '')
+                                . ">";
+                            $sections .= "<span class='termsofuse required'>" 
+                                . (isset($field['prefix']) ? $field['prefix'] . ' ' : '')
+                                . "<a onclick='C.form.sTOU();'>" . $field['label'] . "</a>"
+                                . "</span>";
+                            $sections .= $field_description;
+                            $sections .= "<div class='tou hidden'>"
+                                . "<div class='tou-wrap'>"
+                                . $field['tou']
+                                . "</div>"
+                                . "</div>";
+                        }
+                        elseif( $field['ftype'] == 'payment' ) {
+
+                        }
+                        elseif( $field['ftype'] == 'submit' ) {
+                            $sections .= "<div class='form-buttons'>";
+                            $sections .= "<a class='button' onclick='C.form.submit();'>Submit</a>";
+                            $sections .= "</div>";
+                            
+                        }
+                        
+                        $sections .= "</div>";
+                    }
+                    $sections .= "</div>";
+                    if( $repeats > 1 ) {
+                        $sections .= "</div>";
+                    }
+                } // End of the repeats loop
+
+                $sections .= "</div>";
+                
+                //
+                // Add the section to the list of selectable sections
+                //
+                $section_list .= "<div id='b-{$section['id']}' class='section"
+                    . ($cur_section_id == $section['id'] ? ' selected' : '')
+                    . ($repeats > 1 ? ' repeatable' : '')
+                    . "'>"
+                    . "<a onclick='C.form.sS(\"{$section['id']}\");' class='button'>{$section['label']}</a>"
+                    . "</div>";
+
+            }
+        }
+
+        $content .= "<div class='form'>";
+        $content .= "<div class='current-section'>{$cur_section_label}</div>";
+        $content .= "<div class='sections-list'>" 
+            . "<h2>Sections</h2>"
+            . "<div class='list'>" . $section_list . "</div>"
+            . "</div>";
+        $content .= "<div class='sections-fields'>" . $sections . "</div>";
+        $content .= '</div>';
+
+        if( isset($block['api-save-url']) && $block['api-save-url'] != '' 
+            && isset($block['api-args']) && is_array($block['api-args']) 
+            ) {
+            $js = "window.addEventListener('load', (e)=>{C.form.start(e,'{$cur_section_id}',"
+                . "'" . $block['api-save-url'] . "',"
+                . "'" . $block['api-image-url'] . "',"
+                . json_encode($block['api-args'])
+                . ")});";
+        }
+
+        $content .= '</div>';
+        $content .= '</div>';
+        $content .= '</div>';
+    }
+
+
+    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
+}
+?>

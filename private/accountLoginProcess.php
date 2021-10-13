@@ -38,7 +38,23 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $display_form = 'reset';
     }
 
-    if( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
+    if( isset($_POST['action']) && $_POST['action'] == 'createsimple' ) {
+        $display_form = 'simpleaccount';
+        //
+        // FIXME: Create account with email verification
+        //
+/*        ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'customerAdd');
+        $rc = ciniki_customers_wng_customerAdd($ciniki, $tnid, $request, array(
+            'first' => $_POST['first'],
+            'last' => $_POST['last'],
+            'email_address' => $_POST['createemail'],
+            'password' => $_POST['createpassword'],
+            ));
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.149', 'msg'=>'', 'err'=>$rc['err']));
+        } */
+    }
+    elseif( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
         //
         // Check the referrer and that cookies are enabled
         //
@@ -123,7 +139,15 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                         $request['session']['account_chooser_redirect'] = '';
                     }
                 } 
-
+                
+                //
+                // Check for a returning url
+                //
+                elseif( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
+                    header("Location: " . $request['session']['login-return-url'] . '?auth-success');
+                    unset($request['session']['login-return-url']);
+                    return array('stat'=>'exit');
+                }
                 //
                 // Check for a redirect
                 //
@@ -257,7 +281,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $display_form = 'login';
     }
 
-    if( $display_form == 'login' || $display_form == 'forgot' ) {
+    if( $display_form == 'login' || $display_form == 'forgot' || $display_form == 'simpleaccount' ) {
         //
         // Set a session variable, to test for cookies being turned on
         //
@@ -277,6 +301,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $block = array(
             'title' => 'Sign In',
             'type' => 'accountlogin',
+            'create-account' => isset($args['create-account']) ? $args['create-account'] : '',
             'email' => isset($_POST['email']) ? $_POST['email'] : '',
             'startform' => $display_form,
             );

@@ -18,6 +18,34 @@ C.tC = function(e, c) {
     }
 };
 //
+// Function to add a class
+//
+C.aC = function(e, c) {
+    if( e.classList != null ) {
+        if( !e.classList.contains(c) ) {
+            e.classList.add(c);
+        }
+    } else if( e.className != null ) {
+        if( e.className.indexOf(c) == -1 ) {
+            e.className += c;
+        }
+    }
+};
+//
+// Function to remove a class
+//
+C.rC = function(e, c) {
+    if( e.classList != null ) {
+        if( e.classList.contains(c) ) {
+            e.classList.remove(c);
+        }
+    } else if( e.className != null ) {
+        if( e.className.indexOf(c) > -1 ) {
+            e.className = e.className.replace(c, '');
+        }
+    }
+};
+//
 // Function to check if class contains 
 //
 C.cC = function(e, c) {
@@ -64,6 +92,34 @@ C.getBg = function(c,p,f){
         }
     };
     x.send(null);
+};
+// Call back to API with Form Data
+C.postFDBg = function(m,p,fd,c) {
+    var u = '';
+    if(p!=null){
+        for(i in p){
+            u+=(u==''?'?':'&')+i+'='+encodeURIComponent(p[i]);
+        }
+    };
+    u=m+u;
+    var x=new XMLHttpRequest();
+    x.open("POST", u, true);
+    x.onreadystatechange = function() {
+        if( x.readyState == 4 && x.status == 200 ) {
+            var r = eval('(' + x.responseText + ')');
+            if( r.stat != 'ok' ) {
+                console.log(x.responseText);
+            } 
+            c(r);
+        } 
+        else if( x.readyState > 2 && (x.status >= 300) ) {
+            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+        } else if( x.readyState == 4 && x.status == 0 ) {
+            M.stopLoad();
+            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+        }
+    };
+    x.send(fd);
 };
 // Clear a element in the dom
 C.clr=function(i){

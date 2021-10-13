@@ -18,10 +18,16 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
 
-    $startform = isset($block['startform']) && $block['startform'] == 'forgot' ? 'forgot' : 'login';
-    if( !isset($block['forgot']) || $block['forgot'] != 'yes' ) {
-        $startform = 'login';
-    }
+    $startform = 'login';
+    if( isset($block['startform']) ) {
+        if( $block['startform'] == 'forgot' ) {
+            $startform = 'forgot';
+        } elseif( $block['startform'] == 'simpleaccount' ) {
+            $startform = 'simpleaccount';
+        } else {
+            $startform = 'login';
+        }
+    } 
 
     $js = '';
 
@@ -51,8 +57,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         . "<div class='submit'>"
             . "<input type='submit' class='button' value='Sign In' />"
         . "</div>\n"
-        . "</form>"
-        . "<br/>";
+        . "</form>";
     if( isset($block['forgot']) && $block['forgot'] == 'yes' ) {
         $content .= "<div class='forgot-link'><p>"
             . "<a class='' href='javscript:void(0);' onclick='swapLoginForm(\"forgotpassword\");return false;'>";
@@ -63,11 +68,22 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "</a></p></div>\n";
     }
+    if( isset($block['create-account']) && $block['create-account'] == 'simple' ) {
+        $content .= "<div class='create-link'><p>"
+            . "<a class='' href='javscript:void(0);' onclick='swapCreateForm(\"simpleaccount\");return false;'>";
+        if( isset($block['create-account-text']) && $block['create-account-text'] != '' ) {
+            $content .= $block['create-account-text'];
+        } else {
+            $content .= "Sign Up Now";
+        }
+        $content .= "</a></p></div>\n";
+    }
     $content .= "</div>\n";
         
     //
     // Forgot password form
     //
+    $js = '';
     if( isset($block['forgot']) && $block['forgot'] == 'yes' ) {
         //
         // The forgot reset form
@@ -91,7 +107,6 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
                 . "<input type='submit' class='button' value='Get New Password' />"
             . "</div>\n"
             . "</form>"
-            . "<br/>"
             . "<div class='forgot-link'><p>"
                 . "<a class='' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
                 . "Sign In"
@@ -101,7 +116,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         // Javascript to switch login/forgot password forms
         //
-        $js = ""
+        $js .= ""
             . " function swapLoginForm(l) {\n"
             . "     if( l == 'forgotpassword' ) {\n"
             . "         C.gE('signin-form').style.display = 'none';\n"
@@ -114,6 +129,69 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "     return true;\n"
             . " }\n"
             . "";
+    }
+
+    //
+    // The simple account create form
+    //
+    if( isset($block['create-account']) && $block['create-account'] == 'simple' ) {
+        //
+        // The forgot reset form
+        //
+        $content .= "<div id='simpleaccount-form' class='simpleaccount-form' style='display:"
+            . ($startform == 'simpleaccount' ? 'block;' : 'none;')
+            . "'>";
+        if( isset($block['create-title']) && $block['create-title'] != '' ) {
+            $content .= "<h2>" . $block['create-title'] . "</h2>";
+        } else {
+            $content .= "<h2>Create Account</h2>";
+        }
+        $content .= ""
+            . "<form method='POST' action=''>"
+            . "<input type='hidden' name='action' value='createsimple'>\n"
+            . "<div class='input first-field'>"
+                . "<label for='first'>First Name</label>"
+                . "<input id='first' type='text' class='text' maxlength='150' name='first' value='' />"
+            . "</div>\n" 
+            . "<div class='input'>"
+                . "<label for='last'>Last Name</label>"
+                . "<input id='last' type='text' class='text' maxlength='150' name='last' value='' />"
+            . "</div>\n" 
+            . "<div class='input'>"
+                . "<label for='createemail'>Email</label>"
+                . "<input id='createemail' type='email' class='text' maxlength='250' name='createemail' value='$email' />"
+            . "</div>\n" 
+            . "<div class='input last-field'>"
+                . "<label for='createpassword'>Password</label>"
+                . "<input id='createpassword' type='password' class='text' maxlength='100' name='createpassword' value='' />"
+            . "</div>\n"
+            . "<div class='submit'>"
+                . "<input type='submit' class='button' value='Create Account' />"
+            . "</div>\n"
+            . "</form>"
+            . "<div class='create-link'><p>"
+                . "<a class='' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
+                . "Sign In"
+                . "</a></p></div>\n"
+            . "</div>\n";
+
+        //
+        // Javascript to switch login/forgot password forms
+        //
+        $js .= ""
+            . " function swapCreateForm(l) {\n"
+            . "     if( l == 'simpleaccount' ) {\n"
+            . "         C.gE('signin-form').style.display = 'none';\n"
+            . "         C.gE('simpleaccount-form').style.display = 'block';\n"
+            . "         C.gE('createemail').value = C.gE('email').value;\n"
+            . "     } else {\n"
+            . "         C.gE('signin-form').style.display = 'block';\n"
+            . "         C.gE('simpleaccount-form').style.display = 'none';\n"
+            . "     }\n"
+            . "     return true;\n"
+            . " }\n"
+            . "";
+
     }
 
 

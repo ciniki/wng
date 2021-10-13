@@ -1,0 +1,181 @@
+.block-form .content {
+    padding: 1rem;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+.block-form .content h2 {
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+.block-form .sections-fields .repeatable,
+.block-form .sections-fields .section {
+    display: none;
+}
+.block-form .sections-fields .repeatable.selected,
+.block-form .sections-fields .section.selected {
+    display: block;
+}
+.block-form .section-description p {
+    padding-bottom: 1rem;
+}
+.block-form .field {
+    padding: 0.5rem 0rem;
+}
+.block-form .field label {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    font-weight: bold;
+}
+.block-form .tab {
+    min-width: 4rem;
+    flex-grow: 1;
+    text-align: center;
+}
+.block-form .tab:before,
+.block-form .tab:after {
+    content: ' ';
+    font-size: 1.2em;
+    line-height: 0.5em;
+    padding: 0rem 0.45rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+.block-form .tab.required:after,
+.block-form label.required:after {
+    content: "*";
+    color: #ff5555;
+    font-size: 1.2em;
+    line-height: 0.5em;
+    padding: 0rem 0.25rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+.block-form .tab.required {
+}
+.block-form .tab.required:after {
+    padding-right: 0em;
+}
+.block-form .field input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+}
+.block-form .field-number input {
+    width: 12em;
+}
+.block-form .field-price input {
+    width: 12rem;
+}
+.block-form .field-textarea {
+    padding-bottom: 0rem;
+}
+.block-form .field textarea {
+    width: 100%;
+}
+.block-form .field-select select {
+    min-width: 12em;
+}
+.block-form .field-termsofuse,
+.block-form .field-checkbox {
+    padding-top: 1rem;
+}
+.block-form .field-termsofuse input,
+.block-form .field-checkbox input {
+    display: inline-block;
+    width: auto;
+    padding: 1rem;
+    transform: scale(1.5);
+    margin: 0 1rem 0 0.5rem;
+}
+.block-form .field-termsofuse label {
+    display: none;
+}
+.block-form .field-termsofuse .termsofuse {
+    font-weight: bold;
+}
+.block-form .field-termsofuse a {
+    cursor: pointer;
+}
+/* 2 lines, 5 lines, 10 lines, 15 lines, 25 lines */
+.block-form .field.size-tiny textarea {
+    height: 4.5em;
+}
+.block-form .field.size-small textarea {
+    height: 9em;
+}
+.block-form .field.size-medium textarea {
+    height: 16.5em;
+}
+.block-form .field.size-large textarea {
+    height: 24em;
+}
+.block-form .field.size-xlarge textarea {
+    height: 39em;
+}
+.block-form .field .img-preview {
+    padding-bottom: 1rem;
+}
+.block-form .field .img-preview img {
+    margin: 0 auto;
+    max-width: 100%;
+}
+.block-form .field-description {
+    padding: 0rem 0.5rem 1rem 0.5rem;
+}
+.block-form .form-buttons {
+    text-align: right;
+}
+.block-form .form-buttons .button {
+    margin-left: 1rem;
+}
+.block-form .form-buttons .button:first-child {
+    margin-left: 0rem;
+}
+.block-form .submit {
+    padding-top: 1rem;
+    text-align: right;
+    margin-bottom: 2rem;
+}
+.block-form .submit input {
+    width: 100%;
+}
+.block-form .sections-list.hide {
+    display: none;
+}
+.block-form .sections-list .button {
+    width: 100%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+@media screen and (min-width: 40em) {
+    .block-form .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-form .content {
+        max-width: 80rem;
+    }
+    .block-form .current-section {
+        display: none;
+    }
+    .block-form .sections-list.hide {
+        display: block;
+    }
+    .block-form .form {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .block-form .sections-list {
+        width: 35%;
+        padding-right: 1rem;
+    }
+    .block-form .sections-fields {
+        width: 65%;
+        padding-left: 1rem;
+    }
+}

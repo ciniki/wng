@@ -80,6 +80,31 @@ if( isset($_GET) && is_array($_GET) ) {
         }
     }
 }
+//
+// Parse and POST args
+//
+if( isset($_POST) && is_array($_POST) ) {
+    if( isset($_SERVER['CONTENT_TYPE']) && substr($_SERVER['CONTENT_TYPE'], 0, 19) == 'multipart/form-data' ) {
+        foreach($_POST as $arg_key => $arg_value) {
+            $arg_key = urldecode($arg_key);
+            if( $arg_key != '' ) {
+                $request['args'][$arg_key] = urldecode($arg_value);
+            }
+        }
+    } else {
+        $pairs = explode("&", file_get_contents("php://input"));
+        // $vars = array();
+        foreach ($pairs as $pair) {
+            if( $pair == '' ) { continue; }
+            $nv = explode("=", $pair);
+            $arg_key = urldecode($nv[0]);
+            $arg_value = (isset($nv[1]) ? urldecode($nv[1]) : '');
+            if( $arg_key != '' ) {
+                $request['args'][$arg_key] = $arg_value;
+            }
+        }
+    }
+}
 
 //
 // Check if SSL 

@@ -1,6 +1,9 @@
 .block-accountlogin .content {
     padding: 1rem;
+    max-width: 30rem;
+    margin: 0 auto;
 }
+.block-accountlogin .simpleaccount-form,
 .block-accountlogin .reset-form,
 .block-accountlogin .signin-form,
 .block-accountlogin .forgotpassword-form {
@@ -12,7 +15,7 @@
 .block-accountlogin .input label {
     display: block;
     width: 100%;
-    padding: 0.5em 0em;
+    padding: 0.5em;
 }
 .block-accountlogin .input {
     padding: 0.5rem 0rem;
@@ -25,26 +28,23 @@
 .block-accountlogin .submit {
     padding-top: 1rem;
     text-align: right;
+    margin-bottom: 2rem;
 }
 .block-accountlogin .submit input {
     width: 100%;
 }
+.block-accountlogin .create-link,
 .block-accountlogin .forgot-link {
     text-align: center;
 }
+.block-accountlogin .create-link a,
+.block-accountlogin .forgot-link a {
+    display: block;
+    padding: 0.5rem;
+}
 .block-accountlogin .forgot-link a.button {
 }
+.block-accountlogin .simpleaccount-form p,
 .block-accountlogin .forgotpassword-form p {
     padding: 1rem 0rem;
-}
-@media screen and (min-width: 40em) {
-    .block-accountlogin .content {
-        max-width: 30em;
-        margin: 0 auto;
-    }
-    .block-accountlogin .input label {
-        padding: 0.5em;
-    }
-    .block-accountlogin .input input {
-    }
 }

@@ -174,13 +174,20 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     //
     // Remove comments and extra lines
     //
-    $css = preg_replace("/\/\*.*\*\//", '', $css);
     $css = preg_replace("/^\s+/m", '', $css);
+    $css = preg_replace("/\/\*.*\*\//", '', $css);
     $css = str_replace("\n", '', $css);
     $css = str_replace('; ', ';', $css);
     $css = str_replace(': ', ':', $css);
     $css = str_replace(', ', ',', $css);
     $css = str_replace(' {', '{', $css);
+
+    $js = preg_replace("/^\s+/m", '', $js);
+    $js = preg_replace("/^\/\/$/m", '', $js);
+    $js = preg_replace("/\/\/ .*/", '', $js);
+    $js = preg_replace("/\/\*.*\*\//", '', $js);
+    $js = str_replace("\n\n", "\n", $js);
+    $js = str_replace("\n\n", "\n", $js);
 
     //
     // Check the theme dir exists in cache
