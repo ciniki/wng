@@ -11,6 +11,8 @@
 // 
 function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+
     $content = '';
 
     $image_position = 'top';
@@ -48,6 +50,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             //
             $content .= "<div class='image-wrap'>";
             $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
+            if( isset($block['image-caption']) && $block['image-caption'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['image-caption']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= "<div class='caption'>{$rc['content']}</div>";
+            }
             $content .= '</div>';
         }
 
@@ -64,7 +73,6 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             $content .= "<h3>" . $block['subtitle'] . "</h3>";
         }
         $content .= "</div>";
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
             if( $rc['stat'] != 'ok' ) {

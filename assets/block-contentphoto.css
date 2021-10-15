@@ -7,6 +7,11 @@
 .block-contentphoto .image-wrap img {
     width: 100%;
 }
+.block-contentphoto .image-wrap .caption {
+    text-align: center;
+    padding-top: 1rem;
+    font-style: italic;
+}
 .block-contentphoto .content-wrap {
     padding: 1rem;
 }
