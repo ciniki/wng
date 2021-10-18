@@ -74,6 +74,7 @@
     cursor: pointer;
     padding: 0.1rem;
     margin-right: 0.5rem;
+    margin-left: auto;
 }
 .block-imagemenu .hamburger-icon svg .shadow {
     fill: transparent;

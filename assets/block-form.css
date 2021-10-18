@@ -207,14 +207,19 @@
 .block-form .field-submit {
     padding-top: 1rem;
 }
-.block-form .submit {
+.block-form .form-buttons input {
+    display: inline-block;
+    width: 100%;
+    margin-left: 0;
+}
+/*.block-form .submit {
     padding-top: 1rem;
     text-align: right;
     margin-bottom: 2rem;
 }
 .block-form .submit input {
     width: 100%;
-}
+} */
 .block-form .sections-list.hide {
     display: none;
 }
@@ -232,6 +237,12 @@
     .block-form .section-buttons .button {
         min-width: 10rem;
         width: auto;
+    }
+    .block-form .field-submit .button {
+        min-width: 10rem;
+        width: auto;
+        margin-left: auto;
+        margin-right: 0;
     }
 }
 @media screen and (min-width: 50em) {

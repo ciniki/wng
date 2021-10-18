@@ -2291,7 +2291,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                                 . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
                                 . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
                                 . 'locale: "auto", '
-                                . 'name: "' . $request['site']['header-site-title'] . '", '
+                                . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
                                 . 'description: "", '
                                 . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
                                 . 'zipCode: true, '

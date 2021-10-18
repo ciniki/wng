@@ -352,11 +352,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'submit' ) {
-                            $sections .= "<div class='form-buttons'>";
-                            $sections .= "<a class='button' onclick='C.form.submit();'>"
+//                            $sections .= "<div class='form-buttons'>";
+                            $sections .= "<form action='' method='POST'>";
+                            $sections .= "<input type='hidden' name='action' value='submit'>";
+                            $sections .= "<input type='submit' class='button' value='"
                                 . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
-                                . "</a>";
-                            $sections .= "</div>";
+                                . "' >";
+                            $sections .= "</form>";
+//                            $sections .= "</div>";
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
                         
