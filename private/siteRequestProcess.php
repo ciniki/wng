@@ -86,11 +86,12 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pageRequestProcess');
     $rc = ciniki_wng_pageRequestProcess($ciniki, $tnid, $request, $request['site']['homepage_id']);
-    if( $rc['stat'] == 'ok' && isset($rc['json']) && $rc['json'] == 'yes' ) {
+    if( $rc['stat'] != 'exit' && isset($rc['json']) && $rc['json'] == 'yes' ) {
         header("Content-Type: text/plain; charset=utf-8");
         header("Cache-Control: no-cache, must-revalidate");
         unset($rc['json']);
         $rc['content'] = json_encode($rc);
+        $rc['stat'] = 'ok';
     }
     elseif( $rc['stat'] == 'ok' ) {
         //

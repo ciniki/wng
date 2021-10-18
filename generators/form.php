@@ -42,13 +42,33 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $content .= "<div class='guidelines'>{$rc['content']}</div>";
             }
         }
+        //
+        // Setup the next/prev for sections
+        //
+        $prev_sid = -1;
+        foreach($block['form-sections'] as $sid => $section) {
+            if( $prev_sid >= 0 ) {
+                $block['form-sections'][$sid]['prev_sid'] = $prev_sid;
+                $block['form-sections'][$prev_sid]['next_sid'] = $sid;
+            }
+            $prev_sid = $sid;
+        }
+
+        //
+        // Process the sections
+        //
         $section_list = '';
         $sections = '';
         $cur_section_id = '';
+        if( isset($block['cur-section-id']) && $block['cur-section-id'] != '' ) {
+            $cur_section_id = $block['cur-section-id'];
+        }
         foreach($block['form-sections'] as $sid => $section) {
             if( isset($section['fields']) && count($section['fields']) > 0 ) {
                 if( $cur_section_id == '' ) {
                     $cur_section_id = $section['id'];
+                }
+                if( $cur_section_id == $section['id'] ) {
                     $cur_section_label = $section['label'];
                 }
                 $sections .= "<div id='s-{$section['id']}' class='section"
@@ -238,14 +258,33 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             }
                             $sections .= "</select>";
                         }
-                        //
-                        // FIXME: Add other field types
-                        //
                         elseif( $field['ftype'] == 'radio' ) {
+                            $sections .= "<div class='label {$req}'>{$field['label']}</div>";
+                            $sections .= $field_description;
+                            for($i = 0;$i < 20;$i++) {
+                                if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
+                                    $value = $field["option-{$i}"];
+                                    $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$i}' value='{$value}'"
+                                        . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
+                                        . ">"
+                                        . "<label for='f-{$field['id']}-{$i}'>{$value}</label>"
+                                        . "";
+                                }
+                            }
                         }
                         elseif( $field['ftype'] == 'checkbox' ) {
+                            $sections .= "<input type='checkbox' id='f-{$field['id']}'"
+                                . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
+                                . ">";
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>{$field['label']}</label>";
+                            $sections .= "</input>";
+                            $sections .= $field_description;
                         }
                         elseif( $field['ftype'] == 'content' ) {
+                            if( isset($field['label']) && $field['label'] != '' ) {
+                                $sections .= "<div class='label'>{$field['label']}</div>";
+                            }
+                            $sections .= $field_description;
                         }
                         elseif( $field['ftype'] == 'image' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -260,44 +299,106 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'document' ) {
+                            // FIXME: Add document support
                         }
                         elseif( $field['ftype'] == 'termsofuse' ) {
-                            $sections .= "<label for='termsofuse' class='required hidden'>" 
+                            $sections .= "<label for='termsofuse' class='required hidden'>"
                                 . (isset($field['prefix']) ? $field['prefix'] . ' ' : '') 
                                 . $field['label']
                                 . "</label>";
                             $sections .= "<input type='checkbox' id='termsofuse'"
-                                . ($field['value'] == 'yes' ? ' checked' : '')
+                                . ($field['value'] == 'on' ? ' checked' : '')
+                                . " onchange='C.form.qSave();'" 
                                 . ">";
                             $sections .= "<span class='termsofuse required'>" 
                                 . (isset($field['prefix']) ? $field['prefix'] . ' ' : '')
                                 . "<a onclick='C.form.sTOU();'>" . $field['label'] . "</a>"
                                 . "</span>";
                             $sections .= $field_description;
-                            $sections .= "<div class='tou hidden'>"
-                                . "<div class='tou-wrap'>"
-                                . $field['tou']
-                                . "</div>"
-                                . "</div>";
+                            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['tou']);
+                            if( $rc['stat'] != 'ok' ) {
+                                return $rc;
+                            }
+                            if( isset($rc['content']) && $rc['content'] != '' ) {
+                                $sections .= "<div id='tou-message' class='tou hidden'>"
+                                    . "<div class='tou-wrap'>"
+                                    . "<h3>Terms of Use</h3>"
+                                    . $rc['content']
+                                    . "</div>"
+                                    . "</div>";
+                            }
                         }
-                        elseif( $field['ftype'] == 'payment' ) {
-
+                        elseif( $field['ftype'] == 'payment' && isset($field['amount']) ) {
+                            $sections .= "<div class='form-payment'>";
+                            if( isset($field['label']) && $field['label'] != '' ) {
+                                $sections .= "<span class='fee-label'>" . $field['label'] . "</span>";
+                            }
+                            $sections .= "<span class='fee-amount'>$" . number_format($field['amount'], 2) . "</span>";
+                            if( isset($field['paid']) && $field['paid'] == 'yes' ) {
+                                $sections .= "<span class='invoice-paid'>Paid</span>";
+                            } elseif( isset($field['paid']) && $field['paid'] == 'unpaidcart' ) {
+                                $sections .= "<a class='fee-button button' href='"
+                                    . (isset($field['cart-url']) ? $field['cart-url'] : '')
+                                    . "'>"
+                                    . (isset($field['button-label']) && $field['button-label'] != '' ? $field['button-label'] : 'Pay Now')
+                                    . "</a>";
+                            } else {
+                                $sections .= "<a class='fee-button button' onclick='C.form.cartSubmit(\""
+                                    . (isset($field['cart-url']) ? $field['cart-url'] : '')
+                                    . "\");'>"
+                                    . (isset($field['button-label']) && $field['button-label'] != '' ? $field['button-label'] : 'Pay Now')
+                                    . "</a>";
+                            }
+                            $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'submit' ) {
                             $sections .= "<div class='form-buttons'>";
-                            $sections .= "<a class='button' onclick='C.form.submit();'>Submit</a>";
+                            $sections .= "<a class='button' onclick='C.form.submit();'>"
+                                . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
+                                . "</a>";
                             $sections .= "</div>";
-                            
+//                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
                         
                         $sections .= "</div>";
                     }
                     $sections .= "</div>";
                     if( $repeats > 1 ) {
+                        if( isset($section['repeat-prefix']) && $section['repeat-prefix'] != '' ) {
+                            $sections .= "<div class='form-buttons repeat-buttons'>";
+                            if( isset($section['prev_sid']) ) {
+                                $sections .= "<a onclick='C.form.sR(\"{$section['id']}\"," . ($i-1) . ");' "
+                                    . "class='button prev'>"
+                                    . "Previous {$section['repeat-prefix']}"
+                                    . "</a>";
+                            }
+                            if( $i < $section['max_repeats'] ) {
+                                $sections .= "<a onclick='C.form.sR(\"{$section['id']}\"," . ($i+1) . ");' "
+                                    . "class='button prev'>"
+                                    . "Next {$section['repeat-prefix']}"
+                                    . "</a>";
+                            }
+                            $sections .= "</div>";
+                        }
                         $sections .= "</div>";
                     }
                 } // End of the repeats loop
 
+                //
+                // Add the prev/next buttons
+                //
+                $sections .= "<div class='form-buttons section-buttons'>";
+                if( isset($section['prev_sid']) ) {
+                    $sections .= "<a onclick='C.form.sS(\"{$block['form-sections'][$section['prev_sid']]['id']}\");' class='button prev'>Previous</a>";
+                }
+                if( isset($section['next_sid']) ) {
+                    $sections .= "<a onclick='C.form.sS(\"{$block['form-sections'][$section['next_sid']]['id']}\");' class='button next'>Next</a>";
+                }
+                $sections .= "</div>";
+
+                // 
+                // Close the .section div
+                //
                 $sections .= "</div>";
                 
                 //
@@ -309,7 +410,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . "'>"
                     . "<a onclick='C.form.sS(\"{$section['id']}\");' class='button'>{$section['label']}</a>"
                     . "</div>";
-
+                
             }
         }
 
@@ -323,11 +424,16 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>';
 
         if( isset($block['api-save-url']) && $block['api-save-url'] != '' 
+            && isset($block['api-image-url']) && $block['api-image-url'] != '' 
+            && isset($block['api-cartsubmit-url']) && $block['api-cartsubmit-url'] != '' 
+            && isset($block['api-formcheck-url']) && $block['api-formcheck-url'] != '' 
             && isset($block['api-args']) && is_array($block['api-args']) 
             ) {
             $js = "window.addEventListener('load', (e)=>{C.form.start(e,'{$cur_section_id}',"
                 . "'" . $block['api-save-url'] . "',"
                 . "'" . $block['api-image-url'] . "',"
+                . "'" . $block['api-formcheck-url'] . "',"
+                . "'" . $block['api-cartsubmit-url'] . "',"
                 . json_encode($block['api-args'])
                 . ")});";
         }

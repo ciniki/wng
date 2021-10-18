@@ -18,9 +18,13 @@
 .block-form .section-description p {
     padding-bottom: 1rem;
 }
+.block-form .fields {
+    margin-bottom: 1rem;
+}
 .block-form .field {
     padding: 0.5rem 0rem;
 }
+.block-form .field .label,
 .block-form .field label {
     display: block;
     width: 100%;
@@ -42,6 +46,7 @@
     vertical-align: middle;
 }
 .block-form .tab.required:after,
+.block-form .label.required:after,
 .block-form label.required:after {
     content: "*";
     color: #ff5555;
@@ -81,12 +86,19 @@
     padding-top: 1rem;
 }
 .block-form .field-termsofuse input,
+.block-form .field-radio input,
 .block-form .field-checkbox input {
     display: inline-block;
     width: auto;
     padding: 1rem;
-    transform: scale(1.5);
-    margin: 0 1rem 0 0.5rem;
+    margin: 0 0.5rem 0 0.5rem;
+}
+.block-form .field-checkbox label {
+    display: inline;
+    width: auto;
+}
+.block-form .field-radio label {
+    display: inline;
 }
 .block-form .field-termsofuse label {
     display: none;
@@ -132,6 +144,69 @@
 .block-form .form-buttons .button:first-child {
     margin-left: 0rem;
 }
+.block-form .repeat-buttons,
+.block-form .section-buttons {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    text-align: right;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.block-form .repeat-buttons,
+.block-form .section-buttons .button {
+    min-width: 8rem;
+    text-align: center;
+}
+.block-form .repeat-buttons,
+.block-form .section-buttons .button.prev {
+    align-self: flex-start;
+}
+.block-form .repeat-buttons,
+.block-form .section-buttons .button.next {
+    align-self: flex-end;
+    margin-left: auto;
+}
+.block-form .form-payment {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.block-form .form-payment .fee-label {
+    display: inline-block;
+    flex-grow: 1;
+    padding: 0 0.5rem 0 0;
+}
+.block-form .form-payment .fee-amount {
+    display: inline-block;
+    flex-grow: 1;
+    text-align: right;
+    padding: 0 0.5rem;
+}
+.block-form .form-payment .invoice-paid {
+    text-align: right;
+    padding-left: 1rem;
+}
+.block-form .form-payment .fee-button {
+    margin-left: 0.5rem;
+    text-align: center;
+}
+@media screen and (max-width: 20em) {
+    /* Really small screens */
+    .block-form .form-payment {
+        flex-flow: row wrap;
+    }
+    .block-form .form-payment .fee-button {
+        margin-left: 0;
+        margin-top: 1rem;
+        flex-grow: 1;
+        width: 100%;
+    }
+}
+.block-form .field-submit {
+    padding-top: 1rem;
+}
 .block-form .submit {
     padding-top: 1rem;
     text-align: right;
@@ -152,6 +227,11 @@
     .block-form .content {
         padding-left: 2rem;
         padding-right: 2rem;
+    }
+    .block-form .repeat-buttons .button,
+    .block-form .section-buttons .button {
+        min-width: 10rem;
+        width: auto;
     }
 }
 @media screen and (min-width: 50em) {

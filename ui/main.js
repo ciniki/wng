@@ -315,7 +315,7 @@ function ciniki_wng_main() {
             'fields':{
                 'footer-copyright-name':{'label':'Copyright Name', 'type':'text'},
                 'footer-copyright-message':{'label':'Copyright Message', 'type':'textarea'},
-                'footer-social-icons':{'label':'Show Social Icons', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
+//                'footer-social-icons':{'label':'Show Social Icons', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
             }},
         //
         // Social Media Accounts

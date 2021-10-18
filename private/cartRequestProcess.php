@@ -2286,7 +2286,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $request['response']['head']['scripts'][] = array(
                             'src'=>'https://checkout.stripe.com/checkout.js', 
                             'type'=>'text/javascript',
-                            );
+                            ); 
                         $js .= "var stripeCheckout = StripeCheckout.configure({"
                                 . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
                                 . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
@@ -2358,6 +2358,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $block['content'] = $settings['cart-payment-success-message'];
         } 
         $blocks[] = $block;
+
+        //
+        // Check for a redirect 
+        //
+        if( isset($request['session']['cart-redirect-success']) 
+            && $request['session']['cart-redirect-success'] != ''
+            ) {
+            $request['session']['cart-payment-success'] = 'yes';
+            header('Location: ' . $request['session']['cart-redirect-success']);
+            return array('stat'=>'exit');
+        }
     }
 
     return array('stat'=>'ok', 'blocks'=>$blocks);
