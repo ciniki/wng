@@ -476,7 +476,7 @@ function ciniki_wng_main() {
         }
     }
     this.site.fieldValue = function(s, i, d) {
-        if( s == 'pagedetails' || 'pageredirect' ) {
+        if( s == 'pagedetails' || s == 'pageredirect' ) {
             return this.data.page != null ? this.data.page[i] : '';
         }
         if( this.sections[s] != null && this.sections[s].data != null && this.sections[s].data == 'settings' ) {
