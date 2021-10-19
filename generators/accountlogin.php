@@ -22,8 +22,8 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     if( isset($block['startform']) ) {
         if( $block['startform'] == 'forgot' ) {
             $startform = 'forgot';
-        } elseif( $block['startform'] == 'simpleaccount' ) {
-            $startform = 'simpleaccount';
+        } elseif( $block['startform'] == 'signup' ) {
+            $startform = 'signup';
         } else {
             $startform = 'login';
         }
@@ -70,7 +70,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     }
     if( isset($block['create-account']) && $block['create-account'] == 'simple' ) {
         $content .= "<div class='create-link'><p>"
-            . "<a class='' href='javscript:void(0);' onclick='swapCreateForm(\"simpleaccount\");return false;'>";
+            . "<a class='' href='javscript:void(0);' onclick='swapCreateForm(\"signup\");return false;'>";
         if( isset($block['create-account-text']) && $block['create-account-text'] != '' ) {
             $content .= $block['create-account-text'];
         } else {
@@ -138,8 +138,8 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         // The forgot reset form
         //
-        $content .= "<div id='simpleaccount-form' class='simpleaccount-form' style='display:"
-            . ($startform == 'simpleaccount' ? 'block;' : 'none;')
+        $content .= "<div id='signup-form' class='signup-form' style='display:"
+            . ($startform == 'signup' ? 'block;' : 'none;')
             . "'>";
         if( isset($block['create-title']) && $block['create-title'] != '' ) {
             $content .= "<h2>" . $block['create-title'] . "</h2>";
@@ -148,22 +148,28 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         }
         $content .= ""
             . "<form method='POST' action=''>"
-            . "<input type='hidden' name='action' value='createsimple'>\n"
-            . "<div class='input first-field'>"
+            . "<input type='hidden' name='action' value='signup'>\n"
+            . "<div class='input first-field required'>"
                 . "<label for='first'>First Name</label>"
-                . "<input id='first' type='text' class='text' maxlength='150' name='first' value='' />"
+                . "<input id='first' type='text' class='text' maxlength='150' name='first' value='"
+                    . (isset($block['first']) ? $block['first'] : '')
+                    . "' />"
             . "</div>\n" 
-            . "<div class='input'>"
+            . "<div class='input required'>"
                 . "<label for='last'>Last Name</label>"
-                . "<input id='last' type='text' class='text' maxlength='150' name='last' value='' />"
+                . "<input id='last' type='text' class='text' maxlength='150' name='last' value='"
+                    . (isset($block['last']) ? $block['last'] : '')
+                    . "' />"
             . "</div>\n" 
-            . "<div class='input'>"
-                . "<label for='createemail'>Email</label>"
-                . "<input id='createemail' type='email' class='text' maxlength='250' name='createemail' value='$email' />"
+            . "<div class='input required'>"
+                . "<label for='signupemail'>Email</label>"
+                . "<input id='signupemail' type='email' class='text' maxlength='250' name='signupemail' value='$email' />"
             . "</div>\n" 
-            . "<div class='input last-field'>"
-                . "<label for='createpassword'>Password</label>"
-                . "<input id='createpassword' type='password' class='text' maxlength='100' name='createpassword' value='' />"
+            . "<div class='input last-field required'>"
+                . "<label for='signuppassword'>Password</label>"
+                . "<input id='signuppassword' type='password' class='text' maxlength='100' name='signuppassword' value='"
+                    . (isset($block['password']) ? $block['password'] : '')
+                    . "' />"
             . "</div>\n"
             . "<div class='submit'>"
                 . "<input type='submit' class='button' value='Create Account' />"
@@ -180,13 +186,13 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         $js .= ""
             . " function swapCreateForm(l) {\n"
-            . "     if( l == 'simpleaccount' ) {\n"
+            . "     if( l == 'signup' ) {\n"
             . "         C.gE('signin-form').style.display = 'none';\n"
-            . "         C.gE('simpleaccount-form').style.display = 'block';\n"
-            . "         C.gE('createemail').value = C.gE('email').value;\n"
+            . "         C.gE('signup-form').style.display = 'block';\n"
+            . "         C.gE('signupemail').value = C.gE('email').value;\n"
             . "     } else {\n"
             . "         C.gE('signin-form').style.display = 'block';\n"
-            . "         C.gE('simpleaccount-form').style.display = 'none';\n"
+            . "         C.gE('signup-form').style.display = 'none';\n"
             . "     }\n"
             . "     return true;\n"
             . " }\n"

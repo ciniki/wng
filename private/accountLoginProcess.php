@@ -37,24 +37,27 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
     if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'passwordreset' ) {
         $display_form = 'reset';
     }
+    if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'signup' && isset($_GET['k']) ) {
+        error_log('Process Signup');
 
-    if( isset($_POST['action']) && $_POST['action'] == 'createsimple' ) {
-        $display_form = 'simpleaccount';
-        //
-        // FIXME: Create account with email verification
-        //
-/*        ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'customerAdd');
-        $rc = ciniki_customers_wng_customerAdd($ciniki, $tnid, $request, array(
-            'first' => $_POST['first'],
-            'last' => $_POST['last'],
-            'email_address' => $_POST['createemail'],
-            'password' => $_POST['createpassword'],
-            ));
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupComplete');
+        $rc = ciniki_customers_wng_signupComplete($ciniki, $tnid, $request, $_GET['k']);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.149', 'msg'=>'', 'err'=>$rc['err']));
-        } */
+            return $rc;
+        }
+
+        //
+        // Return to where the process started from
+        //
+        if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
+            header("Location: " . $request['session']['login-return-url'] . '?signup-success');
+            unset($request['session']['login-return-url']);
+            return array('stat'=>'exit');
+        }
+        return array('stat'=>'ok');
     }
-    elseif( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
+
+    if( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
         //
         // Check the referrer and that cookies are enabled
         //
@@ -77,7 +80,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             && isset($_POST['password']) && $_POST['password'] != '' 
             ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], $_POST['password']);
+            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], sha1($_POST['password']));
             if( $rc['stat'] == 'locked' ) {
                 if( isset($settings['account-lock-hours']) && $settings['account-lock-hours'] > 0 ) { 
                     $blocks[] = array(
@@ -170,7 +173,110 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             }
         }
     }
-
+    
+    //
+    // Check if the create simple account form submitted
+    //
+    elseif( isset($_POST['action']) && $_POST['action'] == 'signup' ) {
+        if( !isset($_POST['first']) || trim($_POST['first']) == '' ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter your first name.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( !isset($_POST['last']) || trim($_POST['last']) == '' ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter your last name.",
+                );
+            $display_form = 'signup';
+        } 
+        elseif( !isset($_POST['signupemail']) || trim($_POST['signupemail']) == '' ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter your email address.",
+                );
+            $display_form = 'signup';
+        } 
+        elseif( !preg_match("/.+\@.+\..+/", trim($_POST['signupemail'])) ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid email address.",
+                );
+            $display_form = 'signup';
+        } 
+        elseif( !isset($_POST['signuppassword']) || trim($_POST['signuppassword']) == '' || strlen(trim($_POST['signuppassword'])) < 8 ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "Your password must contain 8 characters.",
+                );
+            $display_form = 'signup';
+        }
+        else {
+            $display_form = 'signup';
+            $url = $request['ssl_domain_base_url'] . '/account/signup';
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
+            $rc = ciniki_customers_wng_signupRequestProcess($ciniki, $tnid, $request, array(    
+                'first' => $_POST['first'],
+                'last' => $_POST['last'],
+                'email' => $_POST['signupemail'],
+                'password' => $_POST['signuppassword'],
+                'return-url' => isset($args['return-url']) ? $args['return-url'] : '',
+                'url' => $url,
+                ));
+            if( $rc['stat'] == 'accountexists' ) {
+                //
+                // Signing up with existing email, send forgot password instead
+                //
+                $url = $request['ssl_domain_base_url'] . '/account/passwordreset';
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'passwordRequestReset');
+                $rc = ciniki_customers_wng_passwordRequestReset($ciniki, $tnid, $request, $_POST['signupemail'], $url);
+                if( $rc['stat'] == 'ok' ) {
+                    header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+                    return array('stat'=>'exit');
+                }
+                $blocks[] = array(
+                    'type' => 'msg', 
+                    'level' => 'error', 
+                    'content' => "We are unable to create your account at this time, please contact us for assistance.",
+                    );
+                $display_form = 'no';
+            } 
+            elseif( $rc['stat'] == 'notactive' ) {
+                $blocks[] = array(
+                    'type' => 'msg', 
+                    'level' => 'error', 
+                    'content' => "We are unable to create your account at this time, please contact us for assistance.",
+                    );
+                $display_form = 'no';
+            }
+            elseif( $rc['stat'] != 'ok' ) {
+                $blocks[] = array(
+                    'type' => 'msg', 
+                    'level' => 'error', 
+                    'content' => "We are unable to create your account at this time, please contact us for assistance.",
+                    );
+                $display_form = 'signup';
+            } else {
+                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                return array('stat'=>'exit');
+            }
+        }
+    }
+    elseif( isset($_GET['signup-success']) ) {
+        $blocks[] = array(
+            'type' => 'msg', 
+            'level' => 'success', 
+            'content' => "A verification link has been sent to your email.",
+            );
+        $display_form = 'no';
+    }
     //
     // Check for a forgot password form submit
     //
@@ -281,7 +387,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $display_form = 'login';
     }
 
-    if( $display_form == 'login' || $display_form == 'forgot' || $display_form == 'simpleaccount' ) {
+    if( $display_form == 'login' || $display_form == 'forgot' || $display_form == 'signup' ) {
         //
         // Set a session variable, to test for cookies being turned on
         //
@@ -302,7 +408,10 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             'title' => 'Sign In',
             'type' => 'accountlogin',
             'create-account' => isset($args['create-account']) ? $args['create-account'] : '',
-            'email' => isset($_POST['email']) ? $_POST['email'] : '',
+            'first' => isset($_POST['first']) ? trim($_POST['first']) : '',
+            'last' => isset($_POST['last']) ? trim($_POST['last']) : '',
+            'email' => isset($_POST['email']) ? $_POST['email'] : (isset($_POST['signupemail']) ? $_POST['signupemail'] : ''),
+            'password' => isset($_POST['signuppassword']) ? trim($_POST['signuppassword']) : '',
             'startform' => $display_form,
             );
         //

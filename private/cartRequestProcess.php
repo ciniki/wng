@@ -163,7 +163,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     if( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-        $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], $_POST['password']);
+        $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], sha1($_POST['password']));
         if( $rc['stat'] != 'ok' ) {
             $signinerrors = "Unable to authenticate, please try again or click Forgot your password to get a new one.";
             $display_signup = 'yes';
@@ -298,7 +298,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             // Once the account is created, authenticate
             //
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $args['email_address'], $args['password']);
+            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $args['email_address'], sha1($args['password']));
             if( $rc['stat'] != 'ok' ) {
                 return $rc;
             }

@@ -3,7 +3,7 @@
     max-width: 30rem;
     margin: 0 auto;
 }
-.block-accountlogin .simpleaccount-form,
+.block-accountlogin .signup-form,
 .block-accountlogin .reset-form,
 .block-accountlogin .signin-form,
 .block-accountlogin .forgotpassword-form {
@@ -44,7 +44,16 @@
 }
 .block-accountlogin .forgot-link a.button {
 }
-.block-accountlogin .simpleaccount-form p,
+.block-accountlogin .signup-form .required label:after {
+    content: "*";
+    color: #ff5555;
+    font-size: 1.2em;
+    line-height: 0.5em;
+    padding: 0rem 0.25rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+.block-accountlogin .signup-form p,
 .block-accountlogin .forgotpassword-form p {
     padding: 1rem 0rem;
 }
