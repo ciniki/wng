@@ -214,12 +214,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'address' ) {
-                            $sections .= "<label for='f-{$field['id']}-address1' class='{$req}'>Line 1</label>";
+                            $sections .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address 1</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address1'"
                                 . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
                                 . ">";
-                            $sections .= "<label for='f-{$field['id']}-address1'>Line 2</label>";
+                            $sections .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address2'"
                                 . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
                                 . ">";
