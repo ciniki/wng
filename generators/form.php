@@ -289,7 +289,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'image' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/{$field['value']}'/></div>";
+                            $sections .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/"
+                                . (isset($field['value']) ? $field['value'] : '')
+                                . "'/></div>";
                             $sections .= "<div class='hidden'>"
                                 . "<input type='file' id='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iU(event,\"{$section['id']}\",\"{$field['id']}\");'/>"
                                 . "</div>";
