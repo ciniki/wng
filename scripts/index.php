@@ -88,7 +88,7 @@ if( isset($_POST) && is_array($_POST) ) {
         foreach($_POST as $arg_key => $arg_value) {
             $arg_key = urldecode($arg_key);
             if( $arg_key != '' ) {
-                $request['args'][$arg_key] = urldecode($arg_value);
+                $request['args'][$arg_key] = rawurldecode($arg_value);
             }
         }
     } else {
