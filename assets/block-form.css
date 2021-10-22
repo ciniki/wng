@@ -85,6 +85,13 @@
 .block-form .field-checkbox {
     padding-top: 1rem;
 }
+.block-form .field-checkbox.checkbox-list {
+    padding-top: 0rem;
+    padding-left: 1.5rem;
+}
+.block-form .field-content.checkbox-list .field-description:last-child {
+    padding-bottom: 0.25rem;
+}
 .block-form .field-termsofuse input,
 .block-form .field-radio input,
 .block-form .field-checkbox input {
@@ -96,6 +103,9 @@
 .block-form .field-checkbox label {
     display: inline;
     width: auto;
+}
+.block-form .field-radio input {
+    margin: 0 0.25rem 0 1rem;
 }
 .block-form .field-radio label {
     display: inline;

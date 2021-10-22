@@ -87,6 +87,18 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         $sections .= "<div class='section-description'>{$rc['content']}</div>";
                     }
                 }
+
+                //
+                // Build next-prev links to determine if checkbox is in a list or not, etc
+                //
+                $prev = -1;
+                foreach($section['fields'] as $fid => $field) {
+                    if( $prev > -1 ) {
+                        $section['fields'][$prev]['next_fid'] = $fid;
+                        $section['fields'][$fid]['prev_fid'] = $prev;
+                    }
+                    $prev = $fid;
+                }
                 
                 //
                 // Check if this section is repeatable
@@ -166,8 +178,23 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . $field['description']
                                 . "</div>";
                         }
-
-                        $sections .= "<div class='field field-{$field['ftype']}{$req}"
+                       
+                        $class = $req;
+                        if( $field['ftype'] == 'checkbox' 
+                            && isset($field['prev_fid']) 
+                            && ($section['fields'][$field['prev_fid']]['ftype'] == 'content'
+                                ||  $section['fields'][$field['prev_fid']]['ftype'] == 'checkbox'
+                                )
+                            ) {
+                            $class .= ' checkbox-list';
+                        }
+                        elseif( $field['ftype'] == 'content' 
+                            && isset($field['next_fid']) 
+                            && $section['fields'][$field['next_fid']]['ftype'] == 'checkbox'
+                            ) {
+                            $class .= ' checkbox-list';
+                        }
+                        $sections .= "<div class='field field-{$field['ftype']}{$class}"
                             . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
                             . "'>";
 
