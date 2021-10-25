@@ -14,8 +14,12 @@
     background: #fbbbbb;
 }
 @media screen and (min-width: 40em) {
-    .block-msg .content {
-        padding: 2rem 2rem;
+    .block-msg .content,
+    .block-msg.success .content,
+    .block-msg.warning .content,
+    .block-msg.error .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
 }
 

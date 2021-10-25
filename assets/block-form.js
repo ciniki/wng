@@ -21,8 +21,11 @@ C.form = {
         C.rC(C.gE('b-' + this.cs), 'selected');
         C.rC(C.gE('s-' + this.cs), 'selected');
         C.aC(C.gE('b-' + i), 'selected');
-        C.aC(C.gE('s-' + i), 'selected');
+        var e = C.gE('s-' + i)
+        C.aC(e, 'selected');
+        window.scroll(0,e.offsetTop);
         this.cs = i;
+
     },
     /* Switch Repeat tab */
     sR: function(s,i) {
@@ -31,6 +34,7 @@ C.form = {
         C.rC(C.gE('s-' + this.cs + '-' + this.cr), 'selected');
         C.aC(C.gE('t-' + this.cs + '-' + i), 'selected');
         C.aC(C.gE('s-' + this.cs + '-' + i), 'selected');
+        window.scroll(0,C.gE('s-'+this.cs).offsetTop);
         this.cr = i;
     },
     /* Queue saving of form section */

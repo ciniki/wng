@@ -203,6 +203,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                                 . ">";
                         } 
                         elseif( $field['ftype'] == 'number' ) {
@@ -217,6 +218,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='text' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . " maxlength='50'"
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'phone' ) {
@@ -224,6 +226,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='tel' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . " maxlength='25'"
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'date' ) {
@@ -238,6 +241,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='url' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . " maxlength='500'"
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'address' ) {
@@ -245,22 +249,27 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address1'"
                                 . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
+                                . " maxlength='100'"
                                 . ">";
                             $sections .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address2'"
                                 . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
+                                . " maxlength='100'"
                                 . ">";
                             $sections .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-city'"
                                 . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
+                                . " maxlength='100'"
                                 . ">"; 
                             $sections .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-province'"
                                 . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
+                                . " maxlength='100'"
                                 . ">"; 
                             $sections .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
                             $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-postal'"
                                 . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
+                                . " maxlength='10'"
                                 . ">"; 
                         }
                         elseif( $field['ftype'] == 'textarea' ) {
