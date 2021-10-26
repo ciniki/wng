@@ -17,6 +17,9 @@
 .block-textcolumns .wrap {
     padding: 1rem;
 }
+.block-textcolumns .column-wrap {
+    height: 100%;
+}
 .block-textcolumns p {
     padding-bottom: 1em;
 }
