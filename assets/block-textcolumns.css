@@ -6,7 +6,7 @@
 .block-textcolumns .content {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-evenly;
 }
 .block-textcolumns .column {
