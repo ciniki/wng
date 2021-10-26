@@ -11,7 +11,7 @@
 }
 .block-textcolumns .column {
     width: 100%;
-    align-self: flex-start;
+/*    align-self: flex-start; */
     padding: 1rem;
 }
 .block-textcolumns .wrap {
@@ -21,9 +21,9 @@
     padding-bottom: 1em;
 }
 @media screen and (min-width: 40em) {
-    .block-textcolumns.columns .column {
+/*    .block-textcolumns.columns .column {
         padding: 1.5em;
-    }
+    } */
     .block-textcolumns.columns-2 .column,
     .block-textcolumns.columns-4 .column {
         width: 50%;
