@@ -74,10 +74,23 @@ C.form = {
     },
     qSaved: function(rsp) {
         if( rsp.stat != 'ok' ) {
-            /* FIXME: add error handling */
+            C.form.showErrors(rsp, "Oops, we had a problem, please refresh the page and try again.");
         }
         if( rsp.api_args != null ) {   
             this.aa = rsp.api_args;
+        }
+    },
+    /* Check textarea word count */
+    wC: function(e,i,m) {
+        var len = e.target.value.split(/[\s]+/);
+        if( len.length == 1 && len[0] == '' ) {
+            len = [];
+        }
+        C.gE('wc-' + i).innerHTML = len.length + ' words';
+        if( len.length > m) {
+            C.aC(C.gE('wc-'+i),'error');
+        } else {
+            C.rC(C.gE('wc-'+i),'error');
         }
     },
     /* check for required fields and validate against server */
@@ -88,9 +101,8 @@ C.form = {
         }
     },
     validated: function(rsp) {
-        console.log(rsp);
         if( rsp.stat == 'fail' && rsp.problems != null ) {
-            alert("You are still missing required fields.");
+            C.form.showErrors(rsp);
         } else if( rsp.stat == 'ok' ) {
             console.log('validated');
         }
@@ -102,10 +114,8 @@ C.form = {
         }
     },
     cartSubmitted: function(rsp) {
-        if( rsp.stat == 'fail' && rsp.problems != null ) {
-            alert("You have incomplete fields, please review your form and complete all required fields.");
-        } else if( rsp.stat != 'ok' ) {
-            alert("Error adding to your cart, please contact us for help.");
+        if( rsp.stat != 'ok' ) {
+            C.form.showErrors(rsp, "Unable to add to your cart, please contact us for help.");
         } else {
             if( rsp.api_args != null ) {   
                 this.aa = rsp.api_args;
@@ -115,23 +125,43 @@ C.form = {
             }
         }
     },
+    showErrors: function(rsp,m) {
+        var e = C.gE('form-errors');
+        C.rC(e, 'hidden');
+        if( rsp.problems != null ) {
+            var msg = "<p>The following fields need to be completed:</p><p>";
+            for(var i in rsp.problems) {
+                msg += rsp.problems[i] + '<br/>';
+            }
+            msg += '</p>';
+            C.gE('form-errors-msg').innerHTML = msg;
+        } else {
+            C.gE('form-errors-msg').innerHTML = m;
+        }
+        window.scroll(0,e.offsetTop);
+    },
     /* Image Upload */
     iU: function(e,s,f) {
-        C.gE('p-' + f).innerHTML = "Loading...";
+        C.rC(C.gE('l-' + f), 'hidden');
+        C.aC(C.gE('p-' + f), 'hidden');
         var i = C.gE('f-' + f);
         if( i != null && i.files != null && i.files[0] != null ) {
             var fD = new FormData;
             fD.append('f-' + f, i.files[0]);
-            C.postFDBg(this.ssu, this.aa, fD, C.form.iPU);
-        }
-    },
-    /* Image Preview Update */
-    iPU: function(rsp) {
-        if( rsp.api_args != null ) {
-            this.aa = rsp.api_args;
-        }
-        if( rsp.image_urls != null ) {
-            C.form.iUU(rsp);
+            C.postFDBg(this.ssu, this.aa, fD, function(rsp) {
+                C.aC(C.gE('l-' + f), 'hidden');
+                C.rC(C.gE('p-' + f), 'hidden');
+                if( rsp.err != null && rsp.err.err != null && rsp.err.err.problem != null 
+                    && (rsp.err.err.problem == 'tosmall' || rsp.err.err.problem == 'tolarge') ) {
+                    C.form.showErrors(rsp, rsp.err.err.msg);
+                }
+                if( rsp.api_args != null ) {
+                    this.aa = rsp.api_args;
+                }
+                if( rsp.image_urls != null ) {
+                    C.form.iUU(rsp);
+                }
+                });
         }
     },
     /* Image Update URLS */
@@ -148,7 +178,7 @@ C.form = {
         this.aa['f-' + f] = '0';
         C.getBg(this.ssu, this.aa, function(rsp) {
             if( rsp.stat != 'ok' ) {
-                alert('Unable to clear image, please try again or contact us for help');
+                C.form.showErrors(msg, 'Unable to clear image, please try again or contact us for help');
             } else {
                 C.form.iUU(rsp);
             }

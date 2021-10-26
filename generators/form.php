@@ -18,6 +18,33 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
 
     if( isset($block['form-sections']) ) {
         
+        //
+        // Setup error message area
+        //
+        $content .= "<div id='form-errors' class='block-msg error limit-width center form-errors"
+            . (isset($block['problem-list']) && $block['problem-list'] != '' ? '' : ' hidden')
+            . "'>";
+        $content .= "<div class='wrap'>";
+        $content .= "<div class='content'>";
+        $content .= "<div id='form-errors-msg' class='msg'>";
+
+        if( isset($block['problem-list']) && $block['problem-list'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['problem-list']);   
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            if( isset($rc['content']) && $rc['content'] != '' ) {
+                $content .= $rc['content'];
+            }
+        }
+
+        $content .= "</div>";
+        $content .= "</div>";
+        $content .= "</div>";
+        $content .= "</div>";
+
+
         $content .= "<div class='block-form"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
@@ -42,6 +69,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $content .= "<div class='guidelines'>{$rc['content']}</div>";
             }
         }
+
         //
         // Setup the next/prev for sections
         //
@@ -275,9 +303,20 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'textarea' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<textarea id='f-{$field['id']}'>"
+                            $maxwords = 0;
+                            if( isset($field['max-words']) && $field['max-words'] > 0 ) {
+                                $maxwords = $field['max-words'];
+                            }
+                            $sections .= "<textarea id='f-{$field['id']}'"
+                                . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
+                                . ">"
                                 . (isset($field['value']) ? $field['value'] : '')
                                 . "</textarea>";
+                            if( $maxwords > 0 ) {
+                                $sections .= "<div id='wc-{$field['id']}' class='word-count'>"
+                                    . (isset($field['value']) ? str_word_count($field['value']) : 0) . " words"
+                                    . "</div>";
+                            }
                         }
                         elseif( $field['ftype'] == 'select' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -325,6 +364,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'image' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
+                            $sections .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading Image...</div>";
                             $sections .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/"
                                 . (isset($field['value']) ? $field['value'] : '')
                                 . "'/></div>";
@@ -390,14 +430,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'submit' ) {
-//                            $sections .= "<div class='form-buttons'>";
                             $sections .= "<form action='' method='POST'>";
                             $sections .= "<input type='hidden' name='action' value='submit'>";
                             $sections .= "<input type='submit' class='button' value='"
                                 . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
                                 . "' >";
                             $sections .= "</form>";
-//                            $sections .= "</div>";
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
                         

@@ -27,7 +27,7 @@ function ciniki_wng_generators_msg(&$ciniki, $tnid, $request, $block) {
             return $rc;
         }
         if( isset($rc['content']) && $rc['content'] != '' ) {
-            $content .= $rc['content'];
+            $content .= "<div class='msg'>{$rc['content']}</div>";
         }
 
         $content .= '</div>';

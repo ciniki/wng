@@ -78,6 +78,13 @@
 .block-form .field textarea {
     width: 100%;
 }
+.block-form .field .word-count {
+    text-align: right;
+    padding: 0rem 0.5rem;
+}
+.block-form .field .word-count.error {
+    color: #ff5555;
+}
 .block-form .field-select select {
     min-width: 12em;
 }
