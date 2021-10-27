@@ -231,6 +231,10 @@ p:last-child {
     background: #fff;
     color: #333;
     padding: 0rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
 
 /* Content limits, only some blocks add these rules */
