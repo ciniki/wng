@@ -158,6 +158,7 @@ function ciniki_wng_main() {
                         '10':'Sectioned',
                         '40':'Redirect',
                     }},
+                'page_url':{'label':'Page URL', 'type':'noedit', 'editable':'no'},
 //                'flags4':{'label':'Password', 'type':'flagtoggle', 'bit':0x08, 'field':'flags_4', 'default':'off',
 //                    'active':(M.modFlagSet('ciniki.web', 0x2000)),
 //                    'on_fields':['page_password'],
@@ -469,14 +470,32 @@ function ciniki_wng_main() {
             f.files[0], this.openFinish);
     }
     this.site.themeImageRemove = function(image_id) {
-        if( confirm("Are you sure you want to remove this image?") ) {
+        M.confirm('Are you sure you want to remove this image?',null,function() {
+            M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 'view':M.ciniki_wng_main.site.view, 'site_id':M.ciniki_wng_main.site.site_id, 
+                'page_id':M.ciniki_wng_main.site.page_id, 'action':'removethemeimage', 'image_id':image_id}, 
+                M.ciniki_wng_main.site.openFinish);
+/*            M.api.getJSONCb('ciniki.wng.pageDelete', {'tnid':M.curTenantID, 'page_id':M.ciniki_wng_main.site.page_id}, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                var p = M.ciniki_wng_main.site;
+                p.page_id = 0;
+                p.view = 'menu';
+                p.open();
+            }); */
+            });
+/*        if( confirm("Are you sure you want to remove this image?") ) {
             M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 'view':this.view, 'site_id':this.site_id, 
                 'page_id':this.page_id, 'action':'removethemeimage', 'image_id':image_id}, 
                 this.openFinish);
-        }
+        } */
     }
     this.site.fieldValue = function(s, i, d) {
         if( s == 'pagedetails' || s == 'pageredirect' ) {
+            if( i == 'page_url' ) {
+                return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>';
+            }
             return this.data.page != null ? this.data.page[i] : '';
         }
         if( this.sections[s] != null && this.sections[s].data != null && this.sections[s].data == 'settings' ) {
@@ -642,8 +661,8 @@ function ciniki_wng_main() {
         }
     }
     this.site.remove = function() {
-        if( confirm('Are you sure you want to remove this page and the sections?') ) {
-            M.api.getJSONCb('ciniki.wng.pageDelete', {'tnid':M.curTenantID, 'page_id':this.page_id}, function(rsp) {
+        M.confirm('Are you sure you want to remove this page and the sections?',null,function() {
+            M.api.getJSONCb('ciniki.wng.pageDelete', {'tnid':M.curTenantID, 'page_id':M.ciniki_wng_main.site.page_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
                     return false;
@@ -653,7 +672,7 @@ function ciniki_wng_main() {
                 p.view = 'menu';
                 p.open();
             });
-        }
+        });
     }
     this.site.clearCache = function() {
         M.api.getJSONCb('ciniki.wng.cacheClear', {'tnid':M.curTenantID, 'site_id':this.site_id}, function(rsp) {

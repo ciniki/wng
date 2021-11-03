@@ -108,6 +108,53 @@ function ciniki_wng_site($ciniki) {
     }
     $site = $rc['site'];
 
+    //
+    // Load the domain
+    //
+    if( $site['domain_id'] > 0 ) {
+        $strsql = "SELECT id, "
+            . "domain, "
+            . "flags "
+            . "FROM ciniki_tenant_domains "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
+            . "AND ciniki_tenant_domains.id = '" . ciniki_core_dbQuote($ciniki, $site['domain_id']) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'domain');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.149', 'msg'=>'Unable to load domain', 'err'=>$rc['err']));
+        }
+        if( !isset($rc['domain']) ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.150', 'msg'=>'Unable to find requested domain'));
+        }
+        $domain = $rc['domain'];
+        $site['base_url'] = '';
+        if( ($rc['domain']['flags']&0x10) == 0x10 ) {
+            $site['base_url'] = 'https://';
+        } else {
+            $site['base_url'] = 'http://';
+        }
+        if( ($site['flags']&0x01) == 0x01 ) {
+            $site['base_url'] .= $rc['domain']['domain'];
+        } else {
+            $site['base_url'] .= $rc['domain']['domain'] . '/' . $site['permalink'];
+        }
+    } else {
+        $strsql = "SELECT sitename "
+            . "FROM ciniki_tenants "
+            . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'tenant');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.151', 'msg'=>'Unable to load tenant', 'err'=>$rc['err']));
+        }
+        if( !isset($rc['tenant']) ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.152', 'msg'=>'Unable to find requested tenant'));
+        }
+        $tenant = $rc['tenant'];
+        
+        $site['base_url'] .= 'https://' . $ciniki['config']['ciniki.wng']['master.domain'] . '/' . $tenant['sitename'];
+    }
+
     $rsp = array('stat'=>'ok', 'site'=>$site, 'headerpages'=>array());
 
     //
@@ -200,6 +247,8 @@ function ciniki_wng_site($ciniki) {
         }
         $rsp['page'] = $rc['page'];
         $rsp['pagesections'] = $rc['page']['sections'];
+
+        $rsp['page']['page_url'] = $site['base_url'] . $rc['page']['path'];
     }
 
     //
