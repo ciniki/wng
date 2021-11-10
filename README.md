@@ -8,4 +8,4 @@ Developed as a Private module, may be opened sourced in the future.
 
 License
 -------
-Copyright Andrew Rivett veggiefrog@gmail.com
+Copyright 2021 Andrew Rivett veggiefrog@gmail.com
