@@ -15,6 +15,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
 
     $content .= "<div class='block-imagemenu"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['image-id']) && $block['image-id'] > 0 ? '' : ' no-image')
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
@@ -26,6 +27,9 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
     }
     if( isset($block['dropdown']) && ($block['dropdown'] == 'hamburger' || $block['dropdown'] == 'both') ) {
         $dropdown_hm = 'yes';
+    }
+    if( !isset($block['menu-id']) ) {
+        $block['menu-id'] = '';
     }
 
     //
@@ -147,6 +151,11 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
     //
     if( isset($block['hamburger-menu']) && count($block['hamburger-menu']) > 0 ) {
 // FIXME: Add suport for search and cart icons
+        if( isset($block['menu-label']) && $block['menu-label'] != '' ) {
+            $content .= "<div class='label "
+                . 'hideat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
+                . "'><h1>{$block['menu-label']}</h1></div>";
+        }
         $content .= "<div class='icons "
             . 'hideat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
@@ -163,7 +172,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         $content .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>';
         $content .= '</div>'; */
         // Hamburger Icon
-        $content .= "<div onclick='C.imagemenu.toggle();' class='hamburger-icon'>";
+        $content .= "<div onclick='C.imagemenu.toggle(\"{$block['menu-id']}\");' class='hamburger-icon'>";
 //        $content .= '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>';
         $content .= '<svg viewBox="0 0 110 110">'
             . '<rect class="shadow" rx="10" x="3" y="78" width="104" height="20"></rect>'
@@ -181,7 +190,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             . ($dropdown_hm == 'yes' ? 'dropdown ' : '')
             . 'hideat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
-        $content .= "<nav id='block-imagemenu-hamburger-menu' class='hidden'><ul>";
+        $content .= "<nav id='block-imagemenu-hamburger-menu-{$block['menu-id']}' class='hidden'><ul>";
         $num = 1;
         foreach($block['hamburger-menu'] as $item) {
             $class = (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')

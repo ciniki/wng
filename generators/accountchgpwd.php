@@ -28,7 +28,7 @@ function ciniki_wng_generators_accountchgpwd(&$ciniki, $tnid, $request, $block) 
         . "<label for='oldpassword'>Old Password:</label>"
         . "<input class='text password' id='oldpassword' type='password' name='oldpassword' />"
         . "</div>";
-    $content .= "<div class='input'>"
+    $content .= "<div class='input last-field'>"
         . "<label for='newpassword'>New Password:</label>"
         . "<input class='text password' id='newpassword' type='password' name='newpassword' />"
         . "</div>";

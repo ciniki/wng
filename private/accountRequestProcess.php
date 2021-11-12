@@ -149,10 +149,23 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     $blocks[] = array(
         'type' => 'imagemenu',
         'class' => 'account-menu',
+        'menu-label' => 'My Account',
+        'menu-id' => 'account',
         'main-menu' => $items,
-        'toggle-em' => 'custom',
+        'toggle-em' => '40',
+        'dropdown' => 'both',
+        'hamburger-menu' =>  $items,
         );
-
+/*    $block = array(
+        'type' => 'imagemenu',
+        'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
+        'main-menu' =>  $mainmenu,
+        'class' => 'header-menu',
+        'dropdown' => isset($s['dropdown']) ? $s['dropdown'] : '',
+        'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
+        'hamburger-menu' =>  $hamburgermenu,
+        ); */
+ 
     //
     // Find the menu item to handle the request
     //

@@ -213,6 +213,12 @@
 .block-imagemenu.center-logo .main-menu nav ul li li {
     line-height: 2rem;
 }
+/* Styles for account menu */
+.block-imagemenu.no-image .icons {
+}
+.block-imagemenu.no-image {
+}
+
 /* Specific styles for IE9 */
 html.no-flexbox .block-imagemenu .content {
     position: relative;

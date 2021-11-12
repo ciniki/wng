@@ -1,6 +1,6 @@
 C.imagemenu = {
-    toggle: function() {
-        C.tC(C.gE('block-imagemenu-hamburger-menu'), 'hidden');
+    toggle: function(i) {
+        C.tC(C.gE('block-imagemenu-hamburger-menu-' + i), 'hidden');
     },
     mT: function(i) {
         var e = C.gE(i);
