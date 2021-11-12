@@ -107,7 +107,11 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             $num = 1;
             if( $dropdown_fm == 'yes' && isset($item['items']) && count($item['items']) > 0 ) {
                 $content .= "<li id='fm-{$num}' class='dropdown {$class}'>";
-                $content .= "<a class='item' href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                if( isset($item['url']) && $item['url'] != '' ) {
+                    $content .= "<a class='item' href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                } else {
+                    $content .= "<a class='item clickable' onclick='C.imagemenu.mT(\"fm-{$num}\");'>" . $item['title'] . '</a>';
+                }
                 $content .= "<a class='dropdown' onclick='C.imagemenu.mT(\"fm-{$num}\");'><div class='svg'>";
                 $content .= '<svg class="expand" viewBox="0 0 100 100">'
                     . '<rect rx="7" x="5" y="45" width="90" height="15"></rect>'
@@ -190,7 +194,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             . ($dropdown_hm == 'yes' ? 'dropdown ' : '')
             . 'hideat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
-        $content .= "<nav id='block-imagemenu-hamburger-menu-{$block['menu-id']}' class='hidden'><ul>";
+        $content .= "<nav id='block-imagemenu-hamburger-menu-{$block['menu-id']}' class='hamburger-menu-nav hidden'><ul>";
         $num = 1;
         foreach($block['hamburger-menu'] as $item) {
             $class = (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')
@@ -199,9 +203,16 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 . "";
             if( $dropdown_hm == 'yes' && isset($item['items']) && count($item['items']) > 0 ) {
                 $content .= "<li id='hm-{$num}' class='dropdown {$class}'>";
-                $content .= "<a class='item'"
-                    . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
-                    . " href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                if( isset($item['url']) && $item['url'] != '' ) {
+                    $content .= "<a class='item'"
+                        . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
+                        . " href='" . $item['url'] . "'>" . $item['title'] . '</a>';
+                } else {
+                    $content .= "<a class='item clickable'"
+                        . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
+                        . " onclick='C.imagemenu.mT(\"hm-{$num}\");'>" . $item['title'] . '</a>';
+                }
+
                 $content .= "<a class='dropdown' onclick='C.imagemenu.mT(\"hm-{$num}\");'><div class='svg'>";
                 $content .= '<svg class="expand" viewBox="0 0 100 100">'
                     . '<rect rx="7" x="5" y="45" width="90" height="15"></rect>'

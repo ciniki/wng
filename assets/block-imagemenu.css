@@ -102,6 +102,11 @@
     z-index: 900;
     box-shadow: 1px 1px 5px #555;
 }
+@media screen and (max-width: 25em) {
+    .block-imagemenu .hamburger-menu nav {
+        max-width: 100%;
+    }
+}
 .block-imagemenu .main-menu nav > ul > li ul {
     border: 1px solid #aaa;
     position: absolute;
