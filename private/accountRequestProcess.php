@@ -156,23 +156,50 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         'dropdown' => 'both',
         'hamburger-menu' =>  $items,
         );
-/*    $block = array(
-        'type' => 'imagemenu',
-        'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
-        'main-menu' =>  $mainmenu,
-        'class' => 'header-menu',
-        'dropdown' => isset($s['dropdown']) ? $s['dropdown'] : '',
-        'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
-        'hamburger-menu' =>  $hamburgermenu,
-        ); */
  
     //
     // Find the menu item to handle the request
     //
     if( isset($request['uri_split'][1]) ) {
         $item_permalink = $request['base_url'] . '/account/' . $request['uri_split'][1];
+        for($i = 2; $i < count($request['uri_split']); $i++) {
+            if( isset($request['uri_split'][$i]) ) {
+                $item_permalink .= '/' . $request['uri_split'][$i];
+            }
+        }
+
         foreach($items as $item) {
-            if( strncmp($item_permalink, $item['url'], strlen($item_permalink)) == 0 && isset($item['ref']) ) {
+            //
+            // Check sub/dropdown menu items
+            //
+            if( isset($item['items']) ) {
+                foreach($item['items'] as $itm) {
+                    if( isset($itm['url']) 
+                        && strncmp($item_permalink, $itm['url'], strlen($item_permalink)) == 0 
+                        && isset($itm['ref']) 
+                        ) {
+                        list($pkg, $mod, $method) = explode('.', $itm['ref']);
+                        $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountRequestProcess');
+                        if( $rc['stat'] == 'ok' ) {
+                            $fn = $rc['function_call'];
+                            $rc = $fn($ciniki, $tnid, $request, $itm);
+                            if( $rc['stat'] == 'ok' && isset($rc['blocks']) ) {
+                                foreach($rc['blocks'] as $block) {
+                                    $blocks[] = $block;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            //
+            // Check main item
+            //
+            if( isset($item['url']) 
+                && strncmp($item_permalink, $item['url'], strlen($item_permalink)) == 0 
+                && isset($item['ref']) 
+                ) {
                 list($pkg, $mod, $method) = explode('.', $item['ref']);
                 $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountRequestProcess');
                 if( $rc['stat'] == 'ok' ) {
