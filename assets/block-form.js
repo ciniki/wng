@@ -136,7 +136,7 @@ C.form = {
             msg += '</p>';
             C.gE('form-errors-msg').innerHTML = msg;
         } else {
-            C.gE('form-errors-msg').innerHTML = m;
+            C.gE('form-errors-msg').innerHTML = '<p>' + m + '</p>';
         }
         window.scroll(0,e.offsetTop);
     },
@@ -151,8 +151,9 @@ C.form = {
             C.postFDBg(this.ssu, this.aa, fD, function(rsp) {
                 C.aC(C.gE('l-' + f), 'hidden');
                 C.rC(C.gE('p-' + f), 'hidden');
+                console.log(rsp);
                 if( rsp.err != null && rsp.err.err != null && rsp.err.err.problem != null 
-                    && (rsp.err.err.problem == 'tosmall' || rsp.err.err.problem == 'tolarge') ) {
+                    && (rsp.err.err.problem == 'tosmall' || rsp.err.err.problem == 'tolarge' || rsp.err.err.problem == 'other' ) ) {
                     C.form.showErrors(rsp, rsp.err.err.msg);
                 }
                 if( rsp.api_args != null ) {
