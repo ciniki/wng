@@ -226,7 +226,7 @@ function ciniki_wng_site($ciniki) {
             $rsp['orphanpages'][] = array('id' => $page_id, 'name' => $site['pages'][$page_id]['title']);
             if( isset($site['pages'][$page_id]['children']) ) {
                 foreach($site['pages'][$page_id]['children'] as $child_id) {
-                    $rsp['orphanpages'] = flattenMenu($rsp['orphanpages'], 1, $site['pages'][$page_id]['children'], $site['pages']);
+                    $rsp['orphanpages'] = flattenMenu($rsp['orphanpages'], 1, $site['pages'][$page_id]['children'], $site['pages'], null);
                 }
             }
         }
