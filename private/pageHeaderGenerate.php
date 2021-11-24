@@ -172,6 +172,17 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     //
+    // Include latest (nov 2021) version google tag manager
+    //
+    if( isset($request['site']['settings']['meta-google-tag-manager']) && $request['site']['settings']['meta-google-tag-manager'] != '' ) {
+        $content .= '<script async src="https://www.googletagmanager.com/gtag/js?id=' . $request['site']['settings']['meta-google-tag-manager'] . '"></script>';
+        $content .= "<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);} "
+            . "gtag('js', new Date()); "
+            . "gtag('config', '" . $request['site']['settings']['meta-google-tag-manager'] . "');"
+            . "</script>";
+    }
+
+    //
     // Include google tag manager
     //
     if( isset($request['site']['settings']['google-gtm-code']) && $request['site']['settings']['google-gtm-code'] != '' ) {
