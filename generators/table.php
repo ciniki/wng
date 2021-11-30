@@ -41,8 +41,10 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     $count = 0;
     foreach($block['rows'] as $row) {
         $content .= "<tr>";
+        $cnum = 1;
         foreach($block['columns'] as $column) {
-            $content .= "<td" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
+            $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
+            $content .= "<{$cell_type}" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
             if( isset($column['strsub']) && $column['strsub'] != '' ) {
                 $value = $column['strsub'];
                 if( preg_match('/{_([a-zA-Z0-9_]+)_}/', $column['strsub'], $m) ) {
@@ -57,7 +59,8 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
             if( isset($column['field']) && isset($row[$column['field']]) ) {
                 $content .= $row[$column['field']];
             } 
-            $content .= "</td>";
+            $content .= "</{$cell_type}>";
+            $cnum++;
         }
         $content .= "</tr>";
         $count++;

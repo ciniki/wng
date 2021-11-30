@@ -241,6 +241,21 @@ p:last-child {
 .limit-width { 
     max-width: 80em; 
 }
+.limit-width-30 {
+    max-width: 30em;
+}
+.limit-width-40 {
+    max-width: 40em;
+}
+.limit-width-50 {
+    max-width: 50em;
+}
+.limit-width-60 {
+    max-width: 60em;
+}
+.limit-width-70 {
+    max-width: 60em;
+}
 .limit-width.center {
     margin: 0 auto;
 }

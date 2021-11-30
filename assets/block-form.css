@@ -7,6 +7,15 @@
     padding-top: 1.5rem;
     padding-bottom: 0.5rem;
 }
+.block-form.simple form {
+    width: 100%;
+}
+.block-form.simple .submit-buttons {
+    text-align: right;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
 .block-form .sections-fields .repeatable,
 .block-form .sections-fields .section {
     display: none;

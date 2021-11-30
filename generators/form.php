@@ -2,8 +2,11 @@
 //
 // Description
 // -----------
-// Generate the form, typically produced by ciniki.forms module, but could
+// Generate a html form, typically produced by ciniki.forms module, but could
 // also be from wng or other modules.
+//
+// The form can be a sectioned form with API callbacks for saving sections,
+// OR the form can be a simple set of fields with submit/cancel.
 // 
 // Arguments
 // ---------
@@ -15,61 +18,67 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
 
     $content = '';
+    $js = '';
+
+    //
+    // Setup error message area
+    //
+    $content .= "<div id='form-errors' class='block-msg error limit-width center form-errors"
+        . (isset($block['problem-list']) && $block['problem-list'] != '' ? '' : ' hidden')
+        . "'>";
+    $content .= "<div class='wrap'>";
+    $content .= "<div class='content'>";
+    $content .= "<div id='form-errors-msg' class='msg'>";
+
+    if( isset($block['problem-list']) && $block['problem-list'] != '' ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+        $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['problem-list']);   
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        if( isset($rc['content']) && $rc['content'] != '' ) {
+            $content .= $rc['content'];
+        }
+    }
+
+    $content .= "</div>";
+    $content .= "</div>";
+    $content .= "</div>";
+    $content .= "</div>";
+
+    //
+    // Start the form block
+    //
+    $content .= "<div class='block-form"
+        . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['form-sections']) ? ' sectioned' : '')
+        . (isset($block['fields']) ? ' simple' : '')
+        . "'>";
+    $content .= "<div class='wrap'>";
+    $content .= "<div class='content'>";
+
+    if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<h1>" . $block['title'] . "</h1>";
+    } elseif( isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<h2>" . $block['title'] . "</h2>";
+    }
+
+    //
+    // Check if guidelines specified
+    //
+    if( isset($block['guidelines']) && $block['guidelines'] != '' ) {
+        $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['guidelines']);
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        if( isset($rc['content']) && $rc['content'] != '' ) {
+            $content .= "<div class='guidelines'>{$rc['content']}</div>";
+        }
+    }
+
 
     if( isset($block['form-sections']) ) {
         
-        //
-        // Setup error message area
-        //
-        $content .= "<div id='form-errors' class='block-msg error limit-width center form-errors"
-            . (isset($block['problem-list']) && $block['problem-list'] != '' ? '' : ' hidden')
-            . "'>";
-        $content .= "<div class='wrap'>";
-        $content .= "<div class='content'>";
-        $content .= "<div id='form-errors-msg' class='msg'>";
-
-        if( isset($block['problem-list']) && $block['problem-list'] != '' ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
-            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['problem-list']);   
-            if( $rc['stat'] != 'ok' ) {
-                return $rc;
-            }
-            if( isset($rc['content']) && $rc['content'] != '' ) {
-                $content .= $rc['content'];
-            }
-        }
-
-        $content .= "</div>";
-        $content .= "</div>";
-        $content .= "</div>";
-        $content .= "</div>";
-
-
-        $content .= "<div class='block-form"
-            . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
-            . "'>";
-        $content .= "<div class='wrap'>";
-        $content .= "<div class='content'>";
-
-        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h1>" . $block['title'] . "</h1>";
-        } elseif( isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h2>" . $block['title'] . "</h2>";
-        }
-
-        //
-        // Check if guidelines specified
-        //
-        if( isset($block['guidelines']) && $block['guidelines'] != '' ) {
-            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['guidelines']);
-            if( $rc['stat'] != 'ok' ) {
-                return $rc;
-            }
-            if( isset($rc['content']) && $rc['content'] != '' ) {
-                $content .= "<div class='guidelines'>{$rc['content']}</div>";
-            }
-        }
-
         //
         // Setup the next/prev for sections
         //
@@ -323,9 +332,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<select id='f-{$field['id']}'>";
                             $sections .= "<option value=''></option>";
-                            for($i = 0;$i < 20;$i++) {
-                                if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
-                                    $value = $field["option-{$i}"];
+                            for($j = 0;$j < 20;$j++) {
+                                if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
+                                    $value = $field["option-{$j}"];
                                     $sections .= "<option value='{$value}'"
                                         . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
                                         . ">{$value}</option>";
@@ -336,13 +345,13 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'radio' ) {
                             $sections .= "<div class='label {$req}'>{$field['label']}</div>";
                             $sections .= $field_description;
-                            for($i = 0;$i < 20;$i++) {
-                                if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
-                                    $value = $field["option-{$i}"];
-                                    $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$i}' value='{$value}'"
+                            for($j = 0;$j < 20;$j++) {
+                                if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
+                                    $value = $field["option-{$j}"];
+                                    $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$j}' value='{$value}'"
                                         . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
                                         . ">"
-                                        . "<label for='f-{$field['id']}-{$i}'>{$value}</label>"
+                                        . "<label for='f-{$field['id']}-{$j}'>{$value}</label>"
                                         . "";
                                 }
                             }
@@ -517,11 +526,259 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . ")});";
         }
 
-        $content .= '</div>';
-        $content .= '</div>';
-        $content .= '</div>';
     }
 
+    //
+    // Simple form with no sections
+    //
+    elseif( isset($block['fields']) ) {
+       
+        //
+        // Process the fields
+        //
+        $fields_html = '';
+        foreach($block['fields'] as $field) {
+            $req = '';
+            if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
+                $req = ' required';
+            }
+            $field_description = '';
+            if( isset($field['description']) && $field['description'] != '' ) {
+                $field_description = "<div class='field-description'>"
+                    . $field['description']
+                    . "</div>";
+            }
+           
+            $class = $req;
+            if( $field['ftype'] == 'checkbox' 
+                && isset($field['prev_fid']) 
+                && ($block['fields'][$field['prev_fid']]['ftype'] == 'content'
+                    ||  $block['fields'][$field['prev_fid']]['ftype'] == 'checkbox'
+                    )
+                ) {
+                $class .= ' checkbox-list';
+            }
+            elseif( $field['ftype'] == 'content' 
+                && isset($field['next_fid']) 
+                && $block['fields'][$field['next_fid']]['ftype'] == 'checkbox'
+                ) {
+                $class .= ' checkbox-list';
+            } 
+            elseif( $field['ftype'] == 'hidden' ) {
+                $fields_html .= "<input type='hidden' name='f-{$field['id']}' value='{$field['value']}'/>";
+                continue;
+            }
+            $fields_html .= "<div class='field field-{$field['ftype']}{$class}"
+                . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
+                . "'>";
+
+            if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . ">";
+            } 
+            elseif( $field['ftype'] == 'number' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ">";
+            }
+            elseif( $field['ftype'] == 'price' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='text' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . " maxlength='50'"
+                    . ">";
+            }
+            elseif( $field['ftype'] == 'phone' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='tel' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . " maxlength='25'"
+                    . ">";
+            }
+            elseif( $field['ftype'] == 'date' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='date' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ">";
+            }
+            elseif( $field['ftype'] == 'url' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='url' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . " maxlength='500'"
+                    . ">";
+            }
+            elseif( $field['ftype'] == 'address' ) {
+                $fields_html .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address 1</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address1'"
+                    . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
+                    . " maxlength='100'"
+                    . ">";
+                $fields_html .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address2'"
+                    . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
+                    . " maxlength='100'"
+                    . ">";
+                $fields_html .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}-city'"
+                    . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
+                    . " maxlength='100'"
+                    . ">"; 
+                $fields_html .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}-province'"
+                    . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
+                    . " maxlength='100'"
+                    . ">"; 
+                $fields_html .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
+                $fields_html .= "<input type='{$field['ftype']}' id='f-{$field['id']}-postal'"
+                    . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
+                    . " maxlength='10'"
+                    . ">"; 
+            }
+            elseif( $field['ftype'] == 'textarea' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $maxwords = 0;
+                if( isset($field['max-words']) && $field['max-words'] > 0 ) {
+                    $maxwords = $field['max-words'];
+                }
+                $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
+                    . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
+                    . ">"
+                    . (isset($field['value']) ? $field['value'] : '')
+                    . "</textarea>";
+                if( $maxwords > 0 ) {
+                    $fields_html .= "<div id='wc-{$field['id']}' class='word-count'>"
+                        . (isset($field['value']) ? str_word_count($field['value']) : 0) . " words"
+                        . "</div>";
+                }
+            }
+            elseif( $field['ftype'] == 'select' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<select id='f-{$field['id']}'>";
+                $fields_html .= "<option value=''></option>";
+                for($i = 0;$i < 20;$i++) {
+                    if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
+                        $value = $field["option-{$i}"];
+                        $fields_html .= "<option value='{$value}'"
+                            . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
+                            . ">{$value}</option>";
+                    }
+                }
+                $fields_html .= "</select>";
+            }
+            elseif( $field['ftype'] == 'radio' ) {
+                $fields_html .= "<div class='label {$req}'>{$field['label']}</div>";
+                $fields_html .= $field_description;
+                for($i = 0;$i < 20;$i++) {
+                    if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
+                        $value = $field["option-{$i}"];
+                        $fields_html .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$i}' value='{$value}'"
+                            . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
+                            . ">"
+                            . "<label for='f-{$field['id']}-{$i}'>{$value}</label>"
+                            . "";
+                    }
+                }
+            }
+            elseif( $field['ftype'] == 'checkbox' ) {
+                $fields_html .= "<input type='checkbox' id='f-{$field['id']}'"
+                    . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
+                    . ">";
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>{$field['label']}</label>";
+                $fields_html .= "</input>";
+                $fields_html .= $field_description;
+            }
+            elseif( $field['ftype'] == 'content' ) {
+                if( isset($field['label']) && $field['label'] != '' ) {
+                    $fields_html .= "<div class='label'>{$field['label']}</div>";
+                }
+                $fields_html .= $field_description;
+            }
+            elseif( $field['ftype'] == 'image' ) {
+/*                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading Image...</div>";
+                $fields_html .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/"
+                    . (isset($field['value']) ? $field['value'] : '')
+                    . "'/></div>";
+                $fields_html .= "<div class='hidden'>"
+                    . "<input type='file' id='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iU(event,\"{$section['id']}\",\"{$field['id']}\");'/>"
+                    . "</div>";
+                $fields_html .= "<div class='form-buttons'>";
+                $fields_html .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
+                $fields_html .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
+                $fields_html .= "</div>"; */
+            }
+            elseif( $field['ftype'] == 'document' ) {
+                // FIXME: Add document support
+            }
+            elseif( $field['ftype'] == 'payment' && isset($field['amount']) ) {
+                $fields_html .= "<div class='form-payment'>";
+                if( isset($field['label']) && $field['label'] != '' ) {
+                    $fields_html .= "<span class='fee-label'>" . $field['label'] . "</span>";
+                }
+                $fields_html .= "<span class='fee-amount'>$" . number_format($field['amount'], 2) . "</span>";
+                if( isset($field['paid']) && $field['paid'] == 'yes' ) {
+                    $fields_html .= "<span class='invoice-paid'>Paid</span>";
+                } elseif( isset($field['paid']) && $field['paid'] == 'unpaidcart' ) {
+                    $fields_html .= "<a class='fee-button button' href='"
+                        . (isset($field['cart-url']) ? $field['cart-url'] : '')
+                        . "'>"
+                        . (isset($field['button-label']) && $field['button-label'] != '' ? $field['button-label'] : 'Pay Now')
+                        . "</a>";
+                } else {
+                    $fields_html .= "<a class='fee-button button' onclick='C.form.cartSubmit(\""
+                        . (isset($field['cart-url']) ? $field['cart-url'] : '')
+                        . "\");'>"
+                        . (isset($field['button-label']) && $field['button-label'] != '' ? $field['button-label'] : 'Pay Now')
+                        . "</a>";
+                }
+                $fields_html .= "</div>";
+            }
+            elseif( $field['ftype'] == 'submit' ) {
+            }
+            
+            $fields_html .= "</div>";
+        }
+
+        //
+        // Generate the form
+        //
+        $content .= "<div class='form'>";
+        $content .= "<form action='' method='POST'>";
+        $content .= "<div class='fields'>" . $fields_html . "</div>";
+        $content .= "<div class='submit-buttons'>";
+        if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
+            $content .= "<input type='submit' class='button' value='{$block['cancel-label']}' >";
+        }
+        $content .= "<input type='submit' class='button' value='"
+            . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+            . "' >";
+        $content .= '</div>';
+        $content .= "</form>";
+        $content .= '</div>';
+
+    }
+
+    //
+    // Close out the block
+    //
+    $content .= '</div>';
+    $content .= '</div>';
+    $content .= '</div>';
 
     return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }
