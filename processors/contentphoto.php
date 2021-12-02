@@ -16,11 +16,9 @@ function ciniki_wng_processors_contentphoto(&$ciniki, $tnid, &$request, $section
 
     $blocks = array();
 
-    if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
-        $section['settings']['type'] = 'contentphoto';
-        $section['settings']['sequence'] = $section['sequence'];
-        $blocks[] = $section['settings'];
-    }
+    $section['settings']['type'] = 'contentphoto';
+    $section['settings']['sequence'] = $section['sequence'];
+    $blocks[] = $section['settings'];
 
     return array('stat'=>'ok', 'blocks'=>$blocks);
 }

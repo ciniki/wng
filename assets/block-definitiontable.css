@@ -1,0 +1,57 @@
+.block-definitiontable {
+    width: 100%;
+}
+.block-definitiontable .content {
+    padding: 1rem;
+}
+.block-definitiontable h2 {
+    padding-bottom: 0.5rem;
+}
+.block-definitiontable table {
+    width: 100%;
+    border: 1px solid #000;
+}
+.block-definitiontable tr {
+    display: block;
+}
+.block-definitiontable th {
+    display: block;
+    padding: 0.5em;
+    background: #000;
+    color: #fff;
+    vertical-align: top;
+}
+.block-definitiontable td {
+    display: block;
+    padding: 0.5em;
+}
+.block-definitiontable tr.image td img {
+    margin: 0 auto;
+}
+@media screen and (min-width: 40em) {
+    .block-definitiontable .content {
+        padding: 1rem 2rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-definitiontable tr {
+        display: table-row;
+    }
+    .block-definitiontable th {
+        display: table-cell;
+        min-width: 20%;
+        max-width: 50%;
+        width: 25%;
+        text-align: right;
+    }
+    .block-definitiontable td {
+        display: table-cell;
+        width: 50%;
+    }
+    .block-definitiontable tr:nth-child(even) th {
+        background: #333;
+    }
+    .block-definitiontable tr:nth-child(even) td {
+        background: #eee;
+    }
+}
