@@ -18,6 +18,11 @@
 function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
 
     //
+    // Load functions required everytime page is generated
+    //
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
+    //
     // Load everything about the site needed for header, menu, breadcrumbs and footer
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');

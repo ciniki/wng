@@ -16,15 +16,15 @@
     flex-flow: row nowrap;
     justify-content: space-between;
 }
-.block-form .sections-fields .repeatable,
-.block-form .sections-fields .section {
+.block-form .form-sections-fields .repeatable,
+.block-form .form-sections-fields .form-section {
     display: none;
 }
-.block-form .sections-fields .repeatable.selected,
-.block-form .sections-fields .section.selected {
+.block-form .form-sections-fields .repeatable.selected,
+.block-form .form-sections-fields .form-section.selected {
     display: block;
 }
-.block-form .section-description p {
+.block-form .form-section-description p {
     padding-bottom: 1rem;
 }
 .block-form .fields {
@@ -171,7 +171,7 @@
     margin-left: 0rem;
 }
 .block-form .repeat-buttons,
-.block-form .section-buttons {
+.block-form .form-section-buttons {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -180,16 +180,16 @@
     margin-bottom: 1rem;
 }
 .block-form .repeat-buttons,
-.block-form .section-buttons .button {
+.block-form .form-section-buttons .button {
     min-width: 8rem;
     text-align: center;
 }
 .block-form .repeat-buttons,
-.block-form .section-buttons .button.prev {
+.block-form .form-section-buttons .button.prev {
     align-self: flex-start;
 }
 .block-form .repeat-buttons,
-.block-form .section-buttons .button.next {
+.block-form .form-section-buttons .button.next {
     align-self: flex-end;
     margin-left: auto;
 }
@@ -246,10 +246,10 @@
 .block-form .submit input {
     width: 100%;
 } */
-.block-form .sections-list.hide {
+.block-form .form-sections-list.hide {
     display: none;
 }
-.block-form .sections-list .button {
+.block-form .form-sections-list .button {
     width: 100%;
     margin-bottom: 1rem;
     cursor: pointer;
@@ -260,7 +260,7 @@
         padding-right: 2rem;
     }
     .block-form .repeat-buttons .button,
-    .block-form .section-buttons .button {
+    .block-form .form-section-buttons .button {
         min-width: 10rem;
         width: auto;
     }
@@ -278,7 +278,7 @@
     .block-form .current-section {
         display: none;
     }
-    .block-form .sections-list.hide {
+    .block-form .form-sections-list.hide {
         display: block;
     }
     .block-form .form {
@@ -287,11 +287,11 @@
         justify-content: space-between;
         align-items: flex-start;
     }
-    .block-form .sections-list {
+    .block-form .form-sections-list {
         width: 35%;
         padding-right: 1rem;
     }
-    .block-form .sections-fields {
+    .block-form .form-sections-fields {
         width: 65%;
         padding-left: 1rem;
     }

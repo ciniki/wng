@@ -14,6 +14,8 @@
 // 
 function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
@@ -39,6 +41,7 @@ function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
 
     $blocks[] = array(
         'type' => 'flexcards',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
         'sequence' => $section['sequence'],
         'items' => $items,
         );

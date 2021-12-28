@@ -14,6 +14,8 @@
 // 
 function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
     
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
@@ -32,6 +34,7 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
     if( count($items) > 0 ) {
         $block = array(
             'type' => 'buttons',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             );
         if( isset($s['title']) && $s['title'] > 0 ) {
             $block['title'] = $s['title'];

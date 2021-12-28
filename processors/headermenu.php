@@ -13,6 +13,8 @@
 // 
 function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
   
@@ -25,6 +27,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         if( isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0 ) {
             $block = array(
                 'type' => 'accountbuttons',
+                'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
                 'data' => array(
                     array(
                         'label' => (isset($s['account-label']) && $s['account-label'] != '' ? $s['account-label'] : 'Account'),
@@ -39,6 +42,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         } else {
             $block = array(
                 'type' => 'accountbuttons',
+                'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
                 'data' => array(
                     array(
                         'label' => (isset($s['signin-label']) && $s['signin-label'] != '' ? $s['signin-label'] : 'Sign In'),
@@ -250,23 +254,20 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         'type' => 'imagemenu',
         'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
         'main-menu' =>  $mainmenu,
-        'class' => 'header-menu',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' header-menu',
         'dropdown' => isset($s['dropdown']) ? $s['dropdown'] : '',
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         'hamburger-menu' =>  $hamburgermenu,
         );
     if( isset($s['image-position']) && $s['image-position'] == 'center' ) {
         $block['image-toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
-        $block['class'] = 'center-logo';
+        $block['class'] .= ' center-logo';
     }
     if( isset($s['dropdown']) && $s['dropdown'] != '' && $s['dropdown'] != 'off' ) {
         $block['dropdown'] = $s['dropdown'];
     }
 
     $blocks[] = $block;
-
-//    $blocks[] = array('type'=>'content', 'content'=>'<pre>' . print_r($request['site'], true) . '</pre>');
-    
 
     return array('stat'=>'ok', 'blocks'=>$blocks);
 }

@@ -14,6 +14,8 @@
 // 
 function ciniki_wng_processors_testimonials(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
@@ -30,6 +32,7 @@ function ciniki_wng_processors_testimonials(&$ciniki, $tnid, &$request, $section
     if( count($data) > 0 ) {
         $blocks[] = array(
             'title' => isset($s['title']) ? $s['title'] : '',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'type' => 'testimonials',
             'data' => $data,
             );

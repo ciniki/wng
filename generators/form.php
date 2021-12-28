@@ -108,7 +108,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( $cur_section_id == $section['id'] ) {
                     $cur_section_label = $section['label'];
                 }
-                $sections .= "<div id='s-{$section['id']}' class='section"
+                $sections .= "<div id='s-{$section['id']}' class='form-section"
                     // Add class for when selected if open by default
                     . ($cur_section_id == $section['id'] ? ' selected' : '')
                     . "'>"; 
@@ -121,7 +121,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         return $rc;
                     }
                     if( isset($rc['content']) && $rc['content'] != '' ) {
-                        $sections .= "<div class='section-description'>{$rc['content']}</div>";
+                        $sections .= "<div class='form-section-description'>{$rc['content']}</div>";
                     }
                 }
 
@@ -195,7 +195,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                     return $rc;
                                 }
                                 if( isset($rc['content']) && $rc['content'] != '' ) {
-                                    $sections .= "<div class='section-description'>{$rc['content']}</div>";
+                                    $sections .= "<div class='form-section-description'>{$rc['content']}</div>";
                                 }
                             }
                             $sections .= "<div class='fields'>";
@@ -475,7 +475,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 //
                 // Add the prev/next buttons
                 //
-                $sections .= "<div class='form-buttons section-buttons'>";
+                $sections .= "<div class='form-buttons form-section-buttons'>";
                 if( isset($section['prev_sid']) ) {
                     $sections .= "<a onclick='C.form.sS(\"{$block['form-sections'][$section['prev_sid']]['id']}\");' class='button prev'>Previous</a>";
                 }
@@ -492,7 +492,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 //
                 // Add the section to the list of selectable sections
                 //
-                $section_list .= "<div id='b-{$section['id']}' class='section"
+                $section_list .= "<div id='b-{$section['id']}' class='form-section"
                     . ($cur_section_id == $section['id'] ? ' selected' : '')
                     . ($repeats > 1 ? ' repeatable' : '')
                     . "'>"
@@ -504,11 +504,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
 
         $content .= "<div class='form'>";
         $content .= "<div class='current-section'>{$cur_section_label}</div>";
-        $content .= "<div class='sections-list'>" 
+        $content .= "<div class='form-sections-list'>" 
             . "<h2>Sections</h2>"
             . "<div class='list'>" . $section_list . "</div>"
             . "</div>";
-        $content .= "<div class='sections-fields'>" . $sections . "</div>";
+        $content .= "<div class='form-sections-fields'>" . $sections . "</div>";
         $content .= '</div>';
 
         if( isset($block['api-save-url']) && $block['api-save-url'] != '' 

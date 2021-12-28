@@ -14,6 +14,8 @@
 // 
 function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
@@ -235,7 +237,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
     }
     $blocks[] = array(
         'type' => 'contactform',
-        'class' => 'limit-width center',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' limit-width center',
         'form-position' => 'bottom-right',
         'title' => isset($s['title']) ? $s['title'] : '',
         'contact-intro' => isset($s['contact-intro']) ? $s['contact-intro'] : '',

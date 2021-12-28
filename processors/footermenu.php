@@ -13,6 +13,8 @@
 // 
 function ciniki_wng_processors_footermenu(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
   
@@ -46,7 +48,7 @@ function ciniki_wng_processors_footermenu(&$ciniki, $tnid, &$request, $section) 
 
     $block = array(
         'type' => 'imagemenu',
-        'class' => 'footer-menu',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' footer-menu',
         'main-menu' =>  $mainmenu,
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         );

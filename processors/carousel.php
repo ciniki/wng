@@ -14,6 +14,8 @@
 // 
 function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
@@ -37,6 +39,7 @@ function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
 
     $blocks[] = array(
         'type' => 'carousel',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
         'titles' => $titles,
         'sequence' => $section['sequence'],
         'speed' => isset($s['speed']) ? $s['speed'] : 'medium',

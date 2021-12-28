@@ -13,6 +13,9 @@
 // ---------
 // 
 function ciniki_wng_processors_headlinescroll(&$ciniki, $tnid, &$request, $section) {
+
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
 
     $headlines = array();
@@ -26,6 +29,7 @@ function ciniki_wng_processors_headlinescroll(&$ciniki, $tnid, &$request, $secti
     if( count($headlines) > 0 ) {
         $blocks[] = array(
             'type' => 'headlinescroll',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'speed' => (isset($section['settings']['speed']) ? $section['settings']['speed'] : 'medium'),
             'data' => $headlines,
             );

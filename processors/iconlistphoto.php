@@ -14,13 +14,15 @@
 // 
 function ciniki_wng_processors_iconlistphoto(&$ciniki, $tnid, &$request, $section) {
     
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
     if( isset($s['text-1']) && $s['text-1'] != '' ) {
         $block = array(
             'type' => 'contentphoto',
-            'class' => 'iconlistphoto', 
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' iconlistphoto',
             );
         if( isset($s['title']) && $s['title'] != '' ) {
             $block['title'] = $s['title'];
