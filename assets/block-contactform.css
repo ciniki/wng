@@ -33,6 +33,9 @@
     height: 3rem;
     fill: #aaa;
 }
+.block-contactform svg.stroke {
+    stroke: #aaa;
+}
 .block-contactform .label {
     font-size: 1.1rem;
     font-weight: bold;

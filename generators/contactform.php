@@ -3,6 +3,8 @@
 // Description
 // -----------
 // Generic for generator
+//
+// Icons from iconfinder.com (free ones, or purchased)
 // 
 // Arguments
 // ---------
@@ -128,6 +130,21 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['address-label']) && $block['address-label'] != '' ? $block['address-label'] : "Location")
+                . "</div><div class='value'>" . $rc['content'] . "</div></div>";
+            $content .= "</div>";
+        }
+
+        // Mailing Address
+        if( isset($block['mailing']) && $block['mailing'] != '' ) {
+            $content .= "<div class='detail mailing'>";
+            $content .= "<div class='icon'><svg class='stroke' style='enable-background:new 0 0 32 32;' version='1.1' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><style type='text/css'>.st0{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}</style><path class='st0' d='M16,25H2v-8c0-3.9,3.1-7,7-7h0c3.9,0,7,3.1,7,7V25z'/><path class='st0' d='M23,10L23,10c3.9,0,7,3.1,7,7v8H16'/><line class='st0' x1='9' x2='23' y1='10' y2='10'/><rect class='st0' height='6' width='6' x='13' y='25'/><polyline class='st0' points='22,18 22,4.9 22,1 30,1 30,5 22,5'/>"
+                . "</svg></div>";
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['mailing']);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.139', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+            }
+            $content .= "<div class='item'><div class='label'>"
+                . (isset($block['mailing-label']) && $block['mailing-label'] != '' ? $block['mailing-label'] : "Mailing Address")
                 . "</div><div class='value'>" . $rc['content'] . "</div></div>";
             $content .= "</div>";
         }

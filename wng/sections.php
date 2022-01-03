@@ -480,7 +480,8 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'settings'=>array(
             'title'=>array('label'=>'Title', 'type'=>'text'),
             'contact-intro' => array('label'=>'Contact Intro', 'type'=>'textarea', 'size'=>'small'),
-            'address' => array('label'=>'Address', 'type'=>'text'),
+            'address' => array('label'=>'Location', 'type'=>'text'),
+            'mailing' => array('label'=>'Mailing', 'type'=>'text'),
             'phone' => array('label'=>'Phone', 'type'=>'text'),
             'fax' => array('label'=>'Fax', 'type'=>'text'),
             'email' => array('label'=>'Email', 'type'=>'text'),

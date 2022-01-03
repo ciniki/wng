@@ -242,6 +242,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         'title' => isset($s['title']) ? $s['title'] : '',
         'contact-intro' => isset($s['contact-intro']) ? $s['contact-intro'] : '',
         'address' => isset($s['address']) ? $s['address'] : '',
+        'mailing' => isset($s['mailing']) ? $s['mailing'] : '',
         'phone' => isset($s['phone']) ? $s['phone'] : '',
         'fax' => isset($s['fax']) ? $s['fax'] : '',
         'email' => isset($s['email']) ? $s['email'] : '',
