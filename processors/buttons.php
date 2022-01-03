@@ -13,7 +13,7 @@
 // ---------
 // 
 function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
-    
+
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 
     $blocks = array();
@@ -22,7 +22,9 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
     $items = array();
     for($i = 1; $i < 15; $i++) {
         if( isset($s["button-{$i}-text"]) && $s["button-{$i}-text"] != '' 
-            && isset($s["button-{$i}-url"]) && $s["button-{$i}-url"] != '' 
+            && ((isset($s["button-{$i}-url"]) && $s["button-{$i}-url"] != '') 
+                || (isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0)
+                )
             ) {
             $items[] = array(
                 'text' => $s["button-{$i}-text"],
