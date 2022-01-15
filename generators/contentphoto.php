@@ -130,6 +130,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 }
             }
             $content .= "</div>";
+            if( isset($block['list-footer']) && $block['list-footer'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['list-footer']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.153', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= $rc['content'];
+            }
         }
 
         //

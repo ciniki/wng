@@ -49,6 +49,17 @@ function ciniki_wng_processors_listphoto(&$ciniki, $tnid, &$request, $section) {
             }
         }
 
+        if( isset($s['list-footer']) && $s['list-footer'] != '' ) {
+            $block['list-footer'] = $s['list-footer'];
+        }
+        for($i = 1; $i < 3; $i++) {
+            if( isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] != '' ) {
+                $block["button-{$i}-page"] = $s["button-{$i}-page"];
+                $block["button-{$i}-text"] = isset($s["button-{$i}-text"]) ? $s["button-{$i}-text"] : '';
+                $block["button-{$i}-url"] = isset($s["button-{$i}-url"]) ? $s["button-{$i}-url"] : '';
+            }
+        }
+
         $blocks[] = $block;
     }
 
