@@ -86,6 +86,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'center' => 'Center',
 //                'right' => 'Right', // **Future**
                 ));
+    $sections['ciniki.wng.headermenu']['settings']['title'] = array('label'=>'Title', 'type'=>'text', 'default'=>'left');
     $sections['ciniki.wng.headermenu']['settings']['dropdown'] = array(
         'label'=>'Dropdown Menus', 'type'=>'toggle', 'default'=>'off', 'toggles'=>array(
                 'off' => 'Off',

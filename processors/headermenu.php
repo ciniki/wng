@@ -259,6 +259,9 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         'hamburger-menu' =>  $hamburgermenu,
         );
+    if( isset($s['title']) && $s['title'] != '' ) {
+        $block['title'] = $s['title'];
+    }
     if( isset($s['image-position']) && $s['image-position'] == 'center' ) {
         $block['image-toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
         $block['class'] .= ' center-logo';

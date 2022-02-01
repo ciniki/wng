@@ -64,6 +64,14 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         $content .= "<img alt='Home' src='" . $rc['url'] . "' />";
         $content .= "</a>";
         $content .= '</div>';
+
+    }
+
+    //
+    // Add the title
+    //
+    if( isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<div class='title-wrap'><h1>" . $block['title'] . "</h1></div>";
     }
 
     // 
