@@ -1000,7 +1000,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     //
-    // FIXME: Check if checkout via stripe
+    // Check if checkout via stripe
     //
     elseif( $stripe_checkout == 'yes' 
         && isset($_POST['stripe-token']) && $_POST['stripe-token'] != '' 
@@ -1012,6 +1012,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'stripeCustomerCharge');
         $rc = ciniki_sapos_wng_stripeCustomerCharge($ciniki, $tnid, $request, array(
             'invoice_id' => $cart['id'],
+            'invoice_number' => $cart['invoice_number'],
             'stripe-token' => $_POST['stripe-token'],
             'stripe-email' => $_POST['stripe-email'],
             'charge-amount' => $cart['total_amount'],
