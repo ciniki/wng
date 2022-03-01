@@ -387,7 +387,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     $item = $item['item'];
                     if( $item['object'] == $_POST['object']
                         && $item['object_id'] == $_POST['object_id'] 
-                        && isset($_POST['quantity'])
+                        && isset($_POST['quantity']) && is_numeric($_POST['quantity'])
                         && ((!isset($_POST['price_id']) && $item['price_id'] == 0) || $item['price_id'] == $_POST['price_id'])
                         && ($item['flags']&0x08) == 0
                         ) {

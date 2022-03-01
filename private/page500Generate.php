@@ -66,7 +66,9 @@ function ciniki_wng_page500Generate(&$ciniki, $tnid, $request, $errors) {
         $ciniki['emailqueue'][] = array('to'=>$ciniki['config']['ciniki.core']['alerts.notify'],
             'subject'=>'Web ERR 500',
             'textmsg'=>$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n"
-                . print_r($errors, true),
+                . print_r($errors, true)
+                . "\n\n"
+                . print_r($request, true),
             );
     }
 
