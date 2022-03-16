@@ -751,9 +751,9 @@ function ciniki_wng_main() {
     }
     this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
     this.edit.open = function(cb, pid, sid) {
+        this.page_id = pid;
         this.site_id = sid;
         if( pid != null && pid > 0 ) {
-            this.page_id = pid;
             M.api.getJSONCb('ciniki.wng.pageGet', {'tnid':M.curTenantID, 'page_id':this.page_id}, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
@@ -774,29 +774,6 @@ function ciniki_wng_main() {
             this.updateForm();
         }
     }
-/*    this.section.open = function(cb, id, pid, sid, list) {
-        if( id != null ) { this.section_id = id; }
-        if( pid != null ) { this.page_id = pid; }
-        if( sid != null ) { this.site_id = sid; }
-        if( list != null ) { this.nplist = list; }
-        M.api.getJSONCb('ciniki.wng.sectionGet', {'tnid':M.curTenantID, 'site_id':this.site_id, 'page_id':this.page_id, 'section_id':this.section_id}, function(rsp) {
-            if( rsp.stat != 'ok' ) {
-                M.api.err(rsp);
-                return false;
-            }
-            var p = M.ciniki_wng_main.section;
-            p.data = rsp.section;
-            p.data.availablesections = rsp.availablesections;
-            p.sections.general.fields.ref.options = [];
-            p.sections.general.fields.ref.options[''] = 'Select a section';
-            for(var i in rsp.availablesections) {
-                p.sections.general.fields.ref.options[i] = rsp.availablesections[i].module + ' - ' + rsp.availablesections[i].name;
-            }
-            p.refresh();
-            p.show(cb);
-            p.setSectionOptions();
-        });
-    } */
     this.edit.save = function(cb) {
         if( cb == null ) { cb = 'M.ciniki_wng_main.edit.close();'; }
         if( !this.checkForm() ) { return false; }

@@ -140,6 +140,9 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                             if( !isset($item['items']) ) {
                                 $item['items'] = array();
                             }
+                            if( isset($subpage['flags']) && ($subpage['flags']&0x01) == 0 ) {
+                                continue;
+                            }
                             $item['items'][] = $subitem;
                         }
                     }
