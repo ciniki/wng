@@ -83,6 +83,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             . 'showat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";
         $content .= "<nav id='block-imagemenu-main-menu' class=''><ul>";
+        $num = 1;
         foreach($block['main-menu'] as $item) {
             $class = (isset($item['selected']) && $item['selected'] == 'yes' ? ' selected': '')
                 . (isset($item['hidden']) && $item['hidden'] == 'yes' ? ' hidden': '')
@@ -112,7 +113,6 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 $img_title .= $item['title'];
             }
 
-            $num = 1;
             if( $dropdown_fm == 'yes' && isset($item['items']) && count($item['items']) > 0 ) {
                 $content .= "<li id='fm-{$num}' class='dropdown {$class}'>";
                 if( isset($item['url']) && $item['url'] != '' ) {
@@ -144,6 +144,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 }
                 $content .= "</ul>";
                 $content .= "</li>";
+                $num++;
             } else {
                 $content .= "<li class='{$class}'>" ;
                 $content .= "<a"

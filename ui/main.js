@@ -65,8 +65,14 @@ function ciniki_wng_main() {
                     }
                     return 'no';
                 },
+            'editFn':function(s, i, d) {
+                if( (M.userPerms&0x01) == 0x01 ) {
+                    return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+                }
+                return '';
+            },
             'addTxt':'Add Page',
-            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.addpage.open(\'M.ciniki_wng_main.site.open();\',M.ciniki_wng_main.site.site_id);");',
+            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
             },
         'footerpages':{'label':'Footer Menu', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
             'visible':function() { 
@@ -78,6 +84,12 @@ function ciniki_wng_main() {
                     }
                 return 'no';
                 },
+            'editFn':function(s, i, d) {
+                if( (M.userPerms&0x01) == 0x01 ) {
+                    return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+                }
+                return '';
+            },
             },
         'orphanpages':{'label':'Other Pages', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
             'visible':function() { 
@@ -706,24 +718,15 @@ function ciniki_wng_main() {
     //
     // The panel to edit Page
     //
-    this.addpage = new M.panel('Page', 'ciniki_wng_main', 'addpage', 'mc', 'medium', 'sectioned', 'ciniki.wng.main.addpage');
-    this.addpage.data = {};
-    this.addpage.page_id = 0;
-    this.addpage.sections = {
-/*        '_image_id':{'label':'Image', 'type':'imageform', 'aside':'yes', 'fields':{
-            'image_id':{'label':'', 'type':'image_id', 'hidelabel':'yes', 'controls':'all', 'history':'no',
-                'addDropImage':function(iid) {
-                    M.ciniki_wng_main.page.setFieldValue('image_id', iid);
-                    return true;
-                    },
-                'addDropImageRefresh':'',
-             },
-        }}, */
+    this.edit = new M.panel('Page', 'ciniki_wng_main', 'edit', 'mc', 'medium', 'sectioned', 'ciniki.wng.main.edit');
+    this.edit.data = {};
+    this.edit.page_id = 0;
+    this.edit.sections = {
         'parent':{'label':'New page under', 'fields':{
             'parent_id':{'label':'', 'hidelabel':'yes', 'required':'yes', 'type':'select', 
                 'options':{},
                 'complex_options':{'name':'name', 'value':'id'},
-                'onchange':'M.ciniki_wng_main.addpage.updateForm',
+                'onchange':'M.ciniki_wng_main.edit.updateForm',
                 },
             }},
         'details':{'label':'', 'fields':{
@@ -732,18 +735,12 @@ function ciniki_wng_main() {
             'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
             'menu_flags':{'label':'Menu Options', 'type':'flags', 'visible':'no', 'flags':{'1':{'name':'Header'},'2':{'name':'Footer'}}},
             'flags1':{'label':'Visible', 'type':'flagtoggle', 'bit':0x01, 'field':'flags', 'default':'on'},
-//            'image_caption':{'label':'Image Caption', 'type':'text'},
             }},
-/*        '_synopsis':{'label':'Synopsis', 'fields':{
-            'synopsis':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'size':'small'},
-            }}, */
         '_buttons':{'label':'', 'buttons':{
-            'save':{'label':'Save', 'fn':'M.ciniki_wng_main.addpage.save();'},
+            'save':{'label':'Save', 'fn':'M.ciniki_wng_main.edit.save();'},
             }},
         };
-    // 
-    // FIXME: Add 
-    this.addpage.updateForm = function(s, i) {
+    this.edit.updateForm = function(s, i) {
         var parent_id = this.formFieldValue(this.sections.parent.fields.parent_id, 'parent_id');
         if( parent_id == M.ciniki_wng_main.site.data.site.homepage_id ) {
             this.sections.details.fields.menu_flags.visible = 'yes';
@@ -752,36 +749,85 @@ function ciniki_wng_main() {
         }
         this.showHideFormField('details', 'menu_flags');
     }
-    this.addpage.fieldValue = function(s, i, d) { return this.data[i]; }
-    this.addpage.open = function(cb, sid) {
+    this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
+    this.edit.open = function(cb, pid, sid) {
         this.site_id = sid;
-        this.reset();
-        this.data = {};
-        this.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
-//        for(var i in M.ciniki_wng_main.site.data.headerpages) {
-//            this.sections.parent.fields.parent_id.options[M.ciniki_wng_main.site.data.headerpages[i].id] = M.ciniki_wng_main.site.data.headerpages[i].name;
-//        }
-//        this.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.
-        this.refresh();
-        this.show(cb);
-        this.updateForm();
+        if( pid != null && pid > 0 ) {
+            this.page_id = pid;
+            M.api.getJSONCb('ciniki.wng.pageGet', {'tnid':M.curTenantID, 'page_id':this.page_id}, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                var p = M.ciniki_wng_main.edit;
+                p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
+                p.data = rsp.page;
+                p.refresh();
+                p.show(cb);
+            });
+        } else {
+            this.reset();
+            this.data = {};
+            this.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
+            this.refresh();
+            this.show(cb);
+            this.updateForm();
+        }
     }
-    this.addpage.save = function(cb) {
-        if( cb == null ) { cb = 'M.ciniki_wng_main.addpage.close();'; }
-        if( !this.checkForm() ) { return false; }
-        var c = this.serializeForm('yes');
-        M.api.postJSONCb('ciniki.wng.pageAdd', {'tnid':M.curTenantID, 'site_id':this.site_id}, c, function(rsp) {
+/*    this.section.open = function(cb, id, pid, sid, list) {
+        if( id != null ) { this.section_id = id; }
+        if( pid != null ) { this.page_id = pid; }
+        if( sid != null ) { this.site_id = sid; }
+        if( list != null ) { this.nplist = list; }
+        M.api.getJSONCb('ciniki.wng.sectionGet', {'tnid':M.curTenantID, 'site_id':this.site_id, 'page_id':this.page_id, 'section_id':this.section_id}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
             }
-            M.ciniki_wng_main.site.page_id = rsp.id;
-            M.ciniki_wng_main.site.view = 'page';
-            eval(cb);
+            var p = M.ciniki_wng_main.section;
+            p.data = rsp.section;
+            p.data.availablesections = rsp.availablesections;
+            p.sections.general.fields.ref.options = [];
+            p.sections.general.fields.ref.options[''] = 'Select a section';
+            for(var i in rsp.availablesections) {
+                p.sections.general.fields.ref.options[i] = rsp.availablesections[i].module + ' - ' + rsp.availablesections[i].name;
+            }
+            p.refresh();
+            p.show(cb);
+            p.setSectionOptions();
         });
+    } */
+    this.edit.save = function(cb) {
+        if( cb == null ) { cb = 'M.ciniki_wng_main.edit.close();'; }
+        if( !this.checkForm() ) { return false; }
+        if( this.page_id != null && this.page_id > 0 ) {
+            var c = this.serializeForm('no');
+            if( c != '' ) {
+                M.api.postJSONCb('ciniki.wng.pageUpdate', {'tnid':M.curTenantID, 'page_id':this.page_id, 'site_id':this.site_id}, c, function(rsp) {
+                    if( rsp.stat != 'ok' ) {
+                        M.api.err(rsp);
+                        return false;
+                    }
+                    eval(cb);
+                });
+            } else {
+                eval(cb);
+            }
+        } else {
+            var c = this.serializeForm('yes');
+            M.api.postJSONCb('ciniki.wng.pageAdd', {'tnid':M.curTenantID, 'site_id':this.site_id}, c, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                M.ciniki_wng_main.site.page_id = rsp.id;
+                M.ciniki_wng_main.site.view = 'page';
+                eval(cb);
+            });
+        }
     }
-    this.addpage.addButton('save', 'Save', 'M.ciniki_wng_main.addpage.save();');
-    this.addpage.addClose('Cancel');
+    this.edit.addButton('save', 'Save', 'M.ciniki_wng_main.edit.save();');
+    this.edit.addClose('Cancel');
 
     //
     // The panel to edit a section
