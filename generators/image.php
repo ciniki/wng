@@ -34,7 +34,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
             'image_id' => $block['image-id'],
             'version' => 'original',
-            'maxwidth' => 1024,
+            'maxwidth' => 2048,
             ));
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.104', 'msg'=>'', 'err'=>$rc['err']));
