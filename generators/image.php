@@ -45,7 +45,45 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         //
         $content .= "<div class='image-wrap'>";
         $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
-        $content .= '</div>';
+
+        //
+        // Check if next and previous buttons should be added
+        //
+        if( (isset($block['next']) && $block['next'] != '')
+            || (isset($block['prev']) && $block['prev'] != '') 
+            ) {
+            //
+            // The javascript will replace the current page location in the browser history and reload to new page.
+            // This allows back button to go back to previous page, not previous image
+            //
+            $prev_url = '';
+            $next_url = '';
+            $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $block['prev']);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
+            }
+            $prev_url = $rc['url'];
+            $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $block['next']);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
+            }
+            $next_url = $rc['url'];
+            $content .= "<div class='buttons'>";
+            $content .= "<div class='button-wrap prev'>";
+            $content .= "<a class='button' href='javascript: window.location.replace(\"{$prev_url}\");'>";
+            $content .= '<svg viewBox="0 0 80 80" stroke="#fff" fill="none"><polyline stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="50,70 20,40 50,10"/></svg>';
+            $content .= "</a>";
+            $content .= "</div>";
+            $content .= "<div class='button-wrap next'>";
+            $content .= "<a class='button' href='javascript: window.location.replace(\"{$next_url}\");'>";
+            $content .= '<svg viewBox="0 0 80 80" stroke="#fff" fill="none"><polyline stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="30,70 60,40 30,10"/></svg>';
+            $content .= "</a>";
+            $content .= "</div>";
+
+            $content .= "</div>";
+        }
+
+        $content .= '</div>';       // Close image-wrap
 
         $content .= '</div>';
         $content .= '</div>';
