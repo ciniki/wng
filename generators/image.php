@@ -85,6 +85,18 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
 
         $content .= '</div>';       // Close image-wrap
 
+        if( isset($block['content']) && $block['content'] != '' ) {
+            $content .= "<div class='content-wrap'>"; 
+            if( isset($block['content']) && $block['content'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= $rc['content'];
+            } 
+            $content .= "</div>";
+        }
+
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
