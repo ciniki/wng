@@ -176,7 +176,7 @@ if( isset($_SERVER['HTTP_HOST']) && $ciniki['config']['ciniki.wng']['master.doma
                 . "";
             $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'site');
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.5', 'msg'=>'Unable to load item', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.174', 'msg'=>'Unable to load item', 'err'=>$rc['err']));
             }
             if( isset($rc['site']) ) {
                 //

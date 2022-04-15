@@ -60,7 +60,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
         if( isset($block['form-intro']) && $block['form-intro'] != '' ) { 
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['form-intro']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.138', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.159', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='form-intro'>" . $rc['content'] . "</div>";
         }
@@ -141,7 +141,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['mailing']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.139', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.160', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['mailing-label']) && $block['mailing-label'] != '' ? $block['mailing-label'] : "Mailing Address")
@@ -157,7 +157,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['phone']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.140', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.161', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['phone-label']) && $block['phone-label'] != '' ? $block['phone-label'] : "Phone")
@@ -178,7 +178,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['fax']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.140', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.162', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['fax-label']) && $block['fax-label'] != '' ? $block['fax-label'] : "Fax")
@@ -199,7 +199,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['email']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.141', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.163', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['email-label']) && $block['email-label'] != '' ? $block['email-label'] : "Email")
@@ -215,7 +215,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['email']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.141', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.164', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'>";
             foreach($block['staff'] as $staff) {
@@ -226,7 +226,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 if( $staff['email'] != '' ) {
                     $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $staff['email']);
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.141', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.165', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                     }
                     $content .= "<div class='value'>" . $rc['content'] . "</div>";
                 }
@@ -279,7 +279,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
                 . "</svg></div>";
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['directions']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.141', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.166', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='item'><div class='label'>"
                 . (isset($block['directions-label']) && $block['directions-label'] != '' ? $block['directions-label'] : "Directions")

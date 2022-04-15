@@ -33,7 +33,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
             if( isset($item['url']) ) {
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, (isset($item['page']) ? $item['page'] : 0), $item['url']);
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.171', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
                 }
                 $content .= "<a href='" . $rc['url'] . "'>";
             }
@@ -51,7 +51,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     'maxwidth' => (isset($block['maxwidth']) ? $block['maxwidth'] : '1024'),
                     ));
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.144', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.169', 'msg'=>'', 'err'=>$rc['err']));
                 }
 
 //                $content .= "<div class='image' style='background:url(" . $rc['url'] . ") "

@@ -37,7 +37,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             'maxwidth' => 2048,
             ));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.104', 'msg'=>'', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.154', 'msg'=>'', 'err'=>$rc['err']));
         }
 
         //
@@ -60,12 +60,12 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             $next_url = '';
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $block['prev']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.156', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
             }
             $prev_url = $rc['url'];
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $block['next']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.143', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.170', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
             }
             $next_url = $rc['url'];
             $content .= "<div class='buttons'>";
@@ -90,7 +90,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             if( isset($block['content']) && $block['content'] != '' ) {
                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.155', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                 }
                 $content .= $rc['content'];
             } 

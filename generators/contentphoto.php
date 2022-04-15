@@ -76,7 +76,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.167', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= $rc['content'];
         } 

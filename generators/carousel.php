@@ -50,7 +50,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 'maxwidth' => '2048'
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
             }
             $image = $rc;
 
@@ -69,7 +69,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                     isset($item['url']) ? $item['url'] : ''
                     );
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.97', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.157', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
                 }
                 $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
                 $url = 'yes';
@@ -94,7 +94,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             if( isset($item['content']) && $item['content'] != '' ) {
                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.90', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.168', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                 }
                 $content .= "<div class='text'>" . $rc['content'] . "</div>";
             }
