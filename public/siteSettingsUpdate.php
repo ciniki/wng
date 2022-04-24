@@ -38,6 +38,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-password-change',
         'account-forgot-link-text',
         'account-children-update',
+        'account-menu-toggle-em',
         // Cart options
         'cart-active',
         'cart-currency-display',

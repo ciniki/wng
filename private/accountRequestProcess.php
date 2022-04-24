@@ -25,6 +25,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         );
 
     $blocks = array();
+    $settings = isset($request['site']['settings']) ? $request['site']['settings'] : array();
 
     //
     // Set no caching
@@ -152,7 +153,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
         'menu-label' => 'My Account',
         'menu-id' => 'account',
         'main-menu' => $items,
-        'toggle-em' => '40',
+        'toggle-em' => (isset($settings['account-menu-toggle-em']) && $settings['account-menu-toggle-em'] != '' ? $settings['account-menu-toggle-em'] : '40'),
         'dropdown' => 'both',
         'hamburger-menu' =>  $items,
         );
