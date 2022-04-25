@@ -270,6 +270,7 @@ p:last-child {
 /* Content limits, only some blocks add these rules */
 .limit-width { 
     max-width: 80em; 
+    margin: 0 auto;
 }
 .limit-width-30 {
     max-width: 30em;
