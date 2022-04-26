@@ -58,6 +58,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             //
             $prev_url = '';
             $next_url = '';
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $block['prev']);
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.156', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
