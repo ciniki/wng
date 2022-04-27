@@ -131,6 +131,23 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
                 'base_url' => $request['base_url'] . '/account',
                 ));
             if( $rc['stat'] == 'ok' && isset($rc['items']) ) {
+                //
+                // Check the returned items to see if any override other items
+                // This allows customer modules to override module account menu items to display custom html
+                //
+                foreach($rc['items'] as $new_id => $new_item) {
+                    foreach($items as $iid => $item) {
+                        if( $item['title'] == $new_item['title'] ) {
+                            if( $new_item['override'] == 'yes' ) {
+                                $items[$iid] = $new_item;
+                                unset($rc['items'][$new_id]);
+                            } elseif( $item['override'] == 'yes' ) {
+                                // Existing item has override, ignore new item
+                                unset($rc['items'][$new_id]);
+                            }
+                        }
+                    }
+                }
                 $items = array_merge($items, $rc['items']);
             }
         }
