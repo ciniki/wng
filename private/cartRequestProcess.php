@@ -366,7 +366,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Check if a item is being added to the cart
     //
-    if( isset($_POST['action']) && $_POST['action'] == 'add' ) {
+    if( isset($_POST['action']) && $_POST['action'] == 'add' && isset($_POST['object']) && isset($_POST['object_id']) ) {
         $item_exists = 'no';
         if( $cart == NULL ) {
             // Create a shopping cart
