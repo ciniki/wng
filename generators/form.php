@@ -205,9 +205,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         $req = '';
                         if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
                             $req = ' required';
-                            if( $repeats > 1 && $i > $section['min_repeats'] ) {
-                                $req = '';
-                            }
+                            // Still mark required even when section repeat not required.
+//                            if( $repeats > 1 && $i > $section['min_repeats'] ) {
+//                                $req = '';
+//                            }
                         }
                         $field_description = '';
                         if( isset($field['description']) && $field['description'] != '' ) {
