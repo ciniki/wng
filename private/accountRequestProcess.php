@@ -193,7 +193,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
             if( isset($item['items']) ) {
                 foreach($item['items'] as $itm) {
                     if( isset($itm['url']) 
-                        && strncmp($item_permalink, $itm['url'], strlen($item_permalink)) == 0 
+                        && strncmp($item_permalink, $itm['url'], strlen($itm['url'])) == 0 
                         && isset($itm['ref']) 
                         ) {
                         list($pkg, $mod, $method) = explode('.', $itm['ref']);
@@ -215,7 +215,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
             // Check main item
             //
             if( isset($item['url']) 
-                && strncmp($item_permalink, $item['url'], strlen($item_permalink)) == 0 
+                && strncmp($item_permalink, $item['url'], strlen($item['url'])) == 0 
                 && isset($item['ref']) 
                 ) {
                 list($pkg, $mod, $method) = explode('.', $item['ref']);

@@ -44,7 +44,7 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         $cnum = 1;
         foreach($block['columns'] as $column) {
             $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
-            $content .= "<{$cell_type}" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
+            $cell_content = '';
             if( isset($column['strsub']) && $column['strsub'] != '' ) {
                 $value = $column['strsub'];
                 if( preg_match('/{_([a-zA-Z0-9_]+)_}/', $column['strsub'], $m) ) {
@@ -54,11 +54,16 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
                         } 
                     }
                 }
-                $content .= $value;
+                $cell_content .= $value;
             }
             if( isset($column['field']) && isset($row[$column['field']]) ) {
-                $content .= $row[$column['field']];
+                $cell_content .= $row[$column['field']];
             } 
+            if( trim($cell_content) == '' ) {
+                $column['class'] .= ($column['class'] != '' ? ' ' : '') . 'empty';
+            }
+            $content .= "<{$cell_type}" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
+            $content .= $cell_content;
             $content .= "</{$cell_type}>";
             $cnum++;
         }
