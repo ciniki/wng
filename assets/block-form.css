@@ -1,7 +1,9 @@
 .block-form .content {
     padding: 1rem;
-    max-width: 40rem;
     margin: 0 auto;
+}
+.block-form.section-selector .content {
+/*    max-width: 40rem; */
 }
 .block-form .content h2 {
     padding-top: 1.5rem;
@@ -16,8 +18,8 @@
     flex-flow: row nowrap;
     justify-content: space-between;
 }
-.block-form .form-sections-fields .repeatable,
-.block-form .form-sections-fields .form-section {
+.block-form.section-selector .form-sections-fields .repeatable,
+.block-form.section-selector .form-sections-fields .form-section {
     display: none;
 }
 .block-form .form-sections-fields .repeatable.selected,
@@ -31,6 +33,9 @@
     margin-bottom: 1rem;
 }
 .block-form .field {
+    padding: 0.5rem 0.5rem;
+}
+.block-form .field.field-address {
     padding: 0.5rem 0rem;
 }
 .block-form .field .label,
@@ -272,7 +277,8 @@
     }
 }
 @media screen and (min-width: 50em) {
-    .block-form .content {
+    .block-form .content,
+    .block-form.section-selector .content {
         max-width: 80rem;
     }
     .block-form .current-section {
@@ -281,18 +287,100 @@
     .block-form .form-sections-list.hide {
         display: block;
     }
-    .block-form .form {
+    .block-form.section-selector .form {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
         align-items: flex-start;
     }
-    .block-form .form-sections-list {
+    .block-form.section-selector .form-sections-list {
         width: 35%;
         padding-right: 1rem;
     }
-    .block-form .form-sections-fields {
+    .block-form.section-selector .form-sections-fields {
         width: 65%;
         padding-left: 1rem;
+    }
+}
+/* Form Field Sizing */
+.block-form .newline {
+    width: 100%;
+}
+.block-form .size-small,
+.block-form .size-small-medium,
+.block-form .size-medium,
+.block-form .size-medium-large, 
+.block-form .size-large {
+    padding: 0.5rem;
+    width: 100%;
+}
+@media screen and (min-width: 40em) {
+    .block-form .fields,
+    .block-form .fields .field-address {
+        display: flex;
+        flex-flow: row wrap;
+        align-content: stretch;
+        align-items: stretch;
+    }
+    .block-form .field,
+    .block-form .size-small,
+    .block-form .size-small-medium,
+    .block-form .size-medium,
+    .block-form .size-medium-large, 
+    .block-form .size-large {
+        flex-basis: 100%;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+    .block-form .size-small {
+        flex-basis: 50%;
+    }
+/*    .block-form.section-selector .size-small,
+    .block-form.section-selector .size-small-medium,
+    .block-form.section-selector .size-medium,
+    .block-form.section-selector .size-medium-large, 
+    .block-form.section-selector .size-large {
+        width: 100%;
+        flex-basis: 100%;
+    } */
+}
+@media screen and (min-width: 60em) {
+    .block-form .size-small,
+    .block-form .size-small-medium {
+        flex-basis: 33%;    
+    }
+    .block-form.section-selector .size-small,
+    .block-form .size-medium {
+        flex-basis: 50%;    
+    }
+    .block-form.section-selector .size-small-medium,
+    .block-form.section-selector .size-medium,
+    .block-form.section-selector .size-medium-large, 
+    .block-form.section-selector .size-large {
+        width: 100%;
+        flex-basis: 100%;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-form .size-small,
+    .block-form .size-small-medium {
+        flex-basis: 25%;
+        flex-shrink: 1;
+    }
+    .block-form .size-small-medium {
+        flex-basis: 50%;
+        flex-grow: 2;
+    }
+    .block-form.section-selector .size-small,
+    .block-form.section-selector .size-small-medium,
+    .block-form .size-medium,
+    .block-form .size-medium-large {
+        flex-basis: 50%;
+    }
+    .block-form.section-selector .size-medium,
+    .block-form.section-selector .size-medium-large, 
+    .block-form.section-selector .size-large {
+        width: 100%;
+        flex-basis: 100%;
     }
 }

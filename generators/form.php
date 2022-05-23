@@ -52,6 +52,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     $content .= "<div class='block-form"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . (isset($block['form-sections']) ? ' sectioned' : '')
+        . (isset($block['section-selector']) && $block['section-selector'] == 'yes' ? ' section-selector' : '')
         . (isset($block['fields']) ? ' simple' : '')
         . "'>";
     $content .= "<div class='wrap'>";
@@ -100,6 +101,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         if( isset($block['cur-section-id']) && $block['cur-section-id'] != '' ) {
             $cur_section_id = $block['cur-section-id'];
         }
+        $sections .= "<form action='' method='POST'>";
         foreach($block['form-sections'] as $sid => $section) {
             if( isset($section['fields']) && count($section['fields']) > 0 ) {
                 if( $cur_section_id == '' ) {
@@ -182,6 +184,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $field['value'] = '';
                             }
                         }
+                        if( $field['ftype'] == 'newline' ) {
+                            $sections .= "<div class='newline'></div>";
+                            continue;
+                        }
                         if( $field['ftype'] == 'break' ) {
                             // Close previous section
                             $sections .= "</div>";
@@ -202,13 +208,21 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
 
                             continue;
                         }
+                        $size = 'large';
+                        if( isset($field['size']) && $field['size'] != '' ) {
+                            $size = $field['size'];
+                        }
                         $req = '';
-                        if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
+                        if( isset($field['required']) && $field['required'] == 'yes' ) {
                             $req = ' required';
                             // Still mark required even when section repeat not required.
 //                            if( $repeats > 1 && $i > $section['min_repeats'] ) {
 //                                $req = '';
 //                            }
+                        }
+                        $editable = 'yes';
+                        if( isset($field['editable']) && $field['editable'] == 'no' ) {
+                            $editable = 'no';
                         }
                         $field_description = '';
                         if( isset($field['description']) && $field['description'] != '' ) {
@@ -239,76 +253,102 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         } 
                         elseif( $field['ftype'] == 'number' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'price' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='text' id='f-{$field['id']}'"
+                            $sections .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                                 . " maxlength='50'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'phone' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='tel' id='f-{$field['id']}'"
+                            $sections .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                                 . " maxlength='25'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'date' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='date' id='f-{$field['id']}'"
+                            $sections .= "<input type='date' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'url' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='url' id='f-{$field['id']}'"
+                            $sections .= "<input type='url' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                                 . " maxlength='500'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
                         elseif( $field['ftype'] == 'address' ) {
-                            $sections .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address 1</label>";
+                            $sections .= "<div class='size-medium'>";
+                            $sections .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address Line 1</label>";
                             $sections .= $field_description;
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address1'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1'"
+                                . " id='f-{$field['id']}-address1'"
                                 . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
                                 . " maxlength='100'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
+                            $sections .= "</div>";
+                            $sections .= "<div class='size-medium'>";
                             $sections .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-address2'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2'"
+                                . " id='f-{$field['id']}-address2'"
                                 . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
                                 . " maxlength='100'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
+                            $sections .= "</div>";
+                            $sections .= "<div class='size-small-medium'>";
                             $sections .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-city'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' "
+                                . " id='f-{$field['id']}-city'"
                                 . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
                                 . " maxlength='100'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
+                            $sections .= "</div>";
+                            $sections .= "<div class='size-small'>";
                             $sections .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-province'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province'"
+                                . " id='f-{$field['id']}-province'"
                                 . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
                                 . " maxlength='100'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
+                            $sections .= "</div>";
+                            $sections .= "<div class='size-small'>";
                             $sections .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
-                            $sections .= "<input type='{$field['ftype']}' id='f-{$field['id']}-postal'"
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal'"
+                                . " id='f-{$field['id']}-postal'"
                                 . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
                                 . " maxlength='10'"
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
+                            $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'textarea' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -317,8 +357,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             if( isset($field['max-words']) && $field['max-words'] > 0 ) {
                                 $maxwords = $field['max-words'];
                             }
-                            $sections .= "<textarea id='f-{$field['id']}'"
+                            $sections .= "<textarea name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">"
                                 . (isset($field['value']) ? $field['value'] : '')
                                 . "</textarea>";
@@ -331,7 +372,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'select' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
-                            $sections .= "<select id='f-{$field['id']}'>";
+                            $sections .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
+                                . ($editable == 'no' ? " readonly" : '')
+                                . ">";
                             $sections .= "<option value=''></option>";
                             for($j = 0;$j < 20;$j++) {
                                 if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
@@ -351,6 +394,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                     $value = $field["option-{$j}"];
                                     $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$j}' value='{$value}'"
                                         . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
+                                        . ($editable == 'no' ? " readonly" : '')
                                         . ">"
                                         . "<label for='f-{$field['id']}-{$j}'>{$value}</label>"
                                         . "";
@@ -358,8 +402,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             }
                         }
                         elseif( $field['ftype'] == 'checkbox' ) {
-                            $sections .= "<input type='checkbox' id='f-{$field['id']}'"
+                            $sections .= "<input type='checkbox' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
+                                . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>{$field['label']}</label>";
                             $sections .= "</input>";
@@ -381,10 +426,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<div class='hidden'>"
                                 . "<input type='file' id='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iU(event,\"{$section['id']}\",\"{$field['id']}\");'/>"
                                 . "</div>";
-                            $sections .= "<div class='form-buttons'>";
-                            $sections .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
-                            $sections .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
-                            $sections .= "</div>";
+                            if( $editable == 'yes' ) {
+                                $sections .= "<div class='form-buttons'>";
+                                $sections .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
+                                $sections .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
+                                $sections .= "</div>";
+                            }
                         }
                         elseif( $field['ftype'] == 'document' ) {
                             // FIXME: Add document support
@@ -394,7 +441,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . (isset($field['prefix']) ? $field['prefix'] . ' ' : '') 
                                 . $field['label']
                                 . "</label>";
-                            $sections .= "<input type='checkbox' id='termsofuse'"
+                            $sections .= "<input type='checkbox' name='termsofuse' id='termsofuse'"
                                 . ($field['value'] == 'on' ? ' checked' : '')
                                 . " onchange='C.form.qSave();'" 
                                 . ">";
@@ -440,12 +487,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "</div>";
                         }
                         elseif( $field['ftype'] == 'submit' ) {
-                            $sections .= "<form action='' method='POST'>";
                             $sections .= "<input type='hidden' name='action' value='submit'>";
                             $sections .= "<input type='submit' class='button' value='"
                                 . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
                                 . "' >";
-                            $sections .= "</form>";
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
                         
@@ -477,10 +522,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 // Add the prev/next buttons
                 //
                 $sections .= "<div class='form-buttons form-section-buttons'>";
-                if( isset($section['prev_sid']) ) {
+                if( isset($block['section-selector']) && $block['section-selector'] == 'yes' && isset($section['prev_sid']) ) {
                     $sections .= "<a onclick='C.form.sS(\"{$block['form-sections'][$section['prev_sid']]['id']}\");' class='button prev'>Previous</a>";
                 }
-                if( isset($section['next_sid']) ) {
+                if( isset($block['section-selector']) && $block['section-selector'] == 'yes' && isset($section['next_sid']) ) {
                     $sections .= "<a onclick='C.form.sS(\"{$block['form-sections'][$section['next_sid']]['id']}\");' class='button next'>Next</a>";
                 }
                 $sections .= "</div>";
@@ -502,13 +547,16 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 
             }
         }
+        $sections .= "</form>";
 
         $content .= "<div class='form'>";
         $content .= "<div class='current-section'>{$cur_section_label}</div>";
-        $content .= "<div class='form-sections-list'>" 
-            . "<h2>Sections</h2>"
-            . "<div class='list'>" . $section_list . "</div>"
-            . "</div>";
+        if( isset($block['section-selector']) && $block['section-selector'] == 'yes' ) {
+            $content .= "<div class='form-sections-list'>" 
+                . "<h2>Sections</h2>"
+                . "<div class='list'>" . $section_list . "</div>"
+                . "</div>";
+        }
         $content .= "<div class='form-sections-fields'>" . $sections . "</div>";
         $content .= '</div>';
 
@@ -531,6 +579,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
 
     //
     // Simple form with no sections
+    // Used in jury voting
     //
     elseif( isset($block['fields']) ) {
        
