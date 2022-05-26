@@ -102,6 +102,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             $cur_section_id = $block['cur-section-id'];
         }
         $sections .= "<form action='' method='POST'>";
+        if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
+            $sections .= "<input type='hidden' name='checkout' value='Checkout' />";
+        }
         foreach($block['form-sections'] as $sid => $section) {
             if( isset($section['fields']) && count($section['fields']) > 0 ) {
                 if( $cur_section_id == '' ) {
@@ -809,6 +812,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         //
         $content .= "<div class='form'>";
         $content .= "<form action='' method='POST'>";
+        if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
+            $content .= "<input type='hidden' name='checkout' value='Checkout' />";
+        }
         $content .= "<div class='fields'>" . $fields_html . "</div>";
         $content .= "<div class='submit-buttons'>";
         if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {

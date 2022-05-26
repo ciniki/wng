@@ -935,23 +935,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_signup = 'yes';
             $display_cart = 'no';
         }
-/* Temp removal
         if( count($student_forms) > 0 && ciniki_core_checkModuleActive($ciniki, 'ciniki.forms') ) {
             foreach($student_forms as $item) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemFormCheck');
-                $rc = ciniki_sapos_wng_cartItemFormCheck($ciniki, $tnid, $item);
-                if( $rc['stat'] == 'incomplete' ) {
-                    $display_form = 'yes';
-                    $form = $rc['form'];
-                    $form_item = $item;
-                    $display_cart = 'no';
-                    break;
+                $rc = ciniki_sapos_wng_cartItemFormCheck($ciniki, $tnid, $request, $item);
+                if( isset($rc['blocks']) ) {
+                    return $rc;
                 } elseif( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check required form', 'err'=>$rc['err']));
                 }
             }
         }
-*/
     }
 
     //
@@ -1512,25 +1506,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             'html' => $content,
             'js' => $js,
             );
-    }
-
-    //
-    // Display a form to be completed
-    //
-    if( isset($display_form) && $display_form == 'yes' ) {
-        $request['breadcrumbs'][] = array(
-            'name' => 'Cart', 
-            'page-class' => 'page-cart',
-            'url' => $request['base_url'] . '/cart',
-            );
-        $blocks[] = array(  
-            'type' => 'form',
-            'section-selector' => 'no',
-            'form-id' => $form['id'],
-            'termsofuse' => $form['termsofuse'],
-            'form-sections' => $form['sections'],
-            );
-        error_log('display form');
     }
 
     //
