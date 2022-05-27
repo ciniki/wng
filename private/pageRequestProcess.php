@@ -36,6 +36,35 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         );
 
     //
+    // Check if page only available to members
+    //
+    if( isset($request['site']['pages'][$page_id]['flags']) 
+        && ($request['site']['pages'][$page_id]['flags']&0x04) == 0x04 
+        && (!isset($request['session']['customer']['member_status']) || $request['session']['customer']['member_status'] != 10)
+        ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
+        $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
+        if( $rc['stat'] != 'authenticated' ) {
+            $request['response']['blocks'] = $rc['blocks'];
+            return array('stat'=>'ok');
+        }
+    }
+    //
+    // Check if page is only available to customer 
+    //
+    if( isset($request['site']['pages'][$page_id]['flags']) 
+        && ($request['site']['pages'][$page_id]['flags']&0x02) == 0x02 
+        && (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0)
+        ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
+        $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
+        if( $rc['stat'] != 'authenticated' ) {
+            $request['response']['blocks'] = $rc['blocks'];
+            return array('stat'=>'ok');
+        }
+    }
+
+    //
     // Check first element of uri_split to see if a child page exists for it.
     //
     if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) 

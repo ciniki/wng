@@ -96,6 +96,15 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     $page_num++;
                 }
                 $page = $request['site']['pages'][$page_id];
+                //
+                // Skip hidden pages
+                //
+                if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
+                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    ) {
+                    continue;
+                }
                 $item = array(
                     'title' => $page['title'],
                     'selected' => 'no',
@@ -129,6 +138,15 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     foreach($page['children'] as $child) {
                         if( isset($request['site']['pages'][$child]) ) {
                             $subpage = $request['site']['pages'][$child];
+                            //
+                            // Skip hidden pages
+                            //
+                            if( (isset($subpage['flags']) && ($subpage['flags']&0x01) == 0) 
+                                && (($subpage['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                                && (($subpage['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                                ) {
+                                continue;
+                            }
                             $subitem = array(
                                 'title' => $subpage['title'],
                                 'selected' => 'no',
@@ -161,6 +179,15 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         foreach($request['site']['headermenu'] as $page_id) {
             if( isset($request['site']['pages'][$page_id]) ) {
                 $page = $request['site']['pages'][$page_id];
+                //
+                // Check if hidden or private or membersonly page
+                //
+                if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
+                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    ) {
+                    continue;
+                }
                 $item = array(
                     'title' => $page['title'],
                     'selected' => 'no',
@@ -194,6 +221,15 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     foreach($page['children'] as $child) {
                         if( isset($request['site']['pages'][$child]) ) {
                             $subpage = $request['site']['pages'][$child];
+                            //
+                            // Skip hidden pages
+                            //
+                            if( (isset($subpage['flags']) && ($subpage['flags']&0x01) == 0) 
+                                && (($subpage['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                                && (($subpage['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                                ) {
+                                continue;
+                            }
                             $subitem = array(
                                 'title' => $subpage['title'],
                                 'selected' => 'no',

@@ -111,7 +111,7 @@ function ciniki_wng_main() {
 // NOthing in theme yet, enable when required
 //                'theme':{'label':'Theme', 'visible':'yes', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.openSettings(\'theme\');");'},
                 'account':{'label':'Account', 
-                    'visible':function() { return M.modFlagSet('ciniki.customers', 0x01); },
+                    'visible':function() { return M.modFlagAny('ciniki.customers', 0x03); },
                     'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.openSettings(\'account\');");',
                     },
                 'cart':{'label':'Cart', 
@@ -164,6 +164,12 @@ function ciniki_wng_main() {
                     'flags':{'1':{'name':'Header'},'2':{'name':'Footer'}},
                     },
                 'flags1':{'label':'Visible', 'type':'flagtoggle', 'bit':0x01, 'field':'flags', 'default':'on'},
+                'flags2':{'label':'Private', 'type':'flagtoggle', 'bit':0x02, 'field':'flags', 'default':'off',
+                    'active':function() { return M.modFlagSet('ciniki.customers', 0x01); },
+                    },
+                'flags3':{'label':'Members Only', 'type':'flagtoggle', 'bit':0x04, 'field':'flags', 'default':'off',
+                    'active':function() { return M.modFlagSet('ciniki.customers', 0x02); },
+                    },
                 'ptype':{'label':'Format', 'type':'toggle', 
                     'onchange':'M.ciniki_wng_main.site.switchType',
                     'toggles':{
