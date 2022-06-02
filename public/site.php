@@ -152,7 +152,7 @@ function ciniki_wng_site($ciniki) {
         }
         $tenant = $rc['tenant'];
         
-        $site['base_url'] .= 'https://' . $ciniki['config']['ciniki.wng']['master.domain'] . '/' . $tenant['sitename'];
+        $site['base_url'] = 'https://' . $ciniki['config']['ciniki.wng']['master.domain'] . '/' . $tenant['sitename'];
     }
 
     $rsp = array('stat'=>'ok', 'site'=>$site, 'headerpages'=>array());
