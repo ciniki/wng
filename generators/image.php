@@ -47,6 +47,32 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
 
         //
+        // Check if image list passed and need to find prev and next
+        //
+        if( isset($block['image-list']) && isset($block['image-permalink']) && isset($block['base-url']) ) {
+            $first_image = null;
+            $last_image = null;
+            foreach($block['image-list'] as $image) {
+                if( $first_image == null ) {
+                    $first_image = $image;
+                }
+                if( $last_image != null && $image['permalink'] == $block['image-permalink'] ) {  
+                    $block['prev'] = $block['base-url'] . '/' . $last_image['permalink'];
+                }
+                if( $last_image != null && $last_image['permalink'] == $block['image-permalink'] ) {
+                    $block['next'] = $block['base-url'] . '/' . $image['permalink'];
+                }
+                $last_image = $image;
+            }
+            if( !isset($block['next']) && $last_image != null && count($block['image-list']) > 1 ) {
+                $block['next'] = $block['base-url'] . '/' . $first_image['permalink'];
+            }
+            if( !isset($block['prev']) && $last_image != null && count($block['image-list']) > 1 ) {
+                $block['prev'] = $block['base-url'] . '/' . $last_image['permalink'];
+            }
+        }
+
+        //
         // Check if next and previous buttons should be added
         //
         if( (isset($block['next']) && $block['next'] != '')
