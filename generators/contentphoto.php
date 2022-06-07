@@ -205,6 +205,31 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             $content .= "<div class='buttons'>" . $buttons . "</div>";
         }
 
+        //
+        // Check for any links
+        //
+        if( isset($block['links']) && count($block['links']) > 0 ) {
+            $links = '';
+            foreach($block['links'] as $link) {
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $link['url']);
+                if( isset($rc['url']) && $rc['url'] != '' ) {
+                    $url = $rc['url'];
+                    if( isset($link['description']) && $link['description'] != '' ) {
+                        $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $link['description']);
+                        if( isset($rc['content']) ) {
+                            $links .= $rc['content'];
+                        }
+                    }
+                    $links .= "<a target='_blank' "
+                        . " class='button' "
+                        . " href='" . $url . "'>" . $link["name"] . "</a>";
+                }
+            }
+            if( $links != '' ) {
+                $content .= "<div class='links'>" . $links . "</div>";
+            }
+        }
+
         $content .= '</div>';
 
         if( isset($block['image-id']) && $block['image-id'] > 0 && $image_position == 'bottom' ) {
