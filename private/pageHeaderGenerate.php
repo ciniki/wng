@@ -57,12 +57,20 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     $content .= "<!DOCTYPE html>\n"
         . "<html class='" . $html_class . "'>\n"
         . "<head>\n";
-
+    $title = '';
     if( isset($request['site']['settings']['header-site-title']) 
         && isset($request['site']['settings']['header-site-title']) != ''
         ) {
-        $content .= '<title>' . $request['site']['settings']['header-site-title'] . '</title>';
+        $title .= $request['site']['settings']['header-site-title'];
     }
+    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
+        $title .= " - " . $request['page']['page_title'];
+    }
+    elseif( isset($request['page']['title']) && $request['page']['title'] != '' ) {
+        $title .= " - " . $request['page']['title'];
+    }
+
+    $content .= '<title>' . $title . '</title>';
     $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";
 
     //

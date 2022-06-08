@@ -146,13 +146,15 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
 
     //
     // Check if there should be a page title
+    // *** Removed Jun 8, 2022, no longer used, must add section for page title. ***
+    // *** Page title now used only in head ***
     //
-    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
-        $request['response']['blocks'][] = array(
-            'type' => 'title',
-            'title' => $request['page']['page_title'],
-            );
-    }
+//    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
+//        $request['response']['blocks'][] = array(
+//            'type' => 'title',
+//            'title' => $request['page']['page_title'],
+//            );
+//    }
     
     //
     // Process the sections building the request['response']['blocks'] array
