@@ -22,6 +22,12 @@ function ciniki_wng_processors_googlemap(&$ciniki, $tnid, &$request, $section) {
         ) {
         $section['settings']['type'] = 'googlemap';
         $section['settings']['class'] = 'section-' . ciniki_core_makePermalink($ciniki, $section['label']);
+        if( isset($section['settings']['title']) && $section['settings']['title'] != '' ) {
+            $blocks[] = array(
+                'type' => 'title',
+                'title' => $section['settings']['title'],
+                );
+        }
         $blocks[] = $section['settings'];
     }
 

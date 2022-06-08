@@ -621,6 +621,60 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.flexcards']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
     }
 
+    //
+    // Section for image buttons
+    //
+    $sections['ciniki.wng.imagebuttons'] = array(
+        'name'=>'Image Buttons',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'image-ratio' => array('label' => 'Image Ratio', 
+                'type'=>'select', 
+                'default'=>'1-1', 
+                'options'=>array(
+                    '2-1' => 'Panoramic',
+                    '16-9' => 'Letterbox',
+                    '6-4' => 'Wider',
+                    '4-3' => 'Wide',
+                    '1-1' => 'Square',
+                    '3-4' => 'Tall',
+                    '4-6' => 'Taller',
+                )),
+            'title-position' => array('label' => 'Title Position', 
+                'type'=>'select', 
+                'default'=>'below', 
+                'options'=>array(
+                    'above' => 'Above',
+                    'overlay-top' => 'Overlay Top',
+                    'overlay-tophalf' => 'Overlay Top Half',
+                    'overlay-center' => 'Centered',
+                    'overlay-bottomhalf' => 'Bottom Half',
+                    'overlay-bottom' => 'Bottom',
+                    'below' => 'Below',
+                )),
+            ));
+    for($i = 1; $i <= 9; $i++) {
+        $sections['ciniki.wng.imagebuttons']['settings']["image-{$i}"] = array(
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',
+            );
+        $sections['ciniki.wng.imagebuttons']['settings']["image-position-{$i}"] = array(
+            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
+                'top-left' => 'Top Left',
+                'top-center' => 'Top Center',
+                'top-right' => 'Top Right',
+                'center-left' => 'Left',
+                'center-center' => 'Centered',
+                'center-right' => 'Right',
+                'bottom-left' => 'Bottom Left',
+                'bottom-center' => 'Bottom Center',
+                'bottom-right' => 'Bottom Right',
+                ));
+        $sections['ciniki.wng.imagebuttons']['settings']["title-{$i}-text"] = array('label'=>'Text', 'type'=>'text');
+        $sections['ciniki.wng.imagebuttons']['settings']["link-{$i}-page"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes');
+        $sections['ciniki.wng.imagebuttons']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
+    }
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>
