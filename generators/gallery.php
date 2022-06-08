@@ -31,6 +31,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
         foreach($block['items'] as $item) {
             $content .= "<div class='item'>";
             if( isset($item['url']) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, (isset($item['page']) ? $item['page'] : 0), $item['url']);
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.171', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
@@ -61,6 +62,9 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                 $content .= "<div class='image'><img alt='{$alt}' src='{$rc['url']}' /></div>";
             } 
             $content .= '</div>';
+            if( isset($item['url']) ) {
+                $content .= '</a>';
+            }
             $content .= '</div>';
         }
 

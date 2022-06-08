@@ -1,0 +1,81 @@
+.block-imagebuttons .item {
+    padding-bottom: 2rem;
+}
+.block-imagebuttons .item > a {
+    display: block;
+    height: 100%;
+}
+.block-imagebuttons .image-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.block-imagebuttons .item.title-overlay-top .title.overlay,
+.block-imagebuttons .item.title-overlay-tophalf .title.overlay,
+.block-imagebuttons .item.title-overlay-center .title.overlay,
+.block-imagebuttons .item.title-overlay-bottomhalf .title.overlay,
+.block-imagebuttons .item.title-overlay-bottom .title.overlay {
+    position: absolute;
+    width: 100%;
+    background: #ffffffcc;
+    padding: 0.5rem 1rem;
+    color: #000;
+    text-align: center;
+}
+.block-imagebuttons .item.title-overlay-top .title.overlay {
+    top: 0em;
+}
+.block-imagebuttons .item.title-overlay-tophalf .title.overlay {
+    top: 1.5em;
+}
+.block-imagebuttons .item.title-overlay-center .image {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+.block-imagebuttons .item.title-overlay-bottomhalf .title.overlay {
+    bottom: 1.5em;
+}
+.block-imagebuttons .item.title-overlay-bottom .title.overlay {
+    bottom: 0em;
+}
+.block-imagebuttons .title.above,
+.block-imagebuttons .title.overlay,
+.block-imagebuttons .info {
+    padding: 1rem 1rem 1rem 1rem;
+}
+.block-imagebuttons .title.below,
+.block-imagebuttons .info p {
+    padding-bottom: 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-imagebuttons .items {
+        display: flex;
+        flex-flow: row wrap;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        justify-content: center;
+    }
+    .block-imagebuttons .item {
+        padding: 1rem;
+        flex-basis: 50%;
+    }
+    .block-imagebuttons .item img {
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-imagebuttons .item {
+        flex-basis: 33.3%;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-imagebuttons .item {
+        flex-basis: 25%;
+    }
+}
+@media screen and (min-width: 100em) {
+    .block-imagebuttons .item {
+        flex-basis: 20%;
+    }
+}

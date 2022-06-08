@@ -12,6 +12,12 @@
 .block-table td {
     padding: 0.5em;
 }
+@media screen and (min-width: 40em) {
+    .block-table .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
 @media screen and (max-width: 40em) {
     .block-table.fold-at-40 th {
         display: none;
