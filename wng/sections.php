@@ -76,6 +76,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'hint'=>'Cart',
                 );
         }
+        $sections['ciniki.wng.headermenu']['settings']['social-icons'] = array(
+            'label'=>'Social Icons', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                'no' => 'No',
+                'yes' => 'Yes',
+                ));
     }
     $sections['ciniki.wng.headermenu']['settings']['image-id'] = array(
         'label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',

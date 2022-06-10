@@ -17,10 +17,12 @@
 .block-socialicons .content {
     padding: 1rem;
 }
+.block-accountbuttons .icons a,
 .block-socialicons a {
     display: inline-block;
     vertical-align: middle;
 }
+.block-accountbuttons .icons .icon,
 .block-socialicons .icon {
     display: inline-block;
     vertical-align: middle;
@@ -28,6 +30,10 @@
     padding-left: 0.5rem;
     padding-top: 0.1rem;
 }
+.block-accountbuttons .icons .icon {
+    padding-top: 0rem;
+}
+.block-accountbuttons .icon .fab,
 .block-socialicons .icon .fab {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 400;
@@ -40,16 +46,31 @@
     width: 2rem;
     text-align: center;
 }
+.block-accountbuttons .icon .fab {
+    font-size: 1.0rem;
+    height: 1.6rem;
+    width: 1.6rem;
+}
+.block-accountbuttons .icon .fa-facebook-f {
+    padding-top: 0.3rem;
+}
 .block-socialicons .icon .fa-facebook-f {
     padding-top: 0.4rem;
 }
+.block-accountbuttons .icon .fa-facebook-f:before,
 .block-socialicons .icon .fa-facebook-f:before {
     content: "\f39e";
+}
+.block-accountbuttons .icon .fa-instagram:before {
+    content: "\f16d";
+    font-size: 1.1rem;
+    padding-top: 0.2rem;
 }
 .block-socialicons .icon .fa-instagram:before {
     content: "\f16d";
     font-size: 1.3rem;
 }
+.block-accountbuttons .icon .fa-twitter:before,
 .block-socialicons .icon .fa-twitter:before {
     content: "\f099";
     font-size: 1.2rem;

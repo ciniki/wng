@@ -24,9 +24,31 @@ function ciniki_wng_generators_accountbuttons(&$ciniki, $tnid, $request, $block)
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
+        $content .= "<span class='buttons'>";
         foreach($block['data'] as $button) {
             $content .= "<span class='" . (isset($button['class']) ? $button['class'] : '') . "'>";
             $content .= "<a href='" . $button['url'] . "'>" . $button['label'] . "</a>";
+            $content .= "</span>";
+        }
+        $content .= "</span>";
+
+        if( isset($block['social-icons']) && count($block['social-icons']) > 0 ) {
+            $content .= "<span class='icons'>";
+            foreach($block['social-icons'] as $icon) {
+                if( $icon['type'] == 'facebook' ) {
+                    $content .= "<span class='icon'><a target='_blank' href='" . $icon['url'] . "'>"
+                        . "<i class='fab fa-facebook-f'></i>"
+                        . "</a></span>";
+                } elseif( $icon['type'] == 'instagram' ) {
+                    $content .= "<span class='icon'><a target='_blank' href='" . $icon['url'] . "'>"
+                        . '<i class="fab fa-instagram"></i>'
+                        . "</a></span>";
+                } elseif( $icon['type'] == 'twitter' ) {
+                    $content .= "<span class='icon'><a target='_blank' href='" . $icon['url'] . "'>"
+                        . "<i class='fab fa-twitter'></i>"
+                        . "</a></span>";
+                }
+            }
             $content .= "</span>";
         }
 

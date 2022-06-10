@@ -20,6 +20,7 @@ function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section)
 
     //
     // Get the social links available
+    // ** Note ** Any changes need to also be in processors_headermenu
     //
     $icons = array();
     if( isset($request['site']['settings']['social-facebook-url']) 

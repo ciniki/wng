@@ -17,7 +17,39 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
 
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
-  
+ 
+    //
+    // Check if social icons requested
+    // ** NOTE ** Any changes also need to be processors_socialicons
+    //
+    if( isset($s['social-icons']) && $s['social-icons'] == 'yes' ) {
+        $icons = array();
+        if( isset($request['site']['settings']['social-facebook-url']) 
+            && $request['site']['settings']['social-facebook-url'] != ''
+            ) {
+            $icons[] = array(
+                'type' => 'facebook',
+                'url' => $request['site']['settings']['social-facebook-url'],
+                );
+        }
+        if( isset($request['site']['settings']['social-instagram-username']) 
+            && $request['site']['settings']['social-instagram-username'] != ''
+            ) {
+            $icons[] = array(
+                'type' => 'instagram',
+                'url' => 'https://instagram.com/' . $request['site']['settings']['social-instagram-username'],
+                );
+        }
+        if( isset($request['site']['settings']['social-twitter-username']) 
+            && $request['site']['settings']['social-twitter-username'] != ''
+            ) {
+            $icons[] = array(
+                'type' => 'twitter',
+                'url' => 'https://twitter.com/' . $request['site']['settings']['social-twitter-username'],
+                );
+        }
+    }
+
     //
     // Setup the account buttons blocks, if requested
     //
@@ -70,6 +102,14 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         if( isset($s['account-toggle-hide']) && $s['account-toggle-hide'] == 'yes' && isset($s['toggle-em']) ) {
             $block['toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
         }
+
+        //
+        // Check if social icons should be included
+        //
+        if( isset($s['social-icons']) && $s['social-icons'] == 'yes' && isset($icons) ) {
+            $block['social-icons'] = $icons;
+        }
+
         $blocks[] = $block;
     }
 
