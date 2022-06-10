@@ -37,12 +37,20 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
         }
     }
 
-    $blocks[] = array(
-        'type' => 'imagebuttons',
-        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
-        'sequence' => $section['sequence'],
-        'items' => $items,
-        );
+    if( count($items) > 0 ) {
+        if( isset($s['title']) && $s['title'] != '' ) {
+            $blocks[] = array(
+                'type' => 'title',
+                'title' => $s['title'],
+                );
+        }
+        $blocks[] = array(
+            'type' => 'imagebuttons',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
+            'sequence' => $section['sequence'],
+            'items' => $items,
+            );
+    }
 
     return array('stat'=>'ok', 'blocks'=>$blocks);
 }

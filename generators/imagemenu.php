@@ -71,7 +71,14 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
     // Add the title
     //
     if( isset($block['title']) && $block['title'] != '' ) {
-        $content .= "<div class='title-wrap'><h1>" . $block['title'] . "</h1></div>";
+        $content .= "<div class='title-wrap'>";
+        if( $request['base_url'] == '' ) {
+            $content .= "<a href='/'>";
+        } else {
+            $content .= "<a href='" . $request['base_url'] . "'>";
+        }
+        $content .= "<h1>" . $block['title'] . "</h1>";
+        $content .= "</a></div>";
     }
 
     // 
