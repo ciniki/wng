@@ -114,15 +114,13 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         }
         $content .= '</div></div>';
 
-        $content .= "<div class='info'>";
         if( (!isset($item['title-position']) || $item['title-position'] == 'below')
             && isset($item['title']) && $item['title'] != '' 
             ) {
+            $content .= "<div class='info'>";
             $content .= "<div class='title below'><h2>{$item['title']}</h2></div>";
-        } else {
-            $content .= "<div class='title below hidden'><h2>{$item['title']}</h2></div>";
+            $content .= '</div>';
         }
-        $content .= '</div>';
         $content .= '</div>';
 
         if( $url == 'yes' ) {
