@@ -118,11 +118,16 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         // Pad the image if requested. Done after scaling to save memory.
         //
         if( $padding_color != '' ) {
+            error_log('one');
             if( $image->getImageWidth() > $image->getImageHeight() ) {
-                $image->borderImage($padding_color, 0, ($image->getImageWidth() - $image->getImageHeight()/2));
+                error_log('A: ' . $image->getImageWidth() . ' -- ' . $image->getImageHeight());
+                $image->borderImage($padding_color, 0, ($image->getImageWidth() - $image->getImageHeight())/2);
+                error_log('A: ' . $image->getImageWidth() . ' -- ' . $image->getImageHeight());
             }
             elseif( $image->getImageHeight() > $image->getImageWidth() ) {
-                $image->borderImage($padding_color, ($image->getImageHeight() - $image->getImageWidth()/2), 0);
+                error_log('B: ' . $image->getImageWidth() . ' -- ' . $image->getImageHeight());
+                $image->borderImage($padding_color, ($image->getImageHeight() - $image->getImageWidth())/2, 0);
+                error_log('B: ' . $image->getImageWidth() . ' -- ' . $image->getImageHeight());
             }
         }
 

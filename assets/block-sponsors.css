@@ -1,0 +1,27 @@
+.block-sponsors h1,
+.block-sponsors h2 {
+    padding: 1rem;
+}
+.block-sponsors .items {
+    display: flex;
+    flex-flow: row wrap;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-content: center;
+    gap: 1rem;
+}
+.block-sponsors.image-size-xsmall .item { max-width: 10rem; }
+.block-sponsors.image-size-small .item { max-width: 12.5rem; }
+.block-sponsors.image-size-medium .item { max-width: 15rem; }
+.block-sponsors.image-size-large .item { max-width: 20rem; }
+.block-sponsors.image-size-xlarge .item { max-width: 25rem; }
+.block-sponsors .item {
+    padding-bottom: 2rem;
+    max-width: 15rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+.block-sponsors img {
+    margin: 0 auto;
+}
