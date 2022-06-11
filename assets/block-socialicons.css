@@ -70,7 +70,12 @@
     content: "\f16d";
     font-size: 1.3rem;
 }
-.block-accountbuttons .icon .fa-twitter:before,
+.block-accountbuttons .icon .fa-twitter:before {
+    content: "\f099";
+    font-size: 1.0rem;
+    padding-top: 0.6rem;
+    padding-left: 0.05rem;
+}
 .block-socialicons .icon .fa-twitter:before {
     content: "\f099";
     font-size: 1.2rem;
