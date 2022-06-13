@@ -48,6 +48,15 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
     foreach($block['items'] as $iid => $item) {
+        //
+        // Setup the defaults for each item from block settings if provided
+        //
+        if( !isset($item['image-ratio']) && isset($block['image-ratio']) ) {
+            $item['image-ratio'] = $block['image-ratio'];
+        }
+        if( !isset($item['title-position']) && isset($block['title-position']) ) {
+            $item['title-position'] = $block['title-position'];
+        }
         if( isset($item['image-id']) && $item['image-id'] > 0 ) {
             //
             // Copy image to cache
