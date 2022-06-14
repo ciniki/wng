@@ -2273,7 +2273,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     ) {
                     $content .= "<span class='submit'>"
                         . "<input class='button submit' type='submit' name='addchild' value='Add Child' "
-                            . "onclick='window.open(\"" . $request['ssl_domain_base_url'] . "/account/children?add=yes" . "\",\"_self\");return false;'"
+                            . "onclick='window.open(\"" . $request['ssl_domain_base_url'] . "/account/children?add=yes&next=cart" . "\",\"_self\");return false;'"
                             . " />"
                         . "</span>";
                 } 

@@ -11,6 +11,9 @@
 }
 .block-form.simple form {
     width: 100%;
+    padding: 1rem;
+    border: 1px solid #aaa;
+    background: #eee;
 }
 .block-form.simple .submit-buttons {
     text-align: right;
@@ -33,7 +36,7 @@
     margin-bottom: 1rem;
 }
 .block-form .field {
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0rem;
 }
 .block-form .field.field-address {
     padding: 0.5rem 0rem;
@@ -42,7 +45,7 @@
 .block-form .field label {
     display: block;
     width: 100%;
-    padding: 0.5em;
+/*    padding: 0.5em; */
     font-weight: bold;
 }
 .block-form .tab {
@@ -311,7 +314,7 @@
 .block-form .size-medium,
 .block-form .size-medium-large, 
 .block-form .size-large {
-    padding: 0.5rem;
+/*    padding: 0.5rem; */
     width: 100%;
 }
 @media screen and (min-width: 40em) {

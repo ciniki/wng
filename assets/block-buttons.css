@@ -7,6 +7,9 @@
     justify-content: left;
     gap: 0.5rem;
 }
+.block-buttons.alignright .content {
+    justify-content: right;
+}
 @media screen and (min-width: 40em) {
     .block-buttons .content {
         padding-left: 2rem;
