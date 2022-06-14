@@ -2,7 +2,8 @@
 //
 // Description
 // -----------
-// This function will generate the HTML for the cart/account/login/logout buttons
+// This function will generate the HTML for the cart/account/login/logout buttons.
+// These are typically at the very top of the page above the menu.
 // 
 // Arguments
 // ---------

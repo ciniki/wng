@@ -625,7 +625,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
                 . "'>";
 
-            if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' ) {
+            if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' || $field['ftype'] == 'password' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
