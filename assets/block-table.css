@@ -12,10 +12,10 @@
 .block-table td {
     padding: 0.5em;
 }
-.block-table td.buttons {
+.block-table .buttons {
     padding: 0.5rem 0rem 0rem 0.5rem;
 }
-.block-table td.buttons .button {
+.block-table .buttons .button {
     margin: 0rem 0.5rem 0.5rem 0rem;
 }
 @media screen and (min-width: 40em) {
