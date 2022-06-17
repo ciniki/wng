@@ -38,7 +38,6 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $display_form = 'reset';
     }
     if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'signup' && isset($_GET['k']) ) {
-        error_log('Process Signup');
 
         ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupComplete');
         $rc = ciniki_customers_wng_signupComplete($ciniki, $tnid, $request, $_GET['k']);
@@ -50,9 +49,31 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         // Return to where the process started from
         //
         if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
-            header("Location: " . $request['session']['login-return-url'] . '?signup-success');
+            //
+            // Provide a success message and continue button to redirect to next page
+            //
+            $blocks[] = array(
+                'type' => 'msg',
+                'class' => 'limit-width limit-width-40 aligncenter',
+                'level' => 'success',
+                'content' => 'Your account has been created.',
+                );
+            $blocks[] = array(
+                'type' => 'buttons',
+                'class' => 'limit-width limit-width-40 aligncenter',
+                'list' => array(
+                    array(
+                        'text' => 'Continue',
+                        'url' => $request['session']['login-return-url'],
+                        ),
+                    ),
+                );
+            return array('stat'=>'ok', 'blocks'=>$blocks);
+
+/*          Jun 17, 2022 Removed so they are not auto redirected, but get the above message saying success and then proceed forward */
+/*          header("Location: " . $request['session']['login-return-url']);
             unset($request['session']['login-return-url']);
-            return array('stat'=>'exit');
+            return array('stat'=>'exit'); */
         }
         return array('stat'=>'ok');
     }
@@ -62,9 +83,20 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         // Check the referrer and that cookies are enabled
         //
         if( !isset($request['session']['loginform']) ) {
+            if( isset($_POST['formdt']) && $_POST['formdt'] != '' ) {
+                $fdt = new DateTime($_POST['fdt'], new DateTimezone('UTC'));
+                $dt = new DateTime('now', new DateTimezone('UTC'));
+                $dt->sub(new DateInterval('PT1H'));
+                if( $fdt < $dt ) {
+                    if( isset($_POST['login-return-url']) && $_POST['login-return-url'] != '' ) {
+                        Header("Location: " . $_POST['login-return-url']);
+                        return array('stat'=>'exit');
+                    }
+                }
+            }
             $blocks[] = array(
                 'type' => 'msg', 
-                'level' => 'error', 
+                'level' => 'error',
                 'content' => "It appears that you do not have cookies enabled in your browser.  They are "
                     . "required for you to login.  Please check your browser settings and try again.  "
                     . "<br/><br/>Here is a link to help: "
@@ -264,7 +296,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     );
                 $display_form = 'signup';
             } else {
-                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                if( preg_match("/\?/", $_SERVER['REQUEST_URI']) ) {
+                    header("Location: " . $_SERVER['REQUEST_URI'] . "&signup-success");
+                } else {
+                    header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                }
                 return array('stat'=>'exit');
             }
         }
@@ -423,6 +459,9 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
 
         if( isset($settings['account-forgot-link-text']) && $settings['account-forgot-link-text'] != '' ) {
             $block['forgot-link-text'] = $settings['account-forgot-link-text'];
+        }
+        if( isset($settings['account-create-account-text']) && $settings['account-create-account-text'] != '' ) {
+            $block['create-account-text'] = $settings['account-create-account-text'];
         }
 
         $blocks[] = $block;

@@ -33,6 +33,12 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
 
     $email = isset($block['email']) ? $block['email'] : '';
 
+    $dt = new DateTime('now', new DateTimezone('UTC'));
+    $return_url_field = '';
+    if( isset($request['session']['login-return-url']) ) {
+        $return_url_field = "<input type='hidden' name='login-return-url' value='" . urlencode($request['session']['login-return-url']) . "' />";
+    }
+
     //
     // Display the login form
     //
@@ -46,6 +52,8 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     }
     $content .= "<form method='POST' action=''>"
         . "<input type='hidden' name='action' value='signin'>"
+        . "<input type='hidden' name='fdt' value='" . $dt->format('U') . "' />"
+        . $return_url_field
         . "<div class='input first-field'>"
             . "<label for='email'>Email</label>"
             . "<input id='email' type='email' class='text' maxlength='250' name='email' value='$email' />"
@@ -99,6 +107,8 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         $content .= "<p>Please enter your email address and you will receive a link to create a new password.</p>"
             . "<form method='POST' action=''>"
             . "<input type='hidden' name='action' value='forgot'>\n"
+            . "<input type='hidden' name='fdt' value='" . $dt->format('U') . "' />"
+            . $return_url_field
             . "<div class='input first-field last-field'>"
                 . "<label for='forgotemail'>Email</label>"
                 . "<input id='forgotemail' type='email' class='text' maxlength='250' name='email' value='$email' />"
@@ -141,14 +151,16 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         $content .= "<div id='signup-form' class='signup-form' style='display:"
             . ($startform == 'signup' ? 'block;' : 'none;')
             . "'>";
-        if( isset($block['create-title']) && $block['create-title'] != '' ) {
-            $content .= "<h2>" . $block['create-title'] . "</h2>";
+        if( isset($block['create-account-text']) && $block['create-account-text'] != '' ) {
+            $content .= "<h2>" . $block['create-account-text'] . "</h2>";
         } else {
             $content .= "<h2>Create Account</h2>";
         }
         $content .= ""
             . "<form method='POST' action=''>"
             . "<input type='hidden' name='action' value='signup'>\n"
+            . "<input type='hidden' name='fdt' value='" . $dt->format('U') . "' />"
+            . $return_url_field
             . "<div class='input first-field required'>"
                 . "<label for='first'>First Name</label>"
                 . "<input id='first' type='text' class='text' maxlength='150' name='first' value='"

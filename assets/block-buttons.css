@@ -10,6 +10,9 @@
 .block-buttons.alignright .content {
     justify-content: right;
 }
+.block-buttons.aligncenter .content {
+    justify-content: center;
+}
 @media screen and (min-width: 40em) {
     .block-buttons .content {
         padding-left: 2rem;
