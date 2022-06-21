@@ -373,18 +373,47 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             }
                         }
                         elseif( $field['ftype'] == 'select' ) {
-                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            if( isset($field['label']) && $field['label'] != '' ) {
+                                $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            }
                             $sections .= $field_description;
                             $sections .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ($editable == 'no' ? " readonly" : '')
+                                . (isset($field['update-field']) ? " onchange='return C.form.oS(event,\"{$field['id']}\",\"{$field['update-field']}\");'" : '')
                                 . ">";
-                            $sections .= "<option value=''></option>";
-                            for($j = 0;$j < 20;$j++) {
-                                if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
-                                    $value = $field["option-{$j}"];
-                                    $sections .= "<option value='{$value}'"
-                                        . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
-                                        . ">{$value}</option>";
+                            if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
+                                $sections .= "<option value=''></option>";
+                            }
+                            if( isset($field['options']) && is_array($field['options']) ) {
+                                foreach($field['options'] as $id => $option) {
+                                    if( isset($field['option-id-field']) && isset($option[$field['option-id-field']]) ) {
+                                        $sections .= "<option value='{$option[$field['option-id-field']]}'"
+                                            . (isset($field['value']) && $field['value'] == $option[$field['option-id-field']] ? ' selected' : '')
+                                            . ">";
+                                    } elseif( isset($option['id']) ) {
+                                        $sections .= "<option value='{$option['id']}'"
+                                            . (isset($field['value']) && $field['value'] == $option['id'] ? ' selected' : '')
+                                            . ">";
+                                    } else {
+                                        $sections .= "<option value='{$id}'"
+                                            . (isset($field['value']) && $field['value'] == $id ? ' selected' : '')
+                                            . ">";
+                                    }
+                                    if( isset($field['option-value-field']) && isset($option[$field['option-id-field']]) ) {
+                                        $sections .= $option[$field['option-value-field']];
+                                    } elseif( isset($option['name']) ) {
+                                        $sections .= $option['name'];
+                                    }
+                                    $sections .= "</option>";
+                                }
+                            } else {
+                                for($j = 0;$j < 20;$j++) {
+                                    if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
+                                        $value = $field["option-{$j}"];
+                                        $sections .= "<option value='{$value}'"
+                                            . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
+                                            . ">{$value}</option>";
+                                    }
                                 }
                             }
                             $sections .= "</select>";
@@ -721,13 +750,33 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<select name='f-{$field['id']}' id='f-{$field['id']}'>";
-                $fields_html .= "<option value=''></option>";
-                for($i = 0;$i < 20;$i++) {
-                    if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
-                        $value = $field["option-{$i}"];
-                        $fields_html .= "<option value='{$value}'"
-                            . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
-                            . ">{$value}</option>";
+                if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
+                    $fields_html .= "<option value=''></option>";
+                }
+                if( isset($field['options']) && is_array($field['options']) ) {
+                    foreach($field['options'] as $id => $option) {
+                        if( isset($field['option-id-field']) && isset($option[$field['option-id-field']]) ) {
+                            $fields_html .= "<option value='{$option[$field['option-id-field']]}'>";
+                        } elseif( isset($option['id']) ) {
+                            $fields_html .= "<option value='{$option['id']}'>";
+                        } else {
+                            $fields_html .= "<option value='{$id}'>";
+                        }
+                        if( isset($field['option-value-field']) && isset($option[$field['option-id-field']]) ) {
+                            $fields_html .= $option[$field['option-value-field']];
+                        } elseif( isset($option['name']) ) {
+                            $fields_html .= $option['name'];
+                        }
+                        $fields_html .= "</option>";
+                    }
+                } else {
+                    for($i = 0;$i < 20;$i++) {
+                        if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
+                            $value = $field["option-{$i}"];
+                            $fields_html .= "<option value='{$value}'"
+                                . (isset($field['value']) && $field['value'] == $value ? ' selected' : '')
+                                . ">{$value}</option>";
+                        }
                     }
                 }
                 $fields_html .= "</select>";

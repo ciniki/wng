@@ -140,8 +140,8 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 // Skip hidden pages
                 //
                 if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
-                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
-                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
                     ) {
                     continue;
                 }
@@ -223,8 +223,8 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 // Check if hidden or private or membersonly page
                 //
                 if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
-                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
-                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) && $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
                     ) {
                     continue;
                 }

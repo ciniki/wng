@@ -28,6 +28,11 @@
 .block-form .form-sections-fields .repeatable.selected,
 .block-form .form-sections-fields .form-section.selected {
     display: block;
+} 
+.block-form.sectioned .fields {
+    background: #eee;
+    border: 1px solid #aaa;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
 }
 .block-form .form-section-description p {
     padding-bottom: 1rem;
@@ -104,6 +109,7 @@
 }
 .block-form .field-select select {
     min-width: 12em;
+    width: 100%;
 }
 .block-form .field-termsofuse,
 .block-form .field-checkbox {
@@ -309,13 +315,22 @@
 .block-form .newline {
     width: 100%;
 }
+.block-form.sectioned .size-small,
+.block-form.sectioned .size-small-medium,
+.block-form.sectioned .size-medium,
+.block-form.sectioned .size-medium-large, 
+.block-form.sectioned .size-large {
+    padding: 0.5rem;
+}
 .block-form .size-small,
 .block-form .size-small-medium,
 .block-form .size-medium,
 .block-form .size-medium-large, 
 .block-form .size-large {
-/*    padding: 0.5rem; */
     width: 100%;
+}
+.block-form .field-hidden {
+    padding: 0.5rem 0rem 0rem 0rem;
 }
 @media screen and (min-width: 40em) {
     .block-form .fields,

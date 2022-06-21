@@ -37,6 +37,11 @@ C.form = {
         window.scroll(0,C.gE('s-'+this.cs).offsetTop);
         this.cr = i;
     },
+    /* Switch select options */
+    oS: function(e,i,uf) {
+        console.log(i);
+        console.log(uf);
+    },
     /* Queue saving of form section */
     qSave: function() {
         /* Check if form is to be updated via api */
@@ -151,7 +156,6 @@ C.form = {
             C.postFDBg(this.ssu, this.aa, fD, function(rsp) {
                 C.aC(C.gE('l-' + f), 'hidden');
                 C.rC(C.gE('p-' + f), 'hidden');
-                console.log(rsp);
                 if( rsp.err != null && rsp.err.err != null && rsp.err.err.problem != null 
                     && (rsp.err.err.problem == 'tosmall' || rsp.err.err.problem == 'tolarge' || rsp.err.err.problem == 'other' ) ) {
                     C.form.showErrors(rsp, rsp.err.err.msg);
@@ -189,7 +193,6 @@ C.form = {
     iCleared: function(rsp) {
     },
     sTOU: function() {
-        console.log('unhide');
         C.tC(C.gE('tou-message'), 'hidden');
     },
     start: function(e, s, ssu, ipu, fcu, csu, aa) {

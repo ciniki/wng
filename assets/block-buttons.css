@@ -13,6 +13,18 @@
 .block-buttons.aligncenter .content {
     justify-content: center;
 }
+.block-buttons.decisionbuttons .content {
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+.block-buttons.width-30 .content .button {
+    max-width: 30em;
+    width: 100%;
+}
+.block-buttons.width-40 .content .button {
+    max-width: 40em;
+    width: 100%;
+}
 @media screen and (min-width: 40em) {
     .block-buttons .content {
         padding-left: 2rem;
