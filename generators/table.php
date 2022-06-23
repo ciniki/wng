@@ -45,6 +45,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         foreach($block['columns'] as $column) {
             $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
             $cell_content = '';
+            if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
+                $cell_content .= "<span class='fold-label'>" . $column['fold-label'] . "</span>";
+            }
             if( isset($column['strsub']) && $column['strsub'] != '' ) {
                 $value = $column['strsub'];
                 if( preg_match('/{_([a-zA-Z0-9_]+)_}/', $column['strsub'], $m) ) {

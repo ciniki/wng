@@ -251,7 +251,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         }
                         $sections .= "<div class='field field-{$field['ftype']}{$class}"
                             . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
-                            . "'>";
+                            . (isset($field['class']) && $field['class'] != '' ? ' ' . $field['class'] : '')
+                            . "'"
+                            . (isset($field['flex-basis']) ? " style='flex-basis: {$field['flex-basis']}'" : '')
+                            . ">";
 
                         if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'url' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -379,7 +382,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ($editable == 'no' ? " readonly" : '')
-                                . (isset($field['update-field']) ? " onchange='return C.form.oS(event,\"{$field['id']}\",\"{$field['update-field']}\");'" : '')
+                                . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                                 . ">";
                             if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
                                 $sections .= "<option value=''></option>";
@@ -403,6 +406,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                         $sections .= $option[$field['option-value-field']];
                                     } elseif( isset($option['name']) ) {
                                         $sections .= $option['name'];
+                                    } else {
+                                        $sections .= $option;
                                     }
                                     $sections .= "</option>";
                                 }
@@ -884,6 +889,13 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     $content .= '</div>';
     $content .= '</div>';
     $content .= '</div>';
+
+    //
+    // Check if there is custom javascript to add
+    //
+    if( isset($block['js']) && $block['js'] != '' ) {
+        $js .= $block['js'];
+    }
 
     return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }
