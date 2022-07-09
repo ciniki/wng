@@ -256,10 +256,19 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             . (isset($field['flex-basis']) ? " style='flex-basis: {$field['flex-basis']}'" : '')
                             . ">";
 
-                        if( $field['ftype'] == 'text' || $field['ftype'] == 'email' ) {
+                        if( $field['ftype'] == 'text' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
+                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                                . ($editable == 'no' ? " readonly" : '')
+                                . ">";
+                        } 
+                        elseif( $field['ftype'] == 'email' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
@@ -659,7 +668,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
                 . "'>";
 
-            if( $field['ftype'] == 'text' || $field['ftype'] == 'email' || $field['ftype'] == 'password' ) {
+            if( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
@@ -667,6 +676,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ">";
             } 
+            elseif( $field['ftype'] == 'email' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . ">";
+            }
             elseif( $field['ftype'] == 'url' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
