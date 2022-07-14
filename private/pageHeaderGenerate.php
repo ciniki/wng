@@ -207,7 +207,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Include facebook pixel
     //
-    if( isset($request['site']['settings']['facebook-pixel-id']) && $request['site']['settings']['facebook-pixel-id'] != '' ) {
+    if( isset($request['site']['settings']['meta-facebook-pixel-id']) && $request['site']['settings']['meta-facebook-pixel-id'] != '' ) {
         $content .= "<script>"
             . "!function(f,b,e,v,n,t,s)"
             . "{if(f.fbq)return;n=f.fbq=function(){n.callMethod?"
@@ -217,7 +217,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             . "t.src=v;s=b.getElementsByTagName(e)[0];"
             . "s.parentNode.insertBefore(t,s)}(window,document,'script',"
             . "'https://connect.facebook.net/en_US/fbevents.js');"
-            . "fbq('init', '" . $request['site']['settings']['facebook-pixel-id'] . "');"
+            . "fbq('init', '" . $request['site']['settings']['meta-facebook-pixel-id'] . "');"
             . "fbq('track', 'PageView');"
             . "</script>\n"
             . "";
