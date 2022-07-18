@@ -58,6 +58,8 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     //
     if( $img['type'] == 2 ) {
         $extension = 'png';
+    } elseif( $img['type'] == 6 ) {
+        $extension = 'svg';
     } else {
         $extension = 'jpg';
     }
@@ -106,47 +108,53 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         $image = $rc['image'];
 
         //
-        // Scale image
-        //
-        if( ($maxwidth > 0 && $maxwidth < $image->getImageWidth()) 
-            || ($maxheight > 0 && $maxheight < $image->getImageHeight()) 
-            ) {
-            $image->scaleImage($maxwidth, $maxheight);
-        }
-
-        //
-        // Pad the image if requested. Done after scaling to save memory.
-        //
-        if( $padding_color != '' ) {
-            if( $image->getImageWidth() > $image->getImageHeight() ) {
-                $image->borderImage($padding_color, 0, ($image->getImageWidth() - $image->getImageHeight())/2);
-            }
-            elseif( $image->getImageHeight() > $image->getImageWidth() ) {
-                $image->borderImage($padding_color, ($image->getImageHeight() - $image->getImageWidth())/2, 0);
-            }
-        }
-
-        //
         // Check if directory exists
         //
         if( !file_exists(dirname($img_filename)) ) {
             mkdir(dirname($img_filename), 0755, true);
         }
 
-        //
-        // Write the file
-        //
-        $h = fopen($img_filename, 'w');
-        if( $h ) {
-            if( $img['type'] == 2 ) {
-                $image->setImageFormat('png');
-            } else {
-                $image->setImageCompressionQuality($quality);
-            }
-            fwrite($h, $image->getImageBlob());
-            fclose($h);
+        if( $img['type'] == 6 ) {
+            file_put_contents($img_filename, $image);
         } else {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.85', 'msg'=>'Unable to load image'));
+            //
+            // Scale image
+            //
+            if( ($maxwidth > 0 && $maxwidth < $image->getImageWidth()) 
+                || ($maxheight > 0 && $maxheight < $image->getImageHeight()) 
+                ) {
+                $image->scaleImage($maxwidth, $maxheight);
+            }
+
+            //
+            // Pad the image if requested. Done after scaling to save memory.
+            //
+            if( $padding_color != '' ) {
+                if( $image->getImageWidth() > $image->getImageHeight() ) {
+                    $image->borderImage($padding_color, 0, ($image->getImageWidth() - $image->getImageHeight())/2);
+                }
+                elseif( $image->getImageHeight() > $image->getImageWidth() ) {
+                    $image->borderImage($padding_color, ($image->getImageHeight() - $image->getImageWidth())/2, 0);
+                }
+            }
+
+            //
+            // Write the file
+            //
+            $h = fopen($img_filename, 'w');
+            if( $h ) {
+                if( $img['type'] == 2 ) {
+                    $image->setImageFormat('png');
+                } elseif( $img['type'] == 6 ) {
+                    $image->setImageFormat('png');
+                } else {
+                    $image->setImageCompressionQuality($quality);
+                }
+                fwrite($h, $image->getImageBlob());
+                fclose($h);
+            } else {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.85', 'msg'=>'Unable to load image'));
+            }
         }
         touch($img_filename, $img['last_updated']);
     }
