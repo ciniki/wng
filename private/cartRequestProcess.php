@@ -16,7 +16,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
 
     $settings = isset($request['site']['settings']) ? $request['site']['settings'] : array();
 
-        error_log(print_r($_POST,true));
     //
     // Check if maintanence mode
     //
@@ -905,7 +904,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Check if checkout
     //
     elseif( isset($_POST['checkout']) && $_POST['checkout'] != '' && $cart != NULL ) {
-        error_log('checkout');
         //
         // Check the items in the cart before checkout to make sure still available
         //
