@@ -412,6 +412,7 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },
             'fields':{
                 'cart-noaccount-message':{'label':'No Account Message', 'type':'textarea'},
+                'cart-regreview-message':{'label':'Review Registrations Message', 'type':'textarea'},
                 'cart-bottom-message':{'label':'Below Cart Message', 'type':'textarea'},
                 'cart-checkout-message':{'label':'Checkout Message', 'type':'textarea'},
                 'cart-payment-success-message':{'label':'Payment Success', 'type':'textarea'},

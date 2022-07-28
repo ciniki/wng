@@ -104,6 +104,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $sections .= "<form action='' method='POST'>";
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $sections .= "<input type='hidden' name='checkout' value='Checkout' />";
+            $sections .= "<input type='hidden' name='regreviewed' value='yes' />";
         }
         foreach($block['form-sections'] as $sid => $section) {
             if( isset($section['fields']) && count($section['fields']) > 0 ) {

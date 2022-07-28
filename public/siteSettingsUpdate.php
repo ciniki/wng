@@ -47,6 +47,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'cart-child-create-button',
         'cart-customer-notes',
         'cart-noaccount-message',
+        'cart-regreview-message',
         'cart-bottom-message',
         'cart-checkout-message',
         'cart-payment-success-message',

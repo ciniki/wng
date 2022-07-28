@@ -16,6 +16,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
 
     $settings = isset($request['site']['settings']) ? $request['site']['settings'] : array();
 
+        error_log(print_r($_POST,true));
     //
     // Check if maintanence mode
     //
@@ -85,6 +86,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $required_account_fields['shipprovince'] = 'Shipping State/Province';
         $required_account_fields['shippostal'] = 'Shipping Zip/Postal Code';
         $required_account_fields['shipcountry'] = 'Shipping Country';
+    }
+
+    //
+    // Check if child add redirect
+    //
+    if( isset($_GET['regreview']) ) {
+        $display_cart = 'regreview';
+        $cart_edit = 'no';
+    } elseif( isset($_POST['regreview']) && isset($_POST['update']) && $_POST['update'] == 'Update' ) {
+        $display_cart = 'regreview';
+        $cart_edit = 'no';
     }
 
     //
@@ -170,8 +182,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_cart = 'no';
         } else {
             $display_signup = 'no';
-            $display_cart = 'review';
-            $cart_edit = 'no';
+            $display_cart = 'yes';
+            $cart_edit = 'yes';
+//            $display_cart = 'review';
+//            $cart_edit = 'no';
             
             //
             // Check for any module information that should be loaded into the session
@@ -320,8 +334,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 header("Location: " . $request['ssl_domain_base_url'] . "/cart");
                 return array('stat'=>'exit');
             } else {
-                $display_cart = 'review';
-                $cart_edit = 'no';
+                $display_cart = 'yes';
+                $cart_edit = 'yes';
+//                $display_cart = 'review';
+//                $cart_edit = 'no';
             }
         }
     }
@@ -663,6 +679,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Check if cart quantities were updated
     //
     elseif( (isset($_POST['update']) && isset($_POST['action']) && $_POST['action'] == 'update')
+        || (isset($_POST['action']) && $_POST['action'] == 'regreview') 
         || (isset($_POST['action']) && $_POST['action'] == 'delete') 
         || (isset($_POST['submitorder']) && $_POST['submitorder'] != '') 
         || (isset($_POST['checkout']) && $_POST['checkout'] != '') 
@@ -888,6 +905,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Check if checkout
     //
     elseif( isset($_POST['checkout']) && $_POST['checkout'] != '' && $cart != NULL ) {
+        error_log('checkout');
         //
         // Check the items in the cart before checkout to make sure still available
         //
@@ -936,13 +954,20 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_cart = 'no';
         }
         if( count($student_forms) > 0 && ciniki_core_checkModuleActive($ciniki, 'ciniki.forms') ) {
-            foreach($student_forms as $item) {
-                ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemFormCheck');
-                $rc = ciniki_sapos_wng_cartItemFormCheck($ciniki, $tnid, $request, $item);
-                if( isset($rc['blocks']) ) {
-                    return $rc;
-                } elseif( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check required form', 'err'=>$rc['err']));
+            if( !isset($_POST['regreviewed']) || $_POST['regreviewed'] != 'yes' ) {
+                $display_cart = 'regreview';
+                $cart_edit = 'no';
+                $page_title = 'Checkout - Review Registrations';
+            } else {
+                $display_cart = 'review';
+                foreach($student_forms as $item) {
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemFormCheck');
+                    $rc = ciniki_sapos_wng_cartItemFormCheck($ciniki, $tnid, $request, $item);
+                    if( isset($rc['blocks']) ) {
+                        return $rc;
+                    } elseif( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check required form', 'err'=>$rc['err']));
+                    }
                 }
             }
         }
@@ -1182,6 +1207,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Display the signup/login form
     //
     if( $display_signup == 'yes' || $display_signup == 'forgot' || $display_signup == 'createaccount' ) {
+        error_log('signup/login');
         $post_email = '';
         if( isset($_POST['email']) ) {
             $post_email = $_POST['email'];
@@ -1511,7 +1537,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Display the contents of the shopping cart
     //
-    if( $display_cart == 'yes' || $display_cart == 'confirm' || $display_cart == 'review' || $display_cart == 'paypalexpresscheckoutconfirm' ) {
+    if( $display_cart == 'yes' 
+        || $display_cart == 'confirm' 
+        || $display_cart == 'review' 
+        || $display_cart == 'regreview' 
+        || $display_cart == 'paypalexpresscheckoutconfirm' 
+        ) {
         $request['breadcrumbs'][] = array(
             'name' => 'Cart', 
             'page-class' => 'page-cart',
@@ -1807,9 +1838,24 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 . "</script>\n"
                 . ""; 
 */
+
+            if( $display_cart == 'regreview' 
+                && isset($settings['cart-regreview-message'])
+                && $settings['cart-regreview-message'] != '' 
+                ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $settings['cart-regreview-message']);
+                if( $rc['stat'] == 'ok' ) {
+                    $content .= "<div class='message regreview-message'>" . $rc['content'] . "</div>";
+                }
+            }
             
             $content .= "<form id='cart' action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST' >";
-            $content .= "<input type='hidden' id='action' name='action' value='update'/>";
+            if( $display_cart == 'regreview' ) {
+                $content .= "<input type='hidden' id='regreview' name='regreview' value='regreview'/>";
+            } else {
+                $content .= "<input type='hidden' id='action' name='action' value='update'/>";
+            }
             if( $cart_err_msg != '' ) {
                 $content .= $cart_err_msg;
             }
@@ -1817,25 +1863,21 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $content .= "<table class='items'>";
             $content .= "<thead><tr>"
                 . "<th class='aligncenter'>Item</th>"
-                . "<th class='alignright'>Quantity</th>"
+                . ($display_cart != 'regreview' ? "<th class='alignright'>Quantity</th>" : '')
                 . ($inv=='yes'?"<th class='alignright'>Inventory</th>":"")
-                . "<th class='alignright'>Price</th>"
-                . "<th class='alignright'>Total</th>"
+                . ($display_cart != 'regreview' ? "<th class='alignright'>Price</th>" : '')
+                . ($display_cart != 'regreview' ? "<th class='alignright'>Total</th>" : '')
                 . ($cart_edit=='yes'?"<th class='aligncenter'></th>":"")
                 . "</tr></thead>";
             $content .= "<tbody>";
             $count=0;
             foreach($cart['items'] as $item_id => $item) {
+                if( $display_cart == 'regreview' && ($item['item']['flags']&0x20) != 0x20 ) {
+                    continue;
+                }
                 $item = $item['item'];
                 $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>"
                     . "<td>";
-/*                if( isset($item['object']) && isset($item['permalink']) ) {
-                    switch($item['object']) {
-                        case 'ciniki.products.product': 
-                            $item['url'] = $request['base_url'] . '/products/product/' . $item['permalink'];
-                            break;
-                    }
-                } */
                 if( isset($item['url']) && $item['url'] != '' ) {
                     $content .= "<a href='" . $item['url'] . "'>" . ($codes == 'yes' && $item['code'] != '' ? $item['code'] . ' - ' : '') . $item['description'] . "</a>";
                 } else {
@@ -1847,7 +1889,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 if( $display_registration_customer == 'yes' 
                     && $item['object'] == 'ciniki.courses.offering'
                     ) {
-                    if( $cart_edit == 'yes' ) {
+                    if( $cart_edit == 'yes' || $display_cart == 'regreview' ) {
                         $content .= " for <select name='student_" . $item['id'] . "' name='student_" . $item['id'] . "'"
                             . ">";
                         foreach($registration_customers as $child) {
@@ -1876,23 +1918,25 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
 
                 $content .= "</td>";
-                $content .= "<td class='alignright'>";
-                if( $cart_edit == 'yes' ) {
-                    if( ($item['flags']&0x8000) == 0x8000 ) {
-                        $content .= "<input id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='hidden' value='" . $item['quantity'] . "'/>";
-                    } elseif( ($item['flags']&0x08) == 0 ) {
-                        $content .= "<span class='quantity'>"
-                            . "<input class='quantity' id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='text' value='" 
-                                . $item['quantity'] . "' size='2'/>"
-                            . "</span>";
-                     } else {
+                if( $display_cart != 'regreview' ) {
+                    $content .= "<td class='alignright'>";
+                    if( $cart_edit == 'yes' ) {
+                        if( ($item['flags']&0x8000) == 0x8000 ) {
+                            $content .= "<input id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='hidden' value='" . $item['quantity'] . "'/>";
+                        } elseif( ($item['flags']&0x08) == 0 ) {
+                            $content .= "<span class='quantity'>"
+                                . "<input class='quantity' id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='text' value='" 
+                                    . $item['quantity'] . "' size='2'/>"
+                                . "</span>";
+                         } else {
+                            $content .= $item['quantity'];
+                            $content .= "<input id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='hidden' value='" . $item['quantity'] . "'/>";
+                         }
+                    } elseif( $display_cart != 'regreview' ) {
                         $content .= $item['quantity'];
-                        $content .= "<input id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='hidden' value='" . $item['quantity'] . "'/>";
-                     }
-                } else {
-                    $content .= $item['quantity'];
+                    }
+                    $content .= "</td>";
                 }
-                $content .= "</td>";
                 if( $inv == 'yes' ) {
                     $content .= "<td class='alignright'>";
                     $quantity_available = $item['quantity_inventory'] - $item['quantity_reserved'];
@@ -1912,14 +1956,16 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 if( $item['unit_discount_percentage'] > 0 ) {
                     $discount_text .= ($discount_text!=''?', ':'') . '-' . $item['unit_discount_percentage'] . '%';
                 }
-                $content .= "<td class='alignright'>" 
-                        . numfmt_format_currency($intl_currency_fmt, $item['unit_amount'], $intl_currency)
-                        . ($discount_text!=''?('<br/>' . $discount_text . ' ('
-                            . numfmt_format_currency($intl_currency_fmt, $item['discount_amount'], $intl_currency)) . ')':'')
-                        . "</td>";
-                $content .= "<td class='alignright'>" 
-                        . numfmt_format_currency($intl_currency_fmt, $item['total_amount'], $intl_currency)
-                        . "</td>";
+                if( $display_cart != 'regreview' ) {
+                    $content .= "<td class='alignright'>" 
+                            . numfmt_format_currency($intl_currency_fmt, $item['unit_amount'], $intl_currency)
+                            . ($discount_text!=''?('<br/>' . $discount_text . ' ('
+                                . numfmt_format_currency($intl_currency_fmt, $item['discount_amount'], $intl_currency)) . ')':'')
+                            . "</td>";
+                    $content .= "<td class='alignright'>" 
+                            . numfmt_format_currency($intl_currency_fmt, $item['total_amount'], $intl_currency)
+                            . "</td>";
+                }
                 if( $cart_edit == 'yes' ) {
                     $content .= "<td class='aligncenter'>"
                         . "<span class='submit'>"
@@ -1938,117 +1984,119 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             // cart totals
             $num_cols = 3;
             if( $inv == 'yes' ) { $num_cols++; }
-            $content .= "<tfoot>";
+            if( $display_cart != 'regreview' ) {
+                $content .= "<tfoot>";
 
-            $separator = '';
-            $duenow = '';
-            if( isset($cart['preorder_subtotal_amount']) && $cart['preorder_subtotal_amount'] > 0 ) {
-                $separator = 'separator ';
-                $duenow = ' (Due Now)';
-                $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                $content .= "<td colspan='$num_cols' class='alignright'>Pre-Order Subtotal:</td>"
-                    . "<td class='alignright'>"
-                    . numfmt_format_currency($intl_currency_fmt, $cart['preorder_subtotal_amount'], $intl_currency)
-                    . "</td>"
-                    . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
-                $count++;
-                $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                $content .= "<td colspan='$num_cols' class='alignright'>Shipping:</td>"
-                    . "<td class='alignright'>";
-                if( !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x04)
-                    && !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000000)
-                    && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x20000000)
-                    ) {
-                    $content .= 'Curbside Pickup';
-                } elseif( $cart['preorder_subtotal_amount'] > 0 && $cart['customer_id'] == 0 ) {
-                    $content .= "TBD";
-                } else {
-                    $content .= numfmt_format_currency($intl_currency_fmt, $cart['preorder_shipping_amount'], $intl_currency);
+                $separator = '';
+                $duenow = '';
+                if( isset($cart['preorder_subtotal_amount']) && $cart['preorder_subtotal_amount'] > 0 ) {
+                    $separator = 'separator ';
+                    $duenow = ' (Due Now)';
+                    $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                    $content .= "<td colspan='$num_cols' class='alignright'>Pre-Order Subtotal:</td>"
+                        . "<td class='alignright'>"
+                        . numfmt_format_currency($intl_currency_fmt, $cart['preorder_subtotal_amount'], $intl_currency)
+                        . "</td>"
+                        . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
+                    $count++;
+                    $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                    $content .= "<td colspan='$num_cols' class='alignright'>Shipping:</td>"
+                        . "<td class='alignright'>";
+                    if( !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x04)
+                        && !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000000)
+                        && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x20000000)
+                        ) {
+                        $content .= 'Curbside Pickup';
+                    } elseif( $cart['preorder_subtotal_amount'] > 0 && $cart['customer_id'] == 0 ) {
+                        $content .= "TBD";
+                    } else {
+                        $content .= numfmt_format_currency($intl_currency_fmt, $cart['preorder_shipping_amount'], $intl_currency);
+                    }
+                    $content .= "</td>"
+                        . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
+                    $count++;
+
+                    if( isset($cart['preorder_taxes']) ) {
+                        foreach($cart['preorder_taxes'] as $tax) {
+                            $tax = $tax['tax'];
+                            $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                            $content .= "<td colspan='$num_cols' class='alignright'>" . $tax['description'] . ":</td>"
+                                . "<td class='alignright'>"
+                                . numfmt_format_currency($intl_currency_fmt, $tax['amount'], $intl_currency)
+                                . "</td>"
+                                . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
+                            $count++;
+                        }
+                    }
+
+                    $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                    $content .= "<td colspan='$num_cols' class='alignright'><b>Pre-Order Total (Due On Shipment):</b></td>"
+                        . "<td class='alignright'>"
+                        . numfmt_format_currency($intl_currency_fmt, $cart['preorder_total_amount'], $intl_currency)
+                        . "</td>"
+                        . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
+                    $count++;
+                } 
+
+                if( $cart['shipping_status'] > 0 || (isset($cart['taxes']) && count($cart['taxes']) > 0) ) {
+                    $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                    $content .= "<td colspan='$num_cols' class='alignright'>Subtotal:</td>"
+                        . "<td class='alignright'>"
+                        . numfmt_format_currency($intl_currency_fmt, $cart['subtotal_amount'], $intl_currency)
+                        . "</td>"
+                        . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
+                    $count++;
+                    $separator = '';
                 }
-                $content .= "</td>"
-                    . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
-                $count++;
-
-                if( isset($cart['preorder_taxes']) ) {
-                    foreach($cart['preorder_taxes'] as $tax) {
+                if( $cart['shipping_status'] > 0 || (isset($cart['shipping_amount']) && $cart['shipping_amount'] > 0) ) {
+                    $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                    $content .= "<td colspan='$num_cols' class='alignright'>Shipping:</td>";
+                    if( !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x04)
+                        && !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000000)
+                        && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x20000000)
+                        ) {
+                        $content .= "<td class=''"
+                            . ($cart_edit == 'yes' ? " colspan='2'" : '')
+                            . ">";
+                        $content .= 'Curbside Pickup';
+                        $content .= "</td>";
+                    } elseif( $cart['subtotal_amount'] > 0 && $cart['customer_id'] == 0 ) {
+                        $content .= "<td class='alignright'>";
+                        $content .= "TBD";
+                        $content .= "</td>" . ($cart_edit=='yes'?'<td></td>':'');
+                    } else {
+                        $content .= "<td class='alignright'>";
+                        $content .= numfmt_format_currency($intl_currency_fmt, $cart['shipping_amount'], $intl_currency);
+                        $content .= "</td>" . ($cart_edit=='yes'?'<td></td>':'');
+                    }
+                    $content .= "</tr>";
+                    $count++;
+                    $separator = '';
+                }
+                if( isset($cart['taxes']) ) {
+                    foreach($cart['taxes'] as $tax) {
                         $tax = $tax['tax'];
-                        $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
+                        $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
                         $content .= "<td colspan='$num_cols' class='alignright'>" . $tax['description'] . ":</td>"
                             . "<td class='alignright'>"
                             . numfmt_format_currency($intl_currency_fmt, $tax['amount'], $intl_currency)
                             . "</td>"
                             . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
                         $count++;
+                        $separator = '';
                     }
                 }
-
-                $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                $content .= "<td colspan='$num_cols' class='alignright'><b>Pre-Order Total (Due On Shipment):</b></td>"
-                    . "<td class='alignright'>"
-                    . numfmt_format_currency($intl_currency_fmt, $cart['preorder_total_amount'], $intl_currency)
-                    . "</td>"
-                    . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
-                $count++;
-            } 
-
-            if( $cart['shipping_status'] > 0 || (isset($cart['taxes']) && count($cart['taxes']) > 0) ) {
                 $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                $content .= "<td colspan='$num_cols' class='alignright'>Subtotal:</td>"
+                $content .= "<td colspan='$num_cols' class='alignright'><b>Total{$duenow}:</b></td>"
                     . "<td class='alignright'>"
-                    . numfmt_format_currency($intl_currency_fmt, $cart['subtotal_amount'], $intl_currency)
+                    . numfmt_format_currency($intl_currency_fmt, $cart['total_amount'], $intl_currency)
                     . "</td>"
                     . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
                 $count++;
                 $separator = '';
-            }
-            if( $cart['shipping_status'] > 0 || (isset($cart['shipping_amount']) && $cart['shipping_amount'] > 0) ) {
-                $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                $content .= "<td colspan='$num_cols' class='alignright'>Shipping:</td>";
-                if( !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x04)
-                    && !ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000000)
-                    && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x20000000)
-                    ) {
-                    $content .= "<td class=''"
-                        . ($cart_edit == 'yes' ? " colspan='2'" : '')
-                        . ">";
-                    $content .= 'Curbside Pickup';
-                    $content .= "</td>";
-                } elseif( $cart['subtotal_amount'] > 0 && $cart['customer_id'] == 0 ) {
-                    $content .= "<td class='alignright'>";
-                    $content .= "TBD";
-                    $content .= "</td>" . ($cart_edit=='yes'?'<td></td>':'');
-                } else {
-                    $content .= "<td class='alignright'>";
-                    $content .= numfmt_format_currency($intl_currency_fmt, $cart['shipping_amount'], $intl_currency);
-                    $content .= "</td>" . ($cart_edit=='yes'?'<td></td>':'');
-                }
-                $content .= "</tr>";
-                $count++;
-                $separator = '';
-            }
-            if( isset($cart['taxes']) ) {
-                foreach($cart['taxes'] as $tax) {
-                    $tax = $tax['tax'];
-                    $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
-                    $content .= "<td colspan='$num_cols' class='alignright'>" . $tax['description'] . ":</td>"
-                        . "<td class='alignright'>"
-                        . numfmt_format_currency($intl_currency_fmt, $tax['amount'], $intl_currency)
-                        . "</td>"
-                        . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
-                    $count++;
-                    $separator = '';
-                }
-            }
-            $content .= "<tr class='{$separator}" . (($count%2)==0?'item-even':'item-odd') . "'>";
-            $content .= "<td colspan='$num_cols' class='alignright'><b>Total{$duenow}:</b></td>"
-                . "<td class='alignright'>"
-                . numfmt_format_currency($intl_currency_fmt, $cart['total_amount'], $intl_currency)
-                . "</td>"
-                . ($cart_edit=='yes'?'<td></td>':'') . "</tr>";
-            $count++;
-            $separator = '';
 
-            $content .= "</foot>";
+                $content .= "</foot>";
+            }
             $content .= "</table>";
             $content .= "</div>";   // close items-wrap
 
@@ -2153,7 +2201,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $count++;
             }
 
-            if( $cart_details != '' ) {
+            if( $cart_details != '' && $display_cart != 'regreview' ) {
                 $content .= "<div class='details-wrap " . $details_class . "'>";
                 $content .= "<table class='details'>";
                 $content .= "<tbody>";
@@ -2163,7 +2211,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $content .= "</div>";
             }
 
-            if( isset($settings['cart-customer-notes']) && $settings['cart-customer-notes'] == 'yes' ) {
+            if( isset($settings['cart-customer-notes']) 
+                && $settings['cart-customer-notes'] == 'yes' 
+                && $display_cart != 'regreview' 
+                ) {
                 if( $cart_edit == 'yes' ) {
                     $content .= "<div class='customer-notes'>";
                     $content .= "<label for='customer_notes'>Notes</label>"
@@ -2256,7 +2307,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             // cart buttons
             //
             $content .= "<div class='buttons'>";
-            if( $cart_edit == 'yes' ) {
+            if( $cart_edit == 'yes' || $display_cart == 'regreview' ) {
+                if( $display_cart == 'regreview' ) {
+                    $content .= "<span class='submit'>"
+                        . "<input class='button submit' type='submit' name='continue' value='Back'/>"
+                        . "</span>";
+                }
                 $content .= "<span class='submit'>"
                     . "<input class='button submit' type='submit' name='update' value='Update'/>"
                     . "</span>";
@@ -2271,11 +2327,20 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     && isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0
                     && isset($request['session']['customer']['children-allowed']) && $request['session']['customer']['children-allowed'] == 'yes'
                     ) {
-                    $content .= "<span class='submit'>"
-                        . "<input class='button submit' type='submit' name='addchild' value='Add Child' "
-                            . "onclick='window.open(\"" . $request['ssl_domain_base_url'] . "/account/children?add=yes&next=cart" . "\",\"_self\");return false;'"
-                            . " />"
-                        . "</span>";
+                    if( $display_cart == 'regreview' ) {
+                        $content .= "<span class='submit'>"
+                            . "<input class='button submit' type='submit' name='addchild' value='Add Child' "
+                                . "onclick='window.open(\"" . $request['ssl_domain_base_url'] . "/account/children?add=yes&next=regreview" . "\",\"_self\");return false;'"
+                                . " />"
+                            . "</span>";
+
+                    } else {
+                        $content .= "<span class='submit'>"
+                            . "<input class='button submit' type='submit' name='addchild' value='Add Child' "
+                                . "onclick='window.open(\"" . $request['ssl_domain_base_url'] . "/account/children?add=yes&next=cart" . "\",\"_self\");return false;'"
+                                . " />"
+                            . "</span>";
+                    }
                 } 
             }
 /*            if( isset($request['session']['customer']['dealer_status']) 
@@ -2340,6 +2405,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
                     $content .= "<span class='cart-submit'>"
                         . "<input class='button submit' type='submit' name='paypalexpresscheckoutdo' value='Pay Now'/>"
+                        . "</span>";
+                } elseif( $display_cart == 'regreview' ) {
+                    $content .= "<span class='cart-submit'>"
+                        . "<input type='hidden' name='regreviewed' value='yes'/>"
+                        . "<input class='button submit' type='submit' name='checkout' value='Checkout'/>"
                         . "</span>";
                 } else {
                     $content .= "<span class='cart-submit'>"
