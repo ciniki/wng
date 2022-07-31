@@ -115,6 +115,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     $cur_section_label = $section['label'];
                 }
                 $sections .= "<div id='s-{$section['id']}' class='form-section"
+                    . (isset($section['class']) ? ' ' . $section['class'] : '')
                     // Add class for when selected if open by default
                     . ($cur_section_id == $section['id'] ? ' selected' : '')
                     . "'>"; 
@@ -248,7 +249,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             && isset($field['next_fid']) 
                             && $section['fields'][$field['next_fid']]['ftype'] == 'checkbox'
                             ) {
-                            $class .= ' checkbox-list';
+                            $class .= ' checkbox-list checkbox-label';
                         }
                         $sections .= "<div class='field field-{$field['ftype']}{$class}"
                             . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
@@ -459,7 +460,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         }
                         elseif( $field['ftype'] == 'content' ) {
                             if( isset($field['label']) && $field['label'] != '' ) {
-                                $sections .= "<div class='label'>{$field['label']}</div>";
+                                $sections .= "<div class='label' id='f-{$field['id']}'>{$field['label']}</div>";
                             }
                             $sections .= $field_description;
                         }

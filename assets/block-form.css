@@ -32,7 +32,7 @@
 .block-form.sectioned .fields {
     background: #eee;
     border: 1px solid #aaa;
-    padding: 0rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 .block-form .form-section-description p {
     padding-bottom: 1rem;
@@ -128,6 +128,14 @@
 .block-form .field-checkbox {
     padding-top: 1rem;
 }
+.block-form .field-content.checkbox-label,
+.block-form.sectioned .field-content.checkbox-label {
+    padding-bottom: 0px;
+}
+.block-form .field-checkbox.checkbox-list label ,
+.block-form.sectioned .field-checkbox.checkbox-list label {
+    font-weight: normal;
+}
 .block-form .field-checkbox.checkbox-list {
     padding-top: 0rem;
     padding-left: 1.5rem;
@@ -164,7 +172,7 @@
 }
 /* 2 lines, 5 lines, 10 lines, 15 lines, 25 lines */
 .block-form .field.size-tiny textarea {
-    height: 4.5em;
+    height: 4em;
 }
 .block-form .field.size-small textarea {
     height: 9em;
@@ -328,6 +336,7 @@
 .block-form .newline {
     width: 100%;
 }
+.block-form.sectioned .size-tiny,
 .block-form.sectioned .size-small,
 .block-form.sectioned .size-small-medium,
 .block-form.sectioned .size-medium,
@@ -343,7 +352,7 @@
     width: 100%;
 }
 .block-form .field-hidden {
-    padding: 0.5rem 0rem 0rem 0rem;
+    padding: 0 0 0 0;
 }
 @media screen and (min-width: 40em) {
     .block-form .fields,
