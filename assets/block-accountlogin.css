@@ -1,6 +1,12 @@
-.block-accountlogin .content {
+.block-accountlogin .content .signin-form,
+.block-accountlogin .content .forgotpassword-form,
+.block-accountlogin .content .signup-form.simple {
     padding: 1rem;
     max-width: 30rem;
+    margin: 0 auto;
+}
+.block-accountlogin .content .signup-form.phone-billing {
+    max-width: 60rem;
     margin: 0 auto;
 }
 .block-accountlogin .signup-form,
@@ -11,6 +17,14 @@
 }
 .block-accountlogin .content h2 {
     padding-bottom: 1rem;
+}
+.block-accountlogin .content .signup-form.phone-billing > h2 {
+    padding: 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-accountlogin .content .signup-form.phone-billing > h2 {
+        padding: 1rem 2rem;
+    }
 }
 .block-accountlogin .input label {
     display: block;
