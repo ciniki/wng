@@ -229,7 +229,6 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         } else {
             $content .= "<h2>Create Account</h2>";
         }
-            error_log(print_r($block,true));
         // Start a form, to be displayed the same way as the
         $content .= "<div class='block-form sectioned'>"
             . "<div class='wrap'>"
@@ -295,7 +294,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
                         . (isset($block['phone_label_2']) && $block['phone_label_2'] == 'Cell' ? ' selected': '')
                     . ">Cell</option>"
                     . "<option value='Home'" 
-                        . (!isset($block['phone_label_2']) || $block['phone_label_2'] == 'Home' ? ' selected': '')
+                        . (!isset($block['phone_label_2']) || $block['phone_label_2'] == '' || $block['phone_label_2'] == 'Home' ? ' selected': '')
                     . ">Home</option>"
                     . "<option value='Work'" 
                         . (isset($block['phone_label_2']) && $block['phone_label_2'] == 'Work' ? ' selected': '')

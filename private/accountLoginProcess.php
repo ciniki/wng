@@ -31,7 +31,6 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
     $display_form = 'login';
     $blocks = array();
 
-    error_log(print_r($_POST,true));
     //
     // Check if reset request
     //
