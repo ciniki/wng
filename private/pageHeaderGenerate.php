@@ -53,6 +53,10 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             $html_class .= ($html_class != '' ? ' ':'') . 'browser-ie9 no-flexbox';
         }
     }
+    if( isset($request['site']['permalink']) && $request['site']['permalink'] != '' ) {
+        $html_class .= ($html_class != '' ? ' ':'') . 'site-' . $request['site']['permalink'];
+    }
+
     // Generate the head content
     $content .= "<!DOCTYPE html>\n"
         . "<html class='" . $html_class . "'>\n"
