@@ -541,6 +541,18 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . "' >";
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
+                        elseif( $field['ftype'] == 'cancel' ) {
+                            if( isset($field['url']) && $field['url'] != '' ) {
+                                $sections .= "<input type='hidden' name='cancel-url' value='{$field['url']}'>";
+                                $sections .= "<a class='button' href='{$field['url']}'>"
+                                    . (isset($field['label']) && $field['label'] != '' ? $field['label'] : 'Cancel')
+                                    . "</a>";
+                            } else {
+                                $sections .= "<input type='submit' class='button' value='"
+                                    . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
+                                    . "' >";
+                            }
+                        }
                         
                         $sections .= "</div>";
                     }
@@ -907,7 +919,6 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>';
         $content .= "</form>";
         $content .= '</div>';
-
     }
 
     //

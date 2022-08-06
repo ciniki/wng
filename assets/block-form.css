@@ -34,11 +34,51 @@
     border: 1px solid #aaa;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
+.block-form.sectioned .form-section.buttons .fields {
+    background: inherit;
+    border: 0px;
+    padding: 0px;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+}
+.block-form.sectioned .form-section.buttons .fields .field.field-submit,
+.block-form.sectioned .form-section.buttons .fields .field.field-cancel {
+    width: 100%;
+    flex-basis: 100%;
+    flex-grow: 1;
+}
+.block-form.sectioned .form-section.buttons .fields .field.field-submit input,
+.block-form.sectioned .form-section.buttons .fields .field.field-cancel a.button,
+.block-form.sectioned .form-section.buttons .fields .field.field-cancel input {
+    width: 100%;
+    text-align: center;
+}
+@media screen and (min-width: 30em) {
+    .block-form.sectioned .form-section.buttons .fields {
+        display: flex;
+        text-align: right;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+    .block-form.sectioned .form-section.buttons .fields .field.field-submit:only-child,
+    .block-form.sectioned .form-section.buttons .fields .field.field-cancel:only-child {
+        margin-left: auto;
+    }
+    .block-form.sectioned .form-section.buttons .fields .field.field-submit,
+    .block-form.sectioned .form-section.buttons .fields .field.field-cancel {
+        padding-top: 0.5rem;
+        flex-basis: 0;
+        flex-grow: 0;
+    }
+    .block-form.sectioned .form-section.buttons .fields .field.field-submit input,
+    .block-form.sectioned .form-section.buttons .fields .field.field-cancel a.button,
+    .block-form.sectioned .form-section.buttons .fields .field.field-cancel input {
+        width: auto;
+        min-width: 10em;
+    }
+}
 .block-form .form-section-description p {
     padding-bottom: 1rem;
-}
-.block-form .fields {
-    margin-bottom: 1rem;
 }
 .block-form .field {
     padding: 0.5rem 0rem;
@@ -230,6 +270,7 @@
     justify-content: space-between;
     text-align: right;
     gap: 1rem;
+    padding-top: 1rem;
     margin-bottom: 1rem;
 }
 .block-form .repeat-buttons,
