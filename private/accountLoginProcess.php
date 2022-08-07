@@ -179,7 +179,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 // Check for a returning url
                 //
                 elseif( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
-                    header("Location: " . $request['session']['login-return-url'] . '?auth-success');
+                    if( preg_match("/\?/", $request['session']['login-return-url']) ) {
+                        header("Location: " . $request['session']['login-return-url'] . '&auth-success');
+                    } else {
+                        header("Location: " . $request['session']['login-return-url'] . '?auth-success');
+                    }
                     unset($request['session']['login-return-url']);
                     return array('stat'=>'exit');
                 }
