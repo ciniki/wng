@@ -82,6 +82,14 @@
     padding-top: 0.5rem;
     padding-left: 0.1rem;
 }
+.block-accountbuttons .icon .fa-youtube:before {
+    content: "\f167";
+    font-size: 1.0rem;
+}
+.block-socialicons .icon .fa-youtube:before {
+    content: "\f167";
+    font-size: 1.2rem;
+}
 @media screen and (min-width: 40em) {
     .block-socialicons .content {
         padding-left: 2rem;

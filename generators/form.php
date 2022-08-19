@@ -23,7 +23,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     //
     // Setup error message area
     //
-    $content .= "<div id='form-errors' class='block-msg error limit-width center form-errors"
+    $content .= "<div id='form-errors' class='block-msg error center form-errors"
+        . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : ' limit-width')
         . (isset($block['problem-list']) && $block['problem-list'] != '' ? '' : ' hidden')
         . "'>";
     $content .= "<div class='wrap'>";

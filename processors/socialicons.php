@@ -47,6 +47,14 @@ function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section)
             'url' => 'https://twitter.com/' . $request['site']['settings']['social-twitter-username'],
             );
     }
+    if( isset($request['site']['settings']['social-youtube-url']) 
+        && $request['site']['settings']['social-youtube-url'] != ''
+        ) {
+        $icons[] = array(
+            'type' => 'youtube',
+            'url' => $request['site']['settings']['social-youtube-url'],
+            );
+    }
     
     $block = array(
         'type' => 'socialicons',

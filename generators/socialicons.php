@@ -61,6 +61,10 @@ function ciniki_wng_generators_socialicons(&$ciniki, $tnid, $request, $block) {
                     $content .= "<span class='icon'><a target='_blank' href='" . $icon['url'] . "'>"
                         . "<i class='fab fa-twitter'></i>"
                         . "</a></span>";
+                } elseif( $icon['type'] == 'youtube' ) {
+                    $content .= "<span class='icon'><a target='_blank' href='" . $icon['url'] . "'>"
+                        . "<i class='fab fa-youtube'></i>"
+                        . "</a></span>";
                 }
             }
             $content .= '</div>';

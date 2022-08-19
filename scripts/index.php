@@ -68,6 +68,11 @@ if( !is_array($request['uri_split']) ) {
     $request['uri_split'] = array($request['uri_split']);
 }
 
+if( isset($request['uri_split'][0]) && $request['uri_split'][0] == 'preview' ) {
+    $request['preview'] = 'yes';
+    array_shift($request['uri_split']);
+}
+
 //
 // Parse the query_string args
 //
