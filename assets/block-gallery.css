@@ -54,7 +54,7 @@
     .block-gallery.layout-originals .item {
         display: block;
         flex-grow: 1;
-        height: 25rem;
+        height: 22rem;
         flex-basis: auto;
         padding: 1rem;
     }
