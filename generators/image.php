@@ -11,6 +11,8 @@
 // 
 function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+
     $content = '';
 
     if( isset($block['image-id']) && $block['image-id'] > 0 ) {
