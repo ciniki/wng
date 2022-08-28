@@ -59,10 +59,16 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.144', 'msg'=>'', 'err'=>$rc['err']));
             }
-
+    
             $content .= "<div class='image' style='background:url(" . $rc['url'] . ") "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
-                . "; background-size:cover;'>";
+                . ";";
+            if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
+                $content .= "background-size:contain;background-repeat:no-repeat;";
+            } else {
+                $content .= "background-size:cover;";
+            }
+            $content .= "'>";
             $content .= '</div>';
         } 
 
