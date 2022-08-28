@@ -26,6 +26,14 @@ function ciniki_wng_generators_title(&$ciniki, $tnid, $request, $block) {
             $content .= "<h1>" . $block['title'] . "</h1>";
         }
 
+        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h3>" . $block['subtitle'] . "</h3>";
+            } else {
+                $content .= "<h2>" . $block['subtitle'] . "</h2>";
+            }
+        }
+
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';

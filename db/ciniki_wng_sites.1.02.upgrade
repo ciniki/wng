@@ -1,0 +1,5 @@
+#
+# Add the CSS Classes field to be added to the html class tag
+#
+ALTER TABLE ciniki_wng_sites ADD COLUMN css_classes varchar(150) not null AFTER theme;
+ALTER TABLE ciniki_wng_sites COMMENT='v1.02';

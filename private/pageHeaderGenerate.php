@@ -53,7 +53,10 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             $html_class .= ($html_class != '' ? ' ':'') . 'browser-ie9 no-flexbox';
         }
     }
-    if( isset($request['site']['permalink']) && $request['site']['permalink'] != '' ) {
+    if( isset($request['site']['css_classes']) && $request['site']['css_classes'] != '' ) {
+        $html_class .= ($html_class != '' ? ' ':'') . $request['site']['css_classes']; 
+    }
+    elseif( isset($request['site']['permalink']) && $request['site']['permalink'] != '' ) {
         $html_class .= ($html_class != '' ? ' ':'') . 'site-' . $request['site']['permalink'];
     }
 

@@ -169,6 +169,11 @@ p:last-child {
 }
 
 /* Background Image Ratios */
+.ratio-round {
+    height: 100%;
+    border-radius: 50%;
+    padding-top: 100%;
+}
 .ratio-2-1 {
     height: 50%;
     padding-top: 50%;

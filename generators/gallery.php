@@ -71,7 +71,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.171', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
                     }
-                    $content .= "<a href='" . $rc['url'] . "'>";
+                    $content .= "<a target='{$rc['target']}' href='" . $rc['url'] . "'>";
                 }
                 $content .= "<div class='item-wrap'>";
                 
@@ -82,7 +82,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
                     $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                         'image_id' => $item['image-id'],
-                        'version' => 'thumbnail',
+                        'version' => (isset($block['padding']) && $block['padding'] != '' ? 'original' : 'thumbnail'),
                         'padding' => (isset($block['padding']) ? $block['padding'] : ''),
                         'maxwidth' => (isset($block['maxwidth']) ? $block['maxwidth'] : '1024'),
                         ));

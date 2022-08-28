@@ -35,6 +35,8 @@
 #                               0x80000000 - 
 #
 # theme:                    The directory name to look in each module for theme files (css, js, images)
+# 
+# css_classes:              The CSS class(es) to add to the HTML tag for the site.
 #
 # date_added:               The UTC date and time the record was added.
 # last_updated:             The UTC date and time the record was last update.
@@ -50,10 +52,11 @@ create table ciniki_wng_sites (
     permalink varchar(250) not null,
     flags int not null,
     theme varchar(150) not null,
+    css_classes varchar(150) not null,
 
     date_added datetime not null,
     last_updated datetime not null,
     primary key (id),
     unique index (uuid),
     index sync (tnid, uuid, last_updated)
-) ENGINE='InnoDB', COMMENT='v1.01';
+) ENGINE='InnoDB', COMMENT='v1.02';

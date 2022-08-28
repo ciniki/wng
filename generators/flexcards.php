@@ -55,8 +55,8 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
             $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
-                'version' => 'original',
-                'maxwidth' => '2048'
+                'version' => (isset($block['image-version']) ? $block['image-version'] : 'original'),
+                'maxwidth' => (isset($block['image-size']) ? $block['image-size'] : '2048'),
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));

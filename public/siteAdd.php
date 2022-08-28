@@ -26,6 +26,7 @@ function ciniki_wng_siteAdd(&$ciniki) {
         'permalink'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Permalink'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
         'theme'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Theme'),
+        'css_classes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'CSS Classes'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;

@@ -28,6 +28,7 @@ function ciniki_wng_objects(&$ciniki) {
             'permalink' => array('name'=>'Permalink'),
             'flags' => array('name'=>'Options', 'default'=>'0'),
             'theme' => array('name'=>'Theme', 'default'=>'twentyone'),
+            'css_classes' => array('name'=>'CSS Classes', 'default'=>''),
             ),
         'history_table' => 'ciniki_wng_history',
         );

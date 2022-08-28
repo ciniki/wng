@@ -176,6 +176,9 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
                 return $rc;
             }
             if( $rc['stat'] != 'ok' ) {
+                if( !isset($rc['err']) ) {
+                    error_log('Unknown Error: ' . print_r($rc,true));
+                }
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.56', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
             }
 
