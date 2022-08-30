@@ -81,7 +81,10 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     // login form.
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
-    $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
+    $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request, array(
+        'return-url' => '/account',
+        'create-account' => isset($settings['account-create-type']) ? $settings['account-create-type'] : '',
+        ));
     if( $rc['stat'] != 'authenticated' ) {
         return $rc;
     }
