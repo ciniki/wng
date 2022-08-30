@@ -645,6 +645,18 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     elseif( isset($block['fields']) ) {
        
         //
+        // Build next-prev links to determine if checkbox is in a list or not, etc
+        //
+        $prev = -1;
+        foreach($block['fields'] as $fid => $field) {
+            if( $prev > -1 ) {
+                $block['fields'][$prev]['next_fid'] = $fid;
+                $block['fields'][$fid]['prev_fid'] = $prev;
+            }
+            $prev = $fid;
+        }
+        
+        //
         // Process the fields
         //
         $fields_html = '';
@@ -673,7 +685,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 && isset($field['next_fid']) 
                 && $block['fields'][$field['next_fid']]['ftype'] == 'checkbox'
                 ) {
-                $class .= ' checkbox-list';
+                $class .= ' checkbox-list checkbox-label';
             } 
             elseif( $field['ftype'] == 'hidden' ) {
                 $fields_html .= "<input type='hidden' name='f-{$field['id']}' value='{$field['value']}'/>";
