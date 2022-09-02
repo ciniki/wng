@@ -45,7 +45,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
         $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
         if( $rc['stat'] != 'authenticated' ) {
-            $request['response']['blocks'] = $rc['blocks'];
+            $request['response']['blocks'] = isset($rc['blocks']) ? $rc['blocks'] : array();
             return array('stat'=>'ok');
         }
     }
@@ -59,7 +59,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
         $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
         if( $rc['stat'] != 'authenticated' ) {
-            $request['response']['blocks'] = $rc['blocks'];
+            $request['response']['blocks'] = isset($rc['blocks']) ? $rc['blocks'] : array();
             return array('stat'=>'ok');
         }
     }

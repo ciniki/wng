@@ -693,6 +693,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             $fields_html .= "<div class='field field-{$field['ftype']}{$class}"
                 . (isset($field['size']) && $field['size'] != '' ? ' size-' . $field['size'] : '')
+                . (isset($field['class']) && $field['class'] != '' ? ' ' . $field['class'] : '')
                 . "'>";
 
             if( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
