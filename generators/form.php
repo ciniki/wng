@@ -807,7 +807,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             elseif( $field['ftype'] == 'select' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
-                $fields_html .= "<select name='f-{$field['id']}' id='f-{$field['id']}'>";
+                $fields_html .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
+                    . ">";
                 if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
                     $fields_html .= "<option value=''></option>";
                 }
