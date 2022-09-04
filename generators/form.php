@@ -824,6 +824,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $fields_html .= $option[$field['option-value-field']];
                         } elseif( isset($option['name']) ) {
                             $fields_html .= $option['name'];
+                        } else {
+                            $fields_html .= $option;
                         }
                         $fields_html .= "</option>";
                     }

@@ -282,6 +282,37 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         );
 
     //
+    // Text Content & Video
+    //
+    $sections['ciniki.wng.contentvideo'] = array(
+        'name'=>'Text & Video',
+        'module' => 'Website',
+        'settings'=>array(
+            'video-url' => array('label'=>'Video URL', 'type'=>'text'),
+            'video-position'=>array('label'=>'Video Position', 'type'=>'toggle', 'default'=>'top-right', 'toggles'=>array(
+                'top' => 'Top Wide',
+                'top-left' => 'Top Left',
+                'bottom-left' => 'Bottom Left',
+                'top-right' => 'Top Right',
+                'bottom-right' => 'Bottom Right',
+                'bottom' => 'Bottom Wide',
+                )),
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            'button-1-page' => array('label'=>'Button 1', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-1-text' => array('label'=>'Text', 'type'=>'text'),
+            'button-1-url' => array('label'=>'URL', 'type'=>'text'),
+            'button-2-page' => array('label'=>'Button 2', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-2-text' => array('label'=>'Text', 'type'=>'text'),
+            'button-2-url' => array('label'=>'URL', 'type'=>'text'),
+            'button-3-page' => array('label'=>'Button 3', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+            'button-3-text' => array('label'=>'Text', 'type'=>'text'),
+            'button-3-url' => array('label'=>'URL', 'type'=>'text'),
+            ),
+        );
+
+    //
     // List & Photo
     //
     $sections['ciniki.wng.listphoto'] = array(
