@@ -61,18 +61,22 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         }
 
         $content .= "<div class='content-wrap'>"; 
-        $content .= "<div class='title-wrap'>";
-        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h1>" . $block['title'] . "</h1>";
-        } elseif( isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h2>" . $block['title'] . "</h2>";
+        if( (isset($block['title']) && $block['title'] != '')
+            || (isset($block['subtitle']) && $block['subtitle'] != '') 
+            ) {
+            $content .= "<div class='title-wrap'>";
+            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+                $content .= "<h1>" . $block['title'] . "</h1>";
+            } elseif( isset($block['title']) && $block['title'] != '' ) {
+                $content .= "<h2>" . $block['title'] . "</h2>";
+            }
+            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
+                $content .= "<h2>" . $block['subtitle'] . "</h2>";
+            } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+                $content .= "<h3>" . $block['subtitle'] . "</h3>";
+            }
+            $content .= "</div>";
         }
-        if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
-            $content .= "<h2>" . $block['subtitle'] . "</h2>";
-        } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
-            $content .= "<h3>" . $block['subtitle'] . "</h3>";
-        }
-        $content .= "</div>";
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
             if( $rc['stat'] != 'ok' ) {

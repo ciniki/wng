@@ -8,6 +8,15 @@
     width: 100%;
     border: 1px solid #000;
 }
+.block-table.fit-width table {
+    width: auto;
+    width: -webkit-fill-available;
+}
+.block-table.fit-width {
+    width: auto;
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
 .block-table th,
 .block-table td {
     padding: 0.5em;

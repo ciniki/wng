@@ -141,6 +141,9 @@
         flex-direction: column;
         justify-content: center;
     }
+    .block-contentphoto.content-aligntop .content-wrap {
+        justify-content: flex-start;
+    }
     .block-contentphoto.image-bottom-left .image-wrap {
         order: 1;
     }
