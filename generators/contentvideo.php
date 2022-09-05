@@ -20,9 +20,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
         $video_position = 'bottom';
     }
 
-    if( (isset($block['content']) && $block['content'] != '') 
-        || (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0)  
-        ) {
+    if( (isset($block['video-url']) && $block['video-url'] != '') ) {
         $content .= "<div class='block-contentvideo"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['video-position']) && $block['video-position'] != '' ? ' video-' . $block['video-position'] : ' video-top-right')
