@@ -9,13 +9,13 @@
     margin: 0 auto;
     max-height: 80vh;
 }
-@media screen and (min-width: 50em) {
+/*@media screen and (min-width: 50em) {
     .block-asideimage {
         float: right;
         max-width: 40%;
         margin-left: 1rem;
     }
-}
+} */
 .block-image .image-wrap {
     position: relative;
 }
