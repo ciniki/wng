@@ -77,12 +77,25 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     //
+    // Check if there was a specific account page requested
+    //
+    $return_url = '/account';
+    if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) 
+        || (isset($request['query_string']) && $request['query_string'] != '') 
+        ) {
+        $return_url = '/' . implode('/', $request['uri_split']);
+        if( isset($request['query_string']) && $request['query_string'] != '' ) {
+            $return_url .= '?'. $request['query_string'];
+        }
+    }
+
+    //
     // Verify the user is logged in, otherwise the accountLoginProcess will return the
     // login form.
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
     $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request, array(
-        'return-url' => '/account',
+        'return-url' => $return_url,
         'create-account' => isset($settings['account-create-type']) ? $settings['account-create-type'] : '',
         ));
     if( $rc['stat'] != 'authenticated' ) {
