@@ -23,6 +23,10 @@
 .block-cart .details td {
     padding: 0.5rem;
 }
+.block-cart .notes {
+    display: block;
+    margin-left: 1rem;
+}
 @media screen and (min-width: 35em) {
     .block-cart .items th,
     .block-cart .items td {
@@ -31,6 +35,11 @@
     .block-cart .items th,
     .block-cart .items td {
         padding: 0.5rem 0.5rem;
+    }
+}
+@media screen and (min-width: 40em) {
+    .block-cart {
+        padding: 2rem;
     }
 }
 @media screen and (min-width: 50em) {

@@ -661,6 +661,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         //
         $fields_html = '';
         foreach($block['fields'] as $field) {
+            if( $field['ftype'] == 'line' ) {
+                // Close previous section
+                $fields_html .= "<div class='line'></div>";
+                continue;
+            }
             $req = '';
             if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
                 $req = ' required';
@@ -688,7 +693,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $class .= ' checkbox-list checkbox-label';
             } 
             elseif( $field['ftype'] == 'hidden' ) {
-                $fields_html .= "<input type='hidden' name='f-{$field['id']}' value='{$field['value']}'/>";
+                $fields_html .= "<input type='hidden' id='f-{$field['id']}' name='f-{$field['id']}' value='{$field['value']}'/>";
                 continue;
             }
             $fields_html .= "<div class='field field-{$field['ftype']}{$class}"
@@ -816,11 +821,17 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( isset($field['options']) && is_array($field['options']) ) {
                     foreach($field['options'] as $id => $option) {
                         if( isset($field['option-id-field']) && isset($option[$field['option-id-field']]) ) {
-                            $fields_html .= "<option value='{$option[$field['option-id-field']]}'>";
+                            $fields_html .= "<option value='{$option[$field['option-id-field']]}'"
+                                . (isset($field['value']) && $field['value'] == $option[$field['option-id-field']] ? ' selected' : '')
+                                . ">";
                         } elseif( isset($option['id']) ) {
-                            $fields_html .= "<option value='{$option['id']}'>";
+                            $fields_html .= "<option value='{$option['id']}'"
+                                . (isset($field['value']) && $field['value'] == $option['id'] ? ' selected' : '')
+                                . ">";
                         } else {
-                            $fields_html .= "<option value='{$id}'>";
+                            $fields_html .= "<option value='{$id}'"
+                                . (isset($field['value']) && $field['value'] == $id ? ' selected' : '')
+                                . ">";
                         }
                         if( isset($field['option-value-field']) && isset($option[$field['option-id-field']]) ) {
                             $fields_html .= $option[$field['option-value-field']];
@@ -922,18 +933,41 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         // Generate the form
         //
         $content .= "<div class='form'>";
-        $content .= "<form action='' method='POST'>";
+        $content .= "<form"
+            . (isset($block['form-id']) && $block['form-id'] != '' ? " id={$block['form-id']}" : '')
+            . " action='' method='POST'>";
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $content .= "<input type='hidden' name='checkout' value='Checkout' />";
         }
         $content .= "<div class='fields'>" . $fields_html . "</div>";
         $content .= "<div class='submit-buttons'>";
-        if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
-            $content .= "<input type='submit' name='cancel' class='button' value='{$block['cancel-label']}' >";
+        if( isset($block['form-id']) && $block['form-id'] != '' 
+            && isset($block['js-submit']) && $block['js-submit'] == 'yes' 
+            ) {
+            if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
+                $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
+            }
+            $content .= "<input type='submit' class='button' value='"
+                . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+                . "' >";
+        } else {
+            if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
+                if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
+                    $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
+                } else {
+                    $content .= "<input type='submit' name='cancel' class='button' value='{$block['cancel-label']}' >";
+                }
+            }
+            if( isset($block['js-submit']) && $block['js-submit'] != '' ) {
+                $content .= "<a class='button' href='javascript:{$block['js-submit']}'>"
+                    . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+                    . "</a>";
+            } else {
+                $content .= "<input type='submit' name='submit' class='button' value='"
+                    . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+                    . "' >";
+            }
         }
-        $content .= "<input type='submit' name='submit' class='button' value='"
-            . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
-            . "' >";
         $content .= '</div>';
         $content .= "</form>";
         $content .= '</div>';
