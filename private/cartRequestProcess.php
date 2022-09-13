@@ -168,7 +168,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         ) {
         $paypal_checkout = 'yes';
     }
-    
+
     //
     // Check if a login occured before loading the cart
     //
@@ -671,6 +671,84 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             } else {
                 header("Location: " . $request['ssl_domain_base_url'] . "/cart");
                 return array('stat'=>'exit');
+            }
+        }
+    }
+    //
+    // Check if item was requested to be removed from the cart
+    //
+    elseif( isset($_GET['d']) && $_GET['d'] != '' ) {
+        foreach($cart['items'] as $item) {
+            $item = $item['item']; 
+            if( $item['id'] == $_GET['d'] ) {
+                $display_cart = 'no';
+                $item_desc = (isset($item['code']) && $item['code'] != '' ? $item['code'] . ' - ': '') . $item['description'];
+                if( isset($item['notes']) && $item['notes'] != '' ) {
+                    $item_desc .= "<br/>" . $item['notes'];
+                }
+                
+                $blocks[] = array(
+                    'type' => 'form',
+                    'title' => 'Delete From Cart',
+                    'class' => 'limit-width limit-width-50',
+                    'form-action' => $request['ssl_domain_base_url'] . '/cart',
+                    'cancel-label' => 'Cancel',
+                    'submit-label' => 'Remove Item',
+                    'fields' => array(
+                        'action' => array(
+                            'id' => 'action',
+                            'ftype' => 'hidden',
+                            'value' => 'delete',
+                            ),
+                        'item_id' => array(
+                            'id' => 'item_id',
+                            'ftype' => 'hidden',
+                            'value' => $item['id'],
+                            ),
+                        'msg' => array(
+                            'id' => 'msg',
+                            'ftype' => 'content',
+                            'label' => "Are you sure you want to remove the following item from your cart?",
+                            ),
+                        'desc' => array(
+                            'id' => 'desc',
+                            'ftype' => 'content',
+                            'description' => $item_desc,
+                            ),
+                        ),
+                    );
+                return array('stat'=>'ok', 'blocks'=>$blocks);
+            }
+        }
+
+        $blocks[] = array(
+            'type' => 'msg',
+            'level' => 'error',
+            'content' => 'Item does not exist',
+            );
+    }
+    //
+    // Check if delete confirmed
+    //
+    elseif( isset($_POST['f-action']) && $_POST['f-action'] == 'delete' 
+        && isset($_POST['f-item_id']) && $_POST['f-item_id'] != '' 
+        && isset($_POST['submit']) && $_POST['submit'] == 'Remove Item' 
+        ) {
+        if( isset($cart['items']) ) {
+            foreach($cart['items'] as $item) {
+                $item = $item['item'];
+                if( $item['id'] == $_POST['f-item_id'] ) {
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemDelete');
+                    $rc = ciniki_sapos_wng_cartItemDelete($ciniki, $tnid, $request, array('item_id'=>$item['id']));
+                    if( $rc['stat'] != 'ok' ) {
+                        return $rc;
+                    }
+                    //
+                    // Redirect back to cart
+                    //
+                    header("Location: " . $request['ssl_domain_base_url'] . "/cart");
+                    return array('stat'=>'exit');
+                }
             }
         }
     }
@@ -1179,7 +1257,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $request['breadcrumbs'][] = array(
             'name' => 'Reset Password', 
             'page-class' => 'page-cart',
-            'url' => $request['base_url'] . '/cart',
+            'url' => $request['ssl_domain_base_url'] . '/cart',
             );
 
         if( isset($passwordreseterrors) && $passwordreseterrors != '' ) {
@@ -1544,7 +1622,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $request['breadcrumbs'][] = array(
             'name' => 'Cart', 
             'page-class' => 'page-cart',
-            'url' => $request['base_url'] . '/cart',
+            'url' => $request['ssl_domain_base_url'] . '/cart',
             );
 
         if( $display_cart == 'review' && (!isset($carterrors) || $carterrors == '') ) {
@@ -1876,8 +1954,8 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $item = $item['item'];
                 $content .= "<tr class='" . (($count%2)==0?'item-even':'item-odd') . "'>"
                     . "<td>";
-                if( isset($item['url']) && $item['url'] != '' ) {
-                    $content .= "<a href='" . $item['url'] . "'>" . ($codes == 'yes' && $item['code'] != '' ? $item['code'] . ' - ' : '') . $item['description'] . "</a>";
+                if( $cart_edit == 'yes' && isset($item['edit_url']) && $item['edit_url'] != '' ) {
+                    $content .= "<a href='" . $item['edit_url'] . "&ru={$request['ssl_domain_base_url']}/cart'>" . ($codes == 'yes' && $item['code'] != '' ? $item['code'] . ' - ' : '') . $item['description'] . "</a>";
                 } else {
                     $content .= ($codes == 'yes' && $item['code'] != '' ? $item['code'] . ' - ' : '') . $item['description'];
                 }
@@ -1907,11 +1985,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         }
                     }
                 }
-                if( $display_registration_customer == 'yes' && $item['object'] == 'ciniki.musicfestivals.registration' ) {
-                    $content .= " for " . $item['notes'];
-                } elseif( $display_registration_customer == 'yes' && $item['object'] == 'ciniki.writingfestivals.registration' ) {
-                    $content .= " for " . $item['notes'];
-                } elseif( $item['notes'] != '' ) {
+                if( $cart_edit == 'yes' && isset($item['edit_url']) && $item['edit_url'] != '' ) {
+                    $content .= "<a href='" . $item['edit_url'] . "&ru={$request['ssl_domain_base_url']}/cart'>" 
+                        . "<span class='notes'>" . preg_replace("/\n/", '<br/>', $item['notes']) . "</span>"
+                        . "</a>";
+                } else {
                     $content .= "<span class='notes'>" . preg_replace("/\n/", '<br/>', $item['notes']) . "</span>";
                 }
 
@@ -1965,14 +2043,23 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                             . "</td>";
                 }
                 if( $cart_edit == 'yes' ) {
-                    $content .= "<td class='aligncenter'>"
-                        . "<span class='submit'>"
-                        . "<span class='icon remove clickable' onclick='C.gE(\"quantity_" . $item['id'] . "\").value=0;"    
-                            . "C.gE(\"action\").value=\"delete\";C.gE(\"cart\").submit();'>"
+                    $content .= "<td class='alignright'>";
+                    if( isset($item['edit_url']) && $item['edit_url'] != '' ) {
+                        // Icon from iconfinder.com: https://www.iconfinder.com/icons/8530613/edit_icon
+                        $content .= "<span class='submit'>"
+                            . '<span class="icon edit clickable" onclick="window.location.href=\'' . $item['edit_url'] . '&ru=' . $request['ssl_domain_base_url'] . '/cart\'">'
+                            . '<svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>'
+                            . "</span>"
+                            . "</span>";
+                    }
+                    
+                    // Icon from iconfinder.com: https://www.iconfinder.com/icons/8530709/trash_alt_icon
+                    $content .= "<span class='submit'>"
+                        . '<span class="icon remove clickable" onclick="window.location.href=\'' . $request['ssl_domain_base_url'] . '/cart?d=' . $item['id'] . '\'">'
                         . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"/></svg>'
                         . "</span>"
-                        . "</span>"
-                        . "</td>";
+                        . "</span>";
+                    $content .= "</td>";
                 }
                 $content .= "</tr>";
                 $count++;
@@ -2341,80 +2428,65 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     }
                 } 
             }
-/*            if( isset($request['session']['customer']['dealer_status']) 
-                && $request['session']['customer']['dealer_status'] > 0 
-                && $request['session']['customer']['dealer_status'] < 60 
-                ) {
-                if( $display_cart == 'confirm' ) {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input class='button submit' type='submit' name='confirmorder' value='Confirm Order'/>"
-                        . "</span>";
-                } else {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input class='button submit' type='submit' name='submitorder' value='Submit Order' onclick='return check_cart();'/>"
-                        . "</span>";
+            if( $display_cart == 'review' ) {
+                $content .= "<span class='submit'>"
+                    . "<input class='button submit' type='submit' name='continue' value='Back'/></span>";
+                if( $stripe_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+                    $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                 }
-            } else { */
-                if( $display_cart == 'review' ) {
-                    $content .= "<span class='submit'>"
-                        . "<input class='button submit' type='submit' name='continue' value='Back'/></span>";
-                    if( $stripe_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
-                        $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
+                elseif( $stripe_checkout == 'yes' ) {
+                    if( !isset($request['response']['head']['scripts']) ) {
+                        $request['response']['head']['scripts'] = array();
                     }
-                    elseif( $stripe_checkout == 'yes' ) {
-                        if( !isset($request['response']['head']['scripts']) ) {
-                            $request['response']['head']['scripts'] = array();
-                        }
-                        $request['response']['head']['scripts'][] = array(
-                            'src'=>'https://checkout.stripe.com/checkout.js', 
-                            'type'=>'text/javascript',
-                            ); 
-                        $js .= "var stripeCheckout = StripeCheckout.configure({"
-                                . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
-                                . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
-                                . 'locale: "auto", '
-                                . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
-                                . 'description: "", '
-                                . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
-                                . 'zipCode: true, '
-                                . 'allowRememberMe: false, '
-                                . 'currency: "' . $intl_currency . '", '
-                                . 'token: function(token) {'
-                                    . 'document.getElementById("stripe-token").value=token.id;'
-                                    . 'document.getElementById("stripe-email").value=token.email;'
-                                    . 'document.getElementById("cart").submit();'
-                                . '},'
-                                . 'opened: function() {'
-                                . '},'
-                                . 'closed: function(e) {'
-                                . '},'
-                                . '});';
-                        $content .= "<input id='stripe-token' type='hidden' name='stripe-token' value=''/>";
-                        $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
-                        $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
-                    }
-                    if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
-                        $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
-                    }
-                    elseif( $paypal_checkout == 'yes' ) {
-                        $content .= "<input class='button submit' type='submit' name='paypalexpresscheckout' value='Checkout with a Credit Card'/>";
-                    }
-                    $content .= "</span>";
-                } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input class='button submit' type='submit' name='paypalexpresscheckoutdo' value='Pay Now'/>"
-                        . "</span>";
-                } elseif( $display_cart == 'regreview' ) {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input type='hidden' name='regreviewed' value='yes'/>"
-                        . "<input class='button submit' type='submit' name='checkout' value='Checkout'/>"
-                        . "</span>";
-                } else {
-                    $content .= "<span class='cart-submit'>"
-                        . "<input class='button submit' type='submit' name='checkout' value='Checkout'/>"
-                        . "</span>";
+                    $request['response']['head']['scripts'][] = array(
+                        'src'=>'https://checkout.stripe.com/checkout.js', 
+                        'type'=>'text/javascript',
+                        ); 
+                    $js .= "var stripeCheckout = StripeCheckout.configure({"
+                            . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
+                            . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
+                            . 'locale: "auto", '
+                            . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
+                            . 'description: "", '
+                            . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
+                            . 'zipCode: true, '
+                            . 'allowRememberMe: false, '
+                            . 'currency: "' . $intl_currency . '", '
+                            . 'token: function(token) {'
+                                . 'document.getElementById("stripe-token").value=token.id;'
+                                . 'document.getElementById("stripe-email").value=token.email;'
+                                . 'document.getElementById("cart").submit();'
+                            . '},'
+                            . 'opened: function() {'
+                            . '},'
+                            . 'closed: function(e) {'
+                            . '},'
+                            . '});';
+                    $content .= "<input id='stripe-token' type='hidden' name='stripe-token' value=''/>";
+                    $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
+                    $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
                 }
-/*            } */
+                if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+                    $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
+                }
+                elseif( $paypal_checkout == 'yes' ) {
+                    $content .= "<input class='button submit' type='submit' name='paypalexpresscheckout' value='Checkout with a Credit Card'/>";
+                }
+                $content .= "</span>";
+            } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
+                $content .= "<span class='cart-submit'>"
+                    . "<input class='button submit' type='submit' name='paypalexpresscheckoutdo' value='Pay Now'/>"
+                    . "</span>";
+            } elseif( $display_cart == 'regreview' ) {
+                $content .= "<span class='cart-submit'>"
+                    . "<input type='hidden' name='regreviewed' value='yes'/>"
+                    . "<input class='button submit' type='submit' name='checkout' value='Checkout'/>"
+                    . "</span>";
+            } else {
+                $content .= "<span class='cart-submit'>"
+                    . "<input class='button submit' type='submit' name='checkout' value='Checkout'/>"
+                    . "</span>";
+            }
             $content .= "</div>";   // Close buttons
 
             $content .= "</form>";

@@ -935,7 +935,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='form'>";
         $content .= "<form"
             . (isset($block['form-id']) && $block['form-id'] != '' ? " id={$block['form-id']}" : '')
-            . " action='' method='POST'>";
+            . " action='" . (isset($block['form-action']) ? $block['form-action'] : '') . "' method='POST'>";
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $content .= "<input type='hidden' name='checkout' value='Checkout' />";
         }
