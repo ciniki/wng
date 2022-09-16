@@ -160,6 +160,14 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Process the sections building the request['response']['blocks'] array
     //
     if( isset($request['page']['sections']) ) {
+        //
+        // Remove hidden sections
+        //
+        foreach($request['page']['sections'] as $sid => $section) {
+            if( ($section['flags']&0x10) == 0x10 ) {
+                unset($request['page']['sections'][$sid]);
+            }
+        }
         foreach($request['page']['sections'] as $section) {
             //
             // Skip hidden sections
