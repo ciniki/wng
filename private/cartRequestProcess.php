@@ -62,6 +62,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     $errors = array();
     $paypal_checkout = 'no';
     $stripe_checkout = 'no';
+    $etransfer_checkout = 'no';
     $page_title = "Shopping Cart";
     $required_account_fields = array();
     $required_account_fields['first'] = 'First Name';
@@ -167,6 +168,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         && isset($request['site']['settings']['paypal-ec-signature']) && $request['site']['settings']['paypal-ec-signature'] != '' 
         ) {
         $paypal_checkout = 'yes';
+    }
+
+    if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x40000000) ) {
+        $etransfer_checkout = 'yes';
     }
 
     //
@@ -1016,6 +1021,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
             }
         }
+        $request['session']['cart']['num_items'] = count($cart['items']);
         if( $unavailable != '' ) {
             $carterrors = "We're sorry, the following items are no longer available and have been removed from your cart: " . $unavailable;
             $cart_edit = 'yes';
@@ -1082,6 +1088,26 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_cart = 'review';
         }
         $page_title = 'Checkout - Review';
+    }
+
+    //
+    // Check if etransfer checkout
+    //
+    elseif( isset($_POST['action']) && $_POST['action'] == 'update' 
+        && isset($_POST['etransfer_checkout']) 
+        && isset($cart['items']) && count($cart['items']) > 0 
+        ) {
+        $cart_total = $cart['total_amount']; // Save for later use in success message
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'etransferCheckout');
+        $rc = ciniki_sapos_wng_etransferCheckout($ciniki, $tnid, $request, $cart);
+        if( $rc['stat'] != 'ok' ) {
+            $carterrors = $rc['err']['msg'];
+            $display_cart = 'yes';
+        } else {
+            $display_success = 'yes';
+            $display_cart = 'etransfer_success';
+            $cart = NULL;
+        }
     }
 
     //
@@ -2430,9 +2456,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             }
             if( $display_cart == 'review' ) {
                 $content .= "<span class='submit'>"
-                    . "<input class='button submit' type='submit' name='continue' value='Back'/></span>";
+                    . "<input class='button submit' type='submit' name='continue' value='Cancel'/></span>";
                 if( $stripe_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
+                }
+                elseif( $etransfer_checkout == 'yes' ) {
+                    $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send E-Transfer</button>";
                 }
                 elseif( $stripe_checkout == 'yes' ) {
                     if( !isset($request['response']['head']['scripts']) ) {
@@ -2507,6 +2536,32 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             );
     }
 
+    if( $display_cart == 'etransfer_success' ) {
+        $block = array(
+            'type' => 'msg',
+            'level' => 'success',
+            'content' => 'Thank you for your order, please send an e-transfer for the amount of: {_invoice_total_}.',
+            );
+        if( isset($settings['cart-etransfer-submitted-message']) && $settings['cart-etransfer-submitted-message'] != '' ) {
+            $block['content'] = $settings['cart-etransfer-submitted-message'];
+        } 
+        $block['content'] = str_replace('{_invoice_total_}', '$' . number_format($cart_total, 2), $block['content']);
+        $blocks[] = $block;
+
+        //
+        // Check for a redirect 
+        //
+        if( isset($request['session']['cart-redirect-success']) 
+            && $request['session']['cart-redirect-success'] != ''
+            ) {
+            error_log('redirect');
+            $request['session']['cart-payment-success'] = 'yes';
+            header('Location: ' . $request['session']['cart-redirect-success']);
+            unset($request['session']['cart-payment-success']);
+            return array('stat'=>'exit');
+        }
+
+    }
     if( $display_cart == 'checkout_success' ) {
         $block = array(
             'type' => 'msg',
@@ -2526,6 +2581,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             ) {
             $request['session']['cart-payment-success'] = 'yes';
             header('Location: ' . $request['session']['cart-redirect-success']);
+            unset($request['session']['cart-payment-success']);
             return array('stat'=>'exit');
         }
     }

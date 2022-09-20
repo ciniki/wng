@@ -76,6 +76,19 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     if( $count == 0 && isset($block['empty']) ) {
         $content .= "<tr><td class='empty' colspan='" . $num_cols . "'>" . $block['empty'] . "</td></tr>";
     }
+    $content .= "</tbody>";
+    if( isset($block['footer']) && count($block['footer']) > 0 ) {
+        $content .= "<tfoot><tr>";
+        foreach($block['footer'] as $cell) {
+            $content .= '<td'
+                . (isset($cell['colspan']) && $cell['colspan'] != '' ? " colspan='{$cell['colspan']}'" : '')
+                . (isset($cell['class']) && $cell['class'] != '' ? " class='{$cell['class']}'" : '')
+                . '>';
+            $content .= $cell['value'];
+            $content .= "</td>";
+        }
+        $content .= "</tr></tfoot>";
+    }
     $content .= "</table>";
     $content .= "</div>";
 
