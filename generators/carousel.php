@@ -149,7 +149,13 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
     //
     $js = '';
     if( isset($block['speed']) && $block['speed'] != 'none' ) {
-        if( $block['speed'] == 'xslow' ) {
+        if( $block['speed'] == 'turtle' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},30000);});";
+        } 
+        elseif( $block['speed'] == 'xxslow' ) {
+            $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},25000);});";
+        } 
+        elseif( $block['speed'] == 'xslow' ) {
             $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},20000);});";
         } 
         elseif( $block['speed'] == 'slow' ) {
