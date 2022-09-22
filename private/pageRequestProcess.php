@@ -85,7 +85,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Check if special pages (Account, cart, search, cpi), must be at top level of site
     //
     if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) 
-        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'cpi'))
+        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi'))
         ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
@@ -101,6 +101,17 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             $request['cur_uri_pos']++;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'searchRequestProcess');
             $rc = ciniki_wng_searchRequestProcess($ciniki, $tnid, $request);
+        }
+        // For unsubscribes
+        // Format: http://thevillagewinemaker.ca/mail/subscriptions/unsubscribe?e=veggiefrog%40gmail.com&s=Test&k=003e6c205c5bdfe047dadb9b23612b8b
+        elseif( isset($request['uri_split'][2]) 
+            && $request['uri_split'][0] == 'mail' 
+            && $request['uri_split'][1] == 'subscriptions' 
+            && $request['uri_split'][2] == 'unsubscribe' 
+            ) {
+            $request['cur_uri_pos']+=2;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'unsubscribeRequestProcess');
+            $rc = ciniki_wng_unsubscribeRequestProcess($ciniki, $tnid, $request);
         }
         elseif( $request['uri_split'][0] == 'cpi' ) {
             $request['cur_uri_pos']+=2;

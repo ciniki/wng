@@ -21,17 +21,17 @@ function ciniki_wng_pageUpdate(&$ciniki) {
         'parent_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Parent'),
         'ptype'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Page Type'),
         'sequence'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Order'),
-        'title'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Title'),
-        'page_title'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Page Title'),
-        'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'),
-        'path'=>array('required'=>'no', 'blank'=>'no', 'name'=>'path'),
+        'title'=>array('required'=>'no', 'blank'=>'no', 'trim'=>'yes', 'name'=>'Title'),
+        'page_title'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Page Title'),
+        'permalink'=>array('required'=>'no', 'blank'=>'no', 'trim'=>'yes', 'name'=>'Permalink'),
+        'path'=>array('required'=>'no', 'blank'=>'no', 'trim'=>'yes', 'name'=>'path'),
         'menu_flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Menu Options'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
-        'password'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Password'),
-        'redirect_url'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Redirect URL'),
+        'password'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Password'),
+        'redirect_url'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Redirect URL'),
         'image_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Image'),
         'image_caption'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image Caption'),
-        'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Synopsis'),
+        'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Synopsis'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -48,29 +48,11 @@ function ciniki_wng_pageUpdate(&$ciniki) {
         return $rc;
     }
 
-    if( isset($args['title']) ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-        $args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
-        //
-        // Make sure the permalink is unique
-        //
-        $strsql = "SELECT id, title, permalink "
-            . "FROM ciniki_wng_pages "
-            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
-            . "AND site_id = '" . ciniki_core_dbQuote($ciniki, $args['site_id']) . "' "
-            . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
-            . "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['page_id']) . "' "
-            . "";
-        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'item');
-        if( $rc['stat'] != 'ok' ) {
-            return $rc;
-          }
-        if( $rc['num_rows'] > 0 ) {
-             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.130', 'msg'=>'You already have an page with this title, please choose another.'));
-        }
-    }
-
+    //
+    // Load the current page details
+    //
     $strsql = "SELECT ciniki_wng_pages.id, "
+        . "ciniki_wng_pages.parent_id, "
         . "ciniki_wng_pages.site_id "
         . "FROM ciniki_wng_pages "
         . "WHERE ciniki_wng_pages.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
@@ -84,6 +66,34 @@ function ciniki_wng_pageUpdate(&$ciniki) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.32', 'msg'=>'Unable to find requested page'));
     }
     $page = $rc['page'];
+
+    //
+    // Check if title is changing
+    //
+    if( isset($args['title']) ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+        $args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
+
+        if( !isset($args['parent_id']) ) {
+            $args['parent_id'] = $page['parent_id'];
+        }
+        if( !isset($args['site_id']) ) {
+            $args['site_id'] = $page['site_id'];
+        }
+
+        //
+        // Validate the permalink to make sure it is unique and allowed
+        //
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pagePermalinkValidate');
+        $rc = ciniki_wng_pagePermalinkValidate($ciniki, $args['tnid'], $args);
+        if( $rc['stat'] == 'warn' ) {
+            return $rc;
+        }
+        elseif( $rc['stat'] != 'ok' ) {
+             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.130', 'msg'=>'You already have an page with this title, please choose another.'));
+        }
+    }
+
     
     //
     // Start transaction
