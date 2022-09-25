@@ -154,10 +154,10 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
                 foreach($rc['items'] as $new_id => $new_item) {
                     foreach($items as $iid => $item) {
                         if( $item['title'] == $new_item['title'] ) {
-                            if( $new_item['override'] == 'yes' ) {
+                            if( isset($new_item['override']) && $new_item['override'] == 'yes' ) {
                                 $items[$iid] = $new_item;
                                 unset($rc['items'][$new_id]);
-                            } elseif( $item['override'] == 'yes' ) {
+                            } elseif( isset($item['override']) && $item['override'] == 'yes' ) {
                                 // Existing item has override, ignore new item
                                 unset($rc['items'][$new_id]);
                             }

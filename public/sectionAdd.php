@@ -83,7 +83,7 @@ function ciniki_wng_sectionAdd(&$ciniki) {
     if( isset($section_object['settings']) ) {
         foreach($section_object['settings'] as $key => $setting) {
             if( isset($ciniki['request']['args'][$key]) ) {
-                $settings[$key] = $ciniki['request']['args'][$key];
+                $settings[$key] = trim($ciniki['request']['args'][$key]);
             }
         }
     }
