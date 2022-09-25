@@ -79,11 +79,11 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Check if there was a specific account page requested
     //
-    $return_url = '/account';
+    $return_url = $request['ssl_domain_base_url'] . '/account';
     if( isset($request['uri_split'][($request['cur_uri_pos']+1)]) 
         || (isset($request['query_string']) && $request['query_string'] != '') 
         ) {
-        $return_url = '/' . implode('/', $request['uri_split']);
+        $return_url = $request['ssl_domain_base_url'] . '/' . implode('/', $request['uri_split']);
         if( isset($request['query_string']) && $request['query_string'] != '' ) {
             $return_url .= '?'. $request['query_string'];
         }
