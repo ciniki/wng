@@ -140,6 +140,9 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     $items = array();
     foreach($ciniki['tenant']['modules'] as $module => $m) {
         list($pkg, $mod) = explode('.', $module);
+        if( isset($settings["account-menu-{$pkg}-{$mod}"]) && $settings["account-menu-{$pkg}-{$mod}"] == 'off' ) {
+            continue;
+        }
         $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountMenuItems');
         if( $rc['stat'] == 'ok' ) {
             $fn = $rc['function_call'];

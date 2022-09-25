@@ -252,6 +252,33 @@ function ciniki_wng_site($ciniki) {
     }
 
     //
+    // Check which account menu items are available
+    //
+    if( isset($args['view']) && $args['view'] == 'account' ) {
+        $items = array();
+        $rsp['account-menuitems'] = array();
+        foreach($ciniki['tenant']['modules'] as $module => $m) {
+            list($pkg, $mod) = explode('.', $module);
+            $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountMenuItems');
+            if( $rc['stat'] == 'ok' ) {
+                $name = $pkg . ' ' . $mod;
+                $info_filename = $ciniki['config']['ciniki.core']['root_dir'] . "/{$pkg}-mods/{$mod}/_info.ini";
+                if( file_exists($info_filename) ) {
+                    $info = parse_ini_file($info_filename);
+                    if( isset($info['name']) && $info['name'] != '' ) {
+                        $name = $info['name'];
+                    } 
+                }
+                $rsp['account-menuitems'][] = array(
+                    'pkg' => $pkg,
+                    'mod' => $mod,
+                    'name' => $name,
+                    );
+            }
+        }
+    }
+
+    //
     // Load the theme images
     //
     if( isset($args['view']) && $args['view'] == 'themeimages' ) {

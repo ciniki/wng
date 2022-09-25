@@ -361,6 +361,7 @@ function ciniki_wng_main() {
                 'account-active':{'label':'Customer Logins', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
 //                'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-membership-change':{'label':'Allow Membership Purchases', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-forgot-link-text':{'label':'Forgot Link Text', 'type':'text'},
                 'account-create-account-text':{'label':'Create Account Link Text', 'type':'text'},
                 'account-create-type':{'label':'Create Account Form', 'type':'select', 'options':{
@@ -381,6 +382,10 @@ function ciniki_wng_main() {
                     }},
 //                'account-allowed-attempts':{'label':'Allowed Attempts', 'type':'text'},
 //                'account-lock-hours':{'label':'Lock Hours', 'type':'text'},
+            }},
+        'accountmenu':{'label':'Account Menu Items', 'data':'settings',
+            'active':function() { return (M.ciniki_wng_main.site.view == 'account' ? 'yes' : 'no'); },
+            'fields':{
             }},
         //
         // cart page settings
@@ -623,7 +628,20 @@ function ciniki_wng_main() {
         }
         var p = M.ciniki_wng_main.site;
         p.data = rsp;
-        if( M.emWidth() < 70 ) {
+        p.sections.accountmenu.fields = {};
+        if( rsp['account-menuitems'] != null ) {
+            for(var i in rsp['account-menuitems']) {
+                console.log(rsp['account-menuitems'][i]);
+                p.sections.accountmenu.fields['account-menu-' + rsp['account-menuitems'][i].pkg + '-' + rsp['account-menuitems'][i].mod] = {
+                    'label':rsp['account-menuitems'][i].name,
+                    'type':'toggle',
+                    'default':'auto',
+                    'toggles':{'auto':'Auto', 'off':'Off', 'on':'On'},
+                    };
+            }
+        }
+        console.log(rsp);
+/*        if( M.emWidth() < 70 ) {
             p.size = 'large';
             if( p.view == 'menu' ) {
                 p.view_aside = 'yes';
@@ -632,7 +650,7 @@ function ciniki_wng_main() {
                 p.view_aside = 'no';
                 p.view_content == 'yes';
             }
-        } else {
+        } else { */
             if( p.view == 'menu' ) {
                 p.size = 'xlarge narrowaside';
                 p.view_aside = 'yes';
@@ -642,7 +660,7 @@ function ciniki_wng_main() {
                 p.view_aside = 'yes';
                 p.view_content = 'yes';
             }
-        }
+/*        } */
         p.refresh();
         p.show();
     }

@@ -36,6 +36,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'header-social-icons',
         'account-active',
         'account-password-change',
+        'account-membership-change',
         'account-forgot-link-text',
         'account-create-account-text',
         'account-create-type',
@@ -97,6 +98,11 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
     $ac = ciniki_wng_checkAccess($ciniki, $args['tnid'], 'ciniki.wng.siteSettingsUpdate');
     if( $ac['stat'] != 'ok' ) {
         return $ac;
+    }
+
+    
+    foreach($ciniki['tenant']['modules'] as $module) {
+        $settings_fields[] = 'account-menu-' . $module['package'] . '-' . $module['module'];
     }
 
     //
