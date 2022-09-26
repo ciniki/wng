@@ -164,6 +164,9 @@ p:last-child {
 .alignleft {
     text-align: left;
 }
+.clearright {
+    clear: right;
+}
 .clickable {
     cursor: pointer;
 }
