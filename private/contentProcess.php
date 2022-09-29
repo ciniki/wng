@@ -37,7 +37,7 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     ');
     $processed_content = preg_replace_callback($pattern, $callback, $processed_content);
 
-    $processed_content = preg_replace('/((?<!mailto:|=|[a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,64})(?![a-zA-Z]|<\/[aA]>))/', '<a href="mailto:$1">$1</a>', $processed_content);
+    $processed_content = preg_replace('/((?<!mailto:|=|[a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,64})(?![a-zA-Z]|<\/[aA]>))/', '<a class="link" href="mailto:$1">$1</a>', $processed_content);
 
     // Do the simple processing
     $processed_content = "<p class='$pclass'>" . preg_replace('/\n\s*\n/m', "</p><p class='$pclass'>", $processed_content) . '</p>';
