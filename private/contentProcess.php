@@ -33,7 +33,7 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
         } elseif( isset($matches[2]) && $matches[2] == "www." )  {
             $url = "http://" . $display_url;
         }
-        return sprintf(\'<a onclick="event.stopPropagation();" href="%s" target="_blank">%s</a>\', $url, $display_url);
+        return sprintf(\'<a onclick="event.stopPropagation();" class="link" href="%s" target="_blank">%s</a>\', $url, $display_url);
     ');
     $processed_content = preg_replace_callback($pattern, $callback, $processed_content);
 
