@@ -232,9 +232,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         }
                         $field_description = '';
                         if( isset($field['description']) && $field['description'] != '' ) {
-                            $field_description = "<div class='field-description'>"
-                                . $field['description']
-                                . "</div>";
+                            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['description']);
+                            if( isset($rc['content']) && $rc['content'] != '' ) {
+                                $field_description = "<div class='field-description'>"
+                                    . $rc['content']
+                                    . "</div>";
+                            }
                         }
                        
                         $class = $req;
