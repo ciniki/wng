@@ -105,6 +105,26 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             $display_form = 'login';
         }
 
+        elseif( isset($_POST['email']) && $_POST['email'] == '' 
+            && isset($_POST['password']) && $_POST['password'] == '' 
+            ) {
+            $display_form = 'login';
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error',
+                'content' => 'You must enter your email address and password.'
+                );
+        }
+        elseif( isset($_POST['email']) && trim($_POST['email']) != '' 
+            && isset($_POST['password']) && trim($_POST['password']) == '' 
+            ) {
+            $display_form = 'login';
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error',
+                'content' => 'You must enter your password.'
+                );
+        }
         //
         // Verify the customer and create a session
         //
