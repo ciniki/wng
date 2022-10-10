@@ -68,7 +68,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         . "</form>";
     if( isset($block['forgot']) && $block['forgot'] == 'yes' ) {
         $content .= "<div class='forgot-link'><p>"
-            . "<a class='' href='javscript:void(0);' onclick='swapLoginForm(\"forgotpassword\");return false;'>";
+            . "<a class='link' href='javscript:void(0);' onclick='swapLoginForm(\"forgotpassword\");return false;'>";
         if( isset($block['forgot-link-text']) && $block['forgot-link-text'] != '' ) {
             $content .= $block['forgot-link-text'];
         } else {
@@ -80,7 +80,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         && ($block['create-account'] == 'simple' || $block['create-account'] == 'phone-billing') 
         ) {
         $content .= "<div class='create-link'><p>"
-            . "<a class='' href='javscript:void(0);' onclick='swapCreateForm(\"signup\");return false;'>";
+            . "<a class='link' href='javscript:void(0);' onclick='swapCreateForm(\"signup\");return false;'>";
         if( isset($block['create-account-text']) && $block['create-account-text'] != '' ) {
             $content .= $block['create-account-text'];
         } else {
@@ -120,7 +120,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "</div>\n"
             . "</form>"
             . "<div class='forgot-link'><p>"
-                . "<a class='' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
+                . "<a class='link' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
                 . "Sign In"
                 . "</a></p></div>\n"
             . "</div>\n";
@@ -190,7 +190,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "</div>\n"
             . "</form>"
             . "<div class='create-link'><p>"
-                . "<a class='' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
+                . "<a class='link' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
                 . "Sign In"
                 . "</a></p></div>\n"
             . "</div>\n";
@@ -358,7 +358,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "</div>\n"
             . "</form>"
             . "<div class='create-link'><p>"
-                . "<a class='' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
+                . "<a class='link' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
                 . "Sign In"
                 . "</a></p></div>\n"
             . "</div>\n"
