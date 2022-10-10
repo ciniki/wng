@@ -332,6 +332,10 @@ function ciniki_wng_main() {
         'footersettings':{'label':'Footer Settings', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'footer' ? 'yes' : 'no'); },
             'fields':{
+                'footer-jump-to-top':{'label':'Jump to Top Button', 'type':'toggle', 'default':'no', 'toggles':{
+                    'no':'No',
+                    'yes':'Yes',
+                    }},
                 'footer-copyright-name':{'label':'Copyright Name', 'type':'text'},
                 'footer-copyright-message':{'label':'Copyright Message', 'type':'textarea'},
 //                'footer-social-icons':{'label':'Show Social Icons', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},

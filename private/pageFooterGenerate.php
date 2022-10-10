@@ -61,6 +61,17 @@ function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, &$request) {
     $content .= "<footer id='page-footer'>";
 
     //
+    // Check for jump to top button
+    //
+    if( isset($s['footer-jump-to-top']) && $s['footer-jump-to-top'] == 'yes' ) {
+        $content .= "<div id='jumptotop' class='jumptotop hidden' onclick='window.scrollTo(0,0);'><div class='jump-button'>"
+            . '<svg viewBox="0 0 80 80" stroke="#fff" fill="none">'
+                . '<polyline stroke-width="5" stroke-linecap="round" stroke-linejoin="round" points="10,50 40,20 70,50"/>'
+            . '</svg>'
+            . "</div></div>";
+    }
+
+    //
     // Generate the blocks
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');

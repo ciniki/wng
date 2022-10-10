@@ -103,6 +103,20 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             . $request['response']['js'] 
             . "</script>";
     }
+    //
+    // Check for jump to top button
+    //
+    if( isset($request['site']['settings']['footer-jump-to-top']) && $request['site']['settings']['footer-jump-to-top'] == 'yes' ) {
+        $content .= "<script type='text/javascript'>" 
+            . 'document.addEventListener("scroll", () => {'
+                . 'if(C.sC().scrollTop>100){'
+                    . 'C.rC(C.gE("jumptotop"),"hidden");'
+                . '}else{'
+                    . 'C.aC(C.gE("jumptotop"),"hidden");'
+                . '}'
+            . '});'
+            . "</script>";
+    }
 
     //
     // Check head links

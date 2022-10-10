@@ -324,6 +324,24 @@ p:last-child {
     clear: both;
 }
 
+#page-footer .jumptotop {
+    position: fixed;
+    width: 4rem;
+    height: 4rem;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    background: #ddd;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #000;
+    border: 0px;
+    border-radius: 50%;
+}
+#page-footer .jumptotop .jump-button {
+    width: 2rem;
+    height: 2rem;
+}
+
 #page-footer .x-info {
     display: none;
 }

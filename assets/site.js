@@ -131,6 +131,9 @@ C.clr=function(i){
     }
     return e;
 };
+C.sC=function(){
+    return document.documentElement || document.body;
+};
 // Create a new element
 C.aE=function(t,i,c,h,f){
     var e=document.createElement(t);

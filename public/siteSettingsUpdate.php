@@ -84,6 +84,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'social-youtube-url',
         'social-vimeo-url',
         // Footer items
+        'footer-jump-to-top',
         'footer-copyright-name',
         'footer-copyright-message',
         'footer-social-icons',

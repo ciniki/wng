@@ -300,43 +300,45 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             }
         }
 
-        if( ciniki_core_checkModuleActive($ciniki, 'ciniki.customers')
-            && isset($s['account-buttons']) && $s['account-buttons'] == 'yes' 
-            ) {
-            //
-            // Check if cart enabled
-            //
-            if( isset($request['site']['settings']['cart-active']) && $request['site']['settings']['cart-active'] == 'yes' ) {
-                $num_items = '';
-                if( isset($request['session']['cart']['num_items']) && $request['session']['cart']['num_items'] > 0 ) {
-                    $num_items = ' (' . $request['session']['cart']['num_items'] . ')';
+        if( !isset($s['account-toggle-hide']) || $s['account-toggle-hide'] != 'no' ) {
+            if( ciniki_core_checkModuleActive($ciniki, 'ciniki.customers')
+                && isset($s['account-buttons']) && $s['account-buttons'] == 'yes' 
+                ) {
+                //
+                // Check if cart enabled
+                //
+                if( isset($request['site']['settings']['cart-active']) && $request['site']['settings']['cart-active'] == 'yes' ) {
+                    $num_items = '';
+                    if( isset($request['session']['cart']['num_items']) && $request['session']['cart']['num_items'] > 0 ) {
+                        $num_items = ' (' . $request['session']['cart']['num_items'] . ')';
+                    }
+                    $hamburgermenu[] = array(
+                        'title' => (isset($s['cart-label']) && $s['cart-label'] != '' ? $s['cart-label'] : 'Cart') . $num_items,
+                        'selected' => (isset($request['uri_split'][0]) && $request['uri_split'][0] == 'cart' ? 'yes' : 'no'),
+                        'url' => $request['ssl_domain_base_url'] . '/cart',
+                        );
                 }
-                $hamburgermenu[] = array(
-                    'title' => (isset($s['cart-label']) && $s['cart-label'] != '' ? $s['cart-label'] : 'Cart') . $num_items,
-                    'selected' => (isset($request['uri_split'][0]) && $request['uri_split'][0] == 'cart' ? 'yes' : 'no'),
-                    'url' => $request['ssl_domain_base_url'] . '/cart',
-                    );
-            }
-            //
-            // Check if customer logged in
-            //
-            if( isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0 ) {
-                $hamburgermenu[] = array(
-                    'title' => (isset($s['account-label']) && $s['account-label'] != '' ? $s['account-label'] : 'Account'),
-                    'selected' => (isset($request['uri_split'][0]) && $request['uri_split'][0] == 'account' ? 'yes' : 'no'),
-                    'url' => $request['ssl_domain_base_url'] . '/account',
-                    );
-                $hamburgermenu[] = array(
-                    'title' => (isset($s['logout-label']) && $s['logout-label'] != '' ? $s['logout-label'] : 'Logout'),
-                    'selected' => 'no',
-                    'url' => $request['ssl_domain_base_url'] . '/account/logout',
-                    );
-            } else {
-                $hamburgermenu[] = array(
-                    'title' => (isset($s['signin-label']) && $s['signin-label'] != '' ? $s['signin-label'] : 'Sign In'),
-                    'selected' => 'no',
-                    'url' => $request['ssl_domain_base_url'] . '/account',
-                    );
+                //
+                // Check if customer logged in
+                //
+                if( isset($request['session']['customer']['id']) && $request['session']['customer']['id'] > 0 ) {
+                    $hamburgermenu[] = array(
+                        'title' => (isset($s['account-label']) && $s['account-label'] != '' ? $s['account-label'] : 'Account'),
+                        'selected' => (isset($request['uri_split'][0]) && $request['uri_split'][0] == 'account' ? 'yes' : 'no'),
+                        'url' => $request['ssl_domain_base_url'] . '/account',
+                        );
+                    $hamburgermenu[] = array(
+                        'title' => (isset($s['logout-label']) && $s['logout-label'] != '' ? $s['logout-label'] : 'Logout'),
+                        'selected' => 'no',
+                        'url' => $request['ssl_domain_base_url'] . '/account/logout',
+                        );
+                } else {
+                    $hamburgermenu[] = array(
+                        'title' => (isset($s['signin-label']) && $s['signin-label'] != '' ? $s['signin-label'] : 'Sign In'),
+                        'selected' => 'no',
+                        'url' => $request['ssl_domain_base_url'] . '/account',
+                        );
+                }
             }
         }
     }

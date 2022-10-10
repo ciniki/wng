@@ -2457,43 +2457,45 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             if( $display_cart == 'review' ) {
                 $content .= "<span class='submit'>"
                     . "<input class='button submit' type='submit' name='continue' value='Cancel'/></span>";
-                if( $stripe_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+                if( ($stripe_checkout == 'yes' || $etransfer_checkout == 'yes') && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                 }
-                elseif( $etransfer_checkout == 'yes' ) {
-                    $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send E-Transfer</button>";
-                }
-                elseif( $stripe_checkout == 'yes' ) {
-                    if( !isset($request['response']['head']['scripts']) ) {
-                        $request['response']['head']['scripts'] = array();
+                elseif( $etransfer_checkout == 'yes' || $stripe_checkout == 'yes' ) {
+                    if( $etransfer_checkout == 'yes' ) {
+                        $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send E-Transfer</button>";
                     }
-                    $request['response']['head']['scripts'][] = array(
-                        'src'=>'https://checkout.stripe.com/checkout.js', 
-                        'type'=>'text/javascript',
-                        ); 
-                    $js .= "var stripeCheckout = StripeCheckout.configure({"
-                            . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
-                            . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
-                            . 'locale: "auto", '
-                            . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
-                            . 'description: "", '
-                            . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
-                            . 'zipCode: true, '
-                            . 'allowRememberMe: false, '
-                            . 'currency: "' . $intl_currency . '", '
-                            . 'token: function(token) {'
-                                . 'document.getElementById("stripe-token").value=token.id;'
-                                . 'document.getElementById("stripe-email").value=token.email;'
-                                . 'document.getElementById("cart").submit();'
-                            . '},'
-                            . 'opened: function() {'
-                            . '},'
-                            . 'closed: function(e) {'
-                            . '},'
-                            . '});';
-                    $content .= "<input id='stripe-token' type='hidden' name='stripe-token' value=''/>";
-                    $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
-                    $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
+                    if( $stripe_checkout == 'yes' ) {
+                        if( !isset($request['response']['head']['scripts']) ) {
+                            $request['response']['head']['scripts'] = array();
+                        }
+                        $request['response']['head']['scripts'][] = array(
+                            'src'=>'https://checkout.stripe.com/checkout.js', 
+                            'type'=>'text/javascript',
+                            ); 
+                        $js .= "var stripeCheckout = StripeCheckout.configure({"
+                                . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
+                                . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
+                                . 'locale: "auto", '
+                                . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
+                                . 'description: "", '
+                                . 'amount: ' . number_format($cart['total_amount'] * 100, 0, '', '') . ', '
+                                . 'zipCode: true, '
+                                . 'allowRememberMe: false, '
+                                . 'currency: "' . $intl_currency . '", '
+                                . 'token: function(token) {'
+                                    . 'document.getElementById("stripe-token").value=token.id;'
+                                    . 'document.getElementById("stripe-email").value=token.email;'
+                                    . 'document.getElementById("cart").submit();'
+                                . '},'
+                                . 'opened: function() {'
+                                . '},'
+                                . 'closed: function(e) {'
+                                . '},'
+                                . '});';
+                        $content .= "<input id='stripe-token' type='hidden' name='stripe-token' value=''/>";
+                        $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
+                        $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
+                    }
                 }
                 if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
