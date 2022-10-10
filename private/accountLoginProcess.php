@@ -157,7 +157,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     'type' => 'msg', 
                     'level' => 'error', 
                     'content' => "Unable to authenticate, please try again or "
-                        . "click Forgot your password to get a new one",
+                        . "click Forgot password to get a new one.",
                     );
                 $display_form = 'login'; 
             } else {

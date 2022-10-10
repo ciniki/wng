@@ -13,6 +13,9 @@
 .block-msg.error .content p {
     background: #fbbbbb;
 }
+.block-msg.neutral .content p {
+    background: #e0e0e0;
+}
 @media screen and (min-width: 40em) {
     .block-msg .content,
     .block-msg.success .content,

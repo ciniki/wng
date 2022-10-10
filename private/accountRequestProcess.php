@@ -257,9 +257,23 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
     // Display default account page
     //
     else {
+//        $blocks[] = array(
+//            'type' => 'text',
+//            'class' => 'limit-width limit-width-40',
+//            'content' => "<br/>Choose from the menu above to update your account.<br/><br/><br/>",
+//            );
+        
+        $msg = '';
+        if( isset($request['session']['customer']['first']) && $request['session']['customer']['first'] != '' ) {
+            $msg .= 'Hi ' . $request['session']['customer']['first'] . ', <br/><br/>';
+        }
+        $msg .= "Choose from the menu above to update your account.";
+
         $blocks[] = array(
-            'type' => 'content',
-            'content' => "</br><center>Choose from the menu above to update your account.</center><br/><br/><br/>",
+            'type' => 'msg',
+            'level' => 'neutral',
+            'class' => 'limit-width limit-width-40',
+            'content' => $msg,
             );
 
     }
