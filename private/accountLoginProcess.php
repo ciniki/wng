@@ -105,8 +105,8 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             $display_form = 'login';
         }
 
-        elseif( isset($_POST['email']) && $_POST['email'] == '' 
-            && isset($_POST['password']) && $_POST['password'] == '' 
+        elseif( isset($_POST['email']) && trim($_POST['email']) == '' 
+            && isset($_POST['password']) && trim($_POST['password']) == '' 
             ) {
             $display_form = 'login';
             $blocks[] = array(
@@ -128,11 +128,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         //
         // Verify the customer and create a session
         //
-        elseif( isset($_POST['email']) && $_POST['email'] != '' 
-            && isset($_POST['password']) && $_POST['password'] != '' 
+        elseif( isset($_POST['email']) && trim($_POST['email']) != '' 
+            && isset($_POST['password']) && trim($_POST['password']) != '' 
             ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], sha1($_POST['password']));
+            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, trim($_POST['email']), sha1(trim($_POST['password'])));
             if( $rc['stat'] == 'locked' ) {
                 if( isset($settings['account-lock-hours']) && $settings['account-lock-hours'] > 0 ) { 
                     $blocks[] = array(
@@ -356,10 +356,10 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             $url = $request['ssl_domain_base_url'] . '/account/signup';
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
             $rc = ciniki_customers_wng_signupRequestProcess($ciniki, $tnid, $request, array(    
-                'first' => $_POST['first'],
-                'last' => $_POST['last'],
-                'email' => $_POST['signupemail'],
-                'password' => $_POST['signuppassword'],
+                'first' => trim($_POST['first']),
+                'last' => trim($_POST['last']),
+                'email' => trim($_POST['signupemail']),
+                'password' => trim($_POST['signuppassword']),
                 'details' => $details,
                 'return-url' => isset($args['return-url']) ? $args['return-url'] : '',
                 'url' => $url,
