@@ -132,6 +132,9 @@
     display: block;
     border-bottom: 1px solid #aaa;
 }
+.block-imagemenu .hamburger-menu nav > ul li.hidden {
+    display: none;
+}
 .block-imagemenu .main-menu nav > ul > li ul,
 .block-imagemenu .hamburger-menu nav > ul > li ul {
     display: none;
