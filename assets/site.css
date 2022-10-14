@@ -293,7 +293,10 @@ p:last-child {
     max-width: 60em;
 }
 .limit-width-70 {
-    max-width: 60em;
+    max-width: 70em;
+}
+.limit-width-80 {
+    max-width: 80em;
 }
 .limit-width.center {
     margin: 0 auto;

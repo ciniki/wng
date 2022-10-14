@@ -47,20 +47,20 @@
 @media screen and (max-width: 40em) {
     .block-table.fold-at-40 table, 
     .block-table.fold-at-40 tbody, 
-    .block-table.fold-at-40 tr, 
-    .block-table.fold-at-40 td {
+    .block-table.fold-at-40 tbody tr, 
+    .block-table.fold-at-40 tbody td {
         display: block;
     }
-    .block-table.fold-at-40 tr {
+    .block-table.fold-at-40 tbody tr {
         margin-bottom: 1rem;
     }
-    .block-table.fold-at-40 tr td:first-child {
+    .block-table.fold-at-40 tbody tr td:first-child {
         font-weight: bold;
     }
     .block-table.fold-at-40 table {
         border: 0px;
     }
-    .block-table .fold-label {
+    .block-table.fold-at-40 .fold-label {
         display: inline-block;
     }
     .block-table.fold-at-40 tr {
@@ -72,21 +72,34 @@
     .block-table.fold-at-40 td.empty {
         display: none;
     }
+    .block-table.fold-at-40 tfoot {
+        display: table;
+        width: 100%;
+    }
+    .block-table.fold-at-40 .fold-alignleft {
+        text-align: left;
+    }
+    .block-table.fold-at-40 .fold-hidden {
+        display: none;    
+    }
 }
 @media screen and (max-width: 50em) {
     .block-table.fold-at-50 table, 
     .block-table.fold-at-50 tbody, 
-    .block-table.fold-at-50 tr, 
-    .block-table.fold-at-50 td {
+    .block-table.fold-at-50 tbody tr, 
+    .block-table.fold-at-50 tbody td {
         display: block;
     }
-    .block-table.fold-at-50 tr td:first-child {
+    .block-table.fold-at-50 tbody tr {
+        margin-bottom: 1rem;
+    }
+    .block-table.fold-at-50 tbody tr td:first-child {
         font-weight: bold;
     }
     .block-table.fold-at-50 table {
         border: 0px;
     }
-    .block-table .fold-label {
+    .block-table.fold-at-50 .fold-label {
         display: inline-block;
     }
     .block-table.fold-at-50 tr {
@@ -97,5 +110,15 @@
     .block-table.fold-at-50 thead,
     .block-table.fold-at-50 td.empty {
         display: none;
+    }
+    .block-table.fold-at-50 tfoot {
+        display: table;
+        width: 100%;
+    }
+    .block-table.fold-at-50 .fold-alignleft {
+        text-align: left;
+    }
+    .block-table.fold-at-50 .fold-hidden {
+        display: none;    
     }
 }
