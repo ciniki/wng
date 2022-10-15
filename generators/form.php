@@ -819,7 +819,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                     . ">";
                 if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
-                    $fields_html .= "<option value=''></option>";
+                    if( isset($field['blank-label']) ) {
+                        $fields_html .= "<option value=''>{$field['blank-label']}</option>";
+                    } else {
+                        $fields_html .= "<option value=''></option>";
+                    }
                 }
                 if( isset($field['options']) && is_array($field['options']) ) {
                     foreach($field['options'] as $id => $option) {
