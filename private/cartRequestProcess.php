@@ -2462,7 +2462,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
                 elseif( $etransfer_checkout == 'yes' || $stripe_checkout == 'yes' ) {
                     if( $etransfer_checkout == 'yes' ) {
-                        $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send E-Transfer</button>";
+                        $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send e-transfer</button>";
                     }
                     if( $stripe_checkout == 'yes' ) {
                         if( !isset($request['response']['head']['scripts']) ) {
