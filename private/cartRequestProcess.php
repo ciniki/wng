@@ -1973,7 +1973,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 . "</tr></thead>";
             $content .= "<tbody>";
             $count=0;
+            $update_button = 'no';
             foreach($cart['items'] as $item_id => $item) {
+                if( ($item['item']['flags']&0x08) == 0 ) {
+                    $update_button = 'yes';
+                }
                 if( $display_cart == 'regreview' && ($item['item']['flags']&0x20) != 0x20 ) {
                     continue;
                 }
@@ -2334,6 +2338,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         . "</textarea>"
                         . "";
                     $content .= "</div>";
+                    $update_button = 'yes';
                 } elseif( isset($cart['customer_notes']) && $cart['customer_notes'] != '' ) {
                     $content .= "<div class='customer-notes'>";
                     $content .= "<label for='customer_notes'>Notes</label>"
@@ -2424,9 +2429,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         . "<input class='button submit' type='submit' name='continue' value='Back'/>"
                         . "</span>";
                 }
-                $content .= "<span class='submit'>"
-                    . "<input class='button submit' type='submit' name='update' value='Update'/>"
-                    . "</span>";
+                if( $update_button == 'yes' ) {
+                    $content .= "<span class='submit'>"
+                        . "<input class='button submit' type='submit' name='update' value='Update'/>"
+                        . "</span>";
+                }
                 if( isset($settings['cart-account-create-button']) && $settings['cart-account-create-button'] == 'yes' 
                     && (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] == 0)
                     ) {
