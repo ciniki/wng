@@ -635,7 +635,6 @@ function ciniki_wng_main() {
         p.sections.accountmenu.fields = {};
         if( rsp['account-menuitems'] != null ) {
             for(var i in rsp['account-menuitems']) {
-                console.log(rsp['account-menuitems'][i]);
                 p.sections.accountmenu.fields['account-menu-' + rsp['account-menuitems'][i].pkg + '-' + rsp['account-menuitems'][i].mod] = {
                     'label':rsp['account-menuitems'][i].name,
                     'type':'toggle',
@@ -644,7 +643,6 @@ function ciniki_wng_main() {
                     };
             }
         }
-        console.log(rsp);
 /*        if( M.emWidth() < 70 ) {
             p.size = 'large';
             if( p.view == 'menu' ) {
