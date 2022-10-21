@@ -680,6 +680,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . "</div>";
             }
            
+            $editable = 'yes';
+            if( isset($field['editable']) && $field['editable'] == 'no' ) {
+                $editable = 'no';
+            }
+
             $class = $req;
             if( $field['ftype'] == 'checkbox' 
                 && isset($field['prev_fid']) 
@@ -710,6 +715,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             } 
             elseif( $field['ftype'] == 'email' ) {
@@ -718,6 +724,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'url' ) {
@@ -726,6 +733,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'number' ) {
@@ -733,6 +741,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'price' ) {
@@ -741,6 +750,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . " maxlength='50'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'phone' ) {
@@ -749,6 +759,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . " maxlength='25'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'date' ) {
@@ -756,6 +767,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='date' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'url' ) {
@@ -764,6 +776,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='url' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
                     . " maxlength='500'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'address' ) {
@@ -772,26 +785,31 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1' id='f-{$field['id']}-address1'"
                     . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
                     . " maxlength='100'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
                 $fields_html .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2' id='f-{$field['id']}-address2'"
                     . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
                     . " maxlength='100'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
                 $fields_html .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' id='f-{$field['id']}-city'"
                     . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
                     . " maxlength='100'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province' id='f-{$field['id']}-province'"
                     . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
                     . " maxlength='100'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal' id='f-{$field['id']}-postal'"
                     . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
                     . " maxlength='10'"
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
             }
             elseif( $field['ftype'] == 'textarea' ) {
@@ -803,6 +821,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
                     . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">"
                     . (isset($field['value']) ? $field['value'] : '')
                     . "</textarea>";
@@ -869,6 +888,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         $value = $field["option-{$i}"];
                         $fields_html .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$i}' value='{$value}'"
                             . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
+                            . ($editable == 'no' ? " readonly" : '')
                             . ">"
                             . "<label for='f-{$field['id']}-{$i}'>{$value}</label>"
                             . "";
@@ -878,6 +898,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             elseif( $field['ftype'] == 'checkbox' ) {
                 $fields_html .= "<input type='checkbox' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
+                    . ($editable == 'no' ? " readonly" : '')
                     . ">";
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>{$field['label']}</label>";
                 $fields_html .= "</input>";
@@ -969,7 +990,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $content .= "<a class='button' href='javascript:{$block['js-submit']}'>"
                     . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
                     . "</a>";
-            } else {
+            } elseif( !isset($block['submit-hide']) || $block['submit-hide'] != 'yes' ) {
                 $content .= "<input type='submit' name='submit' class='button' value='"
                     . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
                     . "' >";
