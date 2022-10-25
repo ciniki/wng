@@ -2481,7 +2481,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                             ); 
                         $js .= "var stripeCheckout = StripeCheckout.configure({"
                                 . 'key: "' . $request['site']['settings']['stripe-pk'] . '", '
-                                . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
+//                                . 'image: "' . $request['site']['cache_url'] . '/theme/stripe_checkout.jpg", '
                                 . 'locale: "auto", '
                                 . 'name: "' . $request['site']['settings']['header-site-title'] . '", '
                                 . 'description: "", '
