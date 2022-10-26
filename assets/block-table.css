@@ -20,6 +20,7 @@
 .block-table th,
 .block-table td {
     padding: 0.5em;
+    vertical-align: middle;
 }
 .block-table td.alignright {
     text-align: right;

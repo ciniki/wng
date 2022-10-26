@@ -213,6 +213,15 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         }
     }
 
+    
+    //
+    // Check if Cancel button pressed during checkout
+    //
+    elseif( isset($_POST['continue']) && $_POST['continue'] == 'Cancel' ) {
+        header("Location: " . $request['ssl_domain_base_url'] . "/cart");
+        return array('stat'=>'exit');
+    }
+
     //
     // Check if new password from password reset was submitted
     //

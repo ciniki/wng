@@ -168,6 +168,13 @@
 .block-form .field textarea {
     width: 100%;
 }
+.block-form .field .textarea-readonly {
+    white-space: pre-wrap;
+    padding: 1rem;
+    border: 1px solid #777;
+    background: #fff;
+    color: #000;
+}
 .block-form .field .word-count {
     text-align: right;
     padding: 0rem 0.5rem;
@@ -227,6 +234,12 @@
 .block-form .field-checkbox label {
     display: inline;
     width: auto;
+}
+.block-form .field-radio .option-wrap { 
+    display: inline;
+}
+.block-form .field-radio.block-options .option-wrap {   
+    display: block;
 }
 .block-form .field-radio input {
     margin: 0 0.25rem 0 1rem;

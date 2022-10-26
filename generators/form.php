@@ -444,12 +444,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             for($j = 0;$j < 20;$j++) {
                                 if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
                                     $value = $field["option-{$j}"];
+                                    $sections .= "<div class='option-wrap'>";
                                     $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$j}' value='{$value}'"
                                         . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
                                         . ($editable == 'no' ? " readonly" : '')
                                         . ">"
                                         . "<label for='f-{$field['id']}-{$j}'>{$value}</label>"
                                         . "";
+                                    $sections .= "</div>";
                                 }
                             }
                         }
@@ -819,12 +821,18 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( isset($field['max-words']) && $field['max-words'] > 0 ) {
                     $maxwords = $field['max-words'];
                 }
-                $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
-                    . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
-                    . ($editable == 'no' ? " readonly" : '')
-                    . ">"
-                    . (isset($field['value']) ? $field['value'] : '')
-                    . "</textarea>";
+                if( $editable == 'no' ) {
+                    $fields_html .= "<div id='f-{$field['id']}' class='textarea-readonly'>"
+                        . (isset($field['value']) ? $field['value'] : '')
+                        . "</div>";
+                } else {
+                    $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
+                        . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
+                        . ($editable == 'no' ? " readonly" : '')
+                        . ">"
+                        . (isset($field['value']) ? $field['value'] : '')
+                        . "</textarea>";
+                }
                 if( $maxwords > 0 ) {
                     $fields_html .= "<div id='wc-{$field['id']}' class='word-count'>"
                         . (isset($field['value']) ? str_word_count($field['value']) : 0) . " words"
@@ -886,12 +894,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 for($i = 0;$i < 20;$i++) {
                     if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
                         $value = $field["option-{$i}"];
+                        $fields_html .= "<div class='option-wrap'>";
                         $fields_html .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$i}' value='{$value}'"
                             . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
                             . ($editable == 'no' ? " readonly" : '')
                             . ">"
                             . "<label for='f-{$field['id']}-{$i}'>{$value}</label>"
                             . "";
+                        $fields_html .= "</div>";
                     }
                 }
             }
