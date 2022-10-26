@@ -9,6 +9,9 @@
     padding-top: 1.5rem;
     padding-bottom: 0.5rem;
 }
+.block-form .guidelines p {
+    padding-bottom: 1rem;
+}
 .block-form.simple form {
     width: 100%;
     border: 1px solid #aaa;
