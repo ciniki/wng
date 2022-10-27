@@ -938,6 +938,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             elseif( $field['ftype'] == 'document' ) {
                 // FIXME: Add document support
             }
+            elseif( $field['ftype'] == 'button' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<a class='button' id='f-{$field['id']}' "
+                    . "href='{$field['href']}'>" 
+                    . $field['value'] 
+                    . "</a>";
+            } 
             elseif( $field['ftype'] == 'payment' && isset($field['amount']) ) {
                 $fields_html .= "<div class='form-payment'>";
                 if( isset($field['label']) && $field['label'] != '' ) {

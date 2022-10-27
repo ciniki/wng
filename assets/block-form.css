@@ -30,6 +30,12 @@
     margin-top: 1rem;
     padding-bottom: 0.75rem;
 }
+.block-form.simple .field-button:not(.hidden) {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    text-align: center;
+}
 .block-form.simple .submit-buttons {
     text-align: right;
     display: flex;
@@ -423,8 +429,10 @@
     }
 }
 /* Form Field Sizing */
+.block-form.simple .field-newline,
 .block-form .newline {
     width: 100%;
+    padding: 0;
 }
 .block-form.sectioned .size-tiny,
 .block-form.sectioned .size-small,
