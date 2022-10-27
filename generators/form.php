@@ -266,7 +266,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -275,7 +275,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -284,7 +284,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -293,7 +293,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
@@ -301,7 +301,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . " maxlength='50'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -310,7 +310,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . " maxlength='25'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -319,7 +319,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='date' name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
@@ -329,16 +329,16 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1'"
                                 . " id='f-{$field['id']}-address1'"
-                                . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
+                                . ' value="' . (isset($field['value']['address1']) ? htmlspecialchars($field['value']['address1']) : '') . '"'
                                 . " maxlength='100'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                             $sections .= "</div>";
                             $sections .= "<div class='size-medium'>";
-                            $sections .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
+                            $sections .= "<label for='f-{$field['id']}-address2'>Address Line 2</label>";
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2'"
                                 . " id='f-{$field['id']}-address2'"
-                                . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
+                                . ' value="' . (isset($field['value']['address2']) ? htmlspecialchars($field['value']['address2']) : '') . '"'
                                 . " maxlength='100'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
@@ -347,7 +347,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' "
                                 . " id='f-{$field['id']}-city'"
-                                . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
+                                . ' value="' . (isset($field['value']['city']) ? htmlspecialchars($field['value']['city']) : '') . '"'
                                 . " maxlength='100'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
@@ -356,7 +356,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province'"
                                 . " id='f-{$field['id']}-province'"
-                                . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
+                                . ' value="' . (isset($field['value']['province']) ? htmlspecialchars($field['value']['province']) : '') . '"'
                                 . " maxlength='100'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
@@ -365,7 +365,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal'"
                                 . " id='f-{$field['id']}-postal'"
-                                . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
+                                . ' value="' . (isset($field['value']['postal']) ? htmlspecialchars($field['value']['postal']) : '') . '"'
                                 . " maxlength='10'"
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">"; 
@@ -382,7 +382,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">"
-                                . (isset($field['value']) ? $field['value'] : '')
+                                . (isset($field['value']) ? htmlspecialchars($field['value']) : '')
                                 . "</textarea>";
                             if( $maxwords > 0 ) {
                                 $sections .= "<div id='wc-{$field['id']}' class='word-count'>"
@@ -715,7 +715,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -724,7 +724,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -733,7 +733,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -742,7 +742,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
@@ -750,7 +750,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . " maxlength='50'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -759,7 +759,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . " maxlength='25'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -768,7 +768,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='date' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
@@ -776,7 +776,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='url' name='f-{$field['id']}' id='f-{$field['id']}'"
-                    . " value='" . (isset($field['value']) ? $field['value'] : '') . "'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . " maxlength='500'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -785,31 +785,31 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address 1</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1' id='f-{$field['id']}-address1'"
-                    . " value='" . (isset($field['value']['address1']) ? $field['value']['address1'] : '') . "'"
+                    . ' value="' . (isset($field['value']['address1']) ? htmlspecialchars($field['value']['address1']) : '') . '"'
                     . " maxlength='100'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
-                $fields_html .= "<label for='f-{$field['id']}-address1'>Address Line 2</label>";
+                $fields_html .= "<label for='f-{$field['id']}-address2'>Address Line 2</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2' id='f-{$field['id']}-address2'"
-                    . " value='" . (isset($field['value']['address2']) ? $field['value']['address2'] : '') . "'"
+                    . ' value="' . (isset($field['value']['address2']) ? htmlspecialchars($field['value']['address2']) : '') . '"'
                     . " maxlength='100'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
                 $fields_html .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' id='f-{$field['id']}-city'"
-                    . " value='" . (isset($field['value']['city']) ? $field['value']['city'] : '') . "'"
+                    . ' value="' . (isset($field['value']['city']) ? htmlspecialchars($field['value']['city']) : '') . '"'
                     . " maxlength='100'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province' id='f-{$field['id']}-province'"
-                    . " value='" . (isset($field['value']['province']) ? $field['value']['province'] : '') . "'"
+                    . ' value="' . (isset($field['value']['province']) ? htmlspecialchars($field['value']['province']) : '') . '"'
                     . " maxlength='100'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal' id='f-{$field['id']}-postal'"
-                    . " value='" . (isset($field['value']['postal']) ? $field['value']['postal'] : '') . "'"
+                    . ' value="' . (isset($field['value']['postal']) ? htmlspecialchars($field['value']['postal']) : '') . '"'
                     . " maxlength='10'"
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
@@ -830,7 +830,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
                         . ($editable == 'no' ? " readonly" : '')
                         . ">"
-                        . (isset($field['value']) ? $field['value'] : '')
+                        . (isset($field['value']) ? htmlspecialchars($field['value']) : '')
                         . "</textarea>";
                 }
                 if( $maxwords > 0 ) {
