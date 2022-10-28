@@ -1116,6 +1116,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_success = 'yes';
             $display_cart = 'etransfer_success';
             $cart = NULL;
+            $request['session']['cart'] = array(
+                'id' => 0,
+                'sapos_id' => 0,
+                'num_items' => 0,
+                );
         }
     }
 
@@ -1148,8 +1153,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_success = 'yes';
             $display_cart = 'checkout_success';
             $cart = NULL;
-            $request['session']['cart']['sapos_id'] = 0;
-            $request['session']['cart']['num_items'] = 0;
+            $request['session']['cart'] = array(
+                'id' => 0,
+                'sapos_id' => 0,
+                'num_items' => 0,
+                );
         }
     }
 
@@ -1198,8 +1206,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $display_success = 'yes';
                 $display_cart = 'checkout_success';
                 $cart = NULL;
-                $request['session']['cart']['sapos_id'] = 0;
-                $request['session']['cart']['num_items'] = 0;
+                $request['session']['cart'] = array(
+                    'id' => 0,
+                    'sapos_id' => 0,
+                    'num_items' => 0,
+                    );
             }
         }
     }
