@@ -21,6 +21,11 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     $processed_content = $unprocessed_content;
 
     //
+    // Check for numbered lists
+    //
+    $processed_content = preg_replace("/^([0-9]+\.\s*)/m", "<span class='nlist'>$1</span>", $processed_content);
+
+    //
     //  Similar code to mail/private/emailProcessContent
     //
     $pattern = '#\b(((?<!(=(\"|\')|.>))https?://?|(?<!(//|.>))www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
