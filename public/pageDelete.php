@@ -68,7 +68,7 @@ function ciniki_wng_pageDelete(&$ciniki) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.27', 'msg'=>'Unable to load get the number of items', 'err'=>$rc['err']));
     }
     if( $rc['num'] > 0 ) {
-        return array('stat'=>'warning', 'err'=>array('code'=>'ciniki.wng.28', 'msg'=>'Remove child pages first.', 'err'=>$rc['err']));
+        return array('stat'=>'warning', 'err'=>array('code'=>'ciniki.wng.28', 'msg'=>'Remove child pages first.'));
     }
 
     //
