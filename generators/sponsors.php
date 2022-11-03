@@ -29,7 +29,7 @@ function ciniki_wng_generators_sponsors(&$ciniki, $tnid, $request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.171', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
                 }
-                $content .= "<a href='" . $rc['url'] . "'>";
+                $content .= "<a target='_blank' href='" . $rc['url'] . "'>";
             }
             $content .= "<div class='item-wrap'>";
             
