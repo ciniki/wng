@@ -101,6 +101,12 @@ function ciniki_wng_main() {
                     }
                     return 'no';
                 },
+            'editFn':function(s, i, d) {
+                if( (M.userPerms&0x01) == 0x01 ) {
+                    return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+                }
+                return '';
+            },
             },
         'options':{'label':'Settings', 'type':'simplelist', 'aside':'yes',
             'visible':function() { return (M.ciniki_wng_main.site.view_aside == 'yes' && M.ciniki_wng_main.site.sections._tabs.selected == 'settings' ? 'yes' : 'no'); },
