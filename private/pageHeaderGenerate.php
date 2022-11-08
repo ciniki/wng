@@ -70,7 +70,10 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
         ) {
         $title .= $request['site']['settings']['header-site-title'];
     }
-    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
+    if( isset($request['page']['seo_title']) && $request['page']['seo_title'] != '' ) {
+        $title .= " - " . $request['page']['seo_title'];
+    }
+    elseif( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
         $title .= " - " . $request['page']['page_title'];
     }
     elseif( isset($request['page']['title']) && $request['page']['title'] != '' ) {
@@ -78,6 +81,10 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     $content .= '<title>' . $title . '</title>';
+    if( isset($request['page']['seo_desc']) && $request['page']['seo_desc'] != '' ) {
+        $content .= '<meta name="description" content="' . str_replace('"', '&quot;', $request['page']['seo_desc']) . '"/>';
+    }
+
     $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";
 
     //
