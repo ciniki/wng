@@ -12,6 +12,7 @@
 function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
 
     $content = '';
 
@@ -184,7 +185,6 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         // Check for any buttons
         //
         $buttons = '';
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
         for($i = 1; $i < 10; $i++) {
             if( (!isset($block["button-{$i}-page"]) || $block["button-{$i}-page"] != '')
                 && isset($block["button-{$i}-text"]) && $block["button-{$i}-text"] != '' 

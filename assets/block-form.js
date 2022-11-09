@@ -48,10 +48,15 @@ C.form = {
         if( this.ssu != null && this.ssu != '' ) {
             /* Check if the section is repeatable */
             var e = C.gE('b-' + this.cs);
-            if( e.classList.contains('repeatable') ) {
-                var d = C.gE('s-' + this.cs + '-' + this.cr);
-            } else {
-                var d = C.gE('s-' + this.cs);
+            if( e != null ) {
+                if( e.classList.contains('repeatable') ) {
+                    var d = C.gE('s-' + this.cs + '-' + this.cr);
+                } else {
+                    var d = C.gE('s-' + this.cs);
+                }
+            } else {    
+                /* Load entire form */
+                var d = C.gE('s-' + this.cs).parentNode;
             }
             var fD = new FormData;
             var inputs = d.getElementsByTagName('input');

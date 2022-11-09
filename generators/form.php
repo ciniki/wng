@@ -262,12 +262,17 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             . (isset($field['flex-basis']) ? " style='flex-basis: {$field['flex-basis']}'" : '')
                             . ">";
 
-                        if( $field['ftype'] == 'text' ) {
+                        if( $field['ftype'] == 'hidden' ) {
+                            $sections .= "<input type='hidden' id='f-{$field['id']}' name='f-{$field['id']}' value='{$field['value']}'/>";
+                        }
+                        elseif( $field['ftype'] == 'text' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                                 . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                                . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+                                . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         } 
@@ -381,6 +386,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= "<textarea name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ($maxwords > 0 ? " onkeyup='return C.form.wC(event,\"{$field['id']}\",{$maxwords});'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
+                                . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+                                . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                                 . ">"
                                 . (isset($field['value']) ? htmlspecialchars($field['value']) : '')
                                 . "</textarea>";
@@ -469,6 +476,18 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $sections .= "<div class='label' id='f-{$field['id']}'>{$field['label']}</div>";
                             }
                             $sections .= $field_description;
+                        }
+                        elseif( $field['ftype'] == 'videocontent' ) {
+                            if( isset($field['label']) && $field['label'] != '' ) {
+                                $sections .= "<div class='label' id='f-{$field['id']}'>{$field['label']}</div>";
+                            }
+                            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
+                            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, $field['url']);
+                            if( isset($rc['content']) && $rc['content'] != '' ) {
+                                $sections .= "<div class='field-video'>"
+                                    . $rc['content']
+                                    . "</div>";
+                            }
                         }
                         elseif( $field['ftype'] == 'image' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -626,21 +645,21 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='form-sections-fields'>" . $sections . "</div>";
         $content .= '</div>';
 
-        if( isset($block['api-save-url']) && $block['api-save-url'] != '' 
-            && isset($block['api-image-url']) && $block['api-image-url'] != '' 
-            && isset($block['api-cartsubmit-url']) && $block['api-cartsubmit-url'] != '' 
-            && isset($block['api-formcheck-url']) && $block['api-formcheck-url'] != '' 
+        if( (isset($block['api-save-url']) 
+            || isset($block['api-image-url']) 
+            || isset($block['api-cartsubmit-url']) 
+            || isset($block['api-formcheck-url']) 
+            )
             && isset($block['api-args']) && is_array($block['api-args']) 
             ) {
             $js = "window.addEventListener('load', (e)=>{C.form.start(e,'{$cur_section_id}',"
-                . "'" . $block['api-save-url'] . "',"
-                . "'" . $block['api-image-url'] . "',"
-                . "'" . $block['api-formcheck-url'] . "',"
-                . "'" . $block['api-cartsubmit-url'] . "',"
+                . "'" . (isset($block['api-save-url']) ? $block['api-save-url'] : '') . "',"
+                . "'" . (isset($block['api-image-url']) ? $block['api-image-url'] : '') . "',"
+                . "'" . (isset($block['api-formcheck-url']) ? $block['api-formcheck-url'] : '') . "',"
+                . "'" . (isset($block['api-cartsubmit-url']) ? $block['api-cartsubmit-url'] : '') . "',"
                 . json_encode($block['api-args'])
                 . ")});";
         }
-
     }
 
     //
