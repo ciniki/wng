@@ -432,7 +432,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 )),
             ),
         );
-    for($i = 1; $i <= 15; $i++) {
+    for($i = 1; $i <= 20; $i++) {
         $sections['ciniki.wng.carousel']['settings']["image-{$i}"] = array(
             'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',
             );

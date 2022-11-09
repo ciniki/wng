@@ -21,7 +21,7 @@ function ciniki_wng_processors_carousel(&$ciniki, $tnid, &$request, $section) {
 
     $titles = 'no';
     $items = array();
-    for($i = 1; $i <= 15; $i++) {
+    for($i = 1; $i <= 20; $i++) {
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 ) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
