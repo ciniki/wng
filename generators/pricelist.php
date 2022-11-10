@@ -119,25 +119,21 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
 */
             // Check if sold out
             $sold_out = '';
-            if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
-                $content .= "<td class='buttons' colspan='2'>";
-            } else {
-                $content .= "<td class='buttons'>";
-            }
+            $cart_html = '';
             if( isset($price['limited_units']) && isset($price['units_available']) 
                 && $price['limited_units'] == 'yes' && $price['units_available'] < 1 
                 ) {
                 if( isset($price['sold-out-msg']) && $price['sold-out-msg'] != '' ) {
-                    $content .= ' ' . $price['sold-out-msg'];
+                    $cart_html .= ' ' . $price['sold-out-msg'];
                 } else {
-                    $content .= ' Sold Out';
+                    $cart_html .= ' Sold Out';
                 }
             }
             elseif( isset($price['inprogress']) && $price['inprogress'] == 'yes' ) {
-                $content .= ' In Progress';
+                $cart_html .= ' In Progress';
             }
             elseif( isset($price['regclosed']) && $price['regclosed'] == 'yes' ) {
-                $content .= ' Closed';
+                $cart_html .= ' Closed';
             }
             //
             // If quantity is limited, and not sold out
@@ -148,18 +144,18 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 && isset($ciniki['tenant']['modules']['ciniki.sapos']) 
                 && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08)  // Shopping cart enabled
                 ) {
-                $content .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
-                $content .= "<input type='hidden' name='action' value='add'/>";
-                $content .= "<input type='hidden' name='object' value='" . $price['object'] . "'/>";
-                $content .= "<input type='hidden' name='object_id' value='" . $price['object_id'] . "'/>";
+                $cart_html .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
+                $cart_html .= "<input type='hidden' name='action' value='add'/>";
+                $cart_html .= "<input type='hidden' name='object' value='" . $price['object'] . "'/>";
+                $cart_html .= "<input type='hidden' name='object_id' value='" . $price['object_id'] . "'/>";
                 if( isset($price['price_id']) ) {
-                    $content .= "<input type='hidden' name='price_id' value='" . $price['price_id'] . "'/>";
+                    $cart_html .= "<input type='hidden' name='price_id' value='" . $price['price_id'] . "'/>";
                 }
-                $content .= "<input type='hidden' name='final_price' value='" . $final_price . "'/>";
+                $cart_html .= "<input type='hidden' name='final_price' value='" . $final_price . "'/>";
 
                 if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
-                    $content .= "<input type='hidden' name='quantity' value='1'/>"; 
-                    $content .= "<span class='user-amount'>"
+                    $cart_html .= "<input type='hidden' name='quantity' value='1'/>"; 
+                    $cart_html .= "<span class='user-amount'>"
                         . "<input class='user-amount' name='user_amount' type='text' value='' placeholder='$25' size='8'/>"
                         . "</span>";
                 }
@@ -177,27 +173,35 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 } */
                 elseif( isset($price['limited_units']) && $price['limited_units'] == 'yes' 
                     && isset($price['limited_units']) && $price['units_available'] == 1 ) {
-                    $content .= "<input type='hidden' name='quantity' value='1'/>"; 
+                    $cart_html .= "<input type='hidden' name='quantity' value='1'/>"; 
                 }
                 elseif( isset($price['limited_units']) && $price['limited_units'] == 'yes' 
                     && isset($price['limited_units']) && $price['units_available'] > 1 ) {
-                    $content .= "<span class='quantity'><input class='quantity' name='quantity' type='text' value='1' size='2'/></span>";
+                    $cart_html .= "<span class='quantity'><input class='quantity' name='quantity' type='text' value='1' size='2'/></span>";
                 }
                 elseif( !isset($price['limited_units']) || $price['limited_units'] == 'no' ) {
-                    $content .= "<span class='quantity'><input class='quantity' name='quantity' type='text' value='1' size='2'/></span>";
+                    $cart_html .= "<span class='quantity'><input class='quantity' name='quantity' type='text' value='1' size='2'/></span>";
                 }
                     
-                $content .= "<span class='submit'>"
+                $cart_html .= "<span class='submit'>"
                     . "<input class='button' type='submit' name='add' value='";
                 if( isset($price['add_text']) && $price['add_text'] != '' ) {
-                    $content .= $price['add_text'];
+                    $cart_html .= $price['add_text'];
                 } else {
-                    $content .= 'Add to Cart';
+                    $cart_html .= 'Add to Cart';
                 }
-                $content .= "'/></span>";
-                $content .= "</form>";
+                $cart_html .= "'/></span>";
+                $cart_html .= "</form>";
             }
-            $content .= "</td>";
+            if( $cart_html != '' ) {
+                if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
+                    $content .= "<td class='buttons' colspan='2'>";
+                } else {
+                    $content .= "<td class='buttons'>";
+                }
+                $content .= $cart_html;
+                $content .= "</td>";
+            }
 
             if( isset($block['descriptions']) && $block['descriptions'] == 'yes' 
                 && isset($price['description']) && $price['description'] != '' 
