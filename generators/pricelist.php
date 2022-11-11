@@ -193,6 +193,9 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
                 $cart_html .= "'/></span>";
                 $cart_html .= "</form>";
             }
+            elseif( isset($price['no-cart-msg']) ) {
+                $cart_html .= $price['no-cart-msg'];
+            }
             if( $cart_html != '' ) {
                 if( isset($price['user-amount']) && $price['user-amount'] == 'yes' ) {
                     $content .= "<td class='buttons' colspan='2'>";
