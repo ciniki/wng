@@ -118,6 +118,9 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'apiRequestProcess');
             $rc = ciniki_wng_apiRequestProcess($ciniki, $tnid, $request);
             $rc['json'] = 'yes';
+        } 
+        else {
+            $rc = array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.185', 'msg'=>'Invalid request'));
         }
 
         //
