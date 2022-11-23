@@ -84,7 +84,10 @@ C.form = {
     },
     qSaved: function(rsp) {
         if( rsp.stat != 'ok' ) {
-            C.form.showErrors(rsp, "Oops, we had a problem, please refresh the page and try again.");
+            C.form.showErrors(rsp, "Oops, we had a problem saving, please click on save at the bottom or refresh the page.");
+        } else {
+            C.form.clearErrors();
+            C.form.updateLastSaved(rsp);
         }
         if( rsp.api_args != null ) {   
             this.aa = rsp.api_args;
@@ -149,6 +152,17 @@ C.form = {
             C.gE('form-errors-msg').innerHTML = '<p>' + m + '</p>';
         }
         window.scroll(0,e.offsetTop);
+    },
+    clearErrors: function(rsp) {
+        var e = C.gE('form-errors');
+        C.aC(e, 'hidden');
+    },
+    updateLastSaved: function(rsp) {
+        var e = C.gE('form-last-saved-msg');
+        if( e != null && rsp != null && rsp.last_saved != null ) {
+            C.rC(e, 'hidden');
+            e.innerHTML = 'Last saved: ' + rsp.last_saved;
+        }
     },
     /* Image Upload */
     iU: function(e,s,f) {

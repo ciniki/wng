@@ -509,6 +509,15 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'document' ) {
                             // FIXME: Add document support
                         }
+                        elseif( $field['ftype'] == 'button' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<a class='button' id='f-{$field['id']}' "
+                                . (isset($field['target']) ? "target='{$field['target']}' " : '')
+                                . "href='{$field['href']}'>" 
+                                . $field['value'] 
+                                . "</a>";
+                        } 
                         elseif( $field['ftype'] == 'termsofuse' ) {
                             $sections .= "<label for='termsofuse' class='required hidden'>"
                                 . (isset($field['prefix']) ? $field['prefix'] . ' ' : '') 
@@ -561,7 +570,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         }
                         elseif( $field['ftype'] == 'submit' ) {
                             $sections .= "<input type='hidden' name='action' value='submit'>";
-                            $sections .= "<input type='submit' class='button' value='"
+                            $sections .= "<input type='submit' name='submit' class='button' value='"
                                 . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
                                 . "' >";
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
@@ -573,7 +582,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                     . (isset($field['label']) && $field['label'] != '' ? $field['label'] : 'Cancel')
                                     . "</a>";
                             } else {
-                                $sections .= "<input type='submit' class='button' value='"
+                                $sections .= "<input type='submit' name='submit' class='button' value='"
                                     . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
                                     . "' >";
                             }
@@ -1039,11 +1048,23 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     }
 
     //
+    // Setup last saved message area
+    //
+    if( isset($block['last-saved-msg']) ) {
+        $content .= "<div class='last-saved'><div id='form-last-saved-msg'>";
+        if( $block['last-saved-msg'] != '' ) {
+            $content .= $block['last-saved-msg']; 
+        }
+        $content .= "</div></div>";
+    }
+
+    //
     // Close out the block
     //
     $content .= '</div>';
     $content .= '</div>';
     $content .= '</div>';
+
 
     //
     // Check if there is custom javascript to add
