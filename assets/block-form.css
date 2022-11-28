@@ -115,6 +115,7 @@
 /*    padding: 0.5em; */
     font-weight: bold;
 }
+.block-form .field.hidden-label label,
 .block-form .field label.hidden {
     display: none;
 }

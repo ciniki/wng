@@ -87,6 +87,31 @@ function ciniki_wng_objects(&$ciniki) {
             ),
         'history_table' => 'ciniki_wng_history',
         );
+    $objects['index'] = array(
+        'name' => 'Index',
+        'sync' => 'yes',
+        'o_name' => 'items',
+        'o_container' => 'item',
+        'table' => 'ciniki_wng_index',
+        'fields' => array(
+            'site_id' => array('name'=>'Site', 'ref'=>'ciniki.wng.site'),
+            'section_id' => array('name'=>'Section', 'ref'=>'ciniki.wng.section'),
+            'flags' => array('name'=>'Options', 'default'=>'0'),
+            'label' => array('name'=>'Label', 'default'=>''),
+            'title' => array('name'=>'Title', 'default'=>''),
+            'subtitle' => array('name'=>'Subtitle', 'default'=>''),
+            'meta' => array('name'=>'Meta', 'default'=>''),
+            'image_id' => array('name'=>'Image', 'default'=>'0', 'ref'=>'ciniki.images.image'),
+            'synopsis' => array('name'=>'Synopsis', 'default'=>''),
+            'object' => array('name'=>'Object'),
+            'object_id' => array('name'=>'Object ID',),
+            'primary_words' => array('name'=>'Primary Words', 'default'=>''),
+            'secondary_words' => array('name'=>'Secondary Words', 'default'=>''),
+            'tertiary_words' => array('name'=>'Tertiary Words', 'default'=>''),
+            'weight' => array('name'=>'Weight', 'default'=>'20000'),
+            'url' => array('name'=>'URL', 'default'=>''),
+            ),
+        );
     //
     return array('stat'=>'ok', 'objects'=>$objects);
 }

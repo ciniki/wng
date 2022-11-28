@@ -18,9 +18,9 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
     //
     // Skip if nothing
     //
-    if( !isset($block['items']) || count($block['items']) < 1 ) {
-        return array('stat'=>'ok', 'content'=>'');
-    }
+//    if( !isset($block['items']) || count($block['items']) < 1 ) {
+//        return array('stat'=>'ok', 'content'=>'');
+//    }
 
     $content .= "<div class='block-tradingcards"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')

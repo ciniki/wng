@@ -744,6 +744,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                    . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
@@ -1014,35 +1015,40 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             $content .= "<input type='hidden' name='checkout' value='Checkout' />";
         }
         $content .= "<div class='fields'>" . $fields_html . "</div>";
-        $content .= "<div class='submit-buttons'>";
-        if( isset($block['form-id']) && $block['form-id'] != '' 
-            && isset($block['js-submit']) && $block['js-submit'] == 'yes' 
+        if( (isset($block['cancel-label']) && $block['cancel-label'] != '')
+            || !isset($block['submit-hide']) 
+            || $block['submit-hide'] != 'yes'
             ) {
-            if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
-                $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
-            }
-            $content .= "<input type='submit' class='button' value='"
-                . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
-                . "' >";
-        } else {
-            if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
-                if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
-                    $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
-                } else {
-                    $content .= "<input type='submit' name='cancel' class='button' value='{$block['cancel-label']}' >";
+            $content .= "<div class='submit-buttons'>";
+            if( isset($block['form-id']) && $block['form-id'] != '' 
+                && isset($block['js-submit']) && $block['js-submit'] == 'yes' 
+                ) {
+                if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
+                    $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
                 }
-            }
-            if( isset($block['js-submit']) && $block['js-submit'] != '' ) {
-                $content .= "<a class='button' href='javascript:{$block['js-submit']}'>"
-                    . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
-                    . "</a>";
-            } elseif( !isset($block['submit-hide']) || $block['submit-hide'] != 'yes' ) {
-                $content .= "<input type='submit' name='submit' class='button' value='"
+                $content .= "<input type='submit' class='button' value='"
                     . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
                     . "' >";
+            } else {
+                if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
+                    if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
+                        $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
+                    } else {
+                        $content .= "<input type='submit' name='cancel' class='button' value='{$block['cancel-label']}' >";
+                    }
+                }
+                if( isset($block['js-submit']) && $block['js-submit'] != '' ) {
+                    $content .= "<a class='button' href='javascript:{$block['js-submit']}'>"
+                        . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+                        . "</a>";
+                } elseif( !isset($block['submit-hide']) || $block['submit-hide'] != 'yes' ) {
+                    $content .= "<input type='submit' name='submit' class='button' value='"
+                        . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
+                        . "' >";
+                }
             }
+            $content .= '</div>';
         }
-        $content .= '</div>';
         $content .= "</form>";
         $content .= '</div>';
     }

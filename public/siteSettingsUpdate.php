@@ -58,6 +58,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'cart-donation-message',
         'cart-donation-amounts',
         'cart-donation-thankyou',
+        'search-results-format',
         'paypal-ec-site',
         'paypal-ec-clientid',
         'paypal-ec-password',

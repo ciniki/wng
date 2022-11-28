@@ -118,6 +118,12 @@ function ciniki_wng_sectionDelete(&$ciniki) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
     ciniki_tenants_updateModuleChangeDate($ciniki, $args['tnid'], 'ciniki', 'wng');
 
+    //
+    // Update the web index if enabled
+    //
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'hookExec');
+    ciniki_core_hookExec($ciniki, $args['tnid'], 'ciniki', 'wng', 'indexObject', array());
+
     return array('stat'=>'ok');
 }
 ?>

@@ -194,7 +194,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'hooks', 'tenantOwners');
                     $rc = ciniki_tenants_hooks_tenantOwners($ciniki, $tnid, array());
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.web.145', 'msg'=>'Unable to get tenant owners', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.145', 'msg'=>'Unable to get tenant owners', 'err'=>$rc['err']));
                     }
                     $owners = $rc['users'];
                     foreach($owners as $user_id => $owner) {

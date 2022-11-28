@@ -68,7 +68,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
                 'maxwidth' => '2048'
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.211', 'msg'=>'', 'err'=>$rc['err']));
             }
             $image = $rc;
         } else {
@@ -87,7 +87,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
                 isset($item['url']) ? $item['url'] : ''
                 );
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.97', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.212', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
             }
             $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
             $url = 'yes';

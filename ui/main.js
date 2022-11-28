@@ -143,9 +143,13 @@ function ciniki_wng_main() {
             'visible':function() { return (M.ciniki_wng_main.site.view_aside == 'yes' && M.ciniki_wng_main.site.sections._tabs.selected == 'settings' && (M.userPerms&0x01) == 0x01 ? 'yes' : 'no'); },
             'buttons':{
                 'clearcache':{'label':'Clear Cache', 'fn':'M.ciniki_wng_main.site.clearCache();'},
-                'rebuildindex':{'label':'Rebuild Index', 
+                'indexupdate':{'label':'Update Index', 
                     'visible':function() { return M.modFlagSet('ciniki.wng', 0x4000); },
-                    'fn':'M.ciniki_wng_main.site.rebuildIndex();',
+                    'fn':'M.ciniki_wng_main.site.rebuildIndex("no");',
+                    },
+                'indexrebuild':{'label':'Rebuild Index', 
+                    'visible':function() { return M.modFlagSet('ciniki.wng', 0x4000); },
+                    'fn':'M.ciniki_wng_main.site.rebuildIndex("yes");',
                     },
                 'rebuildall':{'label':'Rebuild All', 'fn':'M.ciniki_wng_main.site.rebuildAll();'},
             }},
@@ -748,8 +752,20 @@ function ciniki_wng_main() {
             M.ciniki_wng_main.site.open();
         });
     }
-    this.site.rebuildIndex = function() {
-        M.alert('FIXME: add interface');
+    this.site.rebuildIndex = function(clr) {
+        M.api.getJSONCb('ciniki.wng.siteIndexRefresh', {'tnid':M.curTenantID, 'site_id':this.site_id, 'clear':clr}, function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.api.err(rsp);
+                return false;
+            }
+            if( clr == 'yes' ) {
+                M.alert("Index Rebuilt");
+            } else {
+                M.alert("Index Updated");
+            }
+            M.ciniki_wng_main.site.open();
+        });
+
     }
     this.site.rebuildAll = function() {
         M.api.getJSONCb('ciniki.wng.siteRebuild', {'tnid':M.curTenantID, 'site_id':this.site_id}, function(rsp) {

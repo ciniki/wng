@@ -75,7 +75,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
                     isset($block["button-{$i}-url"]) ? $block["button-{$i}-url"] : ''
                     );
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.110', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.219', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 if( isset($rc['url']) && $rc['url'] != '' ) {
                     $buttons .= "<a "

@@ -20,7 +20,7 @@ function ciniki_wng_pagePermalinkValidate(&$ciniki, $tnid, $args) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.181', 'msg'=>'No website specified', 'err'=>$rc['err']));
     }
     if( !isset($args['permalink']) ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.181', 'msg'=>'No url specified', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.205', 'msg'=>'No url specified', 'err'=>$rc['err']));
     }
 
     //
