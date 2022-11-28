@@ -16,7 +16,6 @@ function ciniki_wng_sitesIndexUpdate(&$ciniki, $tnid) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteIndexUpdate');
 
-    error_log('indexing sites');
     //
     // Get the lists of sites
     //

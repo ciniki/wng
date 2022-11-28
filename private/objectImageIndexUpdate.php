@@ -17,7 +17,6 @@ function ciniki_wng_objectImageIndexUpdate(&$ciniki, $tnid, $site, $image_id, $i
     if( $image_id <= 0 ) {
         return array('stat'=>'ok');
     }
-    error_log('Update image');
 
     //
     // Load last_updated date to check against the cache
