@@ -12,11 +12,13 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_objectImageIndexUpdate(&$ciniki, $tnid, $site, $image_id, $index_id) {
+function ciniki_wng_objectImageIndexUpdate(&$ciniki, $tnid, &$site, $image_id, $index_id) {
 
     if( $image_id <= 0 ) {
         return array('stat'=>'ok');
     }
+
+    $site['indexed_images'][] = $image_id;
 
     //
     // Load last_updated date to check against the cache

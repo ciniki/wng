@@ -15,6 +15,13 @@
 function ciniki_wng_objectIndexUpdate(&$ciniki, $tnid, &$site, $section, $obj) {
 
     //
+    // Check time first, only run 25 seconds
+    //
+    if( isset($site['start_time']) && ($site['start_time']+25) < time() ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.225', 'msg'=>'outatime'));
+    }
+
+    //
     // Load the existing object
     //
     if( isset($obj['index_id']) && $obj['index_id'] > 0 ) {
@@ -129,7 +136,7 @@ function ciniki_wng_objectIndexUpdate(&$ciniki, $tnid, &$site, $section, $obj) {
         //
         // FIXME: Check if object image exists in cache
         //
-        $rc = ciniki_wng_objectImageIndexDelete($ciniki, $tnid, $site, $indexable_object['image_id'], $index_id);
+        $rc = ciniki_wng_objectImageIndexDelete($ciniki, $tnid, $site, $indexable_object['image_id']);
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.204', 'msg'=>'Unable to remove image', 'err'=>$rc['err']));
         }

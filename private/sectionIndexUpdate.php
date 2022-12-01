@@ -18,6 +18,7 @@ function ciniki_wng_sectionIndexUpdate(&$ciniki, $tnid, &$site, $section) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectDelete');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'objectIndexUpdate');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'objectIndexDelete');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'objectImageIndexUpdate');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'objectImageIndexDelete');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makeKeywords');
@@ -88,6 +89,9 @@ function ciniki_wng_sectionIndexUpdate(&$ciniki, $tnid, &$site, $section) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.199', 'msg'=>'Unable to update indexed object', 'err'=>$rc['err']));
                 }
             }
+            elseif( isset($obj['image_id']) && $obj['image_id'] > 0 ) {
+                $site['indexed_images'][] = $obj['image_id'];
+            }
         }
     }
 
@@ -96,7 +100,11 @@ function ciniki_wng_sectionIndexUpdate(&$ciniki, $tnid, &$site, $section) {
     //
     foreach($indexed_objects as $oid => $obj) {
         if( !isset($indexable_objects[$oid]) ) {
-            $rc = ciniki_core_objectDelete($ciniki, $tnid, 'ciniki.wng.index', $obj['id'], $obj['uuid'], 0);
+            $obj['index_id'] = $obj['id'];
+            $rc = ciniki_wng_objectIndexDelete($ciniki, $tnid, $site, $section, $obj);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.220', 'msg'=>'Unable to remove object', 'err'=>$rc['err']));
+            }
         }
     }
 

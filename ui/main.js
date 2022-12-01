@@ -754,16 +754,20 @@ function ciniki_wng_main() {
     }
     this.site.rebuildIndex = function(clr) {
         M.api.getJSONCb('ciniki.wng.siteIndexRefresh', {'tnid':M.curTenantID, 'site_id':this.site_id, 'clear':clr}, function(rsp) {
-            if( rsp.stat != 'ok' ) {
-                M.api.err(rsp);
-                return false;
-            }
-            if( clr == 'yes' ) {
-                M.alert("Index Rebuilt");
+            if( rsp.stat == 'outatime' ) {
+                M.ciniki_wng_main.site.rebuildIndex(clr);
             } else {
-                M.alert("Index Updated");
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                if( clr == 'yes' ) {
+                    M.alert("Index Rebuilt");
+                } else {
+                    M.alert("Index Updated");
+                }
+                M.ciniki_wng_main.site.open();
             }
-            M.ciniki_wng_main.site.open();
         });
 
     }

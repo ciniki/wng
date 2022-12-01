@@ -72,6 +72,14 @@ function ciniki_wng_pageIndexUpdate(&$ciniki, $tnid, &$site, $args) {
     // Process the sections on this page
     //
     foreach($page['sections'] as $section) {
+        
+        //
+        // Check if section is hidden
+        //
+        if( ($section['flags']&0x10) == 0x10 ) {
+            continue;
+        }
+
         if( in_array($section['id'], $site['indexed_sections']) ) {
             continue;
         }

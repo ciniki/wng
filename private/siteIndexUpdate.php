@@ -34,11 +34,25 @@ function ciniki_wng_siteIndexUpdate(&$ciniki, $tnid, $args) {
     //
     // Check if old index should be cleared first
     //
+    $indexed_images = array();
+    if( is_dir($site['cache_dir'] . '/search') ) {
+        $dh = opendir($site['cache_dir'] . '/search');
+        while($file = readdir($dh)) {
+            if( $file == '.' || $file == '..' ) {
+                continue;
+            }
+            if( is_file($site['cache_dir'] . '/search/' . $file) 
+                && preg_match('/^0*([1-9][0-9]+)\.jpg/', $file, $m) 
+                ) {
+                $indexed_images[] = $m[1];
+            }
+        }
+    }
     if( isset($args['clear']) && $args['clear'] == 'yes' ) {
         //
-        // Clear all images
+        // Get a list of all the images
         //
-        if( is_dir($site['cache_dir'] . '/search') ) {
+/*        if( is_dir($site['cache_dir'] . '/search') ) {
             $dh = opendir($site['cache_dir'] . '/search');
             while($file = readdir($dh)) {
                 if( $file == '.' || $file == '..' ) {
@@ -49,7 +63,7 @@ function ciniki_wng_siteIndexUpdate(&$ciniki, $tnid, $args) {
                 }
             }
             rmdir($site['cache_dir'] . '/search');
-        }
+        } */
 
         //
         // Clear the index
@@ -94,7 +108,10 @@ function ciniki_wng_siteIndexUpdate(&$ciniki, $tnid, $args) {
     //
     $site['indexed_sections'] = array();
     $site['indexed_pages'] = array();
+    $site['indexed_images'] = array();
     $base_url = '';
+
+    $site['start_time'] = time();
     
 
     //
@@ -123,6 +140,9 @@ function ciniki_wng_siteIndexUpdate(&$ciniki, $tnid, $args) {
             'base_url' => $base_url,
             ));
         if( $rc['stat'] != 'ok' ) {
+            if( ($site['start_time']+25) < time() ) {
+                return array('stat'=>'outatime', 'err'=>array('code'=>'ciniki.wng.226', 'msg'=>'outatime'));
+            }
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.190', 'msg'=>'Unable to update index for page', 'err'=>$rc['err']));
         }
     }
@@ -132,7 +152,24 @@ function ciniki_wng_siteIndexUpdate(&$ciniki, $tnid, $args) {
     //
     foreach($indexed_sections as $section) {
         if( !in_array($section['id'], $site['indexed_sections']) ) {
-            error_log("Remove indexed section: " . $section['id']);
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionIndexDelete');
+            $rc = ciniki_wng_sectionIndexDelete($ciniki, $tnid, $site, $section);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.221', 'msg'=>'Unable to remove section', 'err'=>$rc['err']));
+            }
+        }
+    }
+
+    //
+    // Check for images that need to be deleted
+    //
+    $site['indexed_images'] = array_unique($site['indexed_images']);
+    foreach($indexed_images as $image_id) {
+        if( !in_array($image_id, $site['indexed_images']) ) {
+            $rc = ciniki_wng_objectImageIndexDelete($ciniki, $tnid, $site, $image_id);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.224', 'msg'=>'Unable to remove image', 'err'=>$rc['err']));
+            }
         }
     }
 
