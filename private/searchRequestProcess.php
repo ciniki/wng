@@ -73,7 +73,7 @@ function ciniki_wng_searchRequestProcess(&$ciniki, $tnid, &$request) {
             'type' => 'html',
             'html' => "<div class='block-tradingcards block-search-results'>"
                 . "<div class='wrap'><div class='content'>"
-                . "<div id='live-search-results' class='items'>"
+                . "<div id='live-search-results' class='items'>Enter what you are looking for in the box above."
                 . "</div></div></div></div>",
         );
 
@@ -103,7 +103,7 @@ function ciniki_wng_searchRequestProcess(&$ciniki, $tnid, &$request) {
                         . "d.appendChild(e);"
                     . "}"
                 . "}else if(pss==''){"
-                    . "d.innerHTML='<div class=\"live-search-empty\"></div>';"
+                    . "d.innerHTML='<div class=\"live-search-empty\">Enter what you are looking for in the box above.</div>';"
                 . "}else{"
                     . "d.innerHTML='<div class=\"live-search-empty\">I\'m sorry we couldn\'t find what you were looking for.</div>';"
                 . "}"
