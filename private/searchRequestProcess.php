@@ -73,7 +73,8 @@ function ciniki_wng_searchRequestProcess(&$ciniki, $tnid, &$request) {
             'type' => 'html',
             'html' => "<div class='block-tradingcards block-search-results'>"
                 . "<div class='wrap'><div class='content'>"
-                . "<div id='live-search-results' class='items'>Enter what you are looking for in the box above."
+                . "<div id='live-search-results' class='items'>"
+                . ($search_str == '' ? "Enter what you are looking for in the box above." : '')
                 . "</div></div></div></div>",
         );
 
