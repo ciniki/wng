@@ -297,6 +297,9 @@
 .block-form .field.size-xlarge textarea {
     height: 39em;
 }
+.block-form .field.field-textarea {
+    flex-basis: 100%;
+}
 .block-form .field .img-preview {
     padding-bottom: 1rem;
 }
