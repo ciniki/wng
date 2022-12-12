@@ -33,7 +33,9 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
                 }
-                $content .= "<div class='button-wrap'><a class='button' href='" . $rc['url'] . "'>" . $item['text'] . "</a></div>";
+                $content .= "<div class='button-wrap'><a class='button' "
+                    . (isset($item['target']) && $item['target'] != '' ? "target='{$item['target']}' " : '')
+                    . "href='" . $rc['url'] . "'>" . $item['text'] . "</a></div>";
             } 
         }
 
