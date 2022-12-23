@@ -111,6 +111,8 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             . ";";
         if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
             $content .= "background-size:contain;background-repeat:no-repeat;";
+        } elseif( isset($block['image-format']) && $block['image-format'] == 'covertop' ) {
+            $content .= "background-size:cover;background-position:top;";
         } else {
             $content .= "background-size:cover;";
         }
