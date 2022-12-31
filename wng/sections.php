@@ -711,6 +711,17 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.imagebuttons']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
     }
 
+    //
+    // Section for simple image
+    //
+    $sections['ciniki.wng.image'] = array(
+        'name' => 'Image',
+        'module' => 'Website',
+        'settings' => array(
+            'image-id' => array('label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium'),
+            ),
+        );
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>
