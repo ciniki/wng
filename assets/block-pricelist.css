@@ -1,5 +1,9 @@
 .block-pricelist .content {
+    display: flex;
     padding: 0rem 1rem 1rem 1rem;
+}
+.block-pricelist .pricelist {
+    flex-grow: 1;
 }
 .block-pricelist .price {
     display: table-row;
@@ -11,7 +15,14 @@
     vertical-align: middle;
     padding-bottom: 0.5rem;
 }
+.block-pricelist .price .buttons {
+    text-align: right;
+}
+.block-pricelist .price .quantity {
+    margin-right: 0.25rem;
+}
 .block-pricelist .price .amount {
+    text-align: right;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -24,6 +35,11 @@
     -webkit-appearance: none;
 }
 .block-pricelist .price .quantity {
+}
+@media screen and (min-width: 40em) {
+    .block-pricelist .content {
+        padding: 0rem 2rem 2rem 2rem;
+    }
 }
 @media screen and (min-width: 50em) {
     .block-pricelist .content {
