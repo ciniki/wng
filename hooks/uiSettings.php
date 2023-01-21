@@ -43,7 +43,7 @@ function ciniki_wng_hooks_uiSettings(&$ciniki, $tnid, $args) {
         }
         if( isset($rc['site']) ) { 
             $menu_item = array(
-                'priority'=>900,
+                'priority'=>1000,
                 'label'=>$rc['site']['name'],
                 'edit'=>array('app'=>'ciniki.wng.main', 'args'=>array('site_id'=>$rc['site']['id'])),
                 );
@@ -51,7 +51,7 @@ function ciniki_wng_hooks_uiSettings(&$ciniki, $tnid, $args) {
         } else {
             foreach($rc['rows'] as $site) {
                 $menu_item = array(
-                    'priority'=>900,
+                    'priority'=>1000,
                     'label'=>$site['name'],
                     'edit'=>array('app'=>'ciniki.wng.main', 'args'=>array('site_id'=>$site['id'])),
                     );

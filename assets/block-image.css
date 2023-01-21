@@ -55,12 +55,15 @@
     justify-content: center;
     height: 100%;
 }
-@media screen and (min-width: 40rem) {
+@media screen and (min-width: 40em) {
     .block-image .button-wrap .button {
         width: 7vw;
         height: 7vw;
         height: 100%;
         padding-top: 1vw;
+    }
+    .block-image .content {
+        padding: 2rem;
     }
 }
 .block-image svg {
