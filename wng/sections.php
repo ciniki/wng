@@ -461,7 +461,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'name'=>'3 Text Columns',
         'module' => 'Website',
         'settings'=>array(
-            'section-title'=>array('label'=>'Title', 'type'=>'text'),
+            'title'=>array('label'=>'Title', 'type'=>'text'),
             ),
         );
     for($i = 1; $i <= 3; $i++) {

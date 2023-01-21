@@ -32,10 +32,18 @@ function ciniki_wng_processors_threetextcol(&$ciniki, $tnid, &$request, $section
     }
 
     if( count($data) > 0 ) {
+        if( isset($s['title']) && $s['title'] != '' ) {
+            $blocks[] = array(
+                'type' => 'title',
+                'class' => 'aligncenter',
+                'level' => 2,
+                'title' => $s['title'],
+                );
+        }
         $blocks[] = array(
-            'title' => isset($s['title']) ? $s['title'] : '',
-            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'type' => 'textcolumns',
+            //'title' => isset($s['title']) ? $s['title'] : '',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'num-cols' => count($data),
             'data' => $data,
             );
