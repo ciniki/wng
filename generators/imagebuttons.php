@@ -100,7 +100,11 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         if( isset($item['title-position']) && $item['title-position'] == 'above' 
             && isset($item['title']) && $item['title'] != '' 
             ) {
-            $content .= "<div class='title above'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title above'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
 
         $content .= "<div class='image-wrap'><div class='image ratio-"
@@ -121,7 +125,11 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             && isset($item['title']) && $item['title'] != '' 
             && strncmp($item['title-position'], 'overlay-', 8) == 0 
             ) {
-            $content .= "<div class='title overlay'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title overlay'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
         $content .= '</div></div>';
 
@@ -129,7 +137,10 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             && isset($item['title']) && $item['title'] != '' 
             ) {
             $content .= "<div class='info'>";
-            $content .= "<div class='title below'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title below'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
             $content .= '</div>';
         }
         $content .= '</div>';
