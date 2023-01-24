@@ -487,7 +487,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'label'=>"Title #1", 'type'=>'text', 'separator'=>'yes');
         $sections['ciniki.wng.fourtextcol']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea');
         $sections['ciniki.wng.fourtextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
-        $sections['ciniki.wng.fourtextcol']['settings']["url-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["burl-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
     }
 
     //
