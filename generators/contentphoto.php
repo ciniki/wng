@@ -13,6 +13,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 
     $content = '';
 
@@ -30,7 +31,8 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
             . "'>";
         $content .= "<div class='wrap'>";
-        $content .= "<div class='content'>";
+        $link_id = isset($block['title']) && $block['title'] != '' ? ciniki_core_makePermalink($ciniki, $block['title']) : '';
+        $content .= "<div id='{$link_id}' class='content'>";
 
         if( isset($block['image-id']) && $block['image-id'] > 0 && $image_position == 'top' ) {
             //
