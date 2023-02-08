@@ -242,13 +242,13 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         );
     for($i = 1; $i < 15; $i++ ) {
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-page"] = array(
-            'label' => "Button {$i}", 'type' => 'select', 'pages' => 'yes', 'separator' => 'yes',
+            'label' => "Button {$i}", 'type' => 'select', 'pages' => 'yes', 'separator' => 'yes', 'draggable'=>$i,
             );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-text"] = array(
-            'label' => "Text", 'type' => 'text', 
+            'label' => "Text", 'type' => 'text', 'draggable'=>$i,
             );
         $sections['ciniki.wng.buttons']['settings']["button-{$i}-url"] = array(
-            'label' => "URL", 'type' => 'text',
+            'label' => "URL", 'type' => 'text', 'draggable'=>$i,
             );
     }
 
@@ -636,10 +636,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ));
     for($i = 1; $i <= 9; $i++) {
         $sections['ciniki.wng.flexcards']['settings']["image-{$i}"] = array(
-            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium',
+            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium', 'draggable'=>$i,
             );
         $sections['ciniki.wng.flexcards']['settings']["image-position-{$i}"] = array(
-            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
+            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'draggable'=>$i, 'options'=>array(
                 'top-left' => 'Top Left',
                 'top-center' => 'Top Center',
                 'top-right' => 'Top Right',
@@ -650,11 +650,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'bottom-center' => 'Bottom Center',
                 'bottom-right' => 'Bottom Right',
                 ));
-        $sections['ciniki.wng.flexcards']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text');
-        $sections['ciniki.wng.flexcards']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small');
-        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-page"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes');
-        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-text"] = array('label'=>'Text', 'type'=>'text');
-        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
+        $sections['ciniki.wng.flexcards']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text', 'draggable'=>$i);
+        $sections['ciniki.wng.flexcards']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small', 'draggable'=>$i);
+        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-page"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes', 'draggable'=>$i);
+        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-text"] = array('label'=>'Text', 'type'=>'text', 'draggable'=>$i);
+        $sections['ciniki.wng.flexcards']['settings']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text', 'draggable'=>$i);
     }
 
     //

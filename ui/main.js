@@ -908,7 +908,11 @@ function ciniki_wng_main() {
         };
     this.section.fieldValue = function(s, i, d) { 
         if( s == '_settings' ) {
-            return this.data.settings[i];
+            if( this.data.settings[i] != null && this.data.settings[i] != 'undefined' ) {
+                return this.data.settings[i];
+            } else {
+                return '';
+            }
         }
         return this.data[i]; 
     }
@@ -970,6 +974,7 @@ function ciniki_wng_main() {
         this.showHideSettingFields();
     }
     this.section.showHideSettingFields = function() {
+        var prev_draggable = 0;
         for(var i in this.sections._settings.fields) {
             if( this.sections._settings.fields[i].type != null 
                 && this.sections._settings.fields[i].type == 'select'
@@ -998,7 +1003,9 @@ function ciniki_wng_main() {
                     this.showHideFormField('_settings', t_fid);
                 }
             }
-            if( this.sections._settings.fields[i].draggable != null && this.sections._settings.fields[i].type == 'image_id' ) {
+            if( this.sections._settings.fields[i].draggable != null 
+                && this.sections._settings.fields[i].draggable != prev_draggable 
+                ) {
                 var f = this.sections._settings.fields[i];
                 var e = M.gE(this.panelUID + '_' + i).parentNode.parentNode;
                 e.setAttribute('draggable',true);
@@ -1011,6 +1018,7 @@ function ciniki_wng_main() {
                 e.addEventListener('dragleave', function(e) {
                     this.classList.remove('drophighlight');
                     }, false);
+                prev_draggable = this.sections._settings.fields[i].draggable;
             }
         }
     }
@@ -1040,6 +1048,7 @@ function ciniki_wng_main() {
                 }
             }
         }
+        this.showHideSettingFields();
     }
     this.section.open = function(cb, id, pid, sid, list) {
         if( id != null ) { this.section_id = id; }
