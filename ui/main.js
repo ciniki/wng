@@ -962,36 +962,8 @@ function ciniki_wng_main() {
                         onum++;
                     }
                 }
-                if( this.sections._settings.fields[i].draggable != null ) {
-                    this.sections._settings.seqDrop = function(e,from,to) {
-                        console.log(e);
-                    }
-//                    this.sections._settings.addFn = "console.log('test');";
-//                    this.sections._settings.addTxt = "Reorder";
-/*            'seqDrop':function(e,from,to) {
-                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
-                    'action':'sectionsequenceupdate',
-                    'view':M.ciniki_wng_main.site.view,
-                    'site_id':M.ciniki_wng_main.site.site_id,
-                    'page_id':M.ciniki_wng_main.site.page_id,
-                    'section_id':M.ciniki_wng_main.site.data.pagesections[from].id, 
-                    'section_sequence':M.ciniki_wng_main.site.data.pagesections[to].sequence, 
-                    'section_flags':0,
-                    }, function(rsp) {
-                        if( rsp.stat != 'ok' ) {
-                            M.api.err(rsp);
-                            return false;
-                        }
-                        var p = M.ciniki_wng_main.site;
-                        p.data.pagesections = rsp.pagesections;
-                        p.refreshSection("pagesections");
-                    });
-                }, */
-                    console.log(this.sections._settings.fields[i]);
-                }
             }
             this.sections._settings.visible = 'yes';
-            console.log(this.sections._settings);
         }
         this.refreshSection("_settings");
         this.showHideSection("_settings");
