@@ -74,7 +74,11 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
 
         $content .= "<div class='details'>";
         if( isset($item['title']) ) {
-            $content .= "<div class='title'>" . $item['title'] . "</div>";
+            $content .= "<div class='title'><h2>" . $item['title'] . "</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
         if( isset($item['meta']) && $item['meta'] != '' ) {
             $content .= "<div class='meta'>" . $item['meta'] . "</div>";

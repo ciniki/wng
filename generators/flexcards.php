@@ -48,6 +48,12 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
     foreach($block['items'] as $iid => $item) {
+        if( isset($item['synopsis']) && !isset($item['content']) ) {
+            $item['content'] = $item['synopsis'];
+        }
+        if( !isset($item['title-position']) && isset($block['title-position']) ) {
+            $item['title-position'] = $block['title-position'];
+        }
         if( isset($item['image-id']) && $item['image-id'] > 0 ) {
             //
             // Copy image to cache
@@ -91,7 +97,11 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
         if( isset($item['title-position']) && $item['title-position'] == 'above' 
             && isset($item['title']) && $item['title'] != '' 
             ) {
-            $content .= "<div class='title above'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title above'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
 
         $content .= "<div class='image-wrap'><div class='image ratio-"
@@ -110,7 +120,11 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             && isset($item['title']) && $item['title'] != '' 
             && strncmp($item['title-position'], 'overlay-', 8) == 0 
             ) {
-            $content .= "<div class='title overlay'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title overlay'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
         $content .= '</div></div>';
 
@@ -118,9 +132,17 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
         if( (!isset($item['title-position']) || $item['title-position'] == 'below')
             && isset($item['title']) && $item['title'] != '' 
             ) {
-            $content .= "<div class='title below'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title below'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         } else {
-            $content .= "<div class='title below hidden'><h2>{$item['title']}</h2></div>";
+            $content .= "<div class='title below hidden'><h2>{$item['title']}</h2>";
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h3>{$item['subtitle']}</h3>";
+            }
+            $content .= "</div>";
         }
         if( isset($item['content']) && $item['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
