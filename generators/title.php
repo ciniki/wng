@@ -34,6 +34,18 @@ function ciniki_wng_generators_title(&$ciniki, $tnid, $request, $block) {
             }
         }
 
+        if( isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h4>" . $block['subsubtitle'] . "</h4>";
+            } else {
+                $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            }
+        }
+
+        if( isset($block['meta']) && $block['meta'] != '' ) {
+            $content .= "<div class='meta'>" . $block['meta'] . "</div>";
+        }
+
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
