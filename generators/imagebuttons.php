@@ -142,6 +142,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
                 $content .= "<h3>{$item['subtitle']}</h3>";
             }
             $content .= '</div>';
+            $content .= '</div>';
         }
         $content .= '</div>';
 
