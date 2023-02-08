@@ -886,6 +886,7 @@ function ciniki_wng_main() {
     this.section.section_id = 0;
     this.section.site_id = 0;
     this.section.ref = 0;
+    this.section.curDragging = 0;
     this.section.nplist = [];
     this.section.sections = {
         'general':{'label':'', 'fields':{
@@ -961,8 +962,36 @@ function ciniki_wng_main() {
                         onum++;
                     }
                 }
+                if( this.sections._settings.fields[i].draggable != null ) {
+                    this.sections._settings.seqDrop = function(e,from,to) {
+                        console.log(e);
+                    }
+//                    this.sections._settings.addFn = "console.log('test');";
+//                    this.sections._settings.addTxt = "Reorder";
+/*            'seqDrop':function(e,from,to) {
+                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
+                    'action':'sectionsequenceupdate',
+                    'view':M.ciniki_wng_main.site.view,
+                    'site_id':M.ciniki_wng_main.site.site_id,
+                    'page_id':M.ciniki_wng_main.site.page_id,
+                    'section_id':M.ciniki_wng_main.site.data.pagesections[from].id, 
+                    'section_sequence':M.ciniki_wng_main.site.data.pagesections[to].sequence, 
+                    'section_flags':0,
+                    }, function(rsp) {
+                        if( rsp.stat != 'ok' ) {
+                            M.api.err(rsp);
+                            return false;
+                        }
+                        var p = M.ciniki_wng_main.site;
+                        p.data.pagesections = rsp.pagesections;
+                        p.refreshSection("pagesections");
+                    });
+                }, */
+                    console.log(this.sections._settings.fields[i]);
+                }
             }
             this.sections._settings.visible = 'yes';
+            console.log(this.sections._settings);
         }
         this.refreshSection("_settings");
         this.showHideSection("_settings");
@@ -995,6 +1024,47 @@ function ciniki_wng_main() {
                         this.sections._settings.fields[t_fid].visible = 'no';
                     }
                     this.showHideFormField('_settings', t_fid);
+                }
+            }
+            if( this.sections._settings.fields[i].draggable != null && this.sections._settings.fields[i].type == 'image_id' ) {
+                var f = this.sections._settings.fields[i];
+                var e = M.gE(this.panelUID + '_' + i).parentNode.parentNode;
+                e.setAttribute('draggable',true);
+                e.classList.add('draggable');
+                e.setAttribute('ondragstart', 'M.ciniki_wng_main.section.dragStart(event,"' + f.draggable + '");');
+                e.setAttribute('ondrop', 'M.ciniki_wng_main.section.dragDrop(event,"' + f.draggable + '");');
+                e.addEventListener('dragenter', function(e) {
+                    this.classList.add('drophighlight');
+                    }, false);
+                e.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drophighlight');
+                    }, false);
+            }
+        }
+    }
+    this.section.dragStart = function(e, i) {
+        this.curDragging = i;
+    }
+    this.section.dragDrop = function(e, d) {
+        var from = this.curDragging;
+        var to = d;
+        if( from == to ) {
+            return true;
+        }
+        if( from < to ) {
+            from = d;
+            to = this.curDragging;
+        }
+        for(var i in this.sections._settings.fields) {
+            if( this.sections._settings.fields[i].draggable != null && this.sections._settings.fields[i].draggable == to ) {
+                var to_field = this.sections._settings.fields[i];
+                var to_value = this.formValue(i);
+                var from_id = i.replace(to, from);
+                if( this.sections._settings.fields[from_id] != null ) {
+                    var from_field = this.sections._settings.fields[from_id];
+                    var from_value = this.formValue(from_id);
+                    this.setFieldValue(i, from_value);
+                    this.setFieldValue(from_id, to_value);
                 }
             }
         }
