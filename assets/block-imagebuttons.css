@@ -73,12 +73,12 @@
     .block-imagebuttons .item {
         flex-basis: 25%;
     }
-    .block-imagebuttons .q-5 .item {
+    .block-imagebuttons .items-5 .item {
         flex-basis: 33.3%;
     }
 }
 @media screen and (min-width: 100em) {
-    .block-imagebuttons .q-5 .item,
+    .block-imagebuttons .items-5 .item,
     .block-imagebuttons .item {
         flex-basis: 20%;
     }
