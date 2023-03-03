@@ -452,7 +452,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 if( isset($field["option-{$j}"]) && $field["option-{$j}"] != '' ) {
                                     $value = $field["option-{$j}"];
                                     $sections .= "<div class='option-wrap'>";
-                                    $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$j}' value='{$value}'"
+                                    $sections .= "<input type='radio' name='f-{$field['id']}' id='f-{$field['id']}-{$j}' value=\"" 
+                                        . preg_replace('/"/', '\"', $value) . "\""
                                         . (isset($field['value']) && $field['value'] == $value ? ' checked' : '')
                                         . ($editable == 'no' ? " readonly" : '')
                                         . ">"

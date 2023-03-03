@@ -20,8 +20,19 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
     $s = isset($section['settings']) ? $section['settings'] : array();
 
     $items = array();
-    for($i = 1; $i < 15; $i++) {
-        if( isset($s["button-{$i}-text"]) && $s["button-{$i}-text"] != '' 
+    for($i = 1; $i <= 100; $i++) {
+        if( isset($s["link-text-{$i}"]) && $s["link-text-{$i}"] != '' 
+            && ((isset($s["link-url-{$i}"]) && $s["link-url-{$i}"] != '') 
+                || (isset($s["link-page-{$i}"]) && $s["link-page-{$i}"] > 0)
+                )
+            ) {
+            $items[] = array(
+                'text' => $s["link-text-{$i}"],
+                'page' => isset($s["link-page-{$i}"]) && $s["link-page-{$i}"] > 0 ? $s["link-page-{$i}"] : 0,
+                'url' => $s["link-url-{$i}"],
+                );
+        }
+/*        if( isset($s["button-{$i}-text"]) && $s["button-{$i}-text"] != '' 
             && ((isset($s["button-{$i}-url"]) && $s["button-{$i}-url"] != '') 
                 || (isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0)
                 )
@@ -31,7 +42,7 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
                 'page' => isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0 ? $s["button-{$i}-page"] : 0,
                 'url' => $s["button-{$i}-url"],
                 );
-        }
+        } */
     }
     if( count($items) > 0 ) {
         $block = array(

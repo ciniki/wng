@@ -889,7 +889,7 @@ function ciniki_wng_main() {
     this.section.curDragging = 0;
     this.section.nplist = [];
     this.section.sections = {
-        'general':{'label':'', 'fields':{
+        'general':{'label':'', 'aside':'yes', 'fields':{
             'ref':{'label':'Section Content', 'type':'select', 'options':{}, 
                 'onchange':'M.ciniki_wng_main.section.setSectionOptions',
                 },
@@ -897,9 +897,36 @@ function ciniki_wng_main() {
             'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
             'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
             }},
-        '_settings':{'label':'Settings', 'visible':'hidden', 'fields':{
+        '_settings':{'label':'Settings', 'visible':'hidden', 'aside':'yes', 'fields':{
             }},
-        '_buttons':{'label':'', 'buttons':{
+        'repeats':{'label':'Repeats', 'type':'simplegrid', 'num_cols':1,
+            'visible':'hidden', 
+            'headerValues':[],
+            'cellClasses':[],
+            'dataMaps':[],
+            'addFn':'M.ciniki_wng_main.section.save("M.ciniki_wng_main.section.editRepeat(0);");',
+            'seqDrop':function(e,from,to) {
+                M.ciniki_wng_main.section.swapRepeats(from,to);
+/*                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
+                    'action':'sectionsequenceupdate',
+                    'view':M.ciniki_wng_main.site.view,
+                    'site_id':M.ciniki_wng_main.site.site_id,
+                    'page_id':M.ciniki_wng_main.site.page_id,
+                    'section_id':M.ciniki_wng_main.site.data.pagesections[from].id, 
+                    'section_sequence':M.ciniki_wng_main.site.data.pagesections[to].sequence, 
+                    'section_flags':0,
+                    }, function(rsp) {
+                        if( rsp.stat != 'ok' ) {
+                            M.api.err(rsp);
+                            return false;
+                        }
+                        var p = M.ciniki_wng_main.site;
+                        p.data.pagesections = rsp.pagesections;
+                        p.refreshSection("pagesections");
+                    });*/
+                },
+            },
+        '_buttons':{'label':'', 'aside':'no', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.section.save();'},
             'delete':{'label':'Delete', 
                 'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
@@ -916,8 +943,83 @@ function ciniki_wng_main() {
         }
         return this.data[i]; 
     }
+    this.section.cellValue = function(s, i, j, d) {
+        if( s == 'repeats' && this.sections[s].dataMaps[j] != null ) {
+            if( this.sections[s].cellClasses[j] != null
+                && this.sections[s].cellClasses[j] == 'thumbnail'
+                ) {
+                if( d[this.sections[s].dataMaps[j]] > 0 ) {
+                    return '<img width="75px" height="75px" src=\'' + M.api.getBinaryURL('ciniki.images.get',{'tnid':M.curTenantID, 'image_id':d[this.sections[s].dataMaps[j]], 'version':'thumbnail', 'maxwidth':'75'}) + '\'/>';
+                } else {
+                    return '<img width="75px" height="75px" src=\'/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg\'/>';
+                }
+            }
+            else if( this.sections[s].cellClasses[j] != null
+                && this.sections[s].cellClasses[j] == 'page-link'
+                ) {
+                if( d[this.sections[s].dataMaps[j]] > 0 ) {
+                    for(var k in M.ciniki_wng_main.site.data.pagelist) {
+                        if( M.ciniki_wng_main.site.data.pagelist[k].id == d[this.sections[s].dataMaps[j]] ) {
+                            return M.ciniki_wng_main.site.data.pagelist[k].name;
+                        }
+                    }
+                } else if( d[this.sections[s].dataMaps[j]] == 0 ) {
+                    if( d[this.sections[s].dataMaps[j].replace(/page/,'url')] != null ) {
+                        return d[this.sections[s].dataMaps[j].replace(/page/,'url')];
+                    }
+                }
+                return '';
+            }
+            return d[this.sections[s].dataMaps[j]];
+        }
+    }
+    this.section.rowFn = function(s, i, d) {
+        if( s == 'repeats' ) {
+            return 'M.ciniki_wng_main.section.save("M.ciniki_wng_main.section.editRepeat(\'' + i + '\');");';
+        }
+        return '';
+    }
     this.section.fieldHistoryArgs = function(s, i) {
         return {'method':'ciniki.wng.sectionHistory', 'args':{'tnid':M.curTenantID, 'section_id':this.section_id, 'field':i}};
+    }
+    this.section.editRepeat = function(i) {
+        if( i == 0 ) {
+            M.ciniki_wng_main.sectionrepeat.data = {};
+            i++;
+            while(i <= 100 ) {
+                if( this.data.repeats == null || this.data.repeats[i] == null ) {
+                    break;
+                }
+                i++;
+            }
+        } 
+        else if( this.data.repeats[i] != null ) {
+            M.ciniki_wng_main.sectionrepeat.data = this.data.repeats[i];
+        }
+        M.ciniki_wng_main.sectionrepeat.open('M.ciniki_wng_main.section.open();',i,this.section_id);
+    }
+    this.section.swapRepeats = function(from, to) {
+        alert('Fixed to move instead of swap');
+        if( this.data.repeats[from] != null
+            && this.data.repeats[to] != null 
+            ) {
+            var c = this.serializeForm('no');
+            for(var i in this.data.repeats[from]) {
+                c += i + '-' + to + '=' + M.eU(this.data.repeats[from][i]) + '&';
+            }
+            for(var i in M.ciniki_wng_main.section.data.repeats[to]) {
+                c += i + '-' + from + '=' + M.eU(this.data.repeats[to][i]) + '&';
+            }
+            if( c != '' ) {
+                M.api.postJSONCb('ciniki.wng.sectionUpdate', {'tnid':M.curTenantID, 'section_id':this.section_id, 'site_id':this.site_id, 'page_id':this.page_id}, c, function(rsp) {
+                    if( rsp.stat != 'ok' ) {
+                        M.api.err(rsp);
+                        return false;
+                    }
+                    M.ciniki_wng_main.section.open();
+                });
+            }
+        }
     }
     this.section.setSectionOptions = function() {
         this.sections._settings.visible = 'hidden';
@@ -969,8 +1071,30 @@ function ciniki_wng_main() {
             }
             this.sections._settings.visible = 'yes';
         }
+        if( this.data.availablesections[ref] != null
+            && this.data.availablesections[ref].repeats != null 
+            && JSON.stringify(this.data.availablesections[ref].repeats)!=JSON.stringify({})
+            && JSON.stringify(this.data.availablesections[ref].repeats)!=JSON.stringify([])
+            ) {
+            this.size = 'xlarge mediumaside';
+            var s = this.data.availablesections[ref].repeats;
+            this.sections.repeats.label = s.label;
+            this.sections.repeats.num_cols = s.dataMaps != null ? s.dataMaps.length : 1;
+            this.sections.repeats.headerValues = s.headerValues != null ? s.headerValues : [];
+            this.sections.repeats.cellClasses = s.cellClasses != null ? s.cellClasses : [];
+            this.sections.repeats.dataMaps = s.dataMaps != null ? s.dataMaps : [];
+            this.sections.repeats.addTxt = s.addTxt != null ? s.addTxt : '';
+            this.sections.repeats.visible = 'yes';
+            M.ciniki_wng_main.sectionrepeat.sections.fields.fields = s.fields;
+        } else {
+            this.size = 'large';
+            this.sections.repeats.visible = 'hidden';
+        }
+        var e = M.gE(this.panelUID).children[0].className = this.size;
+            
         this.refreshSection("_settings");
-        this.showHideSection("_settings");
+        this.refreshSection("repeats");
+        this.showHideSection("_settings", "repeats");
         this.showHideSettingFields();
     }
     this.section.showHideSettingFields = function() {
@@ -1128,6 +1252,148 @@ function ciniki_wng_main() {
     this.section.addClose('Cancel');
     this.section.addButton('next', 'Next');
     this.section.addLeftButton('prev', 'Prev');
+
+    //
+    // The panel to edit a type name card
+    //
+    this.sectionrepeat = new M.panel('Type Name Card', 'ciniki_wng_main', 'sectionrepeat', 'mc', 'medium', 'sectioned', 'ciniki.wng.main.sectionrepeat');
+    this.sectionrepeat.repeatnum = 0;
+    this.sectionrepeat.sections = {
+        'fields':{'label':'', 'fields':{}},
+        '_buttons':{'label':'', 'aside':'no', 'buttons':{
+            'save':{'label':'Save', 'fn':'M.ciniki_wng_main.sectionrepeat.save();'},
+            'delete':{'label':'Delete', 
+                'fn':'M.ciniki_wng_main.sectionrepeat.remove();'},
+            }},
+    };
+    this.sectionrepeat.fieldValue = function(s, i, d) { 
+        return this.data[i];
+    };
+//    this.sectionrepeat.fieldHistoryArgs = function(s, i) {
+//        return {'method':'ciniki.wng.settingsHistory', 'args':{'tnid':M.curTenantID, 'field':i}};
+//    };
+/*    this.sectionrepeat.addDropImage = function(iid) {
+        M.ciniki_wng_main.sectionrepeat.setFieldValue('image', iid);
+        return true;
+    }
+    this.sectionrepeat.deleteImage = function(fid) {
+        this.setFieldValue(fid, 0);
+        return true;
+    } */
+    this.sectionrepeat.open = function(cb,i,sid) {
+        this.repeatnum = i;
+        this.section_id = sid;
+        for(var i in this.sections.fields.fields) {
+            if( this.sections.fields.fields[i].type != null 
+                && this.sections.fields.fields[i].type == 'image_id'
+                ) {
+                this.sections.fields.fields[i].addDropImage = new Function('iid', 
+                    'M.ciniki_wng_main.sectionrepeat.setFieldValue(\'' + i + '\',iid); '
+                    + 'return true;');
+                this.sections.fields.fields[i].deleteImage = new Function('iid', 
+                    'M.ciniki_wng_main.sectionrepeat.setFieldValue(\'' + i + '\',0); '
+                    + 'return true;');
+            }
+            else if( this.sections.fields.fields[i].type != null 
+                && this.sections.fields.fields[i].type == 'select'
+                && this.sections.fields.fields[i].pages != null 
+                && this.sections.fields.fields[i].pages == 'yes'
+                ) {
+                this.sections.fields.fields[i].options = {}
+                this.sections.fields.fields[i].complex_options = {'value':'v', 'name':'l'};
+                var onum=0;
+                this.sections.fields.fields[i].options[onum++] = {'v':'', 'l':'None'};
+                var u_fid = i.replace(/page/, 'url');
+                var t_fid = i.replace(/page/, 'text');
+                if( this.sections.fields.fields[u_fid] != null ) {
+                    this.sections.fields.fields[i].options[onum++] = {'v':'0', 'l':'Custom URL'};
+                }
+                if( this.sections.fields.fields[t_fid] != null || this.sections.fields.fields[u_fid] != null ) {
+                    this.sections.fields.fields[i].onchange = 'M.ciniki_wng_main.sectionrepeat.showHideSettingFields();';
+                }
+                for(var j in M.ciniki_wng_main.site.data.pagelist) {
+                    var p = M.ciniki_wng_main.site.data.pagelist[j];
+                    this.sections.fields.fields[i].options[onum] = {'v':p.id, 'l':p.name};
+                    onum++;
+                }
+            }
+        }
+        this.refresh();
+        this.show(cb);
+        this.showHideSettingFields();
+    }
+    this.sectionrepeat.showHideSettingFields = function() {
+        var prev_draggable = 0;
+        for(var i in this.sections.fields.fields) {
+            if( this.sections.fields.fields[i].type != null 
+                && this.sections.fields.fields[i].type == 'select'
+                && this.sections.fields.fields[i].pages != null 
+                && this.sections.fields.fields[i].pages == 'yes'
+                ) {
+                var t_fid = i.replace(/page/, 'text');
+                var u_fid = i.replace(/page/, 'url');
+                var v = this.formValue(i);
+                if( this.sections.fields.fields[u_fid] != null ) {
+                    if( v != '' && v == 0 ) {
+                        this.sections.fields.fields[u_fid].visible = 'yes';
+                    } else {
+                        this.sections.fields.fields[u_fid].visible = 'no';
+                    }
+                    this.showHideFormField('fields', u_fid);
+                }
+                if( this.sections.fields.fields[t_fid] != null ) {
+                    if( v != '' ) {
+                        this.sections.fields.fields[t_fid].visible = 'yes';
+                    } else {
+                        this.sections.fields.fields[t_fid].visible = 'no';
+                    }
+                    this.showHideFormField('fields', t_fid);
+                }
+            }
+        }
+    }
+    this.sectionrepeat.save = function() {
+        var c = '';
+        for(var i in this.sections.fields.fields) {
+            var n = this.formFieldValue(this.sections.fields.fields[i], i);
+            if( n != this.data[i] && n != null && n != 'undefined' ) {
+                c += encodeURIComponent(i + '-' + this.repeatnum) + '=' + encodeURIComponent(n) + '&';
+            }
+        }
+        if( c != '' ) {
+            console.log(c);
+            M.api.postJSONCb('ciniki.wng.sectionUpdate', {'tnid':M.curTenantID, 'site_id':M.ciniki_wng_main.section.site_id, 'section_id':this.section_id}, c, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                } 
+                M.ciniki_wng_main.sectionrepeat.close();
+            });
+        } else {
+            M.ciniki_wng_main.sectionrepeat.close();
+        } 
+    }
+    this.sectionrepeat.remove = function() {
+        if( this.repeatnum > 0 ) {
+            M.confirm('Are you sure you want to remove this item?',null,function() {
+                M.api.getJSONCb('ciniki.wng.sectionUpdate', {'tnid':M.curTenantID, 
+                    'site_id':M.ciniki_wng_main.section.site_id,
+                    'section_id':M.ciniki_wng_main.sectionrepeat.section_id, 
+                    'delete_repeat':M.ciniki_wng_main.sectionrepeat.repeatnum,
+                    }, function(rsp) {
+                    if( rsp.stat != 'ok' ) {
+                        M.api.err(rsp);
+                        return false;
+                    } 
+                    M.ciniki_wng_main.sectionrepeat.close();
+                });
+            });
+        } else {
+            M.alert('No item to be removed');
+        }
+    }
+    this.sectionrepeat.addButton('save', 'Save', 'M.ciniki_wng_main.sectionrepeat.save();');
+    this.sectionrepeat.addClose('Cancel');
 
     //
     // Start the app

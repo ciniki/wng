@@ -128,6 +128,31 @@ function ciniki_wng_sectionGet($ciniki) {
     }
     $sections = isset($rc['sections']) ? $rc['sections'] : array();
 
+    //
+    // Check if section has repeats
+    //
+    if( isset($sections[$section['ref']]['repeats']) ) {
+        $repeats = $sections[$section['ref']]['repeats'];
+        $section['repeats'] = array();
+        for($i = 1; $i <= 100; $i++) {
+            $repeat = array();
+            foreach($repeats['fields'] as $fid => $field) {
+                if( isset($section['settings']["{$fid}-{$i}"]) ) {
+                    $repeat[$fid] = $section['settings']["{$fid}-{$i}"];
+                }
+/*                if( isset($field['pages']) && $field['pages'] == 'yes' && isset($section['settings']["{$fid}-{$i}"]) ) {
+                    if( $section['settings']["{$fid}-{$i}"] > 0 ) {
+                        error_log('page');
+                    }
+                    
+                } */
+            }
+            if( count($repeat) > 0 ) {
+                $section['repeats'][$i] = $repeat;
+            }
+        }
+    }
+
     return array('stat'=>'ok', 'section'=>$section, 'availablesections'=>$sections);
 }
 ?>

@@ -17,12 +17,13 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         'section_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Section'),
-        'site_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Site'),
+        'site_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Site'),
         'page_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Page'),
         'sequence'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Order'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
         'ref'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section'),
         'label'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Name'),
+        'delete_repeat'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Name'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -93,6 +94,35 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
         foreach($section_object['settings'] as $key => $setting) {
             if( isset($ciniki['request']['args'][$key]) ) {
                 $settings[$key] = trim($ciniki['request']['args'][$key]);
+            }
+        }
+    }
+
+    //
+    // Check for any repeats
+    //
+    if( isset($section_object['repeats']['fields']) ) {
+        for($i = 1; $i <= 100; $i++) {
+
+            foreach($section_object['repeats']['fields'] as $key => $setting) {
+                if( isset($args['delete_repeat']) && $args['delete_repeat'] == $i ) {
+                    if( isset($settings["{$key}-{$i}"]) ) {
+                        unset($settings["{$key}-{$i}"]);
+                    }
+                }
+                elseif( isset($args['delete_repeat']) && $args['delete_repeat'] < $i ) {
+                    //
+                    // Shift everything down 1
+                    //
+                    $prev = ($i-1);
+                    if( isset($settings["{$key}-{$i}"]) ) {
+                        $settings["{$key}-{$prev}"] = $settings["{$key}-{$i}"];
+                        unset($settings["{$key}-{$i}"]);
+                    }
+                }
+                elseif( isset($ciniki['request']['args']["{$key}-{$i}"]) ) {
+                    $settings["{$key}-{$i}"] = trim($ciniki['request']['args']["{$key}-{$i}"]);
+                }
             }
         }
     }

@@ -23,16 +23,16 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
     $image_ratio = isset($s['image-ratio']) ? $s['image-ratio'] : '';
 
     $items = array();
-    for($i = 1; $i <= 9; $i++) {
+    for($i = 1; $i <= 100; $i++) {
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 ) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
                 'image-position' => isset($s["image-position-{$i}"]) ? str_replace('-', ' ', $s["image-position-{$i}"]) : 'center center',
                 'image-ratio' => isset($s["image-ratio"]) ? $s["image-ratio"] : $image_ratio,
-                'title' => isset($s["title-{$i}-text"]) ? $s["title-{$i}-text"] : '',
+                'title' => isset($s["title-text-{$i}"]) ? $s["title-text-{$i}"] : (isset($s["title-{$i}-text"]) ? $s["title-{$i}-text"] : ''),
                 'title-position' => isset($s["title-position-{$i}"]) ? $s["title-position-{$i}"] : $title_position,
-                'page' => isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0,
-                'url' => isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : '',
+                'page' => isset($s["link-page-{$i}"]) ? $s["link-page-{$i}"] : (isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0),
+                'url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : (isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : ''),
                 );
         }
     }

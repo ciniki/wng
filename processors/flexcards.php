@@ -23,7 +23,7 @@ function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
     $image_ratio = isset($s['image-ratio']) ? $s['image-ratio'] : '';
 
     $items = array();
-    for($i = 1; $i <= 9; $i++) {
+    for($i = 1; $i <= 100; $i++) {
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 ) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
@@ -31,9 +31,9 @@ function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
                 'image-ratio' => isset($s["image-ratio-{$i}"]) ? $s["image-ratio-{$i}"] : $image_ratio,
                 'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '&nbsp;',
                 'title-position' => isset($s["title-position-{$i}"]) ? $s["title-position-{$i}"] : $title_position,
-                'page' => isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0,
-                'link-text' => isset($s["link-{$i}-text"]) ? $s["link-{$i}-text"] : '',
-                'url' => isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : '',
+                'page' => isset($s["link-page-{$i}"]) ? $s["link-page-{$i}"] : (isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0),
+                'link-text' => isset($s["link-text-{$i}"]) ? $s["link-text-{$i}"] : (isset($s["link-{$i}-text"]) ? $s["link-{$i}-text"] : ''),
+                'url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : (isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : ''),
                 'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 );
         }
