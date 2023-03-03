@@ -230,9 +230,14 @@
 .block-form .field-termsofuse,
 .block-form .field-checkbox {
     display: flex;
+    flex-flow: row wrap;
     align-items: flex-start;
     padding-top: 1rem;
 }
+.block-form .field-termsofuse .field-description {
+    flex-basis: 100%;
+}
+
 .block-form .field-content.checkbox-label,
 .block-form.sectioned .field-content.checkbox-label {
     padding-bottom: 0px;
