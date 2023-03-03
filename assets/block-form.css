@@ -10,7 +10,7 @@
     padding-bottom: 0.5rem;
 }
 .block-form .guidelines p {
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 .block-form.simple form {
     width: 100%;
