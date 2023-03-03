@@ -906,7 +906,7 @@ function ciniki_wng_main() {
             'dataMaps':[],
             'addFn':'M.ciniki_wng_main.section.save("M.ciniki_wng_main.section.editRepeat(0);");',
             'seqDrop':function(e,from,to) {
-                M.ciniki_wng_main.section.swapRepeats(from,to);
+                M.ciniki_wng_main.section.moveRepeats(from,to);
 /*                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
                     'action':'sectionsequenceupdate',
                     'view':M.ciniki_wng_main.site.view,
@@ -998,17 +998,29 @@ function ciniki_wng_main() {
         }
         M.ciniki_wng_main.sectionrepeat.open('M.ciniki_wng_main.section.open();',i,this.section_id);
     }
-    this.section.swapRepeats = function(from, to) {
-//        alert('Fixed to move instead of swap');
+    this.section.moveRepeats = function(from, to) {
         if( this.data.repeats[from] != null
             && this.data.repeats[to] != null 
+            && from != to 
             ) {
+            from = parseInt(from);
+            to = parseInt(to);
             var c = this.serializeForm('no');
-            for(var i in this.data.repeats[from]) {
+            for(var i in M.ciniki_wng_main.section.data.repeats[from]) {
                 c += i + '-' + to + '=' + M.eU(this.data.repeats[from][i]) + '&';
             }
-            for(var i in M.ciniki_wng_main.section.data.repeats[to]) {
-                c += i + '-' + from + '=' + M.eU(this.data.repeats[to][i]) + '&';
+            if( from > to ) {
+                for(var j = from; j > to; j--) {
+                    for(var i in M.ciniki_wng_main.section.data.repeats[(j-1)]) {
+                        c += i + '-' + j + '=' + M.eU(this.data.repeats[(j-1)][i]) + '&';
+                    }
+                }
+            } else {
+                for(var j = from; j < to; j++) {
+                    for(var i in M.ciniki_wng_main.section.data.repeats[(j+1)]) {
+                        c += i + '-' + j + '=' + M.eU(this.data.repeats[(j+1)][i]) + '&';
+                    }
+                }
             }
             if( c != '' ) {
                 M.api.postJSONCb('ciniki.wng.sectionUpdate', {'tnid':M.curTenantID, 'section_id':this.section_id, 'site_id':this.site_id, 'page_id':this.page_id}, c, function(rsp) {
