@@ -999,7 +999,7 @@ function ciniki_wng_main() {
         M.ciniki_wng_main.sectionrepeat.open('M.ciniki_wng_main.section.open();',i,this.section_id);
     }
     this.section.swapRepeats = function(from, to) {
-        alert('Fixed to move instead of swap');
+//        alert('Fixed to move instead of swap');
         if( this.data.repeats[from] != null
             && this.data.repeats[to] != null 
             ) {
