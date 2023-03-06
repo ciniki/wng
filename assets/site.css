@@ -48,8 +48,11 @@ body {
     text-rendering: optimizeSpeed;
     line-height: 1.5;
 }
-ol, ul {
+/*ol, ul {
     list-style: none;
+} */
+ul > li {
+    margin-left: 1em;
 }
 blockquote, q {
     quotes: none;
