@@ -244,7 +244,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'headerValues' => array('Text', 'Linked To'),
             'cellClasses' => array('', 'page-link'),
             'dataMaps' => array('link-text', 'link-page'),
-            'addTxt' => 'Add Image',
+            'addTxt' => 'Add Button',
             'fields' => array(
                 'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
                 'link-text' => array('label'=>'Text', 'type'=>'text'),
@@ -653,7 +653,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'headerValues' => array('Title', 'Linked To'),
             'cellClasses' => array('', 'page-link'),
             'dataMaps' => array('title', 'link-page'),
-            'addTxt' => 'Add Image',
+            'addTxt' => 'Add Card',
             'fields' => array(
                 'title' => array('label'=>'Title', 'type'=>'text'),
                 'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
@@ -700,7 +700,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'headerValues' => array('Image', 'Title', 'Linked To'),
             'cellClasses' => array('thumbnail', '', 'page-link'),
             'dataMaps' => array('image', 'title', 'link-page'),
-            'addTxt' => 'Add Image',
+            'addTxt' => 'Add Card',
             'fields' => array(
                 'image' => array(
                     'label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium',
