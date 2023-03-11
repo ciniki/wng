@@ -43,7 +43,6 @@ function ciniki_wng_processors_textcards(&$ciniki, $tnid, &$request, $section) {
 
     $blocks[] = array(
         'type' => 'textcards',
-        'noimages' => 'yes',
         'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
         'sequence' => $section['sequence'],
         'items' => $items,

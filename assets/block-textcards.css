@@ -1,0 +1,48 @@
+.block-textcards .items {
+    display: flex;
+    flex-flow: row wrap;
+}
+.block-textcards .item {
+    flex-basis: 100%;
+    padding: 1rem 1rem 2rem 1rem;
+}
+.block-textcards .item-wrap {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    justify-content: flex-start;
+}
+.block-textcards .info {
+    flex-grow: 1;
+}
+.block-textcards .item > a {
+    display: block;
+    height: 100%;
+}
+.block-textcards .button {
+    width: 100%;
+    text-align: center;
+}
+@media screen and (min-width: 40em) {
+    .block-textcards .item {
+        padding: 2rem 2rem 3rem 2rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-textcards .item {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+}
+@media screen and (min-width: 75em) {
+    .block-textcards .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+}
+@media screen and (min-width: 100em) {
+    .block-textcards .item {
+        flex-basis: 25%;
+        max-width: 25%;
+    }
+}
