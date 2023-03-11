@@ -640,6 +640,29 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ));
 
     //
+    // Section for text cards
+    //
+    $sections['ciniki.wng.textcards'] = array(
+        'name'=>'Text Cards',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            ),
+        'repeats' => array(
+            'label' => 'Cards',
+            'headerValues' => array('Title', 'Linked To'),
+            'cellClasses' => array('', 'page-link'),
+            'dataMaps' => array('title', 'link-page'),
+            'addTxt' => 'Add Image',
+            'fields' => array(
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+                'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
+                'link-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-url' => array('label'=>'URL', 'type'=>'text'),
+                ),
+            ));
+    //
     // Section for trading cards
     //
     $sections['ciniki.wng.flexcards'] = array(
