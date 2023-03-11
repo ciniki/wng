@@ -11,6 +11,7 @@
     flex-flow: column nowrap;
     gap: 1rem;
     justify-content: flex-start;
+    height: 100%;
 }
 .block-textcards .info {
     flex-grow: 1;
