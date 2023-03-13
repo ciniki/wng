@@ -54,6 +54,12 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
         if( !isset($item['title-position']) && isset($block['title-position']) ) {
             $item['title-position'] = $block['title-position'];
         }
+        if( !isset($item['image-format']) && isset($block['image-format']) ) {
+            $item['image-format'] = $block['image-format'];
+        }
+        if( !isset($item['image-ratio']) && isset($block['image-ratio']) ) {
+            $item['image-ratio'] = $block['image-ratio'];
+        }
         if( isset($item['image-id']) && $item['image-id'] > 0 ) {
             //
             // Copy image to cache
