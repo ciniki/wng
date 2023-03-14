@@ -23,6 +23,20 @@
 .block-form.simple .field {
     padding: 0.5rem;
 }
+.block-form.simple .field.field-file:not(.hidden) {
+    display:flex;
+    flex-flow: row wrap;
+}
+.block-form.simple .field.field-file label {    
+    flex-basis: 100%;
+}
+.block-form.simple .field.field-file input {
+    flex-basis: 50%;
+    flex-grow: 1;
+}
+.block-form.simple .field.field-file .button {
+    margin-left: 1rem;
+}
 .block-form.simple .line {
     display: block;
     width: 100%;

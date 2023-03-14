@@ -968,6 +968,24 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             elseif( $field['ftype'] == 'document' ) {
                 // FIXME: Add document support
             }
+            elseif( $field['ftype'] == 'file' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+//                    . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+//                    . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . " readonly>";
+                if( $editable == 'yes' ) {
+                    $fields_html .= "<a class='button' onclick='C.form.fU(\"{$field['id']}\");'>Upload</a>";
+                    $fields_html .= "<div class='hidden'>"
+                        . "<input type='file' id='file-{$field['id']}' name='file-{$field['id']}'"
+                        . (isset($field['accept']) ? " accept='{$field['accept']}'" : '')
+                        . " onchange='C.form.fUN(\"{$field['id']}\");'"
+                        . " />"
+                        . "</div>";
+                }
+            }
             elseif( $field['ftype'] == 'button' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
@@ -1011,6 +1029,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='form'>";
         $content .= "<form"
             . (isset($block['form-id']) && $block['form-id'] != '' ? " id={$block['form-id']}" : '')
+            . " enctype='multipart/form-data'"
             . " action='" . (isset($block['form-action']) ? $block['form-action'] : '') . "' method='POST'>";
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $content .= "<input type='hidden' name='checkout' value='Checkout' />";

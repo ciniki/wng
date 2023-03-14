@@ -164,6 +164,16 @@ C.form = {
             e.innerHTML = 'Last saved: ' + rsp.last_saved;
         }
     },
+    /* File Upload */
+    fU: function(f) {
+        C.gE('file-'+f).click();
+    },
+    fUN: function(f) {
+        var file=C.gE('file-'+f);
+        if(file!=null&&file.files!=null&&file.files[0].name!=null){
+            C.gE('f-'+f).value = file.files[0].name;
+        }
+    },
     /* Image Upload */
     iU: function(e,s,f) {
         C.rC(C.gE('l-' + f), 'hidden');
