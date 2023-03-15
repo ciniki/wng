@@ -36,6 +36,9 @@
 .block-table .buttons {
     padding: 0.5rem 0rem 0rem 0.5rem;
 }
+.block-table th .button {
+    font-weight: normal;
+}
 .block-table .buttons .button {
     margin: 0rem 0.5rem 0.5rem 0rem;
 }
