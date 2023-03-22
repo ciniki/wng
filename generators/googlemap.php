@@ -23,14 +23,20 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
-        $content .= "<div class='googlemap' id='googlemap'></div>";
+        if( !isset($block['id']) || $block['id'] == '' ) {
+            $block['id'] = 'googlemap';
+        }
+        if( !isset($block['sid']) || $block['sid'] == '' ) {
+            $block['sid'] = '1';
+        }
+        $content .= "<div class='googlemap' id='{$block['id']}'></div>";
         $zoom = 13;
         if( isset($block['zoom']) && $block['zoom'] > 1 && $block['zoom'] < 32 ) {
             $zoom = $block['zoom'];
         }
 
         $js = ''
-            . 'function gmap_initialize() {'
+            . "function gmap_initialize{$block['sid']}() {"
                 . 'var myLatlng = new google.maps.LatLng(' . $block['latitude'] . ',' . $block['longitude'] . ');'
                 . 'var mapOptions = {'
                     . 'zoom: ' . $zoom . ','
@@ -40,20 +46,21 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
                     . 'scaleControl: true,'
                     . 'mapTypeId: google.maps.MapTypeId.ROADMAP'
                 . '};'
-                . 'var map = new google.maps.Map(document.getElementById("googlemap"), mapOptions);'
+                . "var map = new google.maps.Map(document.getElementById(\"{$block['id']}\"), mapOptions);"
                 . 'var marker = new google.maps.Marker({'
                     . 'position: myLatlng,'
                     . 'map: map,'
                     . 'title:"",'
                     . '});'
             . '};'
-            . 'function loadMap() {'
+            . "function loadMap{$block['sid']}() {"
                 . 'var script = document.createElement("script");'
                 . 'script.type = "text/javascript";'
-                . 'script.src = "' . ($request['ssl']=='yes'?'https':'http') . '://maps.googleapis.com/maps/api/js?key=' . $ciniki['config']['ciniki.web']['google.maps.api.key'] . '&sensor=false&callback=gmap_initialize";'
+                . 'script.src = "' . ($request['ssl']=='yes'?'https':'http') . '://maps.googleapis.com/maps/api/js?key=' . $ciniki['config']['ciniki.web']['google.maps.api.key'] . "&sensor=false&callback=gmap_initialize{$block['sid']}\";"
                 . 'document.body.appendChild(script);'
             . '};'
-            . 'window.onload = loadMap;';
+            . "addEventListener('load', (event) => {loadMap{$block['sid']}();});"
+            . "";
 
         $content .= '</div>';
         $content .= '</div>';
