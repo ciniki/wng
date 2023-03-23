@@ -55,6 +55,20 @@ function ciniki_wng_siteDelete(&$ciniki) {
     $site = $rc['site'];
 
     //
+    // Load the settings 
+    //
+    $strsql = "SELECT id, uuid "
+        . "FROM ciniki_wng_settings "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
+        . "AND site_id = '" . ciniki_core_dbQuote($ciniki, $args['site_id']) . "' "
+        . "";
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'site');
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
+    $settings = isset($rc['rows']) ? $rc['rows'] : array();
+
+    //
     // Check for any dependencies before deleting
     //
     $strsql = "SELECT COUNT(id) AS num "
@@ -96,6 +110,17 @@ function ciniki_wng_siteDelete(&$ciniki) {
     $rc = ciniki_core_dbTransactionStart($ciniki, 'ciniki.wng');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
+    }
+
+    //
+    // Remove the settings
+    //
+    foreach($settings as $setting) {
+        $rc = ciniki_core_objectDelete($ciniki, $args['tnid'], 'ciniki.wng.setting', $setting['id'], $setting['uuid'], 0x04);
+        if( $rc['stat'] != 'ok' ) {
+            ciniki_core_dbTransactionRollback($ciniki, 'ciniki.wng');
+            return $rc;
+        }
     }
 
     //

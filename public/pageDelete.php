@@ -87,6 +87,7 @@ function ciniki_wng_pageDelete(&$ciniki) {
     // Load the sections part of this page
     //
     $strsql = "SELECT ciniki_wng_sections.id, "
+        . "ciniki_wng_sections.page_id, "
         . "ciniki_wng_sections.uuid "
         . "FROM ciniki_wng_sections "
         . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
@@ -116,7 +117,7 @@ function ciniki_wng_pageDelete(&$ciniki) {
     // Remove the sections
     //
     foreach($sections as $section) {    
-        $rc = ciniki_core_objectDelete($ciniki, $args['tnid'], 'ciniki.wng.section', $section['page_id'], $section['uuid'], 0x04);
+        $rc = ciniki_core_objectDelete($ciniki, $args['tnid'], 'ciniki.wng.section', $section['id'], $section['uuid'], 0x04);
         if( $rc['stat'] != 'ok' ) {
             ciniki_core_dbTransactionRollback($ciniki, 'ciniki.wng');
             return $rc;
