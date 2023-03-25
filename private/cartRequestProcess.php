@@ -377,6 +377,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     if( !isset($request['session']['customer']) ) {
         $request['session']['customer'] = array(
+            'id' => 0,
             'price_flags' => 0x01,
             'pricepoint_id' => 0,
             'first' => '',

@@ -1,6 +1,11 @@
 .block-basiccalendar .content {
     padding: 1rem;
 }
+.block-basiccalendar .calendar-month {
+    font-size: 1.2em;
+    text-align: center;
+    padding-bottom: 1rem;
+}
 .block-basiccalendar .calendar {
     display: grid;
     width: 100%;
@@ -104,6 +109,11 @@
 .block-basiccalendar .slice-8 { margin-top: 22.5rem; }
 .block-basiccalendar .slice-9 { margin-top: 25rem; }
 
+@media (min-width: 40em) {
+    .block-basiccalendar .content {
+        padding: 1rem 2rem;
+    }
+}
 @media (min-width: 50em) {
     .block-basiccalendar .calendar {
         grid-template-columns: repeat(7, minmax(5rem, 1fr));
@@ -113,9 +123,6 @@
     .block-basiccalendar .day-name {
         line-height: 2rem;
         padding: 1rem;
-        font-size: 1rem;
-    }
-    .block-basiccalendar .day {
         font-size: 1rem;
     }
     .block-basiccalendar .day {

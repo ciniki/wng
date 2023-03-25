@@ -1,6 +1,11 @@
 .block-calendar .content {
     padding: 1rem;
 }
+.block-calendar .calendar-month {
+    font-size: 1.2em;
+    text-align: center;
+    padding-bottom: 1rem;
+}
 .block-calendar .days,
 .block-calendar .calendar {
     display: grid;
@@ -22,6 +27,10 @@
     font-size: 0.9rem;
     position: relative;
     z-index: 1;
+}
+.block-calendar .day-prev,
+.block-calendar .day-next {
+    background: #ddd;
 }
 .block-calendar .event.row-2,
 .block-calendar .day:nth-of-type(n + 1):nth-of-type(-n + 7) {
@@ -140,6 +149,11 @@
 @media (min-width: 30em) {
     .block-calendar .lname{
         display: inline;
+    }
+}
+@media (min-width: 40em) {
+    .block-calendar .content {
+        padding: 2rem;
     }
 }
 

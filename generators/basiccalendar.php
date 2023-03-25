@@ -34,7 +34,11 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
     //
     // Set date to first of month
     //
-    $start_dt = new DateTime('now', new DateTimezone($intl_timezone));
+    if( isset($block['start_dt']) && is_object($block['start_dt']) ) {
+        $start_dt = $block['start_dt'];
+    } else {
+        $start_dt = new DateTime('now', new DateTimezone($intl_timezone));
+    }
     $cal_year = isset($block['year']) ? $block['year'] : $start_dt->format('Y');
     $cal_month = isset($block['month']) ? $block['month'] : $start_dt->format('m');
     $start_dt->setDate($cal_year, $cal_month, 1);
@@ -140,8 +144,16 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
             //
             // Check if slice is available for the next X days of event
             //
-            $event_sdt = new DateTime($event['start'], new DateTimezone($intl_timezone));
-            $event_edt = new DateTime($event['end'], new DateTimezone($intl_timezone));
+            if( isset($event['start_dt']) ) {
+                $event_sdt = new DateTime($event['start_dt'], new DateTimezone('UTC'));
+            } else {
+                $event_sdt = new DateTime($event['start'], new DateTimezone($intl_timezone));
+            }
+            if( isset($event['end_dt']) ) {
+                $event_edt = new DateTime($event['end_dt'], new DateTimezone('UTC'));
+            } else {
+                $event_edt = new DateTime($event['end'], new DateTimezone($intl_timezone));
+            }
             if( $event_sdt < $start_dt ) {
                 $event_sdt = clone($start_dt);
             }
@@ -177,6 +189,8 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
                         'col' => $days[$ymd]['col'],
                         'last_col' => $days[$ymd]['col'],
                         'span' => 1,
+                        'class' => (isset($event['class']) ? $event['class'] : ''),
+                        'url' => (isset($event['url']) ? $event['url'] : ''),
                         );
                 } 
                 // Output started and event continues following day
@@ -194,6 +208,8 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
                         'col' => $days[$ymd]['col'],
                         'last_col' => $days[$ymd]['col'],
                         'span' => 1,
+                        'class' => (isset($event['class']) ? $event['class'] : ''),
+                        'url' => (isset($event['url']) ? $event['url'] : ''),
                         );
                 }
                 $dt->add($day_interval);
@@ -207,21 +223,28 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
         // Output the events
         //
         foreach($events as $eid => $event) {
-            $cal_content .= "<div class='event "
-                . "row-{$event['row']} start-col-{$event['col']} end-col-{$event['last_col']} slice-{$event['slice']}"
-                . "'>"
+            if( isset($event['url']) && $event['url'] != '' ) {
+                $cal_content .= "<a href='{$event['url']}' class='event "
+                    . "row-{$event['row']} start-col-{$event['col']} end-col-{$event['last_col']} slice-{$event['slice']}"
+                    . (isset($event['class']) && $event['class'] != '' ? " {$event['class']}" : '')
+                    . "' >"
+                . $event['name']
+                . "</a>";
+            } else {
+                $cal_content .= "<div href='{$event['url']}' class='event "
+                    . "row-{$event['row']} start-col-{$event['col']} end-col-{$event['last_col']} slice-{$event['slice']}"
+                    . (isset($event['class']) && $event['class'] != '' ? " {$event['class']}" : '')
+                    . "' >"
                 . $event['name']
                 . "</div>";
+            }
+
         }
     }
 
-    $content .= "<div class='calendar-month'>"
-        . $block['year'] . ' - ' . $block['month']
-        . "<br/>"
-        . $start_dt->format('Y-m-d')
-        . " - "
-        . $end_dt->format('Y-m-d')
-        . "</div>";
+//    if( isset($block['calendar-month']) && $block['calendar-month'] != '' ) {
+//        $content .= "<div class='calendar-month'>" . $block['calendar-month'] . '</div>';
+//    }
 
     $content .= "<div class='calendar slices-{$max_slices}'>";
     $content .= $cal_content;
@@ -231,8 +254,6 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
     $content .= '</div>';
     $content .= '</div>';
     $content .= '</div>';
-
-
 
     return array('stat'=>'ok', 'content'=>$content);
 }

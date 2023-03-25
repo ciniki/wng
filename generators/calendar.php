@@ -34,7 +34,11 @@ function ciniki_wng_generators_calendar(&$ciniki, $tnid, $request, $block) {
     //
     // Set date to first of month
     //
-    $start_dt = new DateTime('now', new DateTimezone($intl_timezone));
+    if( isset($block['start_dt']) && is_object($block['start_dt']) ) {
+        $start_dt = $block['start_dt'];
+    } else {
+        $start_dt = new DateTime('now', new DateTimezone($intl_timezone));
+    }
     $cal_year = isset($block['year']) ? $block['year'] : $start_dt->format('Y');
     $cal_month = isset($block['month']) ? $block['month'] : $start_dt->format('m');
     $start_dt->setDate($cal_year, $cal_month, 1);
@@ -139,6 +143,9 @@ function ciniki_wng_generators_calendar(&$ciniki, $tnid, $request, $block) {
     $max_slices = 0;
     if( isset($block['events']) ) {
         foreach($block['events'] as $eid => $event) {
+            if( isset($event['date']) && isset($days[$event['date']]) ) {
+                
+            }
             // Skip event if no dates set
             if( !isset($event['dates']) ) {
                 continue;
@@ -213,13 +220,9 @@ function ciniki_wng_generators_calendar(&$ciniki, $tnid, $request, $block) {
         }
     }
 
-    $content .= "<div class='calendar-month'>"
-        . $block['year'] . ' - ' . $block['month']
-        . "<br/>"
-//        . $start_dt->format('Y-m-d')
-//        . " - "
-//        . $end_dt->format('Y-m-d')
-        . "</div>";
+    if( isset($block['label']) && $block['label'] != '' ) {
+        $content .= "<div class='calendar-month'>" . $block['label'] . "</div>";
+    }
 
     $content .= "<div class='calendar slices-{$max_slices}'>";
     $content .= $cal_content;

@@ -1,0 +1,35 @@
+.block-monthpicker .content {
+    padding: 1rem 1rem 0rem 1rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.block-monthpicker .prev {
+    text-align: left;
+}
+.block-monthpicker .next {
+    text-align: right;
+}
+.block-monthpicker .button {
+    border: 0px;
+    background: #fff;
+    padding: 0rem 1rem;
+}
+.block-monthpicker .button svg {
+    stroke: #555;
+    height: 1.3rem;
+}
+.block-monthpicker .button:hover {
+    border: 0px;
+    background: #fff;
+}
+.block-monthpicker .date {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+@media (min-width: 40em) {
+    .block-monthpicker .content {
+        padding: 1rem 2rem 0rem 2rem;
+    }
+}

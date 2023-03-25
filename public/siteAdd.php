@@ -27,6 +27,7 @@ function ciniki_wng_siteAdd(&$ciniki) {
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
         'theme'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Theme'),
         'css_classes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'CSS Classes'),
+        'duplicate_site_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Duplicate Site'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -93,27 +94,64 @@ function ciniki_wng_siteAdd(&$ciniki) {
     $site_id = $rc['id'];
 
     //
-    // Add the home page for the site
+    // Check if duplicate 
+    // **NOTE:** Incomplete code, issue is all references to page ids within sections
+    // would need to be updated. Complex process.
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
-    $rc = ciniki_core_objectAdd($ciniki, $args['tnid'], 'ciniki.wng.page', array(
-        'site_id' => $site_id,
-        'parent_id' => 0,
-        'sequence' => 1,
-        'title' => 'Home',
-        'permalink' => 'home',
-        'path' => '/',
-        'flags' => 0,
-        'password' => '',
-        'image_id' => 0,
-        'image_caption' => '',
-        'synopsis' => '',
-        ), 0x04);
-    if( $rc['stat'] != 'ok' ) {
-        ciniki_core_dbTransactionRollback($ciniki, 'ciniki.wng');
-        return $rc;
+    if( isset($args['duplicate_site_id']) && $args['duplicate_site_id'] > 0 ) {
+        //
+        // Select settings
+        //
+        $strsql = "SELECT id, detail_key, detail_value "
+            . "FROM ciniki_wng_settings "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
+            . "AND site_id = '" . ciniki_core_dbQuote($ciniki, $args['site_id']) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'site');
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        $settings = isset($rc['rows']) ? $rc['rows'] : array();
+
+        foreach($settings as $setting) {
+            $setting['site_id'] = $site_id;
+            $rc = ciniki_core_objectAdd($ciniki, $args['tnid'], 'ciniki.wng.setting', $setting, 0x04);
+            if( $rc['stat'] != 'ok' ) {
+                ciniki_core_dbTransactionRollback($ciniki, 'ciniki.wng');
+                return $rc;
+            }
+            $setting_id = $rc['id'];
+        }
+
+        //
+        // Select pages and sections
+        //
+
     }
-    $page_id = $rc['id'];
+    else {
+        //
+        // Add the home page for the site
+        //
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
+        $rc = ciniki_core_objectAdd($ciniki, $args['tnid'], 'ciniki.wng.page', array(
+            'site_id' => $site_id,
+            'parent_id' => 0,
+            'sequence' => 1,
+            'title' => 'Home',
+            'permalink' => 'home',
+            'path' => '/',
+            'flags' => 0,
+            'password' => '',
+            'image_id' => 0,
+            'image_caption' => '',
+            'synopsis' => '',
+            ), 0x04);
+        if( $rc['stat'] != 'ok' ) {
+            ciniki_core_dbTransactionRollback($ciniki, 'ciniki.wng');
+            return $rc;
+        }
+        $page_id = $rc['id'];
+    }
 
     //
     // Commit the transaction
