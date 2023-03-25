@@ -113,7 +113,7 @@
     z-index: 900;
     box-shadow: 1px 1px 5px #555;
 }
-.block-imagemenu .hamburger-menu nav > ul > li {
+.block-imagemenu .hamburger-menu nav ul > li {
     list-style: none;
     margin-left: 0rem;
 }
