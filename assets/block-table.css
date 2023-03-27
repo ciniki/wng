@@ -4,6 +4,9 @@
 .block-table .content {
     padding: 1rem;
 }
+.block-table h2 {
+    padding-bottom: 1rem;
+}
 .block-table table {
     width: 100%;
     border: 1px solid #000;

@@ -41,6 +41,11 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
             } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
                 $content .= "<h3>" . $block['subtitle'] . "</h3>";
             }
+            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h2>" . $block['subsubtitle'] . "</h2>";
+            } elseif( isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            }
 
             $content .= $rc['content'];
 
