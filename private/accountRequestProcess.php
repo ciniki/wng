@@ -206,6 +206,7 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
             }
         }
 
+        $found = 'no';
         foreach($items as $item) {
             //
             // Check sub/dropdown menu items
@@ -227,6 +228,10 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
                                 }
                             }
                         }
+                        //
+                        // Found the item to be processed, ignore the remaining menu items
+                        //
+                        $found = 'yes';
                         break;
                     }
                 }
@@ -234,7 +239,8 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
             //
             // Check main item
             //
-            if( isset($item['url']) 
+            if( $found == 'no' 
+                && isset($item['url']) 
                 && strncmp($item_permalink, $item['url'], strlen($item['url'])) == 0 
                 && isset($item['ref']) 
                 ) {

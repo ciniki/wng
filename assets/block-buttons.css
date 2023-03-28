@@ -7,6 +7,11 @@
     justify-content: left;
     gap: 0.5rem;
 }
+.block-buttons.space-between .content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
 .block-buttons.alignright .content {
     justify-content: right;
 }
