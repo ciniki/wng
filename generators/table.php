@@ -84,6 +84,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
                 . (isset($cell['colspan']) && $cell['colspan'] != '' ? " colspan='{$cell['colspan']}'" : '')
                 . (isset($cell['class']) && $cell['class'] != '' ? " class='{$cell['class']}'" : '')
                 . '>';
+            if( isset($cell['fold-label']) && $cell['fold-label'] != '' ) {
+                $content .= "<span class='fold-label'>" . $cell['fold-label'] . "</span>";
+            }
             $content .= $cell['value'];
             $content .= "</td>";
         }
