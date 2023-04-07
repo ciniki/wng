@@ -1,0 +1,36 @@
+.block-dropdown .content {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+    gap: 0.5rem;
+}
+.block-dropdown .selected {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    justify-content: space-between;
+}
+.block-dropdown .selected .text {
+    padding: 0.5rem;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+.block-dropdown .selected .arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+@media screen and (min-width: 40em) {
+    .block-dropdown .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        gap: 1rem;
+    }
+}
+
