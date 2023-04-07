@@ -50,7 +50,7 @@ function ciniki_wng_sectionIndexDelete(&$ciniki, $tnid, &$site, $section) {
             ),
         ));
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.197', 'msg'=>'Unable to load items', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.233', 'msg'=>'Unable to load items', 'err'=>$rc['err']));
     }
     $indexed_objects = isset($rc['objects']) ? $rc['objects'] : array();
 
@@ -61,7 +61,7 @@ function ciniki_wng_sectionIndexDelete(&$ciniki, $tnid, &$site, $section) {
         $obj['index_id'] = $obj['id'];
         $rc = ciniki_wng_objectIndexDelete($ciniki, $tnid, $site, $section, $obj);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.220', 'msg'=>'Unable to remove object', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.234', 'msg'=>'Unable to remove object', 'err'=>$rc['err']));
         }
     }
 

@@ -41,7 +41,7 @@ function ciniki_wng_objectIndexDelete(&$ciniki, $tnid, &$site, $section, $obj) {
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'object');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.200', 'msg'=>'Unable to load object', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.230', 'msg'=>'Unable to load object', 'err'=>$rc['err']));
         }
         $indexed_object = isset($rc['object']) ? $rc['object'] : array();
     } 
@@ -55,7 +55,7 @@ function ciniki_wng_objectIndexDelete(&$ciniki, $tnid, &$site, $section, $obj) {
     if( $indexed_object['image_id'] > 0 ) {
         $rc = ciniki_wng_objectImageIndexDelete($ciniki, $tnid, $site, $indexed_object['image_id']);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.204', 'msg'=>'Unable to remove image', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.231', 'msg'=>'Unable to remove image', 'err'=>$rc['err']));
         } 
     }
 
@@ -64,7 +64,7 @@ function ciniki_wng_objectIndexDelete(&$ciniki, $tnid, &$site, $section, $obj) {
     //
     $rc = ciniki_core_objectDelete($ciniki, $tnid, 'ciniki.wng.index', $obj['id'], $obj['uuid'], 0);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.201', 'msg'=>'Unable to delete missing object', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.232', 'msg'=>'Unable to delete missing object', 'err'=>$rc['err']));
     }
 
     return array('stat'=>'ok');
