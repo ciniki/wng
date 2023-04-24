@@ -51,6 +51,12 @@
     width: 100%;
     text-align: center;
 }
+.block-flexcards .buttons .button-wrap {
+    margin-bottom: 1rem;
+}
+.block-flexcards .buttons .button-wrap:last-child {
+    margin-bottom: 0rem;
+}
 @media screen and (min-width: 45em) {
     .block-flexcards .item {
         padding-bottom: 0rem;
