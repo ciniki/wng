@@ -24,7 +24,7 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='content'>";
 
         if( !isset($block['id']) || $block['id'] == '' ) {
-            $block['id'] = 'googlemap';
+            $block['id'] = 'gmap';
         }
         if( !isset($block['sid']) || $block['sid'] == '' ) {
             $block['sid'] = '1';
