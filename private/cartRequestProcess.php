@@ -620,7 +620,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             // Add the item to the cart, if they don't already exist
             //
             if( $item_exists == 'no' ) {
-                ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wnb', 'cartItemAdd');
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemAdd');
                 $rc = ciniki_sapos_wng_cartItemAdd($ciniki, $tnid, $request, array(
                     'object' => $_POST['object'],
                     'object_id' => $object_id,
