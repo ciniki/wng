@@ -25,6 +25,9 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         // Check for any buttons
         //
         foreach($block['list'] as $item) {
+            if( !isset($item['text']) && isset($item['title']) ) {
+                $item['text'] = $item['title'];
+            }
             if( isset($item['text']) && $item['text'] != '' ) {
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
                     isset($item['page']) ? $item['page'] : 0,
