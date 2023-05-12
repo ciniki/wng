@@ -325,6 +325,7 @@
 .block-form .field .img-preview img {
     margin: 0 auto;
     max-width: 100%;
+    max-height: 25rem;
 }
 .block-form .field-description {
     padding: 0.5rem 0.5rem 1rem 0.5rem;
@@ -569,4 +570,26 @@
         width: 100%;
         flex-basis: 100%;
     }
+}
+.block-form.viewonly form {
+    border: 0px;
+    padding: 0;
+    background: transparent;
+}
+.block-form.viewonly form .fields {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.block-form.simple.viewonly form .field,
+.block-form.viewonly form .field {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.block-form.simple.viewonly form .field input,
+.block-form.viewonly form .field input,
+.block-form.simple.viewonly form .field .textarea-readonly,
+.block-form.viewonly form .field .textarea-readonly {
+    border: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }

@@ -1,19 +1,19 @@
 .block-msg .content {
     padding: 2rem 1rem;
 }
-.block-msg .content p {
+.block-msg .content .msg {
     padding: 1rem;
 }
-.block-msg.success .content p {
+.block-msg.success .content .msg {
     background: #bffbbb;
 }
-.block-msg.warning .content p {
+.block-msg.warning .content .msg {
     background: #fbe1bb;
 }
-.block-msg.error .content p {
+.block-msg.error .content .msg {
     background: #fbbbbb;
 }
-.block-msg.neutral .content p {
+.block-msg.neutral .content .msg {
     background: #e0e0e0;
 }
 @media screen and (min-width: 40em) {

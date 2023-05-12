@@ -207,6 +207,25 @@ C.form = {
             }
         }
     },
+    /* Image Preview - Simple forms */
+    iP: function(e,f) {
+        var p=C.gE('p-'+f);
+        if( e.target.files[0] != null ) {
+            p.children[0].src=URL.createObjectURL(e.target.files[0]);
+            p.children[0].onload = function() {
+                URL.revokeObjectURL(p.children[0].src); // free memory
+            }
+        } else {
+            p.children[0].src='';
+        }
+    },
+    /* Image Preview Clear - Simple forms */
+    iPC: function(f) {
+        var e=C.gE('f-'+f);
+        e.value = '';
+        var p=C.gE('p-'+f);
+        p.children[0].src='';
+    },
     /* Image Clear */
     iC: function(s, f) {
         this.aa['f-' + f] = '0';

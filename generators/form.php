@@ -503,7 +503,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             if( $editable == 'yes' ) {
                                 $sections .= "<div class='form-buttons'>";
                                 $sections .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
-                                $sections .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
+                                $sections .= "<a class='button' onclick='C.form.iC(\"{$field['id']}\");'>Clear Image</a>";
                                 $sections .= "</div>";
                             }
                         }
@@ -951,19 +951,21 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
             }
             elseif( $field['ftype'] == 'image' ) {
-/*                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading Image...</div>";
-                $fields_html .= "<div id='p-{$field['id']}' class='img-preview'><img src='{$block['api-image-url']}/"
-                    . (isset($field['value']) ? $field['value'] : '')
+                $fields_html .= "<div id='p-{$field['id']}' class='img-preview'><img src='"
+                    . (isset($field['src']) ? $field['src'] : '')
                     . "'/></div>";
                 $fields_html .= "<div class='hidden'>"
-                    . "<input type='file' id='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iU(event,\"{$section['id']}\",\"{$field['id']}\");'/>"
+                    . "<input type='file' id='f-{$field['id']}' name='f-{$field['id']}' accept='image/jpeg,image/png' onchange='C.form.iP(event,\"{$field['id']}\");'/>"
                     . "</div>";
-                $fields_html .= "<div class='form-buttons'>";
-                $fields_html .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
-                $fields_html .= "<a class='button' onclick='C.form.iC(\"{$section['id']}\",\"{$field['id']}\");'>Clear Image</a>";
-                $fields_html .= "</div>"; */
+                if( $editable == 'yes' ) {
+                    $fields_html .= "<div class='form-buttons'>";
+                    $fields_html .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload Image</a>";
+                    $fields_html .= "<a class='button' onclick='C.form.iPC(\"{$field['id']}\");'>Clear Image</a>";
+                    $fields_html .= "</div>";
+                }
             }
             elseif( $field['ftype'] == 'document' ) {
                 // FIXME: Add document support
@@ -1044,7 +1046,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 && isset($block['js-submit']) && $block['js-submit'] == 'yes' 
                 ) {
                 if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
-                    $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
+                    if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
+                        $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
+                    } else {
+                        $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
+                    }
                 }
                 $content .= "<input type='submit' class='button' value='"
                     . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
