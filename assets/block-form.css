@@ -186,6 +186,12 @@
     background: #fff; 
     border: 1px solid #777;
 }
+.block-form .field input.button {
+    background: #555;
+}
+.block-form .field input.button:hover {
+    background: #fff;
+}
 .block-form .field-phone-type-number input {
     display: inline-block;
 }
@@ -241,10 +247,16 @@
     min-width: 6em;
 }
 
-.block-form .field-termsofuse,
-.block-form .field-checkbox {
+.block-form .field-termsofuse {
     display: flex;
     flex-flow: row wrap;
+    align-items: flex-start;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+}
+.block-form .field-checkbox {
+    display: flex;
+    flex-flow: row nowrap;
     align-items: flex-start;
     padding-top: 1rem;
 }
@@ -480,6 +492,9 @@
 .block-form.sectioned .size-medium-large, 
 .block-form.sectioned .size-large {
     padding: 0.5rem;
+}
+.block-form.sectioned .field.field-address {
+    padding: 0rem;
 }
 .block-form .size-tiny,
 .block-form .size-small,
