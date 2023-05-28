@@ -703,8 +703,33 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         //
         $fields_html = '';
         foreach($block['fields'] as $field) {
-            if( $field['ftype'] == 'line' ) {
+            if( $field['ftype'] == 'newline' ) {
+                // Start next field on a new line
+                $fields_html .= "<div class='newline'></div>";
+                continue;
+            }
+            if( $field['ftype'] == 'break' ) {
                 // Close previous section
+                $fields_html .= "</div>";
+                if( isset($field['label']) && $field['label'] != '' ) {
+                    $fields_html .= "<h2>" . $field['label'] . "</h2>";
+                }
+                if( isset($field['description']) && $field['description'] != '' ) {
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+                    $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['description']);
+                    if( $rc['stat'] != 'ok' ) {
+                        return $rc;
+                    }
+                    if( isset($rc['content']) && $rc['content'] != '' ) {
+                        $fields_html .= "<div class='form-section-description'>{$rc['content']}</div>";
+                    }
+                }
+                $fields_html .= "<div class='fields'>";
+
+                continue;
+            }
+            if( $field['ftype'] == 'line' ) {
+                // Draw a line
                 $fields_html .= "<div class='line'></div>";
                 continue;
             }
@@ -755,6 +780,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
             } 
@@ -764,6 +790,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
@@ -799,6 +826,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . " maxlength='25'"
+                    . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
             }
@@ -820,37 +848,52 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'address' ) {
-                $fields_html .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address 1</label>";
+                $fields_html .= "<div class='size-medium'>";
+                $fields_html .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address Line 1</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1' id='f-{$field['id']}-address1'"
                     . ' value="' . (isset($field['value']['address1']) ? htmlspecialchars($field['value']['address1']) : '') . '"'
                     . " maxlength='100'"
+                    . ($editable == 'no' ? '' : " autocomplete='address-line1'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
+                $fields_html .= "</div>";
+                $fields_html .= "<div class='size-medium'>";
                 $fields_html .= "<label for='f-{$field['id']}-address2'>Address Line 2</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2' id='f-{$field['id']}-address2'"
                     . ' value="' . (isset($field['value']['address2']) ? htmlspecialchars($field['value']['address2']) : '') . '"'
                     . " maxlength='100'"
+                    . ($editable == 'no' ? '' : " autocomplete='address-line2'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
+                $fields_html .= "</div>";
+                $fields_html .= "<div class='size-small-medium'>";
                 $fields_html .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' id='f-{$field['id']}-city'"
                     . ' value="' . (isset($field['value']['city']) ? htmlspecialchars($field['value']['city']) : '') . '"'
                     . " maxlength='100'"
+                    . ($editable == 'no' ? '' : " autocomplete='address-level1'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
+                $fields_html .= "</div>";
+                $fields_html .= "<div class='size-small'>";
                 $fields_html .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province' id='f-{$field['id']}-province'"
                     . ' value="' . (isset($field['value']['province']) ? htmlspecialchars($field['value']['province']) : '') . '"'
                     . " maxlength='100'"
+                    . ($editable == 'no' ? '' : " autocomplete='address-level2'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
+                $fields_html .= "</div>";
+                $fields_html .= "<div class='size-small'>";
                 $fields_html .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal' id='f-{$field['id']}-postal'"
                     . ' value="' . (isset($field['value']['postal']) ? htmlspecialchars($field['value']['postal']) : '') . '"'
                     . " maxlength='10'"
+                    . ($editable == 'no' ? '' : " autocomplete='postal-code'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
+                $fields_html .= "</div>";
             }
             elseif( $field['ftype'] == 'textarea' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";

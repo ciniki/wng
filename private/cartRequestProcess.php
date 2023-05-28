@@ -1318,6 +1318,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $block = array(
             'type' => 'accountpwdreset',
             'title' => 'Reset Password',
+            'class' => 'limit-width limit-width-30',
             'email' => isset($_GET['email']) ? $_GET['email'] : (isset($_POST['email']) ? $_POST['email'] : ''),
             'temppassword' => isset($_GET['pwd']) ? $_GET['pwd'] : (isset($_POST['temppassword']) ? $_POST['temppassword'] : ''),
             'message' => 'Please enter a new password.  It must be at least 8 characters long.',

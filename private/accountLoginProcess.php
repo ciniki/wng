@@ -598,6 +598,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
 
         $block = array(
             'type' => 'accountpwdreset',
+            'class' => 'limit-width limit-width-30',
             'title' => 'Reset Password',
             'email' => isset($_GET['email']) ? $_GET['email'] : (isset($_POST['email']) ? $_POST['email'] : ''),
             'temppassword' => isset($_GET['pwd']) ? $_GET['pwd'] : (isset($_POST['pwd']) ? $_POST['pwd'] : ''),

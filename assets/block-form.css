@@ -14,11 +14,13 @@
 }
 .block-form.simple form {
     width: 100%;
-    border: 1px solid #aaa;
-    background: #eee;
+/*    border: 1px solid #aaa;
+    background: #eee; */
 }
 .block-form.simple .fields {
     padding: 0.5rem;
+    border: 1px solid #aaa;
+    background: #eee;
 }
 .block-form.simple .field {
     padding: 0.5rem;
@@ -55,7 +57,7 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 1rem 0rem;
 }
 .block-form.section-selector .form-sections-fields .repeatable,
 .block-form.section-selector .form-sections-fields .form-section {
@@ -119,8 +121,14 @@
 .block-form .field {
     padding: 0.5rem 0rem;
 }
-.block-form .field.field-address {
+.block-form.sectioned .field.field-address {
     padding: 0.5rem 0rem;
+}
+.block-form .field.field-address label {
+    padding-top: 0.5rem;
+}
+.block-form .field.field-address label:first-child {
+    padding-top: 0rem;
 }
 .block-form .field .label,
 .block-form .field label {
@@ -485,15 +493,15 @@
     width: 100%;
     padding: 0;
 }
-.block-form.sectioned .size-tiny,
-.block-form.sectioned .size-small,
-.block-form.sectioned .size-small-medium,
-.block-form.sectioned .size-medium,
-.block-form.sectioned .size-medium-large, 
-.block-form.sectioned .size-large {
+.block-form .size-tiny,
+.block-form .size-small,
+.block-form .size-small-medium,
+.block-form .size-medium,
+.block-form .size-medium-large, 
+.block-form .size-large {
     padding: 0.5rem;
 }
-.block-form.sectioned .field.field-address {
+.block-form .field.field-address {
     padding: 0rem;
 }
 .block-form .size-tiny,
@@ -555,6 +563,13 @@
     .block-form .size-medium {
         flex-basis: 50%;    
     }
+    .block-form.simple.viewonly .field.field-textarea.size-small,
+    .block-form.simple.viewonly .field.field-textarea.size-small-medium,
+    .block-form.simple.viewonly .field.field-textarea.size-medium {
+        flex-basis: 50%;    
+        display: flex;
+        flex-flow: column nowrap;
+    }
     .block-form.section-selector .size-small-medium,
     .block-form.section-selector .size-medium,
     .block-form.section-selector .size-medium-large, 
@@ -592,19 +607,23 @@
     background: transparent;
 }
 .block-form.viewonly form .fields {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0px;
 }
 .block-form.simple.viewonly form .field,
 .block-form.viewonly form .field {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0px;
 }
 .block-form.simple.viewonly form .field input,
 .block-form.viewonly form .field input,
 .block-form.simple.viewonly form .field .textarea-readonly,
 .block-form.viewonly form .field .textarea-readonly {
     border: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0.5rem;
+}
+.block-form.simple.viewonly form .field label {
+    padding: 0.5rem;
+}
+.block-form.simple.viewonly form .field .textarea-readonly,
+.block-form.viewonly form .field .textarea-readonly {
+    flex-grow: 1;
 }

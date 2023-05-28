@@ -41,6 +41,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-create-account-text',
         'account-create-type',
         'account-children-update',
+        'account-public-member-info',
+        'account-shipping-address',
         'account-menu-toggle-em',
         // Cart options
         'cart-active',

@@ -384,6 +384,8 @@ function ciniki_wng_main() {
                     'phone-billing':'Phone & Billing Info',
                     }},
                 'account-children-update':{'label':'Add/Remove Children', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-public-member-info':{'label':'Public Member Info', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-shipping-address':{'label':'Shipping Address', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-menu-toggle-em':{'label':'Menu Size', 'type':'select', 'default':'40', 'options':{
                     '30':'XX-Small',
                     '40':'X-Small',
