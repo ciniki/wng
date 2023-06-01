@@ -208,7 +208,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     //
-    // Include latest (nov 2021) version google tag manager
+    // Include latest (nov 2021) version google tag (gtag)
     //
     if( isset($request['site']['settings']['meta-google-tag-manager']) && $request['site']['settings']['meta-google-tag-manager'] != '' ) {
         $content .= '<script async src="https://www.googletagmanager.com/gtag/js?id=' . $request['site']['settings']['meta-google-tag-manager'] . '"></script>';
