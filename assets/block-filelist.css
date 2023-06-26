@@ -4,6 +4,9 @@
 .block-filelist .file {
     margin-bottom: 0.5rem;
 }
+.block-filelist h2 {
+    margin-bottom: 1rem;
+}
 @media screen and (min-width: 40em) {
     .block-filelist .content {
         padding: 2rem;

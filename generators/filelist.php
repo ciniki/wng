@@ -22,6 +22,13 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='content'>";
 
         //
+        // Check for a title
+        //
+        if( isset($block['title']) && $block['title'] != '' ) {
+            $content .= "<h2>" . $block['title'] . "</h2>";
+        }
+
+        //
         // Check for any buttons
         //
         foreach($block['items'] as $item) {
