@@ -31,6 +31,7 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
         //
         // Check for any buttons
         //
+        $content .= "<div class='filelist'>";
         foreach($block['items'] as $item) {
             
             if( isset($item['url']) && $item['url'] != '' ) {
@@ -48,6 +49,7 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
                     . "</div>";
             }  
         }
+        $content .= '</div>';
 
         $content .= '</div>';
         $content .= '</div>';
