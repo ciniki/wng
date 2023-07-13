@@ -268,6 +268,9 @@
     align-items: flex-start;
     padding-top: 1rem;
 }
+.block-form .field-checkbox.hidden {
+    display: none;
+}
 .block-form .field-termsofuse .field-description {
     flex-basis: 100%;
 }

@@ -758,6 +758,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 ) {
                 $class .= ' checkbox-list';
             }
+            elseif( $field['ftype'] == 'checkbox' 
+                && isset($field['next_fid']) 
+                && ($block['fields'][$field['next_fid']]['ftype'] == 'content'
+                    ||  $block['fields'][$field['next_fid']]['ftype'] == 'checkbox'
+                    )
+                ) {
+                $class .= ' checkbox-list';
+            }
             elseif( $field['ftype'] == 'content' 
                 && isset($field['next_fid']) 
                 && $block['fields'][$field['next_fid']]['ftype'] == 'checkbox'

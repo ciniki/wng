@@ -14,6 +14,24 @@
 .block-cartsignup .signupform form h2 {
     margin-top: 1rem;
 }
+.block-cartsignup .input {
+    padding: 0.5rem 0rem;
+}
+.block-cartsignup .submit {
+    padding-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: right;
+}
+.block-cartsignup .forgot-link,
+.block-cartsignup #forgot-link {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+/*.block-cartsignup .input label {
+    display: block;
+    width: 100%;
+} */
 @media screen and (min-width: 60em) {   
     .block-cartsignup .signupform {
         width: 60%;
@@ -25,7 +43,7 @@
         padding:1rem;
     }
 }
-@media screen and (min-width: 30em) {
+@media screen and (min-width: 40em) {
     .block-cartsignup .content {
         margin: 0 auto;
     }
@@ -40,3 +58,9 @@
         width: 69%;
     }
 }
+/*@media screen and (min-width: 40em) {
+    .block-cartsignup label {
+        display: inline-block;
+        width: 100%;
+    }
+} */
