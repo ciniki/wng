@@ -82,6 +82,16 @@
     padding-top: 0.5rem;
     padding-left: 0.1rem;
 }
+.block-accountbuttons .icon .xtwitter {
+    width: 1.3rem;
+    height: 1.3rem;
+    padding: 0.15rem;
+}
+.block-socialicons .icon .xtwitter {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.25rem;
+}
 .block-accountbuttons .icon .fa-youtube:before {
     content: "\f167";
     font-size: 1.0rem;
