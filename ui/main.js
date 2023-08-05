@@ -492,6 +492,7 @@ function ciniki_wng_main() {
                 'meta-google-tag-manager':{'label':'Google Tag (gtag)', 'type':'text'},
                 'meta-facebook-pixel-id':{'label':'Facebook Pixel ID', 'type':'text'},
                 'meta-facebook-domain-verification':{'label':'Facebook Domain Verification', 'type':'text'},
+                'meta-fathom-analytics-siteid':{'label':'Fathom Analytics', 'type':'text'},
             }},
         'buttons':{'label':'',
             'visible':function() { return (M.ciniki_wng_main.site.view != 'menu' ? 'yes' : 'no'); },

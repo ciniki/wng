@@ -252,6 +252,17 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     //
+    // Header to support fathom analytics
+    //
+    if( isset($request['site']['settings']['meta-fathom-analytics-siteid']) 
+        && $request['site']['settings']['meta-fathom-analytics-siteid'] != '' 
+        ) {
+        $content .= '<script src="https://cdn.usefathom.com/script.js" data-site="'
+            . $request['site']['settings']['meta-fathom-analytics-siteid']
+            . '" defer></script>';
+    }
+
+    //
     // Setup the background image
     //
 /*    if( isset($settings['site-background-image']) && $settings['site-background-image'] > 0 ) {
