@@ -2585,10 +2585,8 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         if( isset($request['session']['cart-redirect-success']) 
             && $request['session']['cart-redirect-success'] != ''
             ) {
-            error_log('redirect');
             $request['session']['cart-payment-success'] = 'yes';
             header('Location: ' . $request['session']['cart-redirect-success']);
-            unset($request['session']['cart-payment-success']);
             return array('stat'=>'exit');
         }
 
@@ -2612,7 +2610,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             ) {
             $request['session']['cart-payment-success'] = 'yes';
             header('Location: ' . $request['session']['cart-redirect-success']);
-            unset($request['session']['cart-payment-success']);
             return array('stat'=>'exit');
         }
     }
