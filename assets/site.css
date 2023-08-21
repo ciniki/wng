@@ -176,6 +176,9 @@ p:last-child {
 .clickable {
     cursor: pointer;
 }
+span.nobreak {
+    white-space: nowrap;
+}
 
 /* Background Image Ratios */
 .ratio-round {

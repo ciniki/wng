@@ -1009,6 +1009,37 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 $fields_html .= $field_description;
             }
+            elseif( $field['ftype'] == 'minsec' ) {
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<span class='nobreak'>";
+                $fields_html .= "<select name='f-{$field['id']}-min' id='f-{$field['id']}-min'"
+                    . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
+                    . ">";
+                $max_minutes = isset($field['max-minutes']) ? $field['max-minutes'] : 60;
+                $minutes = intval($field['value']/60);
+                $seconds = $field['value'] % 60;
+                for($i = 0; $i <= $max_minutes; $i++) {
+                    $fields_html .= "<option value='{$i}' "
+                        . ($minutes == $i ? ' selected' : '')
+                        . ">$i</option>";
+                }
+                $fields_html .= "</select>";
+                $fields_html .= " minute(s) ";
+                $fields_html .= "</span><span class='nobreak'>";
+                $fields_html .= "<select name='f-{$field['id']}-sec' id='f-{$field['id']}-sec'"
+                    . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
+                    . ">";
+                $second_interval = isset($field['second-interval']) ? $field['second-interval'] : 5;
+                for($i = 0; $i < 60; $i += $second_interval) {
+                    $fields_html .= "<option value='{$i}' "
+                        . ($seconds == $i ? ' selected' : '')
+                        . ">$i</option>";
+                }
+                $fields_html .= "</select>";
+                $fields_html .= " second(s) ";
+                $fields_html .= "</span>";
+            }
             elseif( $field['ftype'] == 'image' ) {
                 $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;

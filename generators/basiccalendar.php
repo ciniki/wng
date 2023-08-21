@@ -146,11 +146,13 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
             //
             if( isset($event['start_dt']) ) {
                 $event_sdt = new DateTime($event['start_dt'], new DateTimezone('UTC'));
+                $event_sdt->setTimezone(new DateTimezone($intl_timezone));
             } else {
                 $event_sdt = new DateTime($event['start'], new DateTimezone($intl_timezone));
             }
             if( isset($event['end_dt']) ) {
                 $event_edt = new DateTime($event['end_dt'], new DateTimezone('UTC'));
+                $event_edt->setTimezone(new DateTimezone($intl_timezone));
             } else {
                 $event_edt = new DateTime($event['end'], new DateTimezone($intl_timezone));
             }
