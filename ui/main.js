@@ -66,10 +66,10 @@ function ciniki_wng_main() {
                     return 'no';
                 },
             'editFn':function(s, i, d) {
-                if( (M.userPerms&0x01) == 0x01 ) {
+//                if( (M.userPerms&0x01) == 0x01 ) {
                     return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-                }
-                return '';
+//                }
+//                return '';
             },
             'addTxt':'Add Page',
             'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
