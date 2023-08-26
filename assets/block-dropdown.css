@@ -12,19 +12,40 @@
     flex-flow: row nowrap;
     width: 100%;
     justify-content: space-between;
+    border: 1px solid #aaa;
 }
 .block-dropdown .selected .text {
     padding: 0.5rem;
     display: flex;
+    text-align: center;
     flex-flow: column;
     justify-content: space-around;
 }
 .block-dropdown .selected .arrow {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
     cursor: pointer;
     display: flex;
     justify-content: center;
+    border-left: 1px solid #aaa;
+}
+.block-dropdown .selected .arrow svg .line {
+    stroke: #aaa;
+}
+.block-dropdown .items {
+    width: 100%;
+    border: 1px solid #aaa;
+}
+.block-dropdown .items .item-wrap {
+    text-align: center;
+    border-bottom: 1px solid #aaa;
+}
+.block-dropdown .items .item-wrap:last-child {
+    border-bottom: 0px;
+}
+.block-dropdown .items a {
+    display: block;
+    padding: 0.5rem;
 }
 @media screen and (min-width: 40em) {
     .block-dropdown .content {
