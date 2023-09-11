@@ -99,6 +99,10 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     $content .= '</div>';
     $content .= '</div>';
 
+    if( isset($block['js']) && $block['js'] != '' ) {
+        return array('stat'=>'ok', 'content'=>$content, 'js'=>$block['js']);
+    }
+
     return array('stat'=>'ok', 'content'=>$content);
 }
 ?>
