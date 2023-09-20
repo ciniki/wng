@@ -491,7 +491,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $sections .= "<div class='label' id='f-{$field['id']}'>{$field['label']}</div>";
                             }
                             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
-                            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, $field['url']);
+                            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array('url'=>$field['url']));
                             if( isset($rc['content']) && $rc['content'] != '' ) {
                                 $sections .= "<div class='field-video'>"
                                     . $rc['content']

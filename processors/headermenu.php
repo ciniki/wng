@@ -29,6 +29,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             ) {
             $icons[] = array(
                 'type' => 'facebook',
+                'name' => 'Facebook',
                 'url' => $request['site']['settings']['social-facebook-url'],
                 );
         }
@@ -37,6 +38,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             ) {
             $icons[] = array(
                 'type' => 'instagram',
+                'name' => 'Instagram',
                 'url' => 'https://instagram.com/' . $request['site']['settings']['social-instagram-username'],
                 );
         }
@@ -45,6 +47,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             ) {
             $icons[] = array(
                 'type' => 'twitter',
+                'name' => 'Twitter',
                 'url' => 'https://twitter.com/' . $request['site']['settings']['social-twitter-username'],
                 );
         }
@@ -53,6 +56,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             ) {
             $icons[] = array(
                 'type' => 'youtube',
+                'name' => 'YouTube',
                 'url' => $request['site']['settings']['social-youtube-url'],
                 );
         }

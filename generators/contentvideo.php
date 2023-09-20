@@ -14,6 +14,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
 
     $content = '';
+    $js = '';
 
     $video_position = 'top';
     if( isset($block['video-position']) && in_array($block['video-position'], ['bottom', 'bottom-left', 'bottom-right']) ) {
@@ -29,14 +30,24 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
+        //
+        // Process the video
+        //
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
+        $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array(
+            'url' => $block['video-url'],
+            'sequence' => $block['sequence'],
+            'clickload' => 'yes',
+            ));
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+        }
+        $videocontent = $rc['content'];
+        $js .= $rc['js'];
+
         if( isset($block['video-url']) && $block['video-url'] != '' && $video_position == 'top' ) {
             $content .= "<div class='video-wrap'>";
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
-            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, $block['video-url']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
-            }
-            $content .= $rc['content'];
+            $content .= $videocontent;
             $content .= '</div>';
         }
 
@@ -119,12 +130,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
 
         if( isset($block['video-url']) && $block['video-url'] != '' && $video_position == 'bottom' ) {
             $content .= "<div class='video-wrap'>";
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
-            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, $block['video-url']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.180', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
-            }
-            $content .= $rc['content'];
+            $content .= $videocontent;
             $content .= '</div>';
         }
 
@@ -133,8 +139,6 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>';
     }
 
-
-
-    return array('stat'=>'ok', 'content'=>$content);
+    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }
 ?>
