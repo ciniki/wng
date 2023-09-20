@@ -36,6 +36,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
         $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array(
             'url' => $block['video-url'],
+            'title' => $block['title'],
             'sequence' => $block['sequence'],
             'clickload' => 'yes',
             ));
