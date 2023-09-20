@@ -23,6 +23,7 @@ function ciniki_wng_siteUpdate(&$ciniki) {
         'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
         'theme'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Theme'),
+        'lang'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Language'),
         'css_classes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'CSS Classes'),
         ));
     if( $rc['stat'] != 'ok' ) {

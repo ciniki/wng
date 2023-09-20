@@ -1,0 +1,2 @@
+ALTER TABLE ciniki_wng_sites ADD COLUMN lang varchar(10) not null AFTER theme;
+ALTER TABLE ciniki_wng_sites COMMENT='v1.03';

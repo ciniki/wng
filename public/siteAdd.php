@@ -26,6 +26,7 @@ function ciniki_wng_siteAdd(&$ciniki) {
         'permalink'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Permalink'),
         'flags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'),
         'theme'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Theme'),
+        'lang'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Language'),
         'css_classes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'CSS Classes'),
         'duplicate_site_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Duplicate Site'),
         ));

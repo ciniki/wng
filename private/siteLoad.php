@@ -26,6 +26,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
         . "sites.permalink, "
         . "sites.flags, "
         . "sites.theme, "
+        . "sites.lang, "
         . "sites.css_classes "
         . "FROM ciniki_wng_sites AS sites "
 //        . "LEFT JOIN ciniki_tenant_domains AS domains ON ("

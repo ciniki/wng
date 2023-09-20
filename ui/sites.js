@@ -78,6 +78,7 @@ function ciniki_wng_sites() {
                 },
             'flags':{'label':'Options', 'type':'flags', 'flags':{'1':{'name':'Default'}}},
             'theme':{'label':'Theme', 'type':'text'},
+            'lang':{'label':'Language', 'type':'text', 'size':'small'},
             'css_classes':{'label':'CSS Classes', 'type':'text'},
             }},
         '_buttons':{'label':'', 'buttons':{

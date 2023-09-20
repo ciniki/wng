@@ -62,7 +62,9 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
 
     // Generate the head content
     $content .= "<!DOCTYPE html>\n"
-        . "<html class='" . $html_class . "'>\n"
+        . "<html class='" . $html_class . "'"
+        . (isset($request['site']['lang']) && $request['site']['lang'] != '' ? " lang='{$request['site']['lang']}'" : '')
+        . ">\n"
         . "<head>\n";
     $title = '';
     if( isset($request['site']['settings']['header-site-title']) 
