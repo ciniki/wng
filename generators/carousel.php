@@ -102,8 +102,8 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             }
             // Add image set
             $content .= "background-image: -webkit-image-set("
-                . "url({$webp['url']}) 1x,"
-                . "url({$image['url']}) 2x"
+                . "url({$webp['url']}),"
+                . "url({$image['url']}) "
                 . ");"; 
             $content .= "'>";
             $content .= '</div>';
