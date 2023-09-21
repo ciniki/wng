@@ -45,7 +45,12 @@ function ciniki_wng_videoProcess($ciniki, $tnid, $request, $args) {
                 . "<div class='playbtn'>"
                 . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311.69 311.69"><path d="M155.84,0A155.85,155.85,0,1,0,311.69,155.84,155.84,155.84,0,0,0,155.84,0Zm0,296.42A140.58,140.58,0,1,1,296.42,155.84,140.58,140.58,0,0,1,155.84,296.42Z"></path><polygon points="218.79 155.84 119.22 94.34 119.22 217.34 218.79 155.84"></polygon></svg>'
                 . "</div>"
-                . "<img alt=\"{$img_title}\" src='https://img.youtube.com/vi/{$youtube_id}/maxresdefault.jpg'/></div>";
+                . "<img alt=\"{$img_title}\" src='https://img.youtube.com/vi/{$youtube_id}/maxresdefault.jpg' "
+//                . "srcset='https://img.youtube.com/vi/{$youtube_id}/mqdefault.jpg 1100w,"
+//                    . "https://img.youtube.com/vi/{$youtube_id}/maxresdefault.jpg 1200w"
+//                    . "' "
+//                . "sizes='100vmin'"
+                . "/></div>";
             $js = "function playVideo{$args['sequence']}() {"
                 . "var e=C.gE('video-{$args['sequence']}');"
                 . "e.innerHTML=\"<iframe src='https://www.youtube.com/embed/{$youtube_id}?autoplay=1&rel=0' title='YouTube Video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>\";"

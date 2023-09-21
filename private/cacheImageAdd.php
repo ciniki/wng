@@ -63,6 +63,9 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     } else {
         $extension = 'jpg';
     }
+    if( $img['type'] != 6 && isset($args['format']) && $args['format'] == 'webp' ) {
+        $extension = 'webp';
+    }
     if( $version == 'thumbnail' ) {
         $v = 't';
     } else {
@@ -141,18 +144,16 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
             //
             // Write the file
             //
-            $h = fopen($img_filename, 'w');
-            if( $h ) {
-                if( $img['type'] == 2 ) {
-                    $image->setImageFormat('png');
-                } elseif( $img['type'] == 6 ) {
-                    $image->setImageFormat('png');
-                } else {
-                    $image->setImageCompressionQuality($quality);
-                }
-                fwrite($h, $image->getImageBlob());
-                fclose($h);
+            if( $img['type'] == 2 ) {
+                $image->setImageFormat('png');
+            } elseif( $img['type'] == 6 ) {
+                $image->setImageFormat('png');
+            } elseif( isset($args['format']) && $args['format'] == 'webp' ) {
+                $image->setImageFormat('webp');
             } else {
+                $image->setImageCompressionQuality($quality);
+            }
+            if( !$image->writeImage($img_filename) ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.85', 'msg'=>'Unable to load image'));
             }
         }
