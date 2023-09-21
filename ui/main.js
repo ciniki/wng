@@ -793,12 +793,12 @@ function ciniki_wng_main() {
     //
     // The panel to edit Page
     //
-    this.edit = new M.panel('Page', 'ciniki_wng_main', 'edit', 'mc', 'medium', 'sectioned', 'ciniki.wng.main.edit');
+    this.edit = new M.panel('Page', 'ciniki_wng_main', 'edit', 'mc', 'large', 'sectioned', 'ciniki.wng.main.edit');
     this.edit.data = {};
     this.edit.page_id = 0;
     this.edit.sections = {
         'parent':{'label':'New page under', 'fields':{
-            'parent_id':{'label':'', 'hidelabel':'yes', 'required':'yes', 'type':'select', 
+            'parent_id':{'label':'Parent Page', 'hidelabel':'yes', 'type':'select', 
                 'options':{},
                 'complex_options':{'name':'name', 'value':'id'},
                 'onchange':'M.ciniki_wng_main.edit.updateForm',
@@ -810,6 +810,9 @@ function ciniki_wng_main() {
             'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
             'menu_flags':{'label':'Menu Options', 'type':'flags', 'visible':'no', 'flags':{'1':{'name':'Header'},'2':{'name':'Footer'}}},
             'flags1':{'label':'Visible', 'type':'flagtoggle', 'bit':0x01, 'field':'flags', 'default':'on'},
+            }},
+        'meta':{'label':'SEO Page Description', 'fields':{
+            'meta_description':{'label':'Menu Title', 'type':'textarea', 'size':'medium'},
             }},
         '_buttons':{'label':'', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.edit.save();'},
@@ -836,6 +839,11 @@ function ciniki_wng_main() {
                 }
                 var p = M.ciniki_wng_main.edit;
                 p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
+                if( rsp.page.parent_id == 0 ) {
+                    p.sections.parent.active = 'no';
+                } else {
+                    p.sections.parent.active = 'yes';
+                }
                 p.data = rsp.page;
                 p.refresh();
                 p.show(cb);

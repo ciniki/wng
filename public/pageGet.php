@@ -73,6 +73,7 @@ function ciniki_wng_pageGet($ciniki) {
             'image_id'=>'',
             'image_caption'=>'',
             'synopsis'=>'',
+            'meta_description'=>'',
         );
     }
 
@@ -95,7 +96,8 @@ function ciniki_wng_pageGet($ciniki) {
             . "ciniki_wng_pages.redirect_url, "
             . "ciniki_wng_pages.image_id, "
             . "ciniki_wng_pages.image_caption, "
-            . "ciniki_wng_pages.synopsis "
+            . "ciniki_wng_pages.synopsis, "
+            . "ciniki_wng_pages.meta_description "
             . "FROM ciniki_wng_pages "
             . "WHERE ciniki_wng_pages.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
             . "AND ciniki_wng_pages.id = '" . ciniki_core_dbQuote($ciniki, $args['page_id']) . "' "
@@ -103,7 +105,7 @@ function ciniki_wng_pageGet($ciniki) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
         $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.wng', array(
             array('container'=>'pages', 'fname'=>'id', 
-                'fields'=>array('site_id', 'parent_id', 'ptype', 'sequence', 'title', 'page_title', 'permalink', 'path', 'menu_flags', 'flags', 'password', 'redirect_url', 'image_id', 'image_caption', 'synopsis'),
+                'fields'=>array('site_id', 'parent_id', 'ptype', 'sequence', 'title', 'page_title', 'permalink', 'path', 'menu_flags', 'flags', 'password', 'redirect_url', 'image_id', 'image_caption', 'synopsis', 'meta_description'),
                 ),
             ));
         if( $rc['stat'] != 'ok' ) {

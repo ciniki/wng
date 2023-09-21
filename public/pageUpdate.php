@@ -32,6 +32,7 @@ function ciniki_wng_pageUpdate(&$ciniki) {
         'image_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Image'),
         'image_caption'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image Caption'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Synopsis'),
+        'meta_description'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Meta Description'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -121,7 +122,7 @@ function ciniki_wng_pageUpdate(&$ciniki) {
     // Update the page paths
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pathsUpdate');
-    $rc = ciniki_wng_pathsUpdate($ciniki, $args['tnid'], $page['site_id']);
+    $rc = ciniki_wng_pathsUpdate($ciniki, $args['tnid'], $args['site_id']);
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.54', 'msg'=>'Unable to update page paths', 'err'=>$rc['err']));
     }

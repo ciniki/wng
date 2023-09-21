@@ -33,6 +33,7 @@ function ciniki_wng_pageAdd(&$ciniki) {
         'image_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Image'),
         'image_caption'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Image Caption'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Synopsis'),
+        'meta_description'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Meta Description'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;

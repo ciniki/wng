@@ -83,8 +83,8 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     $content .= '<title>' . $title . '</title>';
-    if( isset($request['page']['seo_desc']) && $request['page']['seo_desc'] != '' ) {
-        $content .= '<meta name="description" content="' . str_replace('"', '&quot;', $request['page']['seo_desc']) . '"/>';
+    if( isset($request['page']['meta_description']) && $request['page']['meta_description'] != '' ) {
+        $content .= '<meta name="description" content="' . str_replace('"', '&quot;', $request['page']['meta_description']) . '"/>';
     }
 
     $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";

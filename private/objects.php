@@ -55,6 +55,7 @@ function ciniki_wng_objects(&$ciniki) {
             'image_id' => array('name'=>'Image', 'ref'=>'ciniki.images.image', 'default'=>'0'),
             'image_caption' => array('name'=>'Image Caption', 'default'=>''),
             'synopsis' => array('name'=>'Synopsis', 'default'=>''),
+            'meta_description' => array('name'=>'Meta Description', 'default'=>''),
             ),
         'history_table' => 'ciniki_wng_history',
         );
