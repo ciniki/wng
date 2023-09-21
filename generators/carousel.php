@@ -87,7 +87,9 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.157', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
                 }
-                $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
+                $content .= "<a target='" . $rc['target'] . "' "
+                    . ((isset($item['aria-label']) && $item['aria-label'] != '') ? " aria-label=\"" . htmlentities($item['aria-label']) . "\"" : '')
+                    . "href='" . $rc['url'] . "' />";
                 $url = 'yes';
             }
             $content .= "<div class='image' style='background:#fff url(" . $image['url'] . ") "
