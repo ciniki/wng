@@ -44,7 +44,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 'version' => 'original',
                 'maxwidth' => 2048,
                 'webp' => 'yes',
-                'sizes' => '500,1000,1500',
+                'sizes' => '400,600,1000,1500',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.102', 'msg'=>'', 'err'=>$rc['err']));
