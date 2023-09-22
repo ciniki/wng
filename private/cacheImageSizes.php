@@ -59,13 +59,15 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
         $size_css .= ($size_css != '' ? ',':'') . "url({$rc['url']})";
 
-        $bg_css = "@media screen and (max-width: {$size}px) {"
-            . $args['css_selector'] . " {"
-                . "background-image: -webkit-image-set("
-                    . $size_css
-                . ");"
-            . "}}\n"
-            . $bg_css;
+        if( isset($args['css_selector']) ) {
+            $bg_css = "@media screen and (max-width: {$size}px) {"
+                . $args['css_selector'] . " {"
+                    . "background-image: -webkit-image-set("
+                        . $size_css
+                    . ");"
+                . "}}\n"
+                . $bg_css;
+        }
     }
 
     //
@@ -106,12 +108,14 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
     //
     // Setup the background css
     //
-    $bg_css = $args['css_selector'] . " {"
-            . "background-image: url({$rc['url']});"
-            . "background-image: -webkit-image-set("
-            . $size_css
-            . ");}\n"
-            . $bg_css;
+    if( isset($args['css_selector']) ) {
+        $bg_css = $args['css_selector'] . " {"
+                . "background-image: url({$rc['url']});"
+                . "background-image: -webkit-image-set("
+                . $size_css
+                . ");}\n"
+                . $bg_css;
+    }
 
     return array('stat'=>'ok', 'url'=>$default_url, 'srcset'=>$srcset, 'bg_set'=>$bg_set, 'bg_css'=>$bg_css);
 }
