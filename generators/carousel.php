@@ -43,25 +43,25 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => 'original',
-                'maxwidth' => '2048'
+                'maxwidth' => '2048',
+                'webp' => 'yes',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
             }
             $image = $rc;
 
-            //
+/*            //
             // Create a webp version
             //
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
             $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => 'original',
-                'quality' => '90',
                 'maxwidth' => '2048',
                 'format' => 'webp',
                 ));
@@ -69,7 +69,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
             }
             $webp = $rc;
-
+*/
             //
             // Check if this should be setup as last item
             //
@@ -101,10 +101,11 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 $content .= "background-size:cover;";
             }
             // Add image set
-            $content .= "background-image: -webkit-image-set("
-                . "url({$webp['url']}),"
-                . "url({$image['url']}) "
-                . ");"; 
+            if( $image['bg_set'] != '' ) {
+                $content .= "background-image: -webkit-image-set("
+                    . $image['bg_set']
+                    . ");"; 
+            }
             $content .= "'>";
             $content .= '</div>';
 

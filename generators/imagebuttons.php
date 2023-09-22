@@ -61,11 +61,13 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => 'original',
-                'maxwidth' => '2048'
+                'maxwidth' => '1200',
+                'webp' => 'yes',
+//                'sizes' => '500,1000',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.211', 'msg'=>'', 'err'=>$rc['err']));
@@ -119,6 +121,12 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             $content .= "background-size:cover;background-position:top;";
         } else {
             $content .= "background-size:cover;";
+        }
+        // Add image set
+        if( $image['bg_set'] != '' ) {
+            $content .= "background-image: -webkit-image-set("
+                . $image['bg_set']
+                . ");"; 
         }
         $content .= "'>";
         if( isset($item['title-position']) && $item['title-position'] != '' 
