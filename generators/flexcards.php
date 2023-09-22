@@ -64,11 +64,12 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => (isset($block['image-version']) ? $block['image-version'] : 'original'),
                 'maxwidth' => (isset($block['image-size']) ? $block['image-size'] : '2048'),
+                'webp' => 'yes',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
@@ -120,6 +121,12 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             $content .= "background-size:contain;background-repeat:no-repeat;";
         } else {
             $content .= "background-size:cover;";
+        }
+        // Add image set
+        if( $image['bg_set'] != '' ) {
+            $content .= "background-image: -webkit-image-set("
+                . $image['bg_set']
+                . ");"; 
         }
         $content .= "'>";
         if( isset($item['title-position']) && $item['title-position'] != '' 

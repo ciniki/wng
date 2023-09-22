@@ -30,13 +30,25 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
     // Create the various sizes
     //
     foreach($sizes as $size) {
+        if( $webp == 'yes' ) {
+            $args['format'] = 'webp';
+            $args['maxwidth'] = $size;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
+            }
+            $default_url = $rc['url'];
+            $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
+            unset($args['format']);
+        }
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
         $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args);
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
         }
         $default_url = $rc['url'];
-        $srcset .= "{$rc['url']} {$size}w";
+        $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
     }
 
     //
@@ -49,7 +61,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
         }
-        $srcset .= "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
+        $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
         $bg_set .= ($bg_set != '' ? ', ' : '') . "url({$rc['url']})";
         unset($args['format']);
     }
@@ -63,7 +75,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
     }
     $default_url = $rc['url'];
-    $srcset .= "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
+    $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
     // Only add to background set if already items there.
     // Don't want only 1 in background set.
     if( $bg_set != '' ) {
