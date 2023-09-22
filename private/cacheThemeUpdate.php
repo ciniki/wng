@@ -13,9 +13,7 @@
 // 
 function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
 
-    //
-    // Load the site
-    //
+    // // Load the site //
     if( is_array($site_id) ) {
         $site = $site_id;
     } else {
@@ -58,7 +56,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     // Apply the theme-css-imports as they must be at the start of the file
     //
     if( isset($site['settings']['theme-css-imports']) ) {
-        $css .= $site['settings']['theme-css-imports'];
+//        $css .= $site['settings']['theme-css-imports'];
     }
 
     //
