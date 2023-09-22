@@ -59,7 +59,6 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             }
             $image = $rc;
             $css .= $rc['bg_css'];
-            error_log(print_r($rc['bg_css'],true));
 
 /*            //
             // Create a webp version
