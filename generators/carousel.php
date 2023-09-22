@@ -12,6 +12,8 @@
 function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
+    $css = '';
+    $js = '';
    
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
@@ -49,11 +51,15 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 'version' => 'original',
                 'maxwidth' => '2048',
                 'webp' => 'yes',
+                'css_selector' => "#carousel-items-{$carousel_id}-{$iid} .image",
+                'sizes' => '500,1000,1500',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
             }
             $image = $rc;
+            $css .= $rc['bg_css'];
+            error_log(print_r($rc['bg_css'],true));
 
 /*            //
             // Create a webp version
@@ -76,7 +82,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             if( $iid == (count($block['items'])-1) && count($block['items']) > 2 ) {
                 $class = 'prev';
             }
-            $content .= "<div class='item {$class}'>";
+            $content .= "<div id='carousel-items-{$carousel_id}-{$iid}' class='item {$class}'>";
             $content .= "<div class='item-wrap'>";
             $url = 'no';
             if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
@@ -92,7 +98,10 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                     . "href='" . $rc['url'] . "' />";
                 $url = 'yes';
             }
-            $content .= "<div class='image' style='background:#fff url(" . $image['url'] . ") "
+//            $content .= "<div class='image' style='background:#fff url(" . $image['url'] . ") "
+//                . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
+//                . ";";
+            $content .= "<div class='image' style='background-color: #fff; background-position: "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
                 . ";";
             if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
@@ -101,11 +110,11 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                 $content .= "background-size:cover;";
             }
             // Add image set
-            if( $image['bg_set'] != '' ) {
+/*            if( $image['bg_set'] != '' ) {
                 $content .= "background-image: -webkit-image-set("
                     . $image['bg_set']
                     . ");"; 
-            }
+            } */
             $content .= "'>";
             $content .= '</div>';
 
@@ -171,7 +180,6 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
     //
     // Setup javascript to initialize and set speed
     //
-    $js = '';
     if( isset($block['speed']) && $block['speed'] != 'none' ) {
         if( $block['speed'] == 'turtle' ) {
             $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},30000);});";
@@ -201,6 +209,6 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
         $js = "window.addEventListener('load',(e)=>{C.carousel.start(e,{$carousel_id},0);});";
     }
 
-    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
+    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js, 'css'=>$css);
 }
 ?>

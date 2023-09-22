@@ -39,6 +39,9 @@ function ciniki_wng_blocksGenerate(&$ciniki, $tnid, &$request, $blocks) {
                 if( isset($rc['js']) ) {
                     $request['response']['js'] .= $rc['js'];
                 }
+                if( isset($rc['css']) ) {
+                    $request['response']['css'] .= $rc['css'];
+                }
             }
         }
     }

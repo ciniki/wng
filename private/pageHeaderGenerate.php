@@ -109,6 +109,11 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
                 . "</script>";
         }
     }
+    if( isset($request['response']['css']) && $request['response']['css'] != '' ) {
+        $content .= "<style type='text/css'>" 
+            . $request['response']['css'] 
+            . "</style>";
+    }
     if( isset($request['response']['js']) ) {
         $content .= "<script type='text/javascript'>" 
             . $request['response']['js'] 

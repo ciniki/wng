@@ -2,6 +2,9 @@
 //
 // Description
 // -----------
+// This function will create a series of cached images for original and webp formats. 
+// The CSS is returned in reverse order so it functions properly with CSS rules.
+//
 // Arguments
 // ---------
 // ciniki:
@@ -26,10 +29,14 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
 
     $srcset = '';
     $bg_set = '';
+    $bg_css = '';
+    $maxwidth = $args['maxwidth'];
+
     //
     // Create the various sizes
     //
     foreach($sizes as $size) {
+        $size_css = '';
         if( $webp == 'yes' ) {
             $args['format'] = 'webp';
             $args['maxwidth'] = $size;
@@ -40,6 +47,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
             }
             $default_url = $rc['url'];
             $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
+            $size_css .= ($size_css != '' ? ',':'') . "url({$rc['url']})";
             unset($args['format']);
         }
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
@@ -49,11 +57,22 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         }
         $default_url = $rc['url'];
         $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
+        $size_css .= ($size_css != '' ? ',':'') . "url({$rc['url']})";
+
+        $bg_css = "@media screen and (max-width: {$size}px) {"
+            . $args['css_selector'] . " {"
+                . "background-image: -webkit-image-set("
+                    . $size_css
+                . ");"
+            . "}}\n"
+            . $bg_css;
     }
 
     //
     // Create default webp
     //
+    $args['maxwidth'] = $maxwidth;
+    $size_css = '';
     if( $webp == 'yes' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
         $args['format'] = 'webp';
@@ -63,6 +82,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         }
         $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
         $bg_set .= ($bg_set != '' ? ', ' : '') . "url({$rc['url']})";
+        $size_css .= ($size_css != '' ? ',':'') . "url({$rc['url']})";
         unset($args['format']);
     }
 
@@ -81,7 +101,18 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
     if( $bg_set != '' ) {
         $bg_set .= ", url({$rc['url']})";
     }
+    $size_css .= ($size_css != '' ? ',':'') . "url({$rc['url']})";
 
-    return array('stat'=>'ok', 'url'=>$default_url, 'srcset'=>$srcset, 'bg_set'=>$bg_set);
+    //
+    // Setup the background css
+    //
+    $bg_css = $args['css_selector'] . " {"
+            . "background-image: url({$rc['url']});"
+            . "background-image: -webkit-image-set("
+            . $size_css
+            . ");}\n"
+            . $bg_css;
+
+    return array('stat'=>'ok', 'url'=>$default_url, 'srcset'=>$srcset, 'bg_set'=>$bg_set, 'bg_css'=>$bg_css);
 }
 ?>
