@@ -70,6 +70,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         // Theme options
         'theme-css-imports',
         'theme-css-overrides',
+        'theme-google-fonts-link',
         // Meta tags
         'meta-google-analytics-account',
         'meta-google-site-verification',

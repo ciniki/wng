@@ -87,6 +87,17 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
         $content .= '<meta name="description" content="' . str_replace('"', '&quot;', $request['page']['meta_description']) . '"/>';
     }
 
+    //
+    // Add google fonts
+    //
+    if( isset($request['site']['settings']['theme-google-fonts-link'])
+        && $request['site']['settings']['theme-google-fonts-link'] != '' 
+        ) {
+        $content .= '<link rel="preconnect" href="https://fonts.googleapis.com">'
+            . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+            . '<link href="' . $request['site']['settings']['theme-google-fonts-link'] . '" rel="stylesheet">';
+    }
+
     $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";
 
     //
