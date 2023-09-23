@@ -120,9 +120,11 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
         $css .= $request['site']['settings']['theme-css-imports'] . "\n";
     }
     if( isset($request['response']['css']) && $request['response']['css'] != '' ) {
+        $css .= $request['response']['css'];
+    }
+    if( $css != '' ) {
         $content .= "<style type='text/css'>" 
             . $css
-            . $request['response']['css'] 
             . "</style>";
     }
     if( isset($request['response']['js']) ) {
