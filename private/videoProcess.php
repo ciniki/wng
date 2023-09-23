@@ -49,7 +49,7 @@ function ciniki_wng_videoProcess($ciniki, $tnid, $request, $args) {
                 . "srcset='https://img.youtube.com/vi/{$youtube_id}/mqdefault.jpg 320w,"
                     . "https://img.youtube.com/vi/{$youtube_id}/maxresdefault.jpg 1280w"
                     . "' "
-                . "sizes='50vmin'"
+                . "sizes='100vw'"
                 . "/></div>";
             $js = "function playVideo{$args['sequence']}() {"
                 . "var e=C.gE('video-{$args['sequence']}');"
