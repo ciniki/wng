@@ -33,6 +33,14 @@
 .block-accountbuttons .icons .icon {
     padding-top: 0rem;
 }
+.block-accountbuttons .icon svg,
+.block-socialicons .icon svg {
+    color: #fff;
+    background: #333;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+}
 .block-accountbuttons .icon .fab,
 .block-socialicons .icon .fab {
     font-family: 'Font Awesome 5 Brands';
@@ -82,12 +90,12 @@
     padding-top: 0.5rem;
     padding-left: 0.1rem;
 }
-.block-accountbuttons .icon .xtwitter {
+.block-accountbuttons .icon .svg {
     width: 1.3rem;
     height: 1.3rem;
     padding: 0.15rem;
 }
-.block-socialicons .icon .xtwitter {
+.block-socialicons .icon .svg {
     width: 1.5rem;
     height: 1.5rem;
     padding: 0.25rem;
