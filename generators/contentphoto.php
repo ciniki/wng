@@ -246,11 +246,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $block['image-id'],
                 'version' => 'original',
                 'maxwidth' => 2048,
+                'webp' => 'yes',
+                'sizes' => '400,600,1000,1500',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.106', 'msg'=>'', 'err'=>$rc['err']));
@@ -260,7 +262,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             // Make sure the image is in the cache
             //
             $content .= "<div class='image-wrap'>";
-            $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
+            $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
+                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
+                . "/>";
             $content .= '</div>';
         }
 
