@@ -60,21 +60,6 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             $image = $rc;
             $css .= $rc['bg_css'];
 
-/*            //
-            // Create a webp version
-            //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
-                'image_id' => $item['image-id'],
-                'version' => 'original',
-                'maxwidth' => '2048',
-                'format' => 'webp',
-                ));
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
-            }
-            $webp = $rc;
-*/
             //
             // Check if this should be setup as last item
             //

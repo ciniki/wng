@@ -176,7 +176,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
                         $button['url']
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.240', 'msg'=>'', 'err'=>$rc['err']));
                     }
                     $content .= "<div class='button-wrap"
                         . (isset($button['class']) && $button['class'] != '' ? ' ' . $button['class'] : '')

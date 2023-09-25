@@ -53,7 +53,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
         $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.237', 'msg'=>'', 'err'=>$rc['err']));
         }
         $default_url = $rc['url'];
         $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']} {$size}w";
@@ -80,7 +80,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
         $args['format'] = 'webp';
         $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.238', 'msg'=>'', 'err'=>$rc['err']));
         }
         $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
         $bg_set .= ($bg_set != '' ? ', ' : '') . "url({$rc['url']})";
@@ -94,7 +94,7 @@ function ciniki_wng_cacheImageSizes($ciniki, $tnid, $site, $args) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
     $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.235', 'msg'=>'', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.239', 'msg'=>'', 'err'=>$rc['err']));
     }
     $default_url = $rc['url'];
     $srcset .= ($srcset != '' ? ', ' : '') . "{$rc['url']}" . (isset($args['maxwidth']) && $args['maxwidth'] > 0 ? " {$args['maxwidth']}w" : '');
