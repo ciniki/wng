@@ -730,7 +730,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             if( $field['ftype'] == 'line' ) {
                 // Draw a line
-                $fields_html .= "<div class='line'></div>";
+                $fields_html .= "<div"
+                    . (isset($field['id']) && $field['id'] != '' ? " id='f-{$field['id']}'" : '')
+                    . " class='line"
+                    . (isset($field['class']) && $field['class'] != '' ? ' ' . $field['class'] : '')
+                    . "'></div>";
                 continue;
             }
             $req = '';

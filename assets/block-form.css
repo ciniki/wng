@@ -138,6 +138,7 @@
     font-weight: bold;
 }
 .block-form .field.hidden-label label,
+.block-form .line.hidden,
 .block-form .field label.hidden {
     display: none;
 }
