@@ -701,7 +701,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         //
         // Process the fields
         //
-        $fields_html = '';
+        $fields_html = '<div class="fields">';
         foreach($block['fields'] as $field) {
             if( $field['ftype'] == 'newline' ) {
                 // Start next field on a new line
@@ -710,7 +710,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             if( $field['ftype'] == 'break' ) {
                 // Close previous section
-                $fields_html .= "</div>";
+                if( isset($field['prev_fid']) ) {
+                    $fields_html .= "</div>";
+                } else {
+                    $fields_html = '';
+                }
                 if( isset($field['label']) && $field['label'] != '' ) {
                     $fields_html .= "<h2>" . $field['label'] . "</h2>";
                 }
@@ -724,7 +728,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         $fields_html .= "<div class='form-section-description'>{$rc['content']}</div>";
                     }
                 }
-                $fields_html .= "<div class='fields'>";
+//                if( isset($field['prev_fid']) ) {
+                    $fields_html .= "<div class='fields'>";
+//                }
 
                 continue;
             }
@@ -1130,7 +1136,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $content .= "<input type='hidden' name='checkout' value='Checkout' />";
         }
-        $content .= "<div class='fields'>" . $fields_html . "</div>";
+//        $content .= "<div class='fields'>" . $fields_html . "</div>";
+        $content .= $fields_html . "</div>";
         if( (isset($block['cancel-label']) && $block['cancel-label'] != '')
             || !isset($block['submit-hide']) 
             || $block['submit-hide'] != 'yes'
