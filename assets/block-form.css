@@ -539,6 +539,10 @@
         flex-grow: 1;
         flex-shrink: 1;
     }
+    .block-form .field-number.size-small input,
+    .block-form .field-number.size-small-medium input {
+        width: 100%;
+    }
     .block-form .size-tiny {
         flex-basis: 15%;
     }
@@ -583,10 +587,13 @@
     }
 }
 @media screen and (min-width: 80em) {
-    .block-form .size-small,
     .block-form .size-small-medium {
         flex-basis: 25%;
         flex-shrink: 1;
+    }
+    .block-form .field-number.size-small,
+    .block-form .field-number.size-small-medium {
+        flex-basis: 15%;
     }
     .block-form .size-small-medium {
         flex-basis: 50%;
