@@ -1149,6 +1149,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
                     if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
                         $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
+                    } elseif( isset($block['cancel-url']) && $block['cancel-url'] != '' ) {
+                        $content .= "<a class='button' href='{$block['cancel-url']}'>{$block['cancel-label']}</a>";
                     } else {
                         $content .= "<a class='button' href='javascript:submit();'>{$block['cancel-label']}</a>";
                     }
@@ -1160,6 +1162,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( isset($block['cancel-label']) && $block['cancel-label'] != '' ) {
                     if( isset($block['js-cancel']) && $block['js-cancel'] != '' ) {
                         $content .= "<a class='button' href='javascript:{$block['js-cancel']}'>{$block['cancel-label']}</a>";
+                    } elseif( isset($block['cancel-url']) && $block['cancel-url'] != '' ) {
+                        $content .= "<a class='button' href='{$block['cancel-url']}'>{$block['cancel-label']}</a>";
                     } else {
                         $content .= "<input type='submit' name='cancel' class='button' value='{$block['cancel-label']}' >";
                     }

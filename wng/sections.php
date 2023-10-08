@@ -840,6 +840,28 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         );
 
+    //
+    // Section for Files
+    //
+    $sections['ciniki.wng.files'] = array(
+        'name' => 'Files',
+        'module' => 'Website',
+        'settings' => array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            ),
+        'repeats' => array(
+            'label' => 'Files',
+            'headerValues' => array('Name', 'File'),
+            'cellClasses' => array(''),
+            'dataMaps' => array('name', 'file-id_filename'),
+            'addTxt' => 'Add File',
+            'fields' => array(
+                'file-id' => array('label'=>"File", 'type'=>'file_id'),
+                'name' => array('label'=>"Name", 'type'=>'text'),
+                ),
+            ));
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>

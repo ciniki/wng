@@ -139,6 +139,13 @@ function ciniki_wng_sectionGet($ciniki) {
             foreach($repeats['fields'] as $fid => $field) {
                 if( isset($section['settings']["{$fid}-{$i}"]) ) {
                     $repeat[$fid] = $section['settings']["{$fid}-{$i}"];
+                    if( $field['type'] == 'file_id' ) {
+                        ciniki_core_loadMethod($ciniki, 'ciniki', 'files', 'hooks', 'fileDetails');
+                        $rc = ciniki_files_hooks_fileDetails($ciniki, $args['tnid'], array('file_id'=>$repeat[$fid]));
+                        if( $rc['stat'] == 'ok' ) {
+                            $repeat[$fid . '_filename'] = $rc['file']['filename'];
+                        }
+                    }
                 }
 /*                if( isset($field['pages']) && $field['pages'] == 'yes' && isset($section['settings']["{$fid}-{$i}"]) ) {
                     if( $section['settings']["{$fid}-{$i}"] > 0 ) {
