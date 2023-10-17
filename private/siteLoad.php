@@ -52,7 +52,6 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     $site['cache_url'] = '/ciniki-wng-cache/' . $site['uuid_dir'];
     if( isset($ciniki['config']['ciniki.wng']['cdn.domain']) && $ciniki['config']['ciniki.wng']['cdn.domain'] != '' ) {
         $site['cache_url'] = '//' . $ciniki['config']['ciniki.wng']['cdn.domain'] . $site['cache_url'];
-        error_log($site['cache_url']);
     }
     $site['cache_dir'] = $ciniki['config']['ciniki.core']['modules_dir'] . '/wng/cache/' . $site['uuid_dir'];
     if( !is_dir($site['cache_dir']) ) {
