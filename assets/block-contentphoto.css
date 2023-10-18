@@ -134,7 +134,11 @@
         padding: 0rem 0rem 1rem 1rem;
     }
     .block-contentphoto.no-image .content-wrap {
+        width: 100%;
         padding: 0rem;
+    }
+    .block-contentphoto.no-image .image-wrap {
+        display: none;
     }
     .block-contentphoto .content-wrap {
         display: flex;
