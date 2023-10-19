@@ -271,11 +271,19 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'module' => 'Website',
         'settings'=>array(
             'image-id' => array('label'=>'Image', 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium'),
-            'image-position'=>array('label'=>'Image Position', 'type'=>'toggle', 'default'=>'top-right', 'toggles'=>array(
+            'image-position'=>array('label'=>'Image Position', 'type'=>'select', 'default'=>'top-right', 'options'=>array(
                 'top-left' => 'Top Left',
+                'top-left-inline' => 'Top Left Inline',
                 'bottom-left' => 'Bottom Left',
                 'top-right' => 'Top Right',
+                'top-right-inline' => 'Top Right Inline',
                 'bottom-right' => 'Bottom Right',
+                )),
+            'image-size'=>array('label'=>'Image Size', 'type'=>'toggle', 'default'=>'large', 'toggles'=>array(
+                'large' => 'Large',
+                'medium' => 'Medium',
+                'small' => 'Small',
+                'tiny' => 'Tiny',
                 )),
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),

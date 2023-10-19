@@ -949,6 +949,8 @@ function ciniki_wng_main() {
         if( s == '_settings' ) {
             if( this.data.settings[i] != null && this.data.settings[i] != 'undefined' ) {
                 return this.data.settings[i];
+            } else if( d['default'] != null ) {
+                return d['default'];
             } else {
                 return '';
             }

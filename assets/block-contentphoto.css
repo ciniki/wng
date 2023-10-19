@@ -133,6 +133,7 @@
     .block-contentphoto.image-bottom-left .content-wrap {
         padding: 0rem 0rem 1rem 1rem;
     }
+    .block-contentphoto.layout-inline .content-wrap,
     .block-contentphoto.no-image .content-wrap {
         width: 100%;
         padding: 0rem;
@@ -158,5 +159,45 @@
     }
     .block-contentphoto.iconlistphoto .list {
         margin: auto;
+    }
+    .block-contentphoto.image-top-left-inline .content,
+    .block-contentphoto.image-top-right-inline .content {
+        display: block;
+    }
+    .block-contentphoto.image-top-left-inline .content-wrap,
+    .block-contentphoto.image-top-right-inline .content-wrap {
+        display: block;
+        width: 100%;
+        padding-right: 0;
+    }
+    .block-contentphoto.image-top-left-inline .image-wrap,
+    .block-contentphoto.image-top-right-inline .image-wrap {
+        float: right;
+        padding: 0rem 0rem 1rem 2rem;
+        width: auto;
+        max-width: 50%;
+    }
+    .block-contentphoto.image-top-left-inline .image-wrap {
+        float: left;
+        padding: 0rem 2rem 1rem 0rem;
+    }
+    .block-contentphoto.image-top-left-inline.image-tiny .image-wrap,
+    .block-contentphoto.image-top-right-inline.image-tiny .image-wrap {
+        max-width: 15rem;
+    }
+    .block-contentphoto.image-top-left-inline.image-small .image-wrap,
+    .block-contentphoto.image-top-right-inline.image-small .image-wrap {
+        max-width: 20rem;
+    }
+    .block-contentphoto.image-top-left-inline.image-medium .image-wrap,
+    .block-contentphoto.image-top-right-inline.image-medium .image-wrap {
+        max-width: 25rem;
+    }
+    .block-contentphoto.image-top-left-inline:after ,
+    .block-contentphoto.image-top-right-inline:after {
+        content: '';
+        clear: both;
+        display: block;
+        height: 0px;
     }
 }

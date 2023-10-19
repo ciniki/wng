@@ -20,21 +20,25 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
     $image_position = 'top';
     if( isset($block['image-position']) && in_array($block['image-position'], ['bottom-left', 'bottom-right']) ) {
         $image_position = 'bottom';
+    } elseif( isset($block['image-position']) && in_array($block['image-position'], ['top-left-inline', 'top-right-inline']) ) {
+        $image_position = 'inline';
     }
-
+    $image_content = '';
     if( (isset($block['content']) && $block['content'] != '') 
         || (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0)  
         ) {
         $content .= "<div class='block-contentphoto"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['image-position']) && $block['image-position'] != '' ? ' image-' . $block['image-position'] : ' image-top-right')
+            . (isset($block['image-size']) && $block['image-size'] != '' ? ' image-' . $block['image-size'] : '')
+//            . (isset($block['image-layout']) && $block['image-layout'] != '' ? ' image-' . $block['image-layout'] : '')
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $link_id = isset($block['title']) && $block['title'] != '' ? ciniki_core_makePermalink($ciniki, $block['title']) : '';
         $content .= "<div id='{$link_id}' class='content'>";
 
-        if( isset($block['image-id']) && $block['image-id'] > 0 && $image_position == 'top' ) {
+        if( isset($block['image-id']) && $block['image-id'] > 0 ) {
             //
             // Copy image to cache
             //
@@ -53,8 +57,8 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             //
             // Make sure the image is in the cache
             //
-            $content .= "<div class='image-wrap'>";
-            $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
+            $image_content .= "<div class='image-wrap'>";
+            $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
                 . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
                 . "/>";
             if( isset($block['image-caption']) && $block['image-caption'] != '' ) {
@@ -62,9 +66,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                 }
-                $content .= "<div class='caption'>{$rc['content']}</div>";
+                $image_content .= "<div class='caption'>{$rc['content']}</div>";
             }
-            $content .= '</div>';
+            $image_content .= '</div>';
+        }
+
+        if( $image_position == 'top' ) {
+            $content .= $image_content;
         }
 
         $content .= "<div class='content-wrap'>"; 
@@ -83,6 +91,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
                 $content .= "<h3>" . $block['subtitle'] . "</h3>";
             }
             $content .= "</div>";
+        }
+        if( $image_position == 'inline' ) {
+            $content .= $image_content;
         }
         if( isset($block['content']) && $block['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
@@ -243,7 +254,8 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>';
 
         if( isset($block['image-id']) && $block['image-id'] > 0 && $image_position == 'bottom' ) {
-            //
+            $content .= $image_content;
+/*            //
             // Copy image to cache
             //
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
@@ -265,7 +277,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
                 . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
                 . "/>";
-            $content .= '</div>';
+            $content .= '</div>'; */
         }
 
         $content .= '</div>';
