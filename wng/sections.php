@@ -279,7 +279,8 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'top-right-inline' => 'Top Right Inline',
                 'bottom-right' => 'Bottom Right',
                 )),
-            'image-size'=>array('label'=>'Image Size', 'type'=>'toggle', 'default'=>'large', 'toggles'=>array(
+            'image-size'=>array('label'=>'Image Size', 'type'=>'toggle', 'default'=>'half', 'toggles'=>array(
+                'half' => 'Full',
                 'large' => 'Large',
                 'medium' => 'Medium',
                 'small' => 'Small',
