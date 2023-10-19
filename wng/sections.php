@@ -480,27 +480,6 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
                 ),
             ));
-/*    for($i = 1; $i <= 20; $i++) {
-        $sections['ciniki.wng.carousel']['settings']["image-{$i}"] = array(
-            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium', 'draggable'=>$i,
-            );
-        $sections['ciniki.wng.carousel']['settings']["image-position-{$i}"] = array(
-            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'draggable'=>$i, 'options'=>array(
-                'top-left' => 'Top Left',
-                'top-center' => 'Top Center',
-                'top-right' => 'Top Right',
-                'center-left' => 'Left',
-                'center-center' => 'Centered',
-                'center-right' => 'Right',
-                'bottom-left' => 'Bottom Left',
-                'bottom-center' => 'Bottom Center',
-                'bottom-right' => 'Bottom Right',
-                ));
-        $sections['ciniki.wng.carousel']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text', 'draggable'=>$i);
-        $sections['ciniki.wng.carousel']['settings']["link-page-{$i}"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes', 'draggable'=>$i);
-        $sections['ciniki.wng.carousel']['settings']["link-url-{$i}"] = array('label'=>'URL', 'type'=>'text', 'draggable'=>$i);
-        $sections['ciniki.wng.carousel']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small', 'draggable'=>$i);
-    } */
 
     //
     // The 3 text column
@@ -852,6 +831,31 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 )),
             ),
         );
+
+    //
+    // Image Gallery
+    //
+    $sections['ciniki.wng.images'] = array(
+        'name'=>'Image Gallery',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+            ),
+        'repeats' => array(
+            'label' => 'Images',
+            'headerValues' => array('Image', 'Title', 'Linked To'),
+            'cellClasses' => array('thumbnail', '', 'page-link'),
+            'dataMaps' => array('image', 'title', 'link-page'),
+            'addTxt' => 'Add Image',
+            'fields' => array(
+                'image' => array(
+                    'label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium',
+                    ),
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+                ),
+            ));
 
     //
     // Section for Files
