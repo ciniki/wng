@@ -12,7 +12,7 @@
     padding-top: 1rem;
     font-style: italic;
 }
-.block-contentphoto .content-wrap {
+.block-contentphoto .content {
     padding: 1rem;
 }
 .block-contentphoto .content-wrap .title-wrap {
@@ -111,9 +111,9 @@
     .block-contentphoto .content {
         padding: 2rem;
     }
-    .block-contentphoto .content-wrap {
+/*    .block-contentphoto .content-wrap {
         padding: 1rem 0rem;
-    }
+    } */
 }
 /*@media screen and (min-width: 40em) {
     .block-contentphoto:not(.iconlistphoto) .content {
@@ -146,22 +146,6 @@
     .block-contentphoto.image-large .content-wrap {
         flex-basis: 50%;
         flex-grow: 1;
-    }
-    .block-contentphoto.image-tiny .image-wrap {
-        max-width: 15rem;
-        flex-shrink: 1;
-    }
-    .block-contentphoto.image-small .image-wrap {
-        max-width: 20rem;
-        flex-shrink: 1;
-    }
-    .block-contentphoto.image-medium .image-wrap {
-        max-width: 25rem;
-        flex-shrink: 1;
-    }
-    .block-contentphoto.image-large .image-wrap {
-        max-width: 30rem;
-        flex-shrink: 1;
     }
     .block-contentphoto.image-top-right .image-wrap,
     .block-contentphoto.image-bottom-right .image-wrap {
@@ -223,6 +207,22 @@
         width: auto;
         max-width: 50%;
     }
+    .block-contentphoto.image-tiny .image-wrap {
+        width: 15rem;
+        max-width: 15rem;
+    }
+    .block-contentphoto.image-small .image-wrap {
+        width: 20rem;
+        max-width: 20rem;
+    }
+    .block-contentphoto.image-medium .image-wrap {
+        width: 25rem;
+        max-width: 25rem;
+    }
+    .block-contentphoto.image-large .image-wrap {
+        width: 30rem;
+        max-width: 30rem;
+    }
     .block-contentphoto.image-top-left-inline .image-wrap {
         float: left;
         padding: 0rem 2rem 1rem 0rem;
@@ -231,7 +231,7 @@
     .block-contentphoto.image-small .image-wrap img,
     .block-contentphoto.image-medium .image-wrap img,
     .block-contentphoto.image-large .image-wrap img {
-        max-width: auto;
+        max-width: 100%;
         display: block;
     }
     .block-contentphoto.image-top-left-inline:after ,
