@@ -1,6 +1,9 @@
 .block-image .content {
     padding: 1rem;
 }
+.block-image.layout-banner .content {
+    padding: 0rem;
+}
 .block-image h1,
 .block-image h2 {
     padding-bottom: 1rem;

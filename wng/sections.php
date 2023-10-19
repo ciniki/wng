@@ -837,6 +837,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'module' => 'Website',
         'settings' => array(
             'image-id' => array('label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium'),
+            'layout' => array('label'=>'Layout', 'type'=>'toggle', 'default'=>'normal', 'toggles'=>array(
+                'normal' => 'Normal',
+                'banner' => 'Banner',
+                )),
             ),
         );
 

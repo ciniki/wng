@@ -19,6 +19,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='block-image"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
+            . (isset($block['layout']) && $block['layout'] != '' ? ' layout-' . $block['layout'] : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
