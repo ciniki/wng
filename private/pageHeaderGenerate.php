@@ -122,7 +122,7 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
     if( file_exists($request['site']['cache_dir'] . '/theme/site.css') ) {
 //        $content .= "<style type='text/css'>" . file_get_contents($request['site']['cache_dir'] . '/theme/site.css') . "</style>";
-        $content .= "<link rel='stylesheet' type='text/css' media='all' href='" . $request['site']['cache_url'] . "/theme/site.css'/>\n";
+        $content .= "<link rel='stylesheet' type='text/css' media='all' href='" . $request['site']['cache_url'] . "/theme/site.css?ts=" . filemtime($request['site']['cache_dir'] . '/theme/site.css') . "'/>\n";
     }
 
     //
