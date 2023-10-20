@@ -44,8 +44,18 @@ function ciniki_wng_processors_images(&$ciniki, $tnid, &$request, $section) {
         }
     }
     if( $requested_image > 0 ) {
+        $title = '';
+        if( isset($s['title']) && $s['title'] != '' ) {
+            $title = $s['title'];
+        }
+        if( isset($s["title-{$requested_image}"]) && $s["title-{$requested_image}"] != '' ) {
+            $title .= ($title != '' ? ' - ' : '') . $s["title-{$requested_image}"];
+        }
         $blocks[] = array(
             'type' => 'image',
+            'title' => $title,
+            'class' => 'image-caption',
+            'content' => isset($s["content-{$requested_image}"]) && $s["content-{$requested_image}"] != '' ? $s["content-{$requested_image}"] : '',
             'image-id' => $s["image-{$requested_image}"],
             'image-permalink' => $requested_image,
             'image-list' => $items,

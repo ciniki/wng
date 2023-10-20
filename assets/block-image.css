@@ -58,6 +58,10 @@
     justify-content: center;
     height: 100%;
 }
+.block-image.image-caption .content-wrap {
+    font-style: italic;
+    font-size: 1.3em;
+}
 @media screen and (min-width: 40em) {
     .block-image .button-wrap .button {
         width: 7vw;

@@ -844,16 +844,16 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         'repeats' => array(
             'label' => 'Images',
-            'headerValues' => array('Image', 'Title', 'Linked To'),
-            'cellClasses' => array('thumbnail', '', 'page-link'),
-            'dataMaps' => array('image', 'title', 'link-page'),
+            'headerValues' => array('Image', 'Title', 'Caption'),
+            'cellClasses' => array('thumbnail', '', ''),
+            'dataMaps' => array('image', 'title', 'content'),
             'addTxt' => 'Add Image',
             'fields' => array(
                 'image' => array(
                     'label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium',
                     ),
                 'title' => array('label'=>'Title', 'type'=>'text'),
-                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+                'content' => array('label'=>'Caption', 'type'=>'textarea', 'size'=>'small'),
                 ),
             ));
 

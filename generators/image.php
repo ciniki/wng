@@ -47,7 +47,14 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         // Make sure the image is in the cache
         //
         $content .= "<div class='image-wrap'>";
-        $content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
+        $aria_label = '';
+        if( isset($block['title']) && $block['title'] != '' ) {
+            $aria_label = $block['title'];
+        } elseif( isset($block['content']) && $block['content'] != '' ) {
+            $aria_label = $block['content'];
+        }
+
+        $content .= "<img alt='{$aria_label}' src='" . $rc['url'] . "' />";
 
         //
         // Check if image list passed and need to find prev and next
