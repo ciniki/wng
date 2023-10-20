@@ -80,7 +80,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     $required_account_fields['province'] = 'Billing State/Province'; 
     $required_account_fields['postal'] = 'Billing ZIP/Postal Code'; 
     $required_account_fields['country'] = 'Billing Country';
-    if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x40) ) {
+    if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000040) ) {
         $required_account_fields['shipaddress1'] = 'Shipping Address';
         $required_account_fields['shipcity'] = 'Shipping City';
         $required_account_fields['shipprovince'] = 'Shipping State/Province';
@@ -1485,6 +1485,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'countryCodes');
         $rc = ciniki_core_countryCodes($ciniki);
         $country_codes = $rc['countries'];
+        if( isset($request['site']['settings']['account-allowed-countries']) 
+            && trim($request['site']['settings']['account-allowed-countries']) != '' 
+            ) {
+            if( ($allowed_codes = preg_split("/,\s*/", trim($request['site']['settings']['account-allowed-countries']))) !== false ) {
+                foreach($country_codes as $code => $country) {
+                    if( !in_array($code, $allowed_codes) ) {
+                        unset($country_codes[$code]);
+                    }
+                }
+            }
+        }
         $province_codes = $rc['provinces'];
         $address = array(
             'address1'=>(isset($_POST['address1'])?$_POST['address1']:''),
@@ -1498,8 +1509,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $form .= "<h2>Billing Address</h2>";
         $form .= "<div class='input country first-field'>"
             . "<label for='country'>Country" . (array_key_exists('country', $required_account_fields)?' *':'') . "</label>"
-            . "<select id='country_code' type='select' class='select' name='country' onchange='updateProvince()'>"
-            . "<option value=''></option>";
+            . "<select id='country_code' type='select' class='select' name='country' onchange='updateProvince()'>";
+        if( !isset($request['site']['settings']['account-allowed-countries']) 
+            || trim($request['site']['settings']['account-allowed-countries']) == '' 
+            ) {
+            $form .= "<option value=''></option>";
+        }
         $selected_country = '';
         foreach($country_codes as $country_code => $country_name) {
             $form .= "<option value='" . $country_code . "' " 
@@ -1565,7 +1580,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         //
         // Check if shipping enabled and then display shipping address
         //
-        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x40) ) {
+        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000040) ) {
             $address = array(
                 'shipaddress1'=>(isset($_POST['shipaddress1'])?$_POST['shipaddress1']:''),
                 'shipaddress2'=>(isset($_POST['shipaddress2'])?$_POST['shipaddress2']:''),
@@ -1578,8 +1593,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $form .= "<h2>Shipping Address</h2>";
             $form .= "<div class='input shipcountry'>"
                 . "<label for='shipcountry'>Country" . (array_key_exists('shipcountry', $required_account_fields)?' *':'') . "</label>"
-                . "<select id='shipcountry_code' type='select' class='select' name='shipcountry' onchange='updateShipProvince()' autocomplete='shipping country'>"
-                . "<option value=''></option>";
+                . "<select id='shipcountry_code' type='select' class='select' name='shipcountry' onchange='updateShipProvince()' autocomplete='shipping country'>";
+            if( !isset($request['site']['settings']['account-allowed-countries']) 
+                || trim($request['site']['settings']['account-allowed-countries']) == '' 
+                ) {
+                $form .= "<option value=''></option>";
+            }
             $selected_country = '';
             foreach($country_codes as $country_code => $country_name) {
                 $form .= "<option value='" . $country_code . "' " 

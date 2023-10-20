@@ -43,6 +43,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-children-update',
         'account-public-member-info',
         'account-shipping-address',
+        'account-allowed-countries',
         'account-menu-toggle-em',
         // Cart options
         'cart-active',

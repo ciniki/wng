@@ -386,6 +386,7 @@ function ciniki_wng_main() {
                 'account-children-update':{'label':'Add/Remove Children', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-public-member-info':{'label':'Public Member Info', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-shipping-address':{'label':'Shipping Address', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
+                'account-allowed-countries':{'label':'Allowed Countries', 'type':'text'},
                 'account-menu-toggle-em':{'label':'Menu Size', 'type':'select', 'default':'40', 'options':{
                     '30':'XX-Small',
                     '40':'X-Small',
