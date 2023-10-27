@@ -86,6 +86,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $required_account_fields['shipprovince'] = 'Shipping State/Province';
         $required_account_fields['shippostal'] = 'Shipping Zip/Postal Code';
         $required_account_fields['shipcountry'] = 'Shipping Country';
+        $required_account_fields['shipphone'] = 'Phone at Shipping Address';
     }
 
     //
@@ -1589,6 +1590,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 'shippostal'=>(isset($_POST['shippostal'])?$_POST['shippostal']:''),
                 'shipcountry'=>(isset($_POST['shipcountry'])?$_POST['shipcountry']:'Canada'),
                 );
+            if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.customers', 0x01000000) ) {
+                $address['shipphone'] = (isset($_POST['shipphone'])?$_POST['shipphone']:'');
+            }
             $form = '';
             $form .= "<h2>Shipping Address</h2>";
             $form .= "<div class='input shipcountry'>"
@@ -1645,6 +1649,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 . "<label for='shippostal'>ZIP/Postal Code" . (array_key_exists('shippostal', $required_account_fields)?' *':'') . "</label>"
                 . "<input type='text' class='text' name='shippostal' value='" . $address['shippostal'] . "' autocomplete='shipping postal-code'>"
                 . "</div>";
+            if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.customers', 0x01000000) ) {
+                $form .= "<div class='input shipphone'>"
+                    . "<label for='shipphone'>Phone Number" . (array_key_exists('shipphone', $required_account_fields)?' *':'') . "</label>"
+                    . "<input id='shipphone_text' type='text' class='text' name='shipphone' "
+                        . "value='" . $address['shipphone'] . "' autocomplete='shipping address-phone'>";
+            }
             $form .= "<script type='text/javascript'>"
                 . "function updateShipProvince() {"
                     . "var cc = document.getElementById('shipcountry_code');"

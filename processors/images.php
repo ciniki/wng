@@ -25,13 +25,16 @@ function ciniki_wng_processors_images(&$ciniki, $tnid, &$request, $section) {
     $cur_item_num = 1;
     for($i = 1; $i <= 100; $i++) {
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 ) {
+            $caption = '';
             if( isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ) {
-            } else {
+                $caption = $s["title-{$i}"];
+            } elseif( isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ) {
+                $caption = $s["content-{$i}"];
             }
             $items[$cur_item_num] = array(
                 'image-id' => $s["image-{$i}"],
-                'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '',
-                'aria-label' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '',
+                'caption' => $caption,
+                'aria-label' => $caption,
                 'url' => $request['page']['path'] . ($request['page']['path'] != '/' ? '/' : '') . $i,
                 'permalink' => $cur_item_num,
                 );

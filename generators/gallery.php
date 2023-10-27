@@ -51,8 +51,11 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.210', 'msg'=>'', 'err'=>$rc['err']));
                     }
-                    $alt = isset($item['title']) ? $item['title'] : '';
+                    $alt = isset($item['title']) ? $item['title'] : (isset($item['caption']) ? $item['caption'] : '');
                     $content .= "<img alt='{$alt}' src='{$rc['url']}' />";
+//                    if( isset($item['caption']) && $item['caption'] != '' ) {
+//                        $content .= "<div class='caption'>{$item['caption']}</div>";
+//                    }
                     if( isset($item['url']) ) {
                         $content .= "</a>";
                     } else {
@@ -60,7 +63,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     }
                 }
             } 
-            $content .= "<div class='item'></div>";
+//            $content .= "<div class='item'></div>";
         }
         else {
             foreach($block['items'] as $item) {

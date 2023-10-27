@@ -42,9 +42,14 @@
         flex-basis: 20%;
     }
 }
-.block-gallery.layout-originals .item img {
+.block-gallery.layout-originals .item {
     padding-bottom: 1rem;
     overflow: hidden;
+}
+.block-gallery.layout-originals .item .caption {
+    text-align: center;
+    font-style: italic;
+    padding: 1rem 1rem 2rem 1rem;
 }
 @media screen and (min-width: 40em) {
     .block-gallery.layout-originals .items {
