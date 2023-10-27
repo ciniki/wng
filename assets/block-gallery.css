@@ -42,7 +42,7 @@
         flex-basis: 20%;
     }
 }
-.block-gallery.layout-originals .item {
+.block-gallery.layout-originals .item img {
     padding-bottom: 1rem;
     overflow: hidden;
 }
