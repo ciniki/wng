@@ -39,6 +39,13 @@ function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
         }
     }
 
+    if( isset($s['title']) && $s['title'] != '' ) {
+        $blocks[] = array(
+            'type' => 'title',
+            'title' => $s['title'],
+            );
+    }
+
     $blocks[] = array(
         'type' => 'flexcards',
         'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
