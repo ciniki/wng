@@ -38,7 +38,7 @@ function ciniki_wng_generators_contentvideo(&$ciniki, $tnid, $request, $block) {
             'url' => $block['video-url'],
             'title' => $block['title'],
             'sequence' => $block['sequence'],
-            'clickload' => 'yes',
+            'clickload' => (isset($block['clickload']) && $block['clickload'] == 'no' ? 'no' : 'yes'),
             ));
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));

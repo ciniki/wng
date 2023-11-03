@@ -317,6 +317,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'bottom-right' => 'Bottom Right',
                 'bottom' => 'Bottom Wide',
                 )),
+            'clickload' => array('label'=>'Fast Load', 'type'=>'toggle', 'default'=>'yes', 'toggles'=>array(
+                'no' => 'No',
+                'yes' => 'Yes',
+                )),
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
             'content' => array('label'=>'Content', 'type'=>'textarea'),
