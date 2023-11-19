@@ -123,7 +123,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             $content .= "background-size:cover;";
         }
         // Add image set
-        if( $image['bg_set'] != '' ) {
+        if( isset($image['bg_set']) && $image['bg_set'] != '' ) {
             $content .= "background-image: -webkit-image-set("
                 . $image['bg_set']
                 . ");"; 
