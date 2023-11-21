@@ -41,17 +41,31 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     // allows several carousels on the same page
     //
     $content .= "<div class='block-textcards"
+        . (isset($block['collapsible']) && $block['collapsible'] == 'yes' ? ' collapsible' : '')
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
+    $hlevel = 2;
+    if( isset($block['level']) && $block['level'] == 3 ) {
+        $hlevel = 3;
+    }
+
     foreach($block['items'] as $iid => $item) {
         if( isset($item['synopsis']) && !isset($item['content']) ) {
             $item['content'] = $item['synopsis'];
         }
-        $content .= "<div class='item'>";
+        if( isset($block['collapsible']) && $block['collapsible'] == 'yes' && isset($item['id-permalink']) ) {
+            $content .= "<div id='{$item['id-permalink']}' "
+                . "onclick='javascript:tctoggle(\"{$item['id-permalink']}\");' "
+                . "class='item"
+                . (isset($block['collapsed']) && $block['collapsed'] == 'yes' ? ' collapsed' : '')
+                . "'>";
+        } else {
+            $content .= "<div class='item'>";
+        }
         $url = 'no';
         if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request,
@@ -66,9 +80,9 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
         }
         $content .= "<div class='item-wrap'>";
 
-        $content .= "<div class='title'><h2>{$item['title']}</h2>";
+        $content .= "<div class='title'><h{$hlevel}>" . $item['title'] . "</h{$hlevel}>";
         if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
-            $content .= "<h3>{$item['subtitle']}</h3>";
+            $content .= "<h" . ($hlevel+1) . ">{$item['subtitle']}</h" . ($hlevel+1) . ">";
         }
         $content .= "</div>";
 
@@ -99,6 +113,15 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     $content .= '</div>';
     $content .= '</div>';
 
-    return array('stat'=>'ok', 'content'=>$content);
+    $js = '';
+    if( isset($block['collapsible']) && $block['collapsible'] == 'yes' ) {
+        $js = "function tctoggle(i,s){"
+            . "var e=C.gE(i);"
+            . "C.tC(e,'collapsed');"
+            . "if(s!=null){e.scrollIntoView();}"
+            . "};";
+    }
+
+    return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }
 ?>

@@ -30,6 +30,9 @@
 .block-tradingcards .details {
     padding-top: 1rem;
 }
+.block-tradingcards .item.no-image .details {
+    padding-top: 0rem;
+}
 .block-tradingcards .title {
     font-weight: bold;
     font-size: 1.2rem;

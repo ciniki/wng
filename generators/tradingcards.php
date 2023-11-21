@@ -32,10 +32,19 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         $content .= "<h2>" . $block['title'] . "</h2>";
     }
 
+    $hlevel = 2;
+    if( isset($block['level']) && $block['level'] == 3 ) {
+        $hlevel = 3;
+    }
+
     $content .= "<div class='items'>";
     foreach($block['items'] as $iid => $item) {
 
-        $content .= "<div class='item'>";
+        $content .= "<div "
+            . (isset($item['id-permalink']) && $item['id-permalink'] != '' ? "id='{$item['id-permalink']}' " : '')
+            . "class='item"
+            . (!isset($item['image-id']) || $item['image-id'] == 0 ? ' no-image' : '') 
+            . "'>";
         if( isset($item['url']) ) {
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 0, $item['url']);
             if( $rc['stat'] != 'ok' ) {
@@ -74,9 +83,9 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
 
         $content .= "<div class='details'>";
         if( isset($item['title']) ) {
-            $content .= "<div class='title'><h2>" . $item['title'] . "</h2>";
+            $content .= "<div class='title'><h{$hlevel}>" . $item['title'] . "</h{$hlevel}>";
             if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
-                $content .= "<h3>{$item['subtitle']}</h3>";
+                $content .= "<h" . ($hlevel+1) . ">{$item['subtitle']}</h" . ($hlevel+1) . ">";
             }
             $content .= "</div>";
         }
@@ -92,7 +101,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "</div>";   // Close details
 
-        $content .= "<div class='buttons'>";
+        $buttons = '';
         for($i = 1; $i <= 10; $i++) {
             if( (!isset($item["button-{$i}-page"]) || $item["button-{$i}-page"] != '')
                 && isset($item["button-{$i}-text"]) && $item["button-{$i}-text"] != '' 
@@ -105,13 +114,15 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.14', 'msg'=>'Unable to process button', 'err'=>$rc['err']));
                 }
                 if( isset($rc['url']) && $rc['url'] != '' ) {
-                    $content .= "<a class='"
+                    $buttons .= "<a class='"
                         . (isset($item['button-class']) && $item['button-class'] != '' ? $item['button-class'] : 'button')
                         . "' href='" . $rc['url'] . "'>" . $item["button-{$i}-text"] . "</a>";
                 }
             }
         }
-        $content .= "</div>";
+        if( $buttons != '' ) {
+            $content .= "<div class='buttons'>" . $buttons . "</div>";
+        }
 
         $content .= '</div>';
         if( isset($item['url']) ) {
