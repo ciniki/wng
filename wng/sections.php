@@ -656,7 +656,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 ),
             ));
     //
-    // Section for trading cards
+    // Section for flex cards
     //
     $sections['ciniki.wng.flexcards'] = array(
         'name'=>'Flex Cards',
@@ -717,28 +717,56 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
                 ),
             ));
-/*    for($i = 1; $i <= 9; $i++) {
-        $sections['ciniki.wng.flexcards']['settings']["image-{$i}"] = array(
-            'label'=>"Image {$i}", 'type'=>'image_id', 'controls'=>'all', 'separator'=>'yes', 'size'=>'medium', 'draggable'=>$i,
-            );
-        $sections['ciniki.wng.flexcards']['settings']["image-position-{$i}"] = array(
-            'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'draggable'=>$i, 'options'=>array(
-                'top-left' => 'Top Left',
-                'top-center' => 'Top Center',
-                'top-right' => 'Top Right',
-                'center-left' => 'Left',
-                'center-center' => 'Centered',
-                'center-right' => 'Right',
-                'bottom-left' => 'Bottom Left',
-                'bottom-center' => 'Bottom Center',
-                'bottom-right' => 'Bottom Right',
-                ));
-        $sections['ciniki.wng.flexcards']['settings']["title-{$i}"] = array('label'=>'Title', 'type'=>'text', 'draggable'=>$i);
-        $sections['ciniki.wng.flexcards']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea', 'size'=>'small', 'draggable'=>$i);
-        $sections['ciniki.wng.flexcards']['settings']["link-page-{$i}"] = array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes', 'draggable'=>$i);
-        $sections['ciniki.wng.flexcards']['settings']["link-text-{$i}"] = array('label'=>'Text', 'type'=>'text', 'draggable'=>$i);
-        $sections['ciniki.wng.flexcards']['settings']["link-url-{$i}"] = array('label'=>'URL', 'type'=>'text', 'draggable'=>$i);
-    } */
+    //
+    // Section for multiple content photo blocks
+    //
+    $sections['ciniki.wng.multicontentphoto'] = array(
+        'name'=>'Multi Text & Image',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'image-size'=>array('label'=>'Image Size', 'type'=>'toggle', 'default'=>'half', 'toggles'=>array(
+                'half' => 'Full',
+                'large' => 'Large',
+                'medium' => 'Medium',
+                'small' => 'Small',
+                'tiny' => 'Tiny',
+                )),
+            'image-position' => array(
+                'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
+                    'top-left' => 'Top Left',
+                    'top-center' => 'Top Center',
+                    'top-right' => 'Top Right',
+                    'center-left' => 'Left',
+                    'center-center' => 'Centered',
+                    'center-right' => 'Right',
+                    'bottom-left' => 'Bottom Left',
+                    'bottom-center' => 'Bottom Center',
+                    'bottom-right' => 'Bottom Right',
+                )),
+            'image-alternate' => array(
+                'label' => 'Alternate Positions', 'type'=>'toggle', 'default'=>'yes', 'toggles'=>array(
+                    'no' => 'No',
+                    'yes' => 'Yes',
+                )),
+            ),
+        'repeats' => array(
+            'label' => 'Images',
+            'headerValues' => array('Image', 'Title', 'Linked To'),
+            'cellClasses' => array('thumbnail', '', 'page-link'),
+            'dataMaps' => array('image', 'title', 'link-page'),
+            'addTxt' => 'Add Card',
+            'fields' => array(
+                'image' => array(
+                    'label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium',
+                    ),
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+//                'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
+//                'link-text' => array('label'=>'Text', 'type'=>'text'),
+//                'link-url' => array('label'=>'URL', 'type'=>'text'),
+                ),
+            ));
 
     //
     // Section for image buttons
