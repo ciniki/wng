@@ -24,6 +24,13 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
     if( $image_position == '' ) {
         $image_position = 'top-right';
     }
+
+    if( isset($s['title']) && $s['title'] != '' ) {
+        $blocks[] = array(
+            'type' => 'title',
+            'title' => $s['title'],
+            );
+    }
     for($i = 1; $i <= 100; $i++) {
         if( (isset($s["image-{$i}"]) && $s["image-{$i}"] > 0)
             || (isset($s["title-{$i}"]) && $s["title-{$i}"] != '')
