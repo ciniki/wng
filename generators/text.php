@@ -33,6 +33,8 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
 
             if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
+            } elseif( isset($block['level']) && $block['level'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+                $content .= "<h1>" . $block['title'] . "</h1>";
             } elseif( isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h2>" . $block['title'] . "</h2>";
             }
