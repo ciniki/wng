@@ -307,6 +307,9 @@ span.nobreak {
 .limit-width-80 {
     max-width: 80em;
 }
+.limit-width-90 {
+    max-width: 90em;
+}
 .limit-width.center {
     margin: 0 auto;
 }
