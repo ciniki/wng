@@ -172,8 +172,10 @@
     vertical-align: middle;
 }
 .block-form .tab.required:after,
+.block-form .field.required .label:after,
 .block-form .label.required:after,
 .block-form .checkbox-label.required .label:after,
+.block-form .field.required label:after,
 .block-form label.required:after {
     content: "*";
     color: #ff5555;

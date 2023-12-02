@@ -160,9 +160,9 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
             'fields':{
                 'title':{'label':'Menu Title', 'required':'yes', 'type':'text'},
-                'page_title':{'label':'Page Title', 'type':'text'},
-                'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
-                'menu_flags':{'label':'Menu Options', 'type':'flags', 'field':'menu_flags',
+//                'page_title':{'label':'Page Title', 'type':'text'},
+//                'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
+/*                'menu_flags':{'label':'Menu Options', 'type':'flags', 'field':'menu_flags',
                     'visible':function() { 
                         if( M.ciniki_wng_main.site.data.page != null 
                             && M.ciniki_wng_main.site.data.page.parent_id == M.ciniki_wng_main.site.data.site.homepage_id 
@@ -179,13 +179,18 @@ function ciniki_wng_main() {
                     },
                 'flags3':{'label':'Members Only', 'type':'flagtoggle', 'bit':0x04, 'field':'flags', 'default':'off',
                     'active':function() { return M.modFlagSet('ciniki.customers', 0x02); },
-                    },
+                    }, */
                 'ptype':{'label':'Format', 'type':'toggle', 
                     'onchange':'M.ciniki_wng_main.site.switchType',
                     'toggles':{
                         '10':'Sectioned',
                         '40':'Redirect',
                     }},
+                },
+            },
+        'pageurl':{'label':'',
+            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
+            'fields':{
                 'page_url':{'label':'Page URL', 'type':'noedit', 'editable':'no'},
 //                'flags4':{'label':'Password', 'type':'flagtoggle', 'bit':0x08, 'field':'flags_4', 'default':'off',
 //                    'active':(M.modFlagSet('ciniki.web', 0x2000)),
@@ -202,7 +207,7 @@ function ciniki_wng_main() {
 //                    'fields':{
 //                        'page_redirect_url':{'label':'URL', 'type':'text'},
 //                    }},
-        'pagesections':{'label':'Sections', 'type':'simplegrid', 'num_cols':1,
+        'pagesections':{'label':'Page Content', 'type':'simplegrid', 'num_cols':1,
             'active':function() { 
                 if( M.ciniki_wng_main.site.view == 'page' && M.ciniki_wng_main.site.data.page.ptype == '10' ) {
                     return 'yes';
@@ -210,7 +215,7 @@ function ciniki_wng_main() {
                 return 'no';
                 },
 //            'visible':function() { return (M.ciniki_wng_main.site.view == 'page' &&? 'yes' : 'hidden'); },
-            'addTxt':'Add Section',
+            'addTxt':'Add Content',
             'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);");',
             'seqDrop':function(e,from,to) {
                 M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
@@ -288,9 +293,9 @@ function ciniki_wng_main() {
                 'header-site-title':{'label':'Site Title', 'type':'text'},
                 // FIXME: Add header-seo-title, header-seo-description
             }},
-        'headersections':{'label':'Header Sections', 'type':'simplegrid', 'num_cols':1,
+        'headersections':{'label':'Header Content', 'type':'simplegrid', 'num_cols':1,
             'active':function() { return (M.ciniki_wng_main.site.view == 'header' ? 'yes' : 'no'); },
-            'addTxt':'Add Section',
+            'addTxt':'Add Content',
             'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,\'header\',M.ciniki_wng_main.site.site_id);");',
             'seqDrop':function(e,from,to) {
                 M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
@@ -315,9 +320,9 @@ function ciniki_wng_main() {
         //
         // footer sections
         //
-        'footersections':{'label':'Footer Sections', 'type':'simplegrid', 'num_cols':1,
+        'footersections':{'label':'Footer Content', 'type':'simplegrid', 'num_cols':1,
             'active':function() { return (M.ciniki_wng_main.site.view == 'footer' ? 'yes' : 'no'); },
-            'addTxt':'Add Section',
+            'addTxt':'Add Content',
             'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,\'footer\',M.ciniki_wng_main.site.site_id);");',
             'seqDrop':function(e,from,to) {
                 M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
@@ -557,7 +562,7 @@ function ciniki_wng_main() {
         } */
     }
     this.site.fieldValue = function(s, i, d) {
-        if( s == 'pagedetails' || s == 'pageredirect' ) {
+        if( s == 'pagedetails' || s == 'pageredirect' || s == 'pageurl' ) {
             if( i == 'page_url' ) {
                 return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>';
             }
@@ -811,13 +816,19 @@ function ciniki_wng_main() {
             }},
         'details':{'label':'', 'fields':{
             'title':{'label':'Menu Title', 'required':'yes', 'type':'text'},
-            'page_title':{'label':'Page Title', 'type':'text'},
+            'page_title':{'label':'Page Title', 'type':'text', 'hint':'if different from menu title'},
             'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
             'menu_flags':{'label':'Menu Options', 'type':'flags', 'visible':'no', 'flags':{'1':{'name':'Header'},'2':{'name':'Footer'}}},
             'flags1':{'label':'Visible', 'type':'flagtoggle', 'bit':0x01, 'field':'flags', 'default':'on'},
+            'flags2':{'label':'Private', 'type':'flagtoggle', 'bit':0x02, 'field':'flags', 'default':'off',
+                'active':function() { return M.modFlagSet('ciniki.customers', 0x01); },
+                },
+            'flags3':{'label':'Members Only', 'type':'flagtoggle', 'bit':0x04, 'field':'flags', 'default':'off',
+                'active':function() { return M.modFlagSet('ciniki.customers', 0x02); },
+                },
             }},
         'meta':{'label':'SEO Page Description', 'fields':{
-            'meta_description':{'label':'Menu Title', 'type':'textarea', 'size':'medium'},
+            'meta_description':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'size':'medium'},
             }},
         '_buttons':{'label':'', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.edit.save();'},
@@ -852,6 +863,7 @@ function ciniki_wng_main() {
                 p.data = rsp.page;
                 p.refresh();
                 p.show(cb);
+                p.updateForm();
             });
         } else {
             this.reset();
@@ -906,14 +918,14 @@ function ciniki_wng_main() {
     this.section.nplist = [];
     this.section.sections = {
         'general':{'label':'', 'aside':'yes', 'fields':{
-            'ref':{'label':'Section Content', 'type':'select', 'options':{}, 
+            'ref':{'label':'Content Type', 'type':'select', 'options':{}, 
                 'onchange':'M.ciniki_wng_main.section.setSectionOptions',
                 },
             'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'medium'},
             'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
             'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
             }},
-        '_settings':{'label':'Settings', 'visible':'hidden', 'aside':'yes', 'fields':{
+        '_settings':{'label':'Content Details', 'visible':'hidden', 'aside':'yes', 'fields':{
             }},
         'repeats':{'label':'Repeats', 'type':'simplegrid', 'num_cols':1,
             'visible':'hidden', 
