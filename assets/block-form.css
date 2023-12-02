@@ -56,8 +56,13 @@
     text-align: right;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: right;
     padding: 1rem 0rem;
+    text-align: right;
+    gap: 1rem;
+}
+.block-form.simple .submit-buttons:has(>a) {
+    justify-content: space-between;
 }
 .block-form.section-selector .form-sections-fields .repeatable,
 .block-form.section-selector .form-sections-fields .form-section {
