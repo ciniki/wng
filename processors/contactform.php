@@ -68,27 +68,53 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
 
     if( isset($_POST['contact-form-name']) ) {
         if( !isset($_POST['contact-form-name']) || $_POST['contact-form-name'] == '' ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error', 
+                'content' => 'You must specify a name when using the contact form.',
+                );
             $error_message = "You must enter your name.<br/>";
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
+//            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
         }
-        if( !isset($_POST['contact-form-email']) || $_POST['contact-form-email'] == '' ) {
+        if( $error_message == '' && (!isset($_POST['contact-form-email']) || $_POST['contact-form-email'] == '') ) {
+            error_log('error');
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error', 
+                'content' => 'You must specify an email address when using the contact form.',
+                );
             $error_message = "You must enter your email address to get a response.<br/>";
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
+//            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
         }
-        if( !preg_match('/^[^ ]+\@[^ ]+\.[^ ]+$/', trim($_POST['contact-form-email'])) ) {
+        if( $error_message == '' && !preg_match('/^[^ ]+\@[^ ]+\.[^ ]+$/', trim($_POST['contact-form-email'])) ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error', 
+                'content' => 'You must specify an email address when using the contact form.',
+                );
             $error_message = "You must enter a valid email address to get a response.<br/>";
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
+//            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
         }
-        if( !isset($_POST['contact-form-subject']) || $_POST['contact-form-subject'] == '' ) {
+        if( $error_message == '' && (!isset($_POST['contact-form-subject']) || $_POST['contact-form-subject'] == '') ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error', 
+                'content' => 'You must specify a subject when using the contact form.',
+                );
             $error_message = "Please add a subject.<br/>";
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
-        } else {
+//            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
+        } elseif( isset($_POST['contact-form-subject']) ) {
             $subject = $_POST['contact-form-subject'];
         }
-        if( !isset($_POST['contact-form-message']) || trim($_POST['contact-form-message']) == '' ) {
+        if( $error_message == '' && (!isset($_POST['contact-form-message']) || trim($_POST['contact-form-message']) == '') ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error', 
+                'content' => 'You must specify a message when using the contact form.',
+                );
             $error_message = "Please enter a message.<br/>";
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
-        } else {
+//            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
+        } elseif( isset($_POST['contact-form-message']) ) {
             $msg = $_POST['contact-form-message'];
         }
 
@@ -96,48 +122,50 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         // SPAM Checker. Make sure second email field isn't filled in
         // Filter specific subjects
         //
-        if( isset($_POST['contact-form-email-again']) && $_POST['contact-form-email-again'] != '' ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - ' 
-                    . (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'NO REFERER'));
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( !isset($_SERVER['HTTP_REFERER']) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NO REFERER');
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( preg_match("/^[0-9]+$/", trim($subject)) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NUMERIC SUBJECT');
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( preg_match("/^[0-9]+$/", trim($msg)) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NUMERIC MESSAGE');
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( preg_match("/domainreg[a-z]*.com/", $_POST['contact-form-email']) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - domainworld.com');
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( preg_match("/EXPIR.*DOMAIN/", $subject) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED SUBJECT ' . $subject . ' - ' . $_POST['contact-form-email']);
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
-        }
-        if( preg_match("/domainworld.com/", $_POST['contact-form-email']) ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
-            ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
-                'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - domainworld.com');
-            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+        if( $error_message == '' ) {
+            if( isset($_POST['contact-form-email-again']) && $_POST['contact-form-email-again'] != '' ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - ' 
+                        . (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'NO REFERER'));
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( !isset($_SERVER['HTTP_REFERER']) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NO REFERER');
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( isset($subject) && preg_match("/^[0-9]+$/", trim($subject)) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NUMERIC SUBJECT');
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( isset($msg) && preg_match("/^[0-9]+$/", trim($msg)) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NUMERIC MESSAGE');
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( preg_match("/domainreg[a-z]*.com/", $_POST['contact-form-email']) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - domainworld.com');
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( preg_match("/EXPIR.*DOMAIN/", $subject) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED SUBJECT ' . $subject . ' - ' . $_POST['contact-form-email']);
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
+            if( preg_match("/domainworld.com/", $_POST['contact-form-email']) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - domainworld.com');
+                return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
+            }
         }
 
         if( $error_message == '' ) {
@@ -218,9 +246,24 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
             // Success message
             //
             if( isset($s['submitted-message']) && $s['submitted-message'] != '' ) {
-                $success_message .= $s['submitted-message'];
+                $blocks[] = array(
+                    'type' => 'msg',
+                    'level' => 'success',
+                    'content' => $s['submitted-message'],
+                    );
+//                $success_message .= $s['submitted-message'];
             } else {
-                $success_message .= "Your message has been sent.";
+                $blocks[] = array(
+                    'type' => 'msg',
+                    'level' => 'success',
+                    'content' => 'Your message has been sent.',
+                    );
+//                $success_message .= "Your message has been sent.";
+            }
+            foreach($fields as $fid => $field) {
+                if( isset($fields[$fid]['value']) ) {
+                    $fields[$fid]['value'] = '';
+                }
             }
         }
     }
