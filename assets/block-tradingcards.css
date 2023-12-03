@@ -25,10 +25,11 @@
 .block-tradingcards .image {
     max-width: 100%;
     width: 100%;
-    padding-bottom: 100%;
+/*    padding-bottom: 100%; */
 }
 .block-tradingcards .details {
     padding-top: 1rem;
+    flex-grow: 1;
 }
 .block-tradingcards .item.no-image .details {
     padding-top: 0rem;
@@ -59,33 +60,63 @@
         padding-left: 1.5rem;
         padding-right: 1.5rem;
     }
-    .block-tradingcards .item {
+    .block-tradingcards.size-regular .item {
         width: 50%;
         max-width: 50%;
         padding: 0.5rem;
     }
 }
+@media screen and (min-width: 50em) {
+    .block-tradingcards.size-25 .item {
+        width: 50%;
+        max-width: 50%;
+    }
+}
 @media screen and (min-width: 60em) {
-    .block-tradingcards .item {
+    .block-tradingcards.size-regular .item {
         width: 33.33333%;
         max-width: 33.33333%;
     }
+    .block-tradingcards.size-30 .item {
+        width: 50%;
+        max-width: 50%;
+    }
+}
+@media screen and (min-width: 75em) {
+    .block-tradingcards.size-25 .item {
+        width: 33.33%;
+        max-width: 33.33%;
+    }
 }
 @media screen and (min-width: 80em) {
-    .block-tradingcards .item {
+    .block-tradingcards.size-regular .item {
         width: 25%;
         max-width: 25%;
     }
 }
+@media screen and (min-width: 90em) {
+    .block-tradingcards.size-30 .item {
+        width: 33.33%;
+        max-width: 33.33%;
+    }
+}
 @media screen and (min-width: 100em) {
-    .block-tradingcards .item {
+    .block-tradingcards.size-regular .item {
         width: 20%;
         max-width: 20%;
     }
+    .block-tradingcards.size-25 .item {
+        width: 25%;
+        max-width: 25%;
+    }
 }
 @media screen and (min-width: 120em) {
-    .block-tradingcards .item {
+    .block-tradingcards.size-regular .item {
         width: 16.66666%;
         max-width: 16.66666%;
+    }
+    .block-tradingcards.size-30 .item {
+        width: 25%;
+        max-width: 25%;
     }
 }

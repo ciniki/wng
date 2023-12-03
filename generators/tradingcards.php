@@ -23,6 +23,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
 //    }
 
     $content .= "<div class='block-tradingcards"
+        . (isset($block['size']) && $block['size'] != '' ? ' size-' . ($block['size'] == '20' ? 'regular' : $block['size']): ' size-regular')
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";
@@ -69,7 +70,9 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.144', 'msg'=>'', 'err'=>$rc['err']));
             }
     
-            $content .= "<div class='image' style='background:url(" . $rc['url'] . ") "
+            $content .= "<div class='image-wrap'><div class='image ratio-"
+                . (isset($item['image-ratio']) && $item['image-ratio'] ? $item['image-ratio'] : '1-1')
+                . "' style='background:#fff url(" . $rc['url'] . ") "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
                 . ";";
             if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
@@ -78,7 +81,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
                 $content .= "background-size:cover;";
             }
             $content .= "'>";
-            $content .= '</div>';
+            $content .= '</div></div>';
         } 
 
         $content .= "<div class='details'>";
