@@ -44,6 +44,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         $content .= "<div "
             . (isset($item['id-permalink']) && $item['id-permalink'] != '' ? "id='{$item['id-permalink']}' " : '')
             . "class='item"
+            . (isset($item['class']) && $item['class'] != '' ? " {$item['class']}" : '') 
             . (!isset($item['image-id']) || $item['image-id'] == 0 ? ' no-image' : '') 
             . "'>";
         if( isset($item['url']) ) {
