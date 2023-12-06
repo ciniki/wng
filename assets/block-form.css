@@ -181,6 +181,7 @@
 .block-form .label.required:after,
 .block-form .checkbox-label.required .label:after,
 .block-form .field.required label:after,
+.block-form .field.field-termsofuse.required .termsofuse.required:after,
 .block-form label.required:after {
     content: "*";
     color: #ff5555;
@@ -189,6 +190,11 @@
     padding: 0rem 0.25rem;
     font-weight: 700;
     vertical-align: middle;
+}
+.block-form .field-radio.required label:after,
+.block-form .field-checkbox.checkbox-list-labeled.required label:after,
+.block-form .field.required .address-line-2 label:after {
+    content: '';
 }
 .block-form .tab.required {
 }
@@ -275,6 +281,24 @@
     flex-flow: row nowrap;
     align-items: flex-start;
     padding-top: 1rem;
+}
+.block-form .field-checkbox.description-included {
+    flex-flow: row wrap;
+}
+.block-form .field-checkbox.description-included label {
+    order: 1;
+    flex-basis: 100%;
+    flex-grow: 2;
+}
+.block-form .field-checkbox.description-included input {
+    order: 2;
+    margin-top: 1rem;
+}
+.block-form .field-checkbox.description-included .field-description {
+    order: 3;
+    flex-shrink: 1;
+    flex-basis: 80%;
+    flex-grow: 1;
 }
 .block-form .field-checkbox.hidden {
     display: none;

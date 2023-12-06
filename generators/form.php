@@ -226,6 +226,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
 //                                $req = '';
 //                            }
                         }
+                        $class = $req;
                         $editable = 'yes';
                         if( isset($field['editable']) && $field['editable'] == 'no' ) {
                             $editable = 'no';
@@ -237,10 +238,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $field_description = "<div class='field-description'>"
                                     . $rc['content']
                                     . "</div>";
+                                $class .= ' description-included';
                             }
                         }
                        
-                        $class = $req;
                         if( $field['ftype'] == 'checkbox' 
                             && isset($field['prev_fid']) 
                             && ($section['fields'][$field['prev_fid']]['ftype'] == 'content'
@@ -347,7 +348,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                             $sections .= "</div>";
-                            $sections .= "<div class='size-medium'>";
+                            $sections .= "<div class='size-medium address-line-2'>";
                             $sections .= "<label for='f-{$field['id']}-address2'>Address Line 2</label>";
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2'"
                                 . " id='f-{$field['id']}-address2'"
@@ -754,6 +755,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $field_description = "<div class='field-description'>"
                     . $field['description']
                     . "</div>";
+                $class .= ' description-included';
+                if( isset($field['class']) && $field['class'] != '' ) {
+                    $field['class'] .= ' description-included';
+                } else {
+                    $field['class'] = ' description-included';
+                }
             }
            
             $editable = 'yes';
@@ -769,6 +776,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     )
                 ) {
                 $class .= ' checkbox-list';
+                if( $block['fields'][$field['prev_fid']]['ftype'] == 'content'
+                    && isset($block['fields'][$field['prev_fid']]['required'])
+                    && $block['fields'][$field['prev_fid']]['required'] == 'yes' 
+                    ) {
+                    $class .= ' checkbox-list-labeled';
+                }
             }
             elseif( $field['ftype'] == 'checkbox' 
                 && isset($field['next_fid']) 
@@ -794,7 +807,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . "'>";
 
             if( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -805,7 +818,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             } 
             elseif( $field['ftype'] == 'email' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -815,7 +828,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'url' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -824,7 +837,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'number' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -832,7 +845,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'price' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -841,7 +854,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'phone' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='tel' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -851,7 +864,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'date' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='date' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -859,7 +872,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
             }
             elseif( $field['ftype'] == 'url' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='url' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -869,7 +882,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             elseif( $field['ftype'] == 'address' ) {
                 $fields_html .= "<div class='size-medium'>";
-                $fields_html .= "<label for='f-{$field['id']}-address1' class='{$req}'>Address Line 1</label>";
+                $fields_html .= "<label for='f-{$field['id']}-address1'>Address Line 1</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address1' id='f-{$field['id']}-address1'"
                     . ' value="' . (isset($field['value']['address1']) ? htmlspecialchars($field['value']['address1']) : '') . '"'
@@ -878,7 +891,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
                 $fields_html .= "</div>";
-                $fields_html .= "<div class='size-medium'>";
+                $fields_html .= "<div class='size-medium address-line-2'>";
                 $fields_html .= "<label for='f-{$field['id']}-address2'>Address Line 2</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-address2' id='f-{$field['id']}-address2'"
                     . ' value="' . (isset($field['value']['address2']) ? htmlspecialchars($field['value']['address2']) : '') . '"'
@@ -888,7 +901,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">";
                 $fields_html .= "</div>";
                 $fields_html .= "<div class='size-small-medium'>";
-                $fields_html .= "<label for='f-{$field['id']}-city' class='{$req}'>City</label>";
+                $fields_html .= "<label for='f-{$field['id']}-city'>City</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' id='f-{$field['id']}-city'"
                     . ' value="' . (isset($field['value']['city']) ? htmlspecialchars($field['value']['city']) : '') . '"'
                     . " maxlength='100'"
@@ -897,7 +910,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">"; 
                 $fields_html .= "</div>";
                 $fields_html .= "<div class='size-small'>";
-                $fields_html .= "<label for='f-{$field['id']}-province' class='{$req}'>Province/State</label>";
+                $fields_html .= "<label for='f-{$field['id']}-province'>Province/State</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province' id='f-{$field['id']}-province'"
                     . ' value="' . (isset($field['value']['province']) ? htmlspecialchars($field['value']['province']) : '') . '"'
                     . " maxlength='100'"
@@ -906,7 +919,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ">"; 
                 $fields_html .= "</div>";
                 $fields_html .= "<div class='size-small'>";
-                $fields_html .= "<label for='f-{$field['id']}-postal' class='{$req}'>Postal/Zip Code</label>";
+                $fields_html .= "<label for='f-{$field['id']}-postal'>Postal/Zip Code</label>";
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-postal' id='f-{$field['id']}-postal'"
                     . ' value="' . (isset($field['value']['postal']) ? htmlspecialchars($field['value']['postal']) : '') . '"'
                     . " maxlength='10'"
@@ -916,7 +929,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "</div>";
             }
             elseif( $field['ftype'] == 'textarea' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $maxwords = 0;
                 if( isset($field['max-words']) && $field['max-words'] > 0 ) {
@@ -941,7 +954,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
             }
             elseif( $field['ftype'] == 'select' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
                     . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
@@ -990,7 +1003,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "</select>";
             }
             elseif( $field['ftype'] == 'radio' ) {
-                $fields_html .= "<div class='label {$req}'>{$field['label']}</div>";
+                $fields_html .= "<div class='label'>{$field['label']}</div>";
                 $fields_html .= $field_description;
                 for($i = 0;$i < 20;$i++) {
                     if( isset($field["option-{$i}"]) && $field["option-{$i}"] != '' ) {
@@ -1011,7 +1024,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>{$field['label']}</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>{$field['label']}</label>";
                 $fields_html .= "</input>";
                 $fields_html .= $field_description;
             }
@@ -1022,7 +1035,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
             }
             elseif( $field['ftype'] == 'minsec' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<span class='nobreak'>";
                 $fields_html .= "<select name='f-{$field['id']}-min' id='f-{$field['id']}-min'"
@@ -1053,7 +1066,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "</span>";
             }
             elseif( $field['ftype'] == 'image' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading Image...</div>";
                 $fields_html .= "<div id='p-{$field['id']}' class='img-preview'><img src='"
@@ -1073,7 +1086,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 // FIXME: Add document support
             }
             elseif( $field['ftype'] == 'file' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='text' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
@@ -1091,7 +1104,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
             }
             elseif( $field['ftype'] == 'button' ) {
-                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<a class='button' id='f-{$field['id']}' "
                     . "href='{$field['href']}'>" 
