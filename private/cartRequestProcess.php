@@ -2607,6 +2607,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $block = array(
             'type' => 'msg',
             'level' => 'success',
+            'class' => 'limit-width',
             'content' => 'Thank you for your order, please send an e-transfer for the amount of: {_invoice_total_}.',
             );
         if( isset($settings['cart-etransfer-submitted-message']) && $settings['cart-etransfer-submitted-message'] != '' ) {
@@ -2632,6 +2633,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $block = array(
             'type' => 'msg',
             'level' => 'success',
+            'class' => 'limit-width',
             'content' => 'Thank you for your order, we have emailed you a receipt.'
             );
         if( isset($settings['cart-payment-success-message']) && $settings['cart-payment-success-message'] != '' ) {
