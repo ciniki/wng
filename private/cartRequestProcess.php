@@ -740,6 +740,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $blocks[] = array(
             'type' => 'msg',
             'level' => 'error',
+            'class' => 'limit-width',
             'content' => 'Item does not exist',
             );
     }
@@ -1312,6 +1313,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'error',
+                'class' => 'limit-width',
                 'content' => $passwordreseterrors,
                 );
         }
@@ -1341,6 +1343,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $blocks[] = array(  
                 'type' => 'msg',
                 'level' => 'success',
+                'class' => 'limit-width',
                 'content' => $signinmsg,
                 );
         }
@@ -1348,6 +1351,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $blocks[] = array(  
                 'type' => 'msg',
                 'level' => 'error',
+                'class' => 'limit-width',
                 'content' => $signinerrors,
                 );
         }
@@ -1706,6 +1710,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $block = array(
                 'type' => 'msg',
                 'level' => 'success',
+                'class' => 'limit-width',
                 'content' => 'Please review your order.',
                 );
 
@@ -1718,6 +1723,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'success',
+                'class' => 'limit-width',
                 'content' => 'To complete your order, please click on Pay Now below.',
                 );
         }
@@ -1726,6 +1732,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'error',
+                'class' => 'limit-width',
                 'content' => $carterrors,
                 );
         }
@@ -1734,7 +1741,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
 
         $content = '';
         $js = '';
-        $content .= "<div class='block-cart'>";
+        $content .= "<div class='block-cart limit-width'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
         $content .= "<h1>$page_title</h1>";
