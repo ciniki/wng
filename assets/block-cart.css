@@ -74,7 +74,7 @@
     -webkit-appearance: none;
 }
 .block-cart table {
-    border: 1px solid #333;
+    border: 1px solid #555;
 }
 .block-cart table th {  
     font-weight: bold;
@@ -82,7 +82,7 @@
 }
 .block-cart thead tr {
     background: #ddd;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #555;
 }
 .block-cart tbody tr:nth-child(odd) {
     background: #eee;
@@ -91,7 +91,7 @@
     background: #ddd;
 }
 .block-cart tfoot tr:first-child {
-    border-top: 1px solid #333;
+    border-top: 1px solid #555;
 }
 .block-cart tfoot tr:nth-child(odd) {
     background: #ddd;
@@ -129,4 +129,26 @@
     .block-cart .buttons .button {
         flex-grow: 0;
     }
+}
+.block-cart .donations {
+    background: #eee;
+    border: 1px solid #555;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.block-cart .donations .donation-options {
+    padding-top: 1rem;
+}
+.block-cart .donations .donation-options .button {
+    margin-left: 1rem;
+}
+.block-cart .donations .other-amount .quantity {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    max-width: 5em;
+}
+.block-cart .donations .other-amount {
+    padding-top: 1rem;
+    
 }
