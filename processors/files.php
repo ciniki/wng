@@ -111,9 +111,26 @@ function ciniki_wng_processors_files(&$ciniki, $tnid, &$request, $section) {
                 $files[$fid]['name'] = $file['filename'];
             }
         }
+        if( isset($s['content']) && $s['content'] != '' ) {
+            $blocks[] = array(
+                'type' => 'text',
+                'level' => $section['sequence'] == 1 ? 1 : 2,
+                'title' => isset($s['title']) ? $s['title'] : '',
+                'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
+                'content' => isset($s['content']) ? $s['content'] : '',
+                );
+        } else {
+            $blocks[] = array(
+                'type' => 'title',
+                'level' => $section['sequence'] == 1 ? 1 : 2,
+                'title' => isset($s['title']) ? $s['title'] : '',
+                'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
+                'content' => isset($s['content']) ? $s['content'] : '',
+                );
+        }
+
         $blocks[] = array(
             'type' => 'filelist',
-            'title' => isset($s['title']) ? $s['title'] : '',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'link-class' => isset($s['class']) ? $s['class'] : 'button',
             'items' => $files,
