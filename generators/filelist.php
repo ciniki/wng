@@ -21,13 +21,29 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
-        //
-        // Check for a title
-        //
         if( isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h2>" . $block['title'] . "</h2>";
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h2>" . $block['title'] . "</h2>";
+            } else {
+                $content .= "<h1>" . $block['title'] . "</h1>";
+            }
+        }
+        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h3>" . $block['subtitle'] . "</h3>";
+            } else {
+                $content .= "<h2>" . $block['subtitle'] . "</h2>";
+            }
         }
 
+        if( isset($block['content']) && $block['content'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            $content .= $rc['content'];
+        }
         //
         // Check for any buttons
         //
