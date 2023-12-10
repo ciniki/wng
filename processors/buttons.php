@@ -50,11 +50,15 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             );
         if( isset($s['title']) && $s['title'] > 0 ) {
-            $block['title'] = $s['title'];
+            $blocks[] = array(
+                'title' => $s['title'],
+                'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
+                );
+            //$block['title'] = $s['title'];
         }
-        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
-            $block['subtitle'] = $s['subtitle'];
-        }
+//        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
+//            $block['subtitle'] = $s['subtitle'];
+//        }
         $block['list'] = $items;
         $blocks[] = $block;
     }
