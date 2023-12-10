@@ -1,32 +1,36 @@
 .block-buttons .content {
     width: 100%;
     padding: 1rem;
+}
+.block-buttons .buttons {
+    width: 100%;
     text-align: center;
     display: flex;
     flex-flow: row wrap;
     justify-content: left;
     gap: 0.5rem;
+    margin-top: 1rem;
 }
-.block-buttons.space-between .content {
+.block-buttons.space-between .buttons {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
 }
-.block-buttons.alignright .content {
+.block-buttons.alignright .buttons {
     justify-content: right;
 }
-.block-buttons.aligncenter .content {
+.block-buttons.aligncenter .buttons {
     justify-content: center;
 }
-.block-buttons.decisionbuttons .content {
+.block-buttons.decisionbuttons .buttons {
     flex-flow: column nowrap;
     justify-content: center;
 }
-.block-buttons.width-30 .content .button {
+.block-buttons.width-30 .buttons .button {
     max-width: 30em;
     width: 100%;
 }
-.block-buttons.width-40 .content .button {
+.block-buttons.width-40 .buttons .button {
     max-width: 40em;
     width: 100%;
 }
@@ -34,6 +38,8 @@
     .block-buttons .content {
         padding-left: 2rem;
         padding-right: 2rem;
+    }
+    .block-buttons .buttons {
         gap: 1rem;
     }
 }

@@ -32,35 +32,15 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
                 'url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : '',
                 );
         }
-/*        if( isset($s["button-{$i}-text"]) && $s["button-{$i}-text"] != '' 
-            && ((isset($s["button-{$i}-url"]) && $s["button-{$i}-url"] != '') 
-                || (isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0)
-                )
-            ) {
-            $items[] = array(
-                'text' => $s["button-{$i}-text"],
-                'page' => isset($s["button-{$i}-page"]) && $s["button-{$i}-page"] > 0 ? $s["button-{$i}-page"] : 0,
-                'url' => $s["button-{$i}-url"],
-                );
-        } */
     }
     if( count($items) > 0 ) {
-        if( isset($s['title']) && $s['title'] != '' ) {
-            $blocks[] = array(
-                'type' => 'title',
-                'title' => $s['title'],
-                'level' => $section['sequence'] == 1 ? 1 : 2,
-                'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
-                );
-            //$block['title'] = $s['title'];
-        }
         $block = array(
             'type' => 'buttons',
+            'title' => isset($s['title']) ? $s['title'] : '',
+            'level' => $section['sequence'] == 1 ? 1 : 2,
+            'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             );
-//        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
-//            $block['subtitle'] = $s['subtitle'];
-//        }
         $block['list'] = $items;
         $blocks[] = $block;
     }

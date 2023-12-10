@@ -21,9 +21,34 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
+        if( isset($block['title']) && $block['title'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h2>" . $block['title'] . "</h2>";
+            } else {
+                $content .= "<h1>" . $block['title'] . "</h1>";
+            }
+        }
+        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h3>" . $block['subtitle'] . "</h3>";
+            } else {
+                $content .= "<h2>" . $block['subtitle'] . "</h2>";
+            }
+        }
+
+        if( isset($block['content']) && $block['content'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            $content .= $rc['content'];
+        }
+
         //
         // Check for any buttons
         //
+        $content .= "<div class='buttons'>";
         foreach($block['list'] as $item) {
             if( !isset($item['text']) && isset($item['title']) ) {
                 $item['text'] = $item['title'];
@@ -43,7 +68,9 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
                     . "href='" . $rc['url'] . "'>" . $item['text'] . "</a></div>";
             } 
         }
+        $content .= '</div>';
 
+        $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
