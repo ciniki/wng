@@ -47,7 +47,9 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
     if( count($items) > 0 ) {
         if( isset($s['title']) && $s['title'] != '' ) {
             $blocks[] = array(
+                'type' => 'title',
                 'title' => $s['title'],
+                'level' => $section['sequence'] == 1 ? 1 : 2,
                 'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
                 );
             //$block['title'] = $s['title'];
