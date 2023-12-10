@@ -45,17 +45,17 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
         } */
     }
     if( count($items) > 0 ) {
-        $block = array(
-            'type' => 'buttons',
-            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
-            );
-        if( isset($s['title']) && $s['title'] > 0 ) {
+        if( isset($s['title']) && $s['title'] != '' ) {
             $blocks[] = array(
                 'title' => $s['title'],
                 'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
                 );
             //$block['title'] = $s['title'];
         }
+        $block = array(
+            'type' => 'buttons',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
+            );
 //        if( isset($s['subtitle']) && $s['subtitle'] > 0 ) {
 //            $block['subtitle'] = $s['subtitle'];
 //        }
