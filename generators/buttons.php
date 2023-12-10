@@ -73,7 +73,6 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         $content .= '</div>';
         $content .= '</div>';
         $content .= '</div>';
-        $content .= '</div>';
     }
 
     return array('stat'=>'ok', 'content'=>$content);
