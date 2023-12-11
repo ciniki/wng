@@ -9,7 +9,6 @@
     flex-flow: row wrap;
     justify-content: left;
     gap: 0.5rem;
-    margin-top: 1rem;
 }
 .block-buttons.space-between .buttons {
     display: flex;
@@ -40,7 +39,6 @@
         padding-right: 2rem;
     }
     .block-buttons .buttons {
-        margin-top: 2rem;
         gap: 1rem;
     }
 }
