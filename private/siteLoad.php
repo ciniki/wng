@@ -138,7 +138,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     }
 
     //
-    // Setup the headermenu
+    // Setup the headermenu and footermenu
     //
     $add_homepage_id = $site['homepage_id'];
     if( isset($site['pages'][$site['homepage_id']]['children']) ) {

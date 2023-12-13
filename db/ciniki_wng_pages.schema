@@ -36,8 +36,8 @@
 #                               0x04 - 
 #                               0x08 - 
 #                               0x10 -
-#                               0x20 - Visible only to logged in customer/members
-#                               0x40 - Visible only to logged in members
+#                               0x20 - Visible only to logged in customer/members **Not Used**
+#                               0x40 - Visible only to logged in members **Not Used**
 #                               0x80 -
 #
 # flags:                    The options for the page.

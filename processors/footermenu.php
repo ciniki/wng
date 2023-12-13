@@ -24,6 +24,15 @@ function ciniki_wng_processors_footermenu(&$ciniki, $tnid, &$request, $section) 
         foreach($request['site']['footermenu'] as $page_id) {
             if( isset($request['site']['pages'][$page_id]) ) {
                 $page = $request['site']['pages'][$page_id];
+                //
+                // Skip hidden pages
+                //
+                if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
+                    && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
+                    ) {
+                    continue;
+                }
                 $item = array(
                     'title' => $page['title'],
                     'selected' => 'no',
