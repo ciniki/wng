@@ -23,6 +23,14 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
 
     $headerblocks = array();
     if( isset($request['site']['headersections']) ) {
+        //
+        // Remove hidden sections
+        //
+        foreach($request['site']['headersections'] as $sid => $section) {
+            if( ($section['flags']&0x10) == 0x10 ) {
+                unset($request['site']['headersections'][$sid]);
+            }
+        }
         foreach($request['site']['headersections'] as $section) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionRequestProcess');
             $rc = ciniki_wng_sectionRequestProcess($ciniki, $tnid, $request, $section);

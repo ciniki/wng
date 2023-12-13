@@ -28,6 +28,14 @@ function ciniki_wng_pageFooterGenerate(&$ciniki, $tnid, &$request) {
     //
     $footerblocks = array();
     if( isset($request['site']['footersections']) ) {
+        //
+        // Remove hidden sections
+        //
+        foreach($request['site']['footersections'] as $sid => $section) {
+            if( ($section['flags']&0x10) == 0x10 ) {
+                unset($request['site']['footersections'][$sid]);
+            }
+        }
         foreach($request['site']['footersections'] as $section) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionRequestProcess');
             $rc = ciniki_wng_sectionRequestProcess($ciniki, $tnid, $request, $section);
