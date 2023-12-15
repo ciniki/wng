@@ -123,15 +123,23 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'no' => 'Always Visible',
                 'yes' => 'Only With Menu',
                 ));
+        //
         // Check if shopping cart enabled
-        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08) ) {
+        // **never implemented**
+        //
+/*        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08) ) {
             $sections['ciniki.wng.headermenu']['settings']['cart-icon'] = array(
                 'label'=>'Cart Icon', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
                     'no' => 'No',
                     'yes' => 'Yes',
                     ));
-        }
+        } */
     }
+    $sections['ciniki.wng.headermenu']['settings']['right-button-page'] = array(
+        'label' => 'Right Button',
+        'type' => 'select',
+        'pages' => 'yes',
+        );
 
     //
     // Footer Menu - No Image

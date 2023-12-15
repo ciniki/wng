@@ -157,6 +157,13 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     ) {
                     continue;
                 }
+                // 
+                // Skip any menu items that will become a special button
+                // These pages will still show in hamburger menu
+                //
+                if( isset($s['right-button-page']) && $s['right-button-page'] == $page_id ) {
+                    continue;
+                }
                 $item = array(
                     'title' => $page['title'],
                     'selected' => 'no',
@@ -364,6 +371,15 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
     }
     if( isset($s['dropdown']) && $s['dropdown'] != '' && $s['dropdown'] != 'off' ) {
         $block['dropdown'] = $s['dropdown'];
+    }
+    if( isset($s['right-button-page']) && $s['right-button-page'] > 0 && isset($request['site']['pages'][$s['right-button-page']]) ) {
+        $block['right-buttons'] = array(
+            array(
+                'page' => $s['right-button-page'],
+                'text' => $request['site']['pages'][$s['right-button-page']]['title'],
+                'url' => '',
+                ),
+            );
     }
 
     $blocks[] = $block;

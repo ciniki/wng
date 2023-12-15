@@ -64,6 +64,9 @@
 .block-form.simple .submit-buttons:has(>a) {
     justify-content: space-between;
 }
+.block-form.simple .submit-buttons.hidden {
+    display: none;
+}
 .block-form.section-selector .form-sections-fields .repeatable,
 .block-form.section-selector .form-sections-fields .form-section {
     display: none;
@@ -558,6 +561,9 @@
         flex-flow: row wrap;
         align-content: stretch;
         align-items: stretch;
+    }
+    .block-form .fields.hidden {
+        display: none;
     }
     .block-form .field,
     .block-form .size-tiny,

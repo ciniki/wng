@@ -732,7 +732,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     }
                 }
 //                if( isset($field['prev_fid']) ) {
-                    $fields_html .= "<div class='fields'>";
+                    $fields_html .= "<div "
+                        . (isset($field['id']) && $field['id'] != '' ? " id='{$field['id']}'" : '')
+                        . "class='fields"
+                        . (isset($field['class']) && $field['class'] != '' ? " {$field['class']}" : '')
+                        . "'>";
 //                }
 
                 continue;
@@ -1157,7 +1161,11 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             || !isset($block['submit-hide']) 
             || $block['submit-hide'] != 'yes'
             ) {
-            $content .= "<div class='submit-buttons'>";
+            $content .= "<div "
+                . (isset($block['form-id']) && $block['form-id'] != '' ? " id='{$block['form-id']}_submit_buttons'" : '')
+                . "class='submit-buttons"
+                . (isset($block['submit-buttons-class']) && $block['submit-buttons-class'] != '' ? " {$block['submit-buttons-class']}" : '')
+                . "'>";
             if( isset($block['form-id']) && $block['form-id'] != '' 
                 && isset($block['js-submit']) && $block['js-submit'] == 'yes' 
                 ) {

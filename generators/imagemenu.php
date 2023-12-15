@@ -167,7 +167,27 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 $content .= "</li>";
             }
         }
-        $content .= "</ul></nav>";
+        $content .= "</ul>";
+        if( isset($block['right-buttons']) && count($block['right-buttons']) > 0 ) {
+            $content .= "<div class='buttons'>";
+            foreach($block['right-buttons'] as $item) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                    isset($item['page']) ? $item['page'] : 0,
+                    $item['url']
+                    );
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
+                }
+                $content .= "<div class='button-wrap"
+                    . (isset($item['class']) && $item['class'] != '' ? ' ' . $item['class'] : '')
+                    . "'><a class='button' "
+                    . (isset($item['target']) && $item['target'] != '' ? "target='{$item['target']}' " : '')
+                    . "href='" . $rc['url'] . "'>" . $item['text'] . "</a></div>";
+            }
+            $content .= "</div>";
+        }
+        $content .= "</nav>";
         $content .= "</div>";
     }
 

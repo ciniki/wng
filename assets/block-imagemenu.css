@@ -56,6 +56,13 @@
     display: inline-block;
     vertical-align: middle;
     text-align: right;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: right;
+    align-items: center;
+}
+.block-imagemenu .buttons {
+    padding-left: 1rem;
 }
 .block-imagemenu nav > ul {
     display: block;

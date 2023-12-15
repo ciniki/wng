@@ -1003,6 +1003,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         // Check the items in the cart before checkout to make sure still available
         //
         $unavailable = '';
+        $blocked = '';
         $student_forms = array();
         foreach($cart['items'] as $iid => $item) {
             if( isset($item['item']['form_id']) && $item['item']['form_id'] > 0 
@@ -1028,6 +1029,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     }
                     unset($cart['items'][$iid]);
                 }
+                elseif( $rc['stat'] == 'block' ) {
+                    $blocked = ($blocked != '' ? ', ' : '') . $item['item']['description'];
+                }
                 elseif( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
                 }
@@ -1036,6 +1040,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $request['session']['cart']['num_items'] = count($cart['items']);
         if( $unavailable != '' ) {
             $carterrors = "We're sorry, the following items are no longer available and have been removed from your cart: " . $unavailable;
+            $cart_edit = 'yes';
+            $display_cart = 'yes';
+        }
+        elseif( $blocked != '' ) {
+            $carterrors = "We're sorry, the following items are no longer available and need to be removed before you can checkout: " . $blocked;
             $cart_edit = 'yes';
             $display_cart = 'yes';
         }
