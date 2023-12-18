@@ -60,7 +60,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     $cart = NULL;
     $cart_edit = 'yes';
     $errors = array();
-    $paypal_checkout = 'no';
+//    $paypal_checkout = 'no';
     $stripe_checkout = 'no';
     $etransfer_checkout = 'no';
     $page_title = "Shopping Cart";
@@ -164,12 +164,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $stripe_checkout = 'yes';
     }
 
-    if( isset($request['site']['settings']['paypal-ec-clientid']) && $request['site']['settings']['paypal-ec-clientid'] != '' 
-        && isset($request['site']['settings']['paypal-ec-password']) && $request['site']['settings']['paypal-ec-password'] != '' 
-        && isset($request['site']['settings']['paypal-ec-signature']) && $request['site']['settings']['paypal-ec-signature'] != '' 
-        ) {
-        $paypal_checkout = 'yes';
-    }
+//    if( isset($request['site']['settings']['paypal-ec-clientid']) && $request['site']['settings']['paypal-ec-clientid'] != '' 
+//        && isset($request['site']['settings']['paypal-ec-password']) && $request['site']['settings']['paypal-ec-password'] != '' 
+//        && isset($request['site']['settings']['paypal-ec-signature']) && $request['site']['settings']['paypal-ec-signature'] != '' 
+//        ) {
+//        $paypal_checkout = 'yes';
+//    }
 
     if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x40000000) ) {
         $etransfer_checkout = 'yes';
@@ -694,55 +694,69 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Check if item was requested to be removed from the cart
     //
     elseif( isset($_GET['d']) && $_GET['d'] != '' ) {
+        $found = 'no';
         foreach($cart['items'] as $item) {
             $item = $item['item']; 
             if( $item['id'] == $_GET['d'] ) {
-                $display_cart = 'no';
-                $item_desc = (isset($item['code']) && $item['code'] != '' ? $item['code'] . ' - ': '') . $item['description'];
-                if( isset($item['notes']) && $item['notes'] != '' ) {
-                    $item_desc .= "<br/>" . $item['notes'];
+                $found = 'yes';
+                if( ($item['flags']&0x010000) == 0x010000 ) {
+                    $display_cart = 'yes';
+                    $blocks[] = array(
+                        'type' => 'msg',
+                        'level' => 'error',
+                        'class' => 'limit-width',
+                        'content' => 'You are not allowed to remove this item from your cart.',
+                        );
+                } else {
+                    $display_cart = 'no';
+                    $item_desc = (isset($item['code']) && $item['code'] != '' ? $item['code'] . ' - ': '') . $item['description'];
+                    if( isset($item['notes']) && $item['notes'] != '' ) {
+                        $item_desc .= "<br/>" . $item['notes'];
+                    }
+                    
+                    $blocks[] = array(
+                        'type' => 'form',
+                        'title' => 'Delete From Cart',
+                        'class' => 'limit-width limit-width-50',
+                        'form-action' => $request['ssl_domain_base_url'] . '/cart',
+                        'cancel-label' => 'Cancel',
+                        'submit-label' => 'Remove Item',
+                        'fields' => array(
+                            'action' => array(
+                                'id' => 'action',
+                                'ftype' => 'hidden',
+                                'value' => 'delete',
+                                ),
+                            'item_id' => array(
+                                'id' => 'item_id',
+                                'ftype' => 'hidden',
+                                'value' => $item['id'],
+                                ),
+                            'msg' => array(
+                                'id' => 'msg',
+                                'ftype' => 'content',
+                                'label' => "Are you sure you want to remove the following item from your cart?",
+                                ),
+                            'desc' => array(
+                                'id' => 'desc',
+                                'ftype' => 'content',
+                                'description' => $item_desc,
+                                ),
+                            ),
+                        );
+                    return array('stat'=>'ok', 'blocks'=>$blocks);
                 }
-                
-                $blocks[] = array(
-                    'type' => 'form',
-                    'title' => 'Delete From Cart',
-                    'class' => 'limit-width limit-width-50',
-                    'form-action' => $request['ssl_domain_base_url'] . '/cart',
-                    'cancel-label' => 'Cancel',
-                    'submit-label' => 'Remove Item',
-                    'fields' => array(
-                        'action' => array(
-                            'id' => 'action',
-                            'ftype' => 'hidden',
-                            'value' => 'delete',
-                            ),
-                        'item_id' => array(
-                            'id' => 'item_id',
-                            'ftype' => 'hidden',
-                            'value' => $item['id'],
-                            ),
-                        'msg' => array(
-                            'id' => 'msg',
-                            'ftype' => 'content',
-                            'label' => "Are you sure you want to remove the following item from your cart?",
-                            ),
-                        'desc' => array(
-                            'id' => 'desc',
-                            'ftype' => 'content',
-                            'description' => $item_desc,
-                            ),
-                        ),
-                    );
-                return array('stat'=>'ok', 'blocks'=>$blocks);
             }
         }
 
-        $blocks[] = array(
-            'type' => 'msg',
-            'level' => 'error',
-            'class' => 'limit-width',
-            'content' => 'Item does not exist',
-            );
+        if( $found == 'no' ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error',
+                'class' => 'limit-width',
+                'content' => 'Item does not exist',
+                );
+        }
     }
     //
     // Check if delete confirmed
@@ -754,7 +768,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         if( isset($cart['items']) ) {
             foreach($cart['items'] as $item) {
                 $item = $item['item'];
-                if( $item['id'] == $_POST['f-item_id'] ) {
+                if( $item['id'] == $_POST['f-item_id'] && ($item['flags']&0x010000) == 0 ) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemDelete');
                     $rc = ciniki_sapos_wng_cartItemDelete($ciniki, $tnid, $request, array('item_id'=>$item['id']));
                     if( $rc['stat'] != 'ok' ) {
@@ -967,7 +981,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             unset($request['session']['cart']);
         }
     }
-
     //
     // Check if action is forgot
     //
@@ -1004,6 +1017,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         //
         $unavailable = '';
         $blocked = '';
+        $updated = '';
         $student_forms = array();
         foreach($cart['items'] as $iid => $item) {
             if( isset($item['item']['form_id']) && $item['item']['form_id'] > 0 
@@ -1016,12 +1030,13 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'sapos', 'cartItemCheck');
             if( $rc['stat'] == 'ok' ) {
                 $fn = $rc['function_call'];
+                $item['item']['invoice_id'] = $cart['id'];
                 $rc = $fn($ciniki, $tnid, $request['session']['customer'], $item['item']);
                 if( $rc['stat'] == 'unavailable' ) {
                     //
                     // Remove item from cart
                     //
-                    $unavailable = ($unavailable != '' ? ', ' : '') . $item['item']['description'];
+                    $unavailable .= ($unavailable != '' ? "\n" : '') . $item['item']['description'];
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartItemDelete');
                     $rc = ciniki_sapos_wng_cartItemDelete($ciniki, $tnid, $request, array('item_id'=>$item['item']['id']));
                     if( $rc['stat'] != 'ok' ) {
@@ -1029,8 +1044,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     }
                     unset($cart['items'][$iid]);
                 }
-                elseif( $rc['stat'] == 'block' ) {
-                    $blocked = ($blocked != '' ? ', ' : '') . $item['item']['description'];
+                elseif( $rc['stat'] == 'blocked' ) {
+                    $blocked .= ($blocked != '' ? "\n" : '') . $item['item']['description'];
+                }
+                elseif( $rc['stat'] == 'updated' ) {
+                    $updated .= ($updated != '' ? "\n" : '') . $rc['msg'];
                 }
                 elseif( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
@@ -1039,16 +1057,27 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         }
         $request['session']['cart']['num_items'] = count($cart['items']);
         if( $unavailable != '' ) {
-            $carterrors = "We're sorry, the following items are no longer available and have been removed from your cart: " . $unavailable;
+            $carterrors = "We're sorry, the following items are no longer available and have been removed from your cart: \n\n" . $unavailable;
             $cart_edit = 'yes';
             $display_cart = 'yes';
         }
         elseif( $blocked != '' ) {
-            $carterrors = "We're sorry, the following items are no longer available and need to be removed before you can checkout: " . $blocked;
+            $carterrors = "We're sorry, the following items are no longer available and need to be removed before you can checkout: \n\n" . $blocked;
             $cart_edit = 'yes';
             $display_cart = 'yes';
+        } 
+        elseif( $updated != '' ) {
+            $carterrors = $updated;
+            // Cart was updated, reload
+            $rc = ciniki_sapos_wng_cartLoad($ciniki, $tnid, $request);
+            if( $rc['stat'] != 'ok' ) { 
+                return $rc;
+            }
+            $cart = $rc['cart'];
+            $request['session']['cart'] = $rc['cart'];
         }
         elseif( isset($cart['customer_id']) && $cart['customer_id'] > 0 ) {
+            $request['session']['cart']['checkout_timer_start_dt'] = new DateTime('now', new DateTimezone('UTC'));
             $display_cart = 'review';
             $cart_edit = 'no';
             $page_title = 'Checkout - Review';
@@ -1087,7 +1116,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Check if checkout via paypal
     //
-    elseif( isset($_POST['paypalexpresscheckout']) && $_POST['paypalexpresscheckout'] != '' && $cart != NULL 
+/*    elseif( isset($_POST['paypalexpresscheckout']) && $_POST['paypalexpresscheckout'] != '' && $cart != NULL 
         && isset($cart['customer_id']) && $cart['customer_id'] > 0 
         ) {
         //
@@ -1109,7 +1138,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_cart = 'review';
         }
         $page_title = 'Checkout - Review';
-    }
+    } */
 
     //
     // Check if etransfer checkout
@@ -1230,7 +1259,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // Check if checkout was paypal express success
     //
-    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pesuccess'
+/*    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pesuccess'
         && isset($_GET['token']) && $_GET['token'] != '' 
         ) {
 
@@ -1250,16 +1279,16 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $display_cart = 'paypalexpresscheckoutconfirm';
         $cart_edit = 'no';
         $page_title = 'Checkout - Confirm Payment';
-    }
+    } */
 
     //
     // Check if checkout was paypal express success
     //
-    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pecancel') {
+/*    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pecancel') {
         $carterrors = "You cancelled the transaction at Paypal, your purchase was not completed.";
-    }
+    } */
 
-    elseif( isset($_POST['paypalexpresscheckoutdo']) && $_POST['paypalexpresscheckoutdo'] != '' && $cart != NULL ) {
+/*    elseif( isset($_POST['paypalexpresscheckoutdo']) && $_POST['paypalexpresscheckoutdo'] != '' && $cart != NULL ) {
         //
         // Get the paypal payment information
         //
@@ -1306,7 +1335,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $request['session']['cart']['num_items'] = 0;
             }
         }
-    }
+    } */
     
     //
     // Display the forgot password link
@@ -1707,7 +1736,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         || $display_cart == 'confirm' 
         || $display_cart == 'review' 
         || $display_cart == 'regreview' 
-        || $display_cart == 'paypalexpresscheckoutconfirm' 
+//        || $display_cart == 'paypalexpresscheckoutconfirm' 
         ) {
         $request['breadcrumbs'][] = array(
             'name' => 'Cart', 
@@ -2151,11 +2180,13 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     }
                     
                     // Icon from iconfinder.com: https://www.iconfinder.com/icons/8530709/trash_alt_icon
-                    $content .= "<span class='submit'>"
-                        . '<span class="icon remove clickable" onclick="window.location.href=\'' . $request['ssl_domain_base_url'] . '/cart?d=' . $item['id'] . '\'">'
-                        . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"/></svg>'
-                        . "</span>"
-                        . "</span>";
+                    if( ($item['flags']&0x010000) == 0 ) {
+                        $content .= "<span class='submit'>"
+                            . '<span class="icon remove clickable" onclick="window.location.href=\'' . $request['ssl_domain_base_url'] . '/cart?d=' . $item['id'] . '\'">'
+                            . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"/></svg>'
+                            . "</span>"
+                            . "</span>";
+                    }
                     $content .= "</td>";
                 }
                 $content .= "</tr>";
@@ -2571,17 +2602,17 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
                     }
                 }
-                if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+/*                if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                 }
                 elseif( $paypal_checkout == 'yes' ) {
                     $content .= "<input class='button submit' type='submit' name='paypalexpresscheckout' value='Checkout with a Credit Card'/>";
-                }
+                } */
                 $content .= "</span>";
-            } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
+/*            } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
                 $content .= "<span class='cart-submit'>"
                     . "<input class='button submit' type='submit' name='paypalexpresscheckoutdo' value='Pay Now'/>"
-                    . "</span>";
+                    . "</span>"; */
             } elseif( $display_cart == 'regreview' ) {
                 $content .= "<span class='cart-submit'>"
                     . "<input type='hidden' name='regreviewed' value='yes'/>"
