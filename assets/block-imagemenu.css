@@ -58,7 +58,7 @@
     text-align: right;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: right;
+/*    justify-content: right; */
     align-items: center;
 }
 .block-imagemenu .buttons {
