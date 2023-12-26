@@ -17,6 +17,22 @@ C.tC = function(e, c) {
         }
     }
 };
+// Fint the parent node with class pc and toggle class c
+C.tpC=function(e,pc,c) {
+    if( e.classList != null ) {
+        if( e.classList.contains(pc) ) {
+            C.tC(e,c);
+        } else if(e.parentNode != null ) {
+            C.tpC(e.parentNode,pc,c);
+        }
+    } else if( e.className != null ) {
+        if( e.className.indexOf(pc) > -1 ) {
+            C.tC(e,c);
+        } else if(e.parentNode != null ) {
+            C.tpC(e.parentNode,pc,c);
+        }
+    }
+};
 //
 // Function to add a class
 //

@@ -1,0 +1,69 @@
+.block-accordian .items {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding: 0.5rem;
+}
+.block-accordian .item {
+    min-width: auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+}
+.block-accordian .item-wrap {
+    display: flex;
+    border: 1px solid #ddd;
+    height: 100%;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+.block-accordian .title-wrap {
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+    background: #eee;
+    cursor: pointer;
+    justify-content: space-between;
+    width: 100%;
+    flex-grow: 1;
+    align-items: center;
+}
+.block-accordian .title {
+    padding: 1rem;
+    flex-grow: 1;
+}
+.block-accordian .toggle {
+    padding: 1rem;
+}
+.block-accordian .toggle:after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0rem;
+    content: "-";
+    background: #aaa;
+    color: #000;
+    font-size: 1.1em;
+    border-radius: 50%;
+    width: 1.7rem;
+    height: 1.7rem;
+    text-align: center;
+}
+.block-accordian .collapsed .toggle:after {
+    content: "+";
+}
+.block-accordian .info {
+    flex-grow: 1;
+}
+.block-accordian .collapsed .info {
+    display: none;
+}
+.block-accordian .info {
+    padding: 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-accordian .items {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}

@@ -1,0 +1,59 @@
+<?php
+//
+// Description
+// -----------
+// Process the four text columns with titles and possible button text
+// 
+// Arguments
+// ---------
+// ciniki: 
+// tnid:            The ID of the current tenant.
+// 
+// Returns
+// ---------
+// 
+function ciniki_wng_processors_accordian(&$ciniki, $tnid, &$request, $section) {
+
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
+
+    $blocks = array();
+    $s = isset($section['settings']) ? $section['settings'] : array();
+
+    $items = array();
+    for($i = 1; $i <= 100; $i++) {
+        if( (isset($s["title-{$i}"]) && $s["title-{$i}"] != '') 
+            || (isset($s["content-{$i}"]) && $s["content-{$i}"] != '')
+            ) {
+            $items[] = array(
+                'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '&nbsp;',
+                'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
+                );
+        }
+    }
+
+    if( isset($s['content']) && $s['content'] != '' ) {
+        $blocks[] = array(
+            'type' => 'text',
+            'level' => $section['sequence'] > 1 ? 2 : 1,
+            'title' => isset($s['title']) ? $s['title'] : '',
+            'content' => $s['content'],
+            );
+    }
+    elseif( isset($s['title']) && $s['title'] != '' ) {
+        $blocks[] = array(
+            'type' => 'title',
+            'level' => $section['sequence'] > 1 ? 2 : 1,
+            'title' => $s['title'],
+            );
+    }
+
+    $blocks[] = array(
+        'type' => 'accordian',
+        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
+        'sequence' => $section['sequence'],
+        'items' => $items,
+        );
+
+    return array('stat'=>'ok', 'blocks'=>$blocks);
+}
+?>

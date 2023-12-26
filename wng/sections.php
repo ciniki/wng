@@ -919,6 +919,28 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 ),
             ));
 
+    //
+    // Accordian section
+    //
+    $sections['ciniki.wng.accordian'] = array(
+        'name'=>'Accordian',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'content' => array('label'=>'Intro', 'type'=>'textarea'),
+            ),
+        'repeats' => array(
+            'label' => 'Blocks',
+            'headerValues' => array('Title'),
+            'cellClasses' => array(''),
+            'dataMaps' => array('title'),
+            'addTxt' => 'Add Block',
+            'fields' => array(
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'large'),
+                ),
+            ));
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>
