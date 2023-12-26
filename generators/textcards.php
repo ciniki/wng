@@ -59,7 +59,8 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
         }
         if( isset($block['collapsible']) && $block['collapsible'] == 'yes' && isset($item['id-permalink']) ) {
             $content .= "<div id='{$item['id-permalink']}' "
-                . "onclick='javascript:tctoggle(\"{$item['id-permalink']}\");' "
+//                . "onclick='javascript:tctoggle(\"{$item['id-permalink']}\");' "
+                . "onclick='javascript:C.tpC(event.srcElement,\"item\",\"collapsed\");' "
                 . "class='item"
                 . (isset($block['collapsed']) && $block['collapsed'] == 'yes' ? ' collapsed' : '')
                 . "'>";
@@ -114,13 +115,13 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     $content .= '</div>';
 
     $js = '';
-    if( isset($block['collapsible']) && $block['collapsible'] == 'yes' ) {
+/*    if( isset($block['collapsible']) && $block['collapsible'] == 'yes' ) {
         $js = "function tctoggle(i,s){"
             . "var e=C.gE(i);"
             . "C.tC(e,'collapsed');"
             . "if(s!=null){e.scrollIntoView();}"
             . "};";
-    }
+    } */
 
     return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }

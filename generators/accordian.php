@@ -53,7 +53,7 @@ function ciniki_wng_generators_accordian(&$ciniki, $tnid, &$request, $block) {
         // If onlick is attached to item-wrap then user cannot select text from div.info 
         //
         $content .= "<div class='title-wrap' "
-            . "onclick='javascript:console.log(event.srcElement);C.tpC(event.srcElement,\"item\",\"collapsed\");' "
+            . "onclick='javascript:C.tpC(event.srcElement,\"item\",\"collapsed\");' "
             . "><div class='title'>" . $item['title'] . "</div><div class='toggle'></div></div>";
 
         $content .= "<div class='info'>";
