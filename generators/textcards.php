@@ -115,6 +115,7 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     $content .= '</div>';
 
     $js = '';
+// Converted to use built in javascript function, dec 26, 2023
 /*    if( isset($block['collapsible']) && $block['collapsible'] == 'yes' ) {
         $js = "function tctoggle(i,s){"
             . "var e=C.gE(i);"
