@@ -42,11 +42,17 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         && ($request['site']['pages'][$page_id]['flags']&0x04) == 0x04 
         && (!isset($request['session']['customer']['member_status']) || $request['session']['customer']['member_status'] != 10)
         ) {
+        //
+        // FIXME: Add check for if session customer is member
+        //
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
         $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request);
         if( $rc['stat'] != 'authenticated' ) {
             $request['response']['blocks'] = isset($rc['blocks']) ? $rc['blocks'] : array();
             return array('stat'=>'ok');
+        }
+        if( !isset($request['session']['customer']['member_status']) || $request['session']['customer']['member_status'] != 10 ) {
+            return array('stat'=>'404');
         }
     }
     //

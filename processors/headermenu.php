@@ -153,7 +153,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 //
                 if( (isset($page['flags']) && ($page['flags']&0x01) == 0) 
                     && (($page['flags']&0x02) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
-                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] <= 0))
+                    && (($page['flags']&0x04) == 0 || (!isset($request['session']['customer']['member_status']) || $request['session']['customer']['member_status'] != 10))
                     ) {
                     continue;
                 }
