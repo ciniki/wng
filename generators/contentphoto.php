@@ -33,7 +33,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             . (isset($block['image-position']) && $block['image-position'] != '' ? ' image-' . $block['image-position'] : ' image-top-right')
             . (isset($block['image-size']) && $block['image-size'] != '' ? ' image-' . $block['image-size'] : '')
 //            . (isset($block['image-layout']) && $block['image-layout'] != '' ? ' image-' . $block['image-layout'] : '')
-            . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
+            . (!isset($block['image-id']) || $block['image-id'] == 0 || $block['image-id'] == '' ? ' no-image' : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $link_id = isset($block['title']) && $block['title'] != '' ? ciniki_core_makePermalink($ciniki, $block['title']) : '';

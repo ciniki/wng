@@ -29,7 +29,7 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     //  Similar code to mail/private/emailProcessContent
     //
     $pattern = '#\b(((?<!(=(\"|\')|.>))https?://?|(?<!(//|.>))www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
-    $callback = create_function('$matches', '
+/*    $callback = create_function('$matches', '
         $display_url = $matches[1];
         $url = $display_url;
         if( isset($matches[2]) && ($matches[2] == "http://" || $matches[2] == "https://") ) {
@@ -39,8 +39,18 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
             $url = "http://" . $display_url;
         }
         return sprintf(\'<a onclick="event.stopPropagation();" class="link" href="%s" target="_blank">%s</a>\', $url, $display_url);
-    ');
-    $processed_content = preg_replace_callback($pattern, $callback, $processed_content);
+    '); */
+    $processed_content = preg_replace_callback($pattern, function($matches) {
+        $display_url = $matches[1];
+        $url = $display_url;
+        if( isset($matches[2]) && ($matches[2] == "http://" || $matches[2] == "https://") ) {
+            $display_url = substr($display_url, strlen($matches[2]));
+            $display_url = preg_replace("/\\/$/", "", $display_url);
+        } elseif( isset($matches[2]) && $matches[2] == "www." )  {
+            $url = "http://" . $display_url;
+        }
+        return sprintf('<a onclick="event.stopPropagation();" class="link" href="%s" target="_blank">%s</a>', $url, $display_url);
+        }, $processed_content);
 
     $processed_content = preg_replace('/((?<!mailto:|=|[a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,64})(?![a-zA-Z]|<\/[aA]>))/', '<a class="link" name="Send email to $1" href="mailto:$1">$1</a>', $processed_content);
 
@@ -53,11 +63,14 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     //
     // Check for iframe embeded videos
     //
-    $youtube_callback = create_function('$matches', '
+/*    $youtube_callback = create_function('$matches', '
         $content = preg_replace("/ (width|height)=(\'|\")[0-9]+(\'|\")/", "", $matches[1]);
         return "<div class=\'embed-video\'><div class=\'embed-video-wrap\'>" . $content . "</div></div>";
-        ');
-    $processed_content = preg_replace_callback('/(<iframe[^>]+(youtube|vimeo).com[^>]+><\/iframe>)/', $youtube_callback, $processed_content);
+        '); */
+    $processed_content = preg_replace_callback('/(<iframe[^>]+(youtube|vimeo).com[^>]+><\/iframe>)/', function($matches) {
+        $content = preg_replace("/ (width|height)=(\'|\")[0-9]+(\'|\")/", "", $matches[1]);
+        return "<div class='embed-video'><div class='embed-video-wrap'>" . $content . "</div></div>";
+        }, $processed_content);
 
     //
     // Check for callbacks to find content to substitute
