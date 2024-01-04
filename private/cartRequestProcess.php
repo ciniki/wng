@@ -695,56 +695,58 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     elseif( isset($_GET['d']) && $_GET['d'] != '' ) {
         $found = 'no';
-        foreach($cart['items'] as $item) {
-            $item = $item['item']; 
-            if( $item['id'] == $_GET['d'] ) {
-                $found = 'yes';
-                if( ($item['flags']&0x010000) == 0x010000 ) {
-                    $display_cart = 'yes';
-                    $blocks[] = array(
-                        'type' => 'msg',
-                        'level' => 'error',
-                        'class' => 'limit-width',
-                        'content' => 'You are not allowed to remove this item from your cart.',
-                        );
-                } else {
-                    $display_cart = 'no';
-                    $item_desc = (isset($item['code']) && $item['code'] != '' ? $item['code'] . ' - ': '') . $item['description'];
-                    if( isset($item['notes']) && $item['notes'] != '' ) {
-                        $item_desc .= "<br/>" . $item['notes'];
+        if( isset($cart['items']) ) {
+            foreach($cart['items'] as $item) {
+                $item = $item['item']; 
+                if( $item['id'] == $_GET['d'] ) {
+                    $found = 'yes';
+                    if( ($item['flags']&0x010000) == 0x010000 ) {
+                        $display_cart = 'yes';
+                        $blocks[] = array(
+                            'type' => 'msg',
+                            'level' => 'error',
+                            'class' => 'limit-width',
+                            'content' => 'You are not allowed to remove this item from your cart.',
+                            );
+                    } else {
+                        $display_cart = 'no';
+                        $item_desc = (isset($item['code']) && $item['code'] != '' ? $item['code'] . ' - ': '') . $item['description'];
+                        if( isset($item['notes']) && $item['notes'] != '' ) {
+                            $item_desc .= "<br/>" . $item['notes'];
+                        }
+                        
+                        $blocks[] = array(
+                            'type' => 'form',
+                            'title' => 'Delete From Cart',
+                            'class' => 'limit-width limit-width-50',
+                            'form-action' => $request['ssl_domain_base_url'] . '/cart',
+                            'cancel-label' => 'Cancel',
+                            'submit-label' => 'Remove Item',
+                            'fields' => array(
+                                'action' => array(
+                                    'id' => 'action',
+                                    'ftype' => 'hidden',
+                                    'value' => 'delete',
+                                    ),
+                                'item_id' => array(
+                                    'id' => 'item_id',
+                                    'ftype' => 'hidden',
+                                    'value' => $item['id'],
+                                    ),
+                                'msg' => array(
+                                    'id' => 'msg',
+                                    'ftype' => 'content',
+                                    'label' => "Are you sure you want to remove the following item from your cart?",
+                                    ),
+                                'desc' => array(
+                                    'id' => 'desc',
+                                    'ftype' => 'content',
+                                    'description' => $item_desc,
+                                    ),
+                                ),
+                            );
+                        return array('stat'=>'ok', 'blocks'=>$blocks);
                     }
-                    
-                    $blocks[] = array(
-                        'type' => 'form',
-                        'title' => 'Delete From Cart',
-                        'class' => 'limit-width limit-width-50',
-                        'form-action' => $request['ssl_domain_base_url'] . '/cart',
-                        'cancel-label' => 'Cancel',
-                        'submit-label' => 'Remove Item',
-                        'fields' => array(
-                            'action' => array(
-                                'id' => 'action',
-                                'ftype' => 'hidden',
-                                'value' => 'delete',
-                                ),
-                            'item_id' => array(
-                                'id' => 'item_id',
-                                'ftype' => 'hidden',
-                                'value' => $item['id'],
-                                ),
-                            'msg' => array(
-                                'id' => 'msg',
-                                'ftype' => 'content',
-                                'label' => "Are you sure you want to remove the following item from your cart?",
-                                ),
-                            'desc' => array(
-                                'id' => 'desc',
-                                'ftype' => 'content',
-                                'description' => $item_desc,
-                                ),
-                            ),
-                        );
-                    return array('stat'=>'ok', 'blocks'=>$blocks);
                 }
             }
         }
