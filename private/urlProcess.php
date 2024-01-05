@@ -17,7 +17,12 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
     $target = '';
     $display_url = preg_replace("/^\s*https?:\/\//", '', $url);
     $display_url = preg_replace("/\/\s*$/", '', $display_url);
-    if( $page_id > 0 && isset($request['site']['pages'][$page_id]['path']) ) {
+    if( $page_id == 0 && preg_match('/^\s*[^ ]+\@[^ ]+\.[^ ]+/i', $url) && !preg_match('/\s*mailto/i', $url) ) {
+        $display_url = $url;
+        $target = '_blank';
+        $url = "mailto:" . $url;
+    }
+    elseif( $page_id > 0 && isset($request['site']['pages'][$page_id]['path']) ) {
         $url = $request['base_url'] . $request['site']['pages'][$page_id]['path'];
         $display_url = $request['site']['pages'][$page_id]['title'];
     }
@@ -43,6 +48,7 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
     //
     if( $url != '' && preg_match('/^\s*[^ ]+\@[^ ]+\.[^ ]+/i', $url) && !preg_match('/\s*mailto/i', $url) ) {
         $display_url = $url;
+        $target = '_blank';
         $url = "mailto: " . $url;
     } 
 

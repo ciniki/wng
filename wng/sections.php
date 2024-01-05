@@ -725,6 +725,69 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
                 ),
             ));
+
+    //
+    // Section for trading cards
+    //
+    $sections['ciniki.wng.tradingcards'] = array(
+        'name'=>'Trading Cards',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'image-ratio' => array('label' => 'Image Ratio', 
+                'type'=>'select', 
+                'default'=>'1-1', 
+                'options'=>array(
+                    '2-1' => 'Panoramic',
+                    '16-9' => 'Letterbox',
+                    '6-4' => 'Wider',
+                    '4-3' => 'Wide',
+                    '1-1' => 'Square',
+                    '3-4' => 'Tall',
+                    '4-6' => 'Taller',
+                )),
+            'title-position' => array('label' => 'Title Position', 
+                'type'=>'select', 
+                'default'=>'below', 
+                'options'=>array(
+                    'above' => 'Above',
+                    'overlay-top' => 'Overlay Top',
+                    'overlay-tophalf' => 'Overlay Top Half',
+                    'overlay-center' => 'Centered',
+                    'overlay-bottomhalf' => 'Bottom Half',
+                    'overlay-bottom' => 'Bottom',
+                    'below' => 'Below',
+                )),
+            ),
+        'repeats' => array(
+            'label' => 'Images',
+            'headerValues' => array('Image', 'Title', 'Linked To'),
+            'cellClasses' => array('thumbnail', '', 'page-link'),
+            'dataMaps' => array('image', 'title', 'link-page'),
+            'addTxt' => 'Add Card',
+            'fields' => array(
+                'image' => array(
+                    'label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium',
+                    ),
+                'image-position' => array(
+                    'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
+                        'top-left' => 'Top Left',
+                        'top-center' => 'Top Center',
+                        'top-right' => 'Top Right',
+                        'center-left' => 'Left',
+                        'center-center' => 'Centered',
+                        'center-right' => 'Right',
+                        'bottom-left' => 'Bottom Left',
+                        'bottom-center' => 'Bottom Center',
+                        'bottom-right' => 'Bottom Right',
+                    )),
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'small'),
+                'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
+                'link-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-url' => array('label'=>'URL', 'type'=>'text'),
+                ),
+            ));
     //
     // Section for multiple content photo blocks
     //
