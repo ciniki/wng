@@ -256,6 +256,9 @@
 .block-form .field-select select {
     display: block;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2.5rem;
 }
 .block-form .field-phone-type-number select,
 .block-form .field-minsec select,
