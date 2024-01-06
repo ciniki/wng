@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This section displays a numbered list
+// This section displays a ordered list
 // 
 // Arguments
 // ---------
@@ -12,7 +12,7 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_processors_numberedlist(&$ciniki, $tnid, &$request, $section) {
+function ciniki_wng_processors_orderedlist(&$ciniki, $tnid, &$request, $section) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 
@@ -23,13 +23,16 @@ function ciniki_wng_processors_numberedlist(&$ciniki, $tnid, &$request, $section
     // Find previous section if any
     //
     $start = 1;
-    if( !isset($s['start']) || $s['start'] == '' ) {
+    if( isset($s['start']) && is_numeric($s['start']) ) {
+        $start = $s['start'];
+    }
+    else {
         foreach($request['page']['sections'] as $sid => $prev_section) {
             if( $section['id'] == $sid ) {
                 break;
             }
             if( isset($prev_section['ref']) 
-                && $prev_section['ref'] == 'ciniki.wng.numberedlist' 
+                && $prev_section['ref'] == 'ciniki.wng.orderedlist' 
                 && isset($prev_section['num_items']) 
                 ) {
                 $start += $prev_section['num_items'];
@@ -58,10 +61,9 @@ function ciniki_wng_processors_numberedlist(&$ciniki, $tnid, &$request, $section
             'content' => isset($s['content']) ? $s['content'] : '',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'list-start' => $start,
-            'list-type' => '1',
+            'list-type' => isset($s['list-type']) && $s['list-type'] != '' ? $s['list-type'] : '1',
             'items' => $items,
             );
-            error_log(print_r($blocks,true));
     }
 
     return array('stat'=>'ok', 'blocks'=>$blocks);

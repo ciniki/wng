@@ -1008,14 +1008,21 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     //
     // Section for numbered lists
     //
-    $sections['ciniki.wng.numberedlist'] = array(
-        'name'=>'Numbered List',
+    $sections['ciniki.wng.orderedlist'] = array(
+        'name'=>'Ordered List',
         'module' => 'Website',
         'settings'=>array(
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
-            'content' => array('label'=>'Subtitle', 'type'=>'textarea'),
-//            'start' => array('label'=>'Start', 'type'=>'text', 'size'=>'small'),
+            'content' => array('label'=>'Intro', 'type'=>'textarea'),
+            'list-type' => array('label'=>'Type', 'type'=>'toggle', 'default'=>'1', 'toggles'=>array(
+                '1' => '1',
+                'A' => 'A',
+                'a' => 'a',
+                'i' => 'i',
+                'I' => 'I',
+                )),
+            'start' => array('label'=>'Start', 'type'=>'text', 'default'=>'previous', 'size'=>'small'),
             ),
         'repeats' => array(
             'label' => 'List Items',
