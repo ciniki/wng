@@ -63,8 +63,9 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         . "AND (ciniki_wng_sections.flags&0x03) = 0 " // Body sections only, no header or footer
         . "ORDER BY sequence "
         . "";
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');
-    $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.wng', array(
+    // This must be ArrayTree as this is passed back to UI and javascript will sort on ID
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
+    $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.wng', array(
         array('container'=>'sections', 'fname'=>'id', 
             'fields'=>array('id', 'page_id', 'sequence', 'flags', 'ref', 'label', 'settings')),
         ));

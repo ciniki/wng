@@ -27,9 +27,9 @@ function ciniki_wng_processors_orderedlist(&$ciniki, $tnid, &$request, $section)
         $start = $s['start'];
     }
     else {
-        foreach($request['page']['sections'] as $sid => $prev_section) {
-            if( $section['id'] == $sid ) {
-                break;
+        foreach($request['page']['sections'] as $prev_section) {
+            if( $section['id'] == $prev_section['id'] ) {
+                break;  // Stop at current section
             }
             if( isset($prev_section['ref']) 
                 && $prev_section['ref'] == 'ciniki.wng.orderedlist' 
