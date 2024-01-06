@@ -788,6 +788,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
                 ),
             ));
+
     //
     // Section for multiple content photo blocks
     //
@@ -998,6 +999,30 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'cellClasses' => array(''),
             'dataMaps' => array('title'),
             'addTxt' => 'Add Block',
+            'fields' => array(
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'large'),
+                ),
+            ));
+
+    //
+    // Section for numbered lists
+    //
+    $sections['ciniki.wng.numberedlist'] = array(
+        'name'=>'Numbered List',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'content' => array('label'=>'Subtitle', 'type'=>'textarea'),
+//            'start' => array('label'=>'Start', 'type'=>'text', 'size'=>'small'),
+            ),
+        'repeats' => array(
+            'label' => 'List Items',
+            'headerValues' => array('Title', 'Content'),
+            'cellClasses' => array('', ''),
+            'dataMaps' => array('title', 'content'),
+            'addTxt' => 'Add Item',
             'fields' => array(
                 'title' => array('label'=>'Title', 'type'=>'text'),
                 'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'large'),

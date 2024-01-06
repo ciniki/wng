@@ -1,0 +1,18 @@
+.block-list .content {
+    width: 100%;
+    padding: 1rem;
+}
+.block-list .list {
+    width: 100%;
+    padding-inline-start: 2rem;
+}
+.block-list .listitem {
+    padding-bottom: 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-list .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
