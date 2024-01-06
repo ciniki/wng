@@ -52,7 +52,12 @@ function ciniki_wng_processors_orderedlist(&$ciniki, $tnid, &$request, $section)
         }
     }
     if( count($items) > 0 ) {
-        $request['page']['sections'][$section['id']]['num_items'] = count($items);
+        foreach($request['page']['sections'] as $sid => $sec) {
+            if( $sec['id'] == $section['id'] ) {
+                $request['page']['sections'][$sid]['num_items'] = count($items);
+                break;
+            }
+        }
         $blocks[] = array(
             'type' => 'list',
             'title' => isset($s['title']) ? $s['title'] : '',
