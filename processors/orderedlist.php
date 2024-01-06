@@ -35,6 +35,9 @@ function ciniki_wng_processors_orderedlist(&$ciniki, $tnid, &$request, $section)
                 && $prev_section['ref'] == 'ciniki.wng.orderedlist' 
                 && isset($prev_section['num_items']) 
                 ) {
+                if( isset($prev_section['settings']['start']) && is_numeric($prev_section['settings']['start']) ) {
+                    $start = $prev_section['settings']['start'];
+                }
                 $start += $prev_section['num_items'];
             }
         }
