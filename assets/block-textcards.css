@@ -36,6 +36,19 @@
     width: 100%;
     text-align: center;
 }
+.block-textcards .text .line {
+    border-bottom: 1px solid #ddd;
+    height: 1px;
+    margin-bottom: 0.5rem;
+}
+.block-textcards .text .subheading {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-size: 1.1em;
+}
 .block-textcards.collapsible .title:after {
     content: "-";
     position: absolute;

@@ -161,6 +161,9 @@ p {
 p:last-child {
     margin-bottom: 0em;
 }
+.bold {
+    font-weight: bold;
+}
 .alignright {
     text-align: right;
 }

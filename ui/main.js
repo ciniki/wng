@@ -935,23 +935,6 @@ function ciniki_wng_main() {
             'addFn':'M.ciniki_wng_main.section.save("M.ciniki_wng_main.section.editRepeat(0);");',
             'seqDrop':function(e,from,to) {
                 M.ciniki_wng_main.section.moveRepeats(from,to);
-/*                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
-                    'action':'sectionsequenceupdate',
-                    'view':M.ciniki_wng_main.site.view,
-                    'site_id':M.ciniki_wng_main.site.site_id,
-                    'page_id':M.ciniki_wng_main.site.page_id,
-                    'section_id':M.ciniki_wng_main.site.data.pagesections[from].id, 
-                    'section_sequence':M.ciniki_wng_main.site.data.pagesections[to].sequence, 
-                    'section_flags':0,
-                    }, function(rsp) {
-                        if( rsp.stat != 'ok' ) {
-                            M.api.err(rsp);
-                            return false;
-                        }
-                        var p = M.ciniki_wng_main.site;
-                        p.data.pagesections = rsp.pagesections;
-                        p.refreshSection("pagesections");
-                    });*/
                 },
             },
         '_buttons':{'label':'', 'aside':'no', 'buttons':{
