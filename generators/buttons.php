@@ -14,9 +14,14 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
     $content = '';
 
-    if( (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0) ) {
+    if( !isset($block['items']) && isset($block['list']) ) {
+        $block['items'] = $block['list'];
+    }
+
+    if( (isset($block['items']) && is_array($block['items']) && count($block['items']) > 0) ) {
         $content .= "<div class='block-buttons"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . (isset($block['align']) && $block['align'] != '' ? ' align' . $block['align'] : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
@@ -48,8 +53,9 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         //
         // Check for any buttons
         //
-        $content .= "<div class='buttons'>";
-        foreach($block['list'] as $item) {
+        $content .= "<div class='buttons"
+            . "'>";
+        foreach($block['items'] as $item) {
             if( !isset($item['text']) && isset($item['title']) ) {
                 $item['text'] = $item['title'];
             }

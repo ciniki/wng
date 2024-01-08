@@ -34,15 +34,15 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
         }
     }
     if( count($items) > 0 ) {
-        $block = array(
+        $blocks[] = array(
             'type' => 'buttons',
             'title' => isset($s['title']) ? $s['title'] : '',
             'level' => $section['sequence'] == 1 ? 1 : 2,
             'subtitle' => isset($s['subtitle']) ? $s['subtitle'] : '',
+            'align' => isset($s['align']) ? $s['align'] : '',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
+            'items' => $items,
             );
-        $block['list'] = $items;
-        $blocks[] = $block;
     }
 
     return array('stat'=>'ok', 'blocks'=>$blocks);

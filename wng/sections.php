@@ -246,6 +246,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'settings'=>array(
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'align' => array('label'=>'Alignment', 'type'=>'toggle', 'default'=>'left', 'toggles'=>array(
+                'left' => 'Left',
+                'center' => 'Center',
+                'right' => 'Right',
+                )),
             ),
         'repeats' => array(
             'label' => 'Buttons',
