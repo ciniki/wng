@@ -53,8 +53,7 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
         //
         // Check for any buttons
         //
-        $content .= "<div class='buttons"
-            . "'>";
+        $content .= "<div class='buttons'>";
         foreach($block['items'] as $item) {
             if( !isset($item['text']) && isset($item['title']) ) {
                 $item['text'] = $item['title'];

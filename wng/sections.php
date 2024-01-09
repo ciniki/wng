@@ -554,6 +554,13 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 )),
             'latitude'=>array('label'=>'Latitude', 'type'=>'text'),
             'longitude'=>array('label'=>'Longitude', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'medium'),
+            'map-position'=>array('label'=>'Map Position', 'type'=>'select', 'default'=>'top-right', 'options'=>array(
+                'top-left' => 'Top Left',
+                'bottom-left' => 'Bottom Left',
+                'top-right' => 'Top Right',
+                'bottom-right' => 'Bottom Right',
+                )),
             ),
         );
 

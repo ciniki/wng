@@ -24,7 +24,12 @@ function ciniki_wng_processors_googlemap(&$ciniki, $tnid, &$request, $section) {
         $section['settings']['class'] = 'section-' . ciniki_core_makePermalink($ciniki, $section['label']);
         $section['settings']['id'] = 'map-' . $section['sequence'];
         $section['settings']['sid'] = $section['sequence'];
-        if( isset($section['settings']['title']) && $section['settings']['title'] != '' ) {
+        if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
+            if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
+                $section['settings']['class'] .= ' content-view';
+            }
+        }
+        elseif( isset($section['settings']['title']) && $section['settings']['title'] != '' ) {
             $blocks[] = array(
                 'type' => 'title',
                 'title' => $section['settings']['title'],

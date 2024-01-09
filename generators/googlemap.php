@@ -19,6 +19,7 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
         
         $content .= "<div class='block-googlemap"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . (isset($block['map-position']) && $block['map-position'] != '' ? ' map-' . $block['map-position'] : ' map-top-right')
             . "'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
@@ -71,6 +72,18 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
             . '};'
             . "addEventListener('load', (event) => {loadMap{$block['sid']}();});"
             . "";
+
+        if( isset($block['content']) && $block['content'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.242', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+            }
+            $content .= "<div class='content-wrap'>" 
+                . (isset($block['title']) && $block['title'] != '' ? "<div class='title-wrap'><h3>{$block['title']}</h3></div>" : '')
+                . $rc['content'] 
+                . "</div>";
+        }
 
         $content .= '</div>';
         $content .= '</div>';
