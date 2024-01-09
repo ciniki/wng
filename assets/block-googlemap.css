@@ -1,16 +1,17 @@
 .block-googlemap .googlemap {
     min-height: 50vh;
 }
+.block-googlemap.content-view { 
+    margin-bottom: 2rem;
+}
 .block-googlemap.content-view .googlemap { 
     min-height: 15rem;
-}
-.block-googlemap.content-view .content { 
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 .block-googlemap.content-view .content {
     display: flex;
     flex-flow: column nowrap;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 .block-googlemap.content-view.map-bottom-left .content-wrap,
 .block-googlemap.content-view.map-bottom-right .content-wrap {
