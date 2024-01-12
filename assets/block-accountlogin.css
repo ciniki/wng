@@ -38,6 +38,7 @@
     display: block;
     width: 100%;
     padding: 0.5rem 1rem;
+    border: 1px solid #555;
 }
 .block-accountlogin .submit {
     padding-top: 1rem;

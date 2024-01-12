@@ -136,11 +136,17 @@ if( isset($_SERVER['HTTP_HOST']) && $ciniki['config']['ciniki.wng']['master.doma
         $strsql = "SELECT tenants.id AS tnid, "
             . "sites.id, "
             . "sites.flags, "
-            . "sites.permalink "
+            . "sites.permalink, "
+            . "IFNULL(domains.domain, '') AS primary_domain "
             . "FROM ciniki_tenants AS tenants "
             . "INNER JOIN ciniki_wng_sites AS sites ON ("
                 . "tenants.id = sites.tnid "
                 . "AND sites.status = 10 "
+                . ") "
+            . "LEFT JOIN ciniki_tenant_domains AS domains ON ("
+                . "sites.domain_id = domains.id "
+                . "AND (domains.flags&0x01) = 0x01 "
+                . "AND tenants.id = domains.tnid "
                 . ") "
             . "WHERE tenants.sitename = '" . ciniki_core_dbQuote($ciniki, $tenant_permalink) . "' "
             . "AND tenants.status = 1 "
@@ -162,6 +168,26 @@ if( isset($_SERVER['HTTP_HOST']) && $ciniki['config']['ciniki.wng']['master.doma
                 } elseif( $s['permalink'] == '' && $site == null ) {
                     $site = $s;
                 }
+            }
+            //
+            // Check if primary domain for tenant
+            //
+            if( isset($site['primary_domain']) 
+                && $site['primary_domain'] != '' 
+                && $site['primary_domain'] != $ciniki['config']['ciniki.wng']['master.domain']
+                && $site['primary_domain'] != $request['domain']
+                ) {
+                if( isset($request['uri_split'][0]) && $request['uri_split'][0] == $site['permalink'] ) {
+                    
+                }
+                $redirect_uri = $_SERVER['REQUEST_URI'];
+                $redirect_uri = preg_replace("/^\/" . $site['permalink'] . "(\/|\?|$)/", "$1", $redirect_uri);
+                if( isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '80' ) {
+                    header('Location: http://' . $site['primary_domain'] . $redirect_uri);
+                } else {
+                    header('Location: https://' . $site['primary_domain'] . $redirect_uri);
+                }
+                exit;
             }
         }
         if( $site != null ) {
