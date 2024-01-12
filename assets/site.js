@@ -167,3 +167,7 @@ C.eU = function(s) {
 C.dU = function(s) {
     return decodeURIComponent(s);
 }
+// Format dollar string
+C.fD = function(n,p) {
+    return '$' + n.toFixed(p);
+}

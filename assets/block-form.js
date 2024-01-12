@@ -13,6 +13,8 @@ C.form = {
     csu: '',
     /* fcu = API url for performing a form check and validate fields */
     fcu: '',
+    /* jsc = Javascript Formula Calculations */
+    jsc: {},
     /* aa = API args */
     aa: {},
     /* Switch Section */
@@ -164,6 +166,16 @@ C.form = {
             e.innerHTML = 'Last saved: ' + rsp.last_saved;
         }
     },
+    calc: function() {
+        eval(this.jsc);
+    },
+    iV: function(f) {
+        var v=C.gE(f).value;
+        if( v != null && v != '' ) {
+            return parseInt(v);
+        }
+        return 0;
+    },
     /* File Upload */
     fU: function(f) {
         C.gE('file-'+f).click();
@@ -243,13 +255,15 @@ C.form = {
     sTOU: function() {
         C.tC(C.gE('tou-message'), 'hidden');
     },
-    start: function(e, s, ssu, ipu, fcu, csu, aa) {
+    start: function(e, s, ssu, ipu, fcu, csu, jsc, aa) {
+        console.log(jsc);
         this.cs = s;
         this.cr = 1;
         this.ssu = ssu;
         this.ipu = ipu;
         this.fcu = fcu;
         this.csu = csu;
+        this.jsc = jsc;
         this.aa = aa;
     }
 };

@@ -98,6 +98,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         //
         $section_list = '';
         $sections = '';
+        $js_calcs = '';
         $cur_section_id = '';
         if( isset($block['cur-section-id']) && $block['cur-section-id'] != '' ) {
             $cur_section_id = $block['cur-section-id'];
@@ -241,6 +242,15 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $class .= ' description-included';
                             }
                         }
+                        //
+                        // Check if form has formulas
+                        //
+                        if( isset($block['formulas']) && $block['formulas'] == 'yes' ) {
+                            if( !isset($field['onkeyup']) ) {
+                                $field['onkeyup'] = '';
+                            }
+                            $field['onkeyup'] = "C.form.calc();" . $field['onkeyup'];
+                        }
                        
                         if( $field['ftype'] == 'checkbox' 
                             && isset($field['prev_fid']) 
@@ -308,6 +318,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                                . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
@@ -518,6 +529,24 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'document' ) {
                             // FIXME: Add document support
                         }
+                        elseif( $field['ftype'] == 'formula' ) {
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                                . ' readonly'
+                                . ">";
+                            if( isset($field['formula']) ) {
+                                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'formFormulaParse');
+                                $rc = ciniki_wng_formFormulaParse($ciniki, $tnid, array(
+                                    'sections' => $block['form-sections'],
+                                    'formula' => $field['formula'],
+                                    ));
+                                if( isset($rc['js_formula']) ) {
+                                    $js_calcs .= "C.gE('f-{$field['id']}').value=" . $rc['js_formula'] . ";";
+                                }
+                            }
+                        }
                         elseif( $field['ftype'] == 'button' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
                             $sections .= $field_description;
@@ -675,10 +704,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . "'" . (isset($block['api-image-url']) ? $block['api-image-url'] : '') . "',"
                 . "'" . (isset($block['api-formcheck-url']) ? $block['api-formcheck-url'] : '') . "',"
                 . "'" . (isset($block['api-cartsubmit-url']) ? $block['api-cartsubmit-url'] : '') . "',"
+                . json_encode($js_calcs)
+                . ","
                 . json_encode($block['api-args'])
                 . ")});";
         } elseif( isset($block['section-selector']) && $block['section-selector'] == 'yes' ) {
-            $js = "window.addEventListener('load', (e)=>{C.form.start(e, '{$cur_section_id}','','','','','')});";
+            $js = "window.addEventListener('load', (e)=>{C.form.start(e, '{$cur_section_id}','','','',''," . json_encode(js_calcs) . ",'')});";
         }
     }
 
@@ -1091,6 +1122,14 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             elseif( $field['ftype'] == 'document' ) {
                 // FIXME: Add document support
+            }
+            elseif( $field['ftype'] == 'formula' ) {
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                    . ' readonly'
+                    . ">";
             }
             elseif( $field['ftype'] == 'file' ) {
                 $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
