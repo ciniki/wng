@@ -256,7 +256,6 @@ C.form = {
         C.tC(C.gE('tou-message'), 'hidden');
     },
     start: function(e, s, ssu, ipu, fcu, csu, jsc, aa) {
-        console.log(jsc);
         this.cs = s;
         this.cr = 1;
         this.ssu = ssu;
