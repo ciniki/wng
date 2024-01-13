@@ -27,7 +27,6 @@ C.form = {
         C.aC(e, 'selected');
         window.scroll(0,e.offsetTop);
         this.cs = i;
-
     },
     /* Switch Repeat tab */
     sR: function(s,i) {
@@ -88,7 +87,7 @@ C.form = {
         if( rsp.stat != 'ok' ) {
             C.form.showErrors(rsp, "Oops, we had a problem saving, please click on save at the bottom or refresh the page.");
         } else {
-            C.form.clearErrors();
+//            C.form.clearErrors();
             C.form.updateLastSaved(rsp);
         }
         if( rsp.api_args != null ) {   
