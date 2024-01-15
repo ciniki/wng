@@ -169,29 +169,22 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         }
 
         if( $error_message == '' ) {
-            //
-            // Create the email message content
-            //
-            $textmsg = "You have received a new message: \n\n"
-                . "From: " . $_POST['contact-form-name'] . "\n"
-                . "Email: " . $_POST['contact-form-email'] . "\n"
-                . $fieldsmsg
-                . "\n"
-                . $msg
-                . "";
-            $htmlmsg = preg_replace("/\n/", '<br/>', $textmsg);
 
             //
             // If the mail inbox flag has been sent, put the message into the inbox
             //
             if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.mail', 0x10) ) {
+                //
+                // Create the email message content
+                //
+                $htmlmsg = preg_replace("/\n/", '<br/>', $textmsg);
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'hooks', 'inboxAddMessage');
                 $rc = ciniki_mail_hooks_inboxAddMessage($ciniki, $tnid, array(
                     'from_name' => $_POST['contact-form-name'],
                     'from_email' => $_POST['contact-form-email'],
                     'subject' => $subject,
-                    'text_content' => $textmsg,
-                    'html_content' => $htmlmsg,
+                    'text_content' => $msg,
+                    'html_content' => $msg,
                     'notification' => 'yes',
                     'notification_emails' => (isset($s['notify-emails'])?$s['notify-emails']:''),
                     ));
@@ -205,6 +198,17 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
             // No inbox, email the message to specified email addresses or the tenant owners
             //
             else {
+                //
+                // Create the email message content
+                //
+                $textmsg = "You have received a new message: \n\n"
+                    . "From: " . $_POST['contact-form-name'] . "\n"
+                    . "Email: " . $_POST['contact-form-email'] . "\n"
+                    . $fieldsmsg
+                    . "\n"
+                    . $msg
+                    . "";
+                $htmlmsg = preg_replace("/\n/", '<br/>', $textmsg);
                 if( isset($s['notify-emails']) && $s['notify-emails'] != '' ) {
                     $send_to_emails = explode(',', $s['notify-emails']);
                     foreach($send_to_emails as $email) {
