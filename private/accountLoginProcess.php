@@ -411,7 +411,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $blocks[] = array(
             'type' => 'msg', 
             'level' => 'success', 
-            'content' => "A verification link has been sent to your email.",
+            'content' => "A verification link has been sent to your email. Please also check your spam/junk folder.",
             );
         $display_form = 'no';
     }
@@ -449,7 +449,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         $blocks[] = array(
             'type' => 'msg', 
             'level' => 'success', 
-            'content' => "A link has been sent to your email to get a new password.",
+            'content' => "A link has been sent to your email to get a new password. Please also check your spam/junk folder.",
             );
         $display_form = 'no';
     }
