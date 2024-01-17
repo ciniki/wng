@@ -819,13 +819,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'image-position' => array(
                 'label' => 'Image Position', 'type'=>'select', 'default'=>'center-center', 'options'=>array(
                     'top-left' => 'Top Left',
-                    'top-center' => 'Top Center',
-                    'top-right' => 'Top Right',
-                    'center-left' => 'Left',
-                    'center-center' => 'Centered',
-                    'center-right' => 'Right',
+                    'top-left-inline' => 'Top Left Inline',
                     'bottom-left' => 'Bottom Left',
-                    'bottom-center' => 'Bottom Center',
+                    'top-right' => 'Top Right',
+                    'top-right-inline' => 'Top Right Inline',
                     'bottom-right' => 'Bottom Right',
                 )),
             'image-alternate' => array(
