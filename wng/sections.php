@@ -1051,7 +1051,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     //
     // Section for tables
     //
-    $sections['ciniki.wng.table'] = array(
+/*    $sections['ciniki.wng.table'] = array(
         'name'=>'Table',
         'module' => 'Website',
         'settings'=>array(
@@ -1069,8 +1069,8 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'fields' => array(
                 'title' => array('label'=>'Title', 'type'=>'text'),
                 'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'large'),
-                ),
-            ));
+                ), 
+            )); */
 
     return array('stat'=>'ok', 'sections'=>$sections);
 }
