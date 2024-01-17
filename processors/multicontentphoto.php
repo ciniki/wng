@@ -47,12 +47,12 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
             if( isset($s['image-alternate']) && $s['image-alternate'] == 'yes' ) {
                 if( $image_position == 'top-left' ) {
                     $image_position = 'top-right';
+                } elseif( $image_position == 'top-left-inline' ) {
+                    $image_position = 'top-right-inline';
                 } elseif( $image_position == 'top-right' ) {
                     $image_position = 'top-left';
-                } elseif( $image_position == 'center-left' ) {
-                    $image_position = 'center-right';
-                } elseif( $image_position == 'center-right' ) {
-                    $image_position = 'center-left';
+                } elseif( $image_position == 'top-right-inline' ) {
+                    $image_position = 'top-left-inline';
                 } elseif( $image_position == 'bottom-left' ) {
                     $image_position = 'bottom-right';
                 } elseif( $image_position == 'bottom-right' ) {
