@@ -74,7 +74,13 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     $processed_content = "<p class='$pclass'>" . preg_replace('/\n\s*\n/m', "</p><p class='$pclass'>", $processed_content) . '</p>';
     // Remove empty paragraphs that are followed by a <h tag
     $processed_content = preg_replace('/<p class=\'[A-Za-z\- ]*\'>(<h[1-6][^\>]*>[^<]+<\/h[1-6]>)<\/p>/', '$1', $processed_content);
+//    $processed_content = preg_replace('/([^p][^>])\n([^<][^p])/m', "$1<br/>$2", $processed_content);
     $processed_content = preg_replace('/\n/m', "<br/>", $processed_content);
+    $processed_content = preg_replace('/li><br\/><li/m', "li><li", $processed_content);
+    $processed_content = preg_replace('/ol><br\/><li/m', "ol><li", $processed_content);
+    $processed_content = preg_replace('/li><br\/><\/ol/m', "li></ol", $processed_content);
+    $processed_content = preg_replace("/<p class='$pclass'><ol>/m", "<ol>", $processed_content);
+    $processed_content = preg_replace("/<\/ol><\/p>/m", "</ol>", $processed_content);
 
     //
     // Check for iframe embeded videos
