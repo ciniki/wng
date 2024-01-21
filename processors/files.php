@@ -52,7 +52,12 @@ function ciniki_wng_processors_files(&$ciniki, $tnid, &$request, $section) {
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.241', 'msg'=>'Unable to load files', 'err'=>$rc['err']));
         }
-        $files = isset($rc['files']) ? $rc['files'] : array();
+        $files = array();
+        foreach($file_ids as $id) {
+            if( isset($rc['files'][$id]) ) {
+                $files[] = $rc['files'][$id];
+            }
+        }
     }
    
     if( isset($files) && count($files) > 0 
