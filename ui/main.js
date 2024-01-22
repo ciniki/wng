@@ -382,7 +382,8 @@ function ciniki_wng_main() {
                 'account-password-change':{'label':'Allow Password Changes', 'type':'toggle', 'default':'no', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-membership-change':{'label':'Allow Membership Purchases', 'type':'toggle', 'default':'yes', 'toggles':{'no':'No', 'yes':'Yes'}},
                 'account-forgot-link-text':{'label':'Forgot Link Text', 'type':'text'},
-                'account-create-account-text':{'label':'Create Account Link Text', 'type':'text'},
+                'account-signin-text':{'label':'Sign In Label', 'type':'text'},
+                'account-create-account-text':{'label':'Create Account Link Label', 'type':'text'},
                 'account-create-type':{'label':'Create Account Form', 'type':'select', 'options':{
                     '':'None',
                     'simple':'Simple',

@@ -42,9 +42,11 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     //
     // Display the login form
     //
-    $content .= "<div id='signin-form' class='signin-form' style='display:"
-        . ($startform == 'login' ? 'block;' : 'none;')
-        . "'>";
+    $content .= "<div id='signin-form' class='signin-form"
+        . ($startform == 'login' ? '' : ' hidden')
+        . "'"
+//        . " style='display: ". ($startform == 'login' ? 'block;' : 'none;') . "'"
+        . ">";
     if( isset($block['title']) && $block['title'] != '' ) {
         $content .= "<h2>" . $block['title'] . "</h2>";
     } else {
@@ -98,9 +100,11 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         // The forgot reset form
         //
-        $content .= "<div id='forgotpassword-form' class='forgotpassword-form' style='display:"
-            . ($startform == 'forgot' ? 'block;' : 'none;')
-            . "'>";
+        $content .= "<div id='forgotpassword-form' class='forgotpassword-form"
+            . ($startform == 'forgot' ? '' : ' hidden')
+            . "'"
+//            . " style='display:" . ($startform == 'forgot' ? 'block;' : 'none;') . "'"
+            . ">";
         if( isset($block['forgot-title']) && $block['forgot-title'] != '' ) {
             $content .= "<h2>" . $block['forgot-title'] . "</h2>";
         } else {
@@ -150,9 +154,11 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         //
         // The forgot reset form
         //
-        $content .= "<div id='signup-form' class='signup-form simple' style='display:"
-            . ($startform == 'signup' ? 'block;' : 'none;')
-            . "'>";
+        $content .= "<div id='signup-form' class='signup-form simple"
+            . ($startform == 'signup' ? '' : ' hidden')
+            . "'"
+//            . " style='display:" . ($startform == 'signup' ? 'block;' : 'none;') . "'"
+            . ">";
         if( isset($block['create-account-text']) && $block['create-account-text'] != '' ) {
             $content .= "<h2>" . $block['create-account-text'] . "</h2>";
         } else {

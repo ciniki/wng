@@ -574,6 +574,9 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         if( isset($settings['account-create-account-text']) && $settings['account-create-account-text'] != '' ) {
             $block['create-account-text'] = $settings['account-create-account-text'];
         }
+        if( isset($settings['account-signin-text']) && $settings['account-signin-text'] != '' ) {
+            $block['title'] = $settings['account-signin-text'];
+        }
 
         $blocks[] = $block;
     }
