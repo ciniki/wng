@@ -709,7 +709,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . json_encode($block['api-args'])
                 . ")});";
         } elseif( isset($block['section-selector']) && $block['section-selector'] == 'yes' ) {
-            $js = "window.addEventListener('load', (e)=>{C.form.start(e, '{$cur_section_id}','','','',''," . json_encode(js_calcs) . ",'')});";
+            $js = "window.addEventListener('load', (e)=>{C.form.start(e, '{$cur_section_id}','','','',''," . json_encode($js_calcs) . ",'')});";
         }
     }
 
