@@ -322,6 +322,19 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 );
             $display_form = 'signup';
         }
+        elseif( isset($settings['account-signup-confirm-password']) && $settings['account-signup-confirm-password'] == 'yes' 
+            && (!isset($_POST['sconfirmpassword']) 
+                || trim($_POST['sconfirmpassword']) == '' 
+                || $_POST['sconfirmpassword'] != $_POST['signuppassword']
+                )
+            ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "Passwords do not match.",
+                );
+            $display_form = 'signup';
+        }
         else {
             $details = array();
             if( $args['create-account'] == 'phone-billing' ) {
@@ -549,6 +562,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             'last' => isset($_POST['last']) ? trim($_POST['last']) : '',
             'email' => isset($_POST['email']) ? $_POST['email'] : (isset($_POST['signupemail']) ? $_POST['signupemail'] : ''),
             'password' => isset($_POST['signuppassword']) ? trim($_POST['signuppassword']) : '',
+            'confirmpassword' => isset($_POST['sconfirmpassword']) ? trim($_POST['sconfirmpassword']) : '',
             'phone_label_1' => isset($_POST['phone_label_1']) ? trim($_POST['phone_label_1']) : '',
             'phone_number_1' => isset($_POST['phone_number_1']) ? trim($_POST['phone_number_1']) : '',
             'phone_label_2' => isset($_POST['phone_label_2']) ? trim($_POST['phone_label_2']) : '',
@@ -576,6 +590,9 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         }
         if( isset($settings['account-signin-text']) && $settings['account-signin-text'] != '' ) {
             $block['title'] = $settings['account-signin-text'];
+        }
+        if( isset($settings['account-signup-confirm-password']) && $settings['account-signup-confirm-password'] != '' ) {
+            $block['signup-confirm-password'] = $settings['account-signup-confirm-password'];
         }
 
         $blocks[] = $block;

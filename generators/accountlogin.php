@@ -185,13 +185,23 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
                 . "<label for='signupemail'>Email</label>"
                 . "<input id='signupemail' type='email' class='text' maxlength='250' name='signupemail' value='$email' />"
             . "</div>\n" 
-            . "<div class='input last-field required'>"
+            . "<div class='input"
+                . (isset($block['signup-confirm-password']) && $block['signup-confirm-password'] == 'yes' ? '' : ' last-field')
+                . " required'>"
                 . "<label for='signuppassword'>Password</label>"
                 . "<input id='signuppassword' type='password' class='text' maxlength='100' name='signuppassword' value='"
                     . (isset($block['password']) ? $block['password'] : '')
                     . "' />"
-            . "</div>\n"
-            . "<div class='submit'>"
+            . "</div>\n";
+        if( isset($block['signup-confirm-password']) && $block['signup-confirm-password'] == 'yes' ) {
+            $content .= "<div class='input last-field required'>"
+                    . "<label for='sconfirmpassword'>Confirm Password</label>"
+                    . "<input id='sconfirmassword' type='password' class='text' maxlength='100' name='sconfirmpassword' value='"
+                        . (isset($block['confirmpassword']) ? $block['confirmpassword'] : '')
+                        . "' />"
+                . "</div>\n";
+        }
+        $content .= "<div class='submit'>"
                 . "<input type='submit' class='button' value='Create Account' />"
             . "</div>\n"
             . "</form>"
@@ -262,14 +272,30 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             . "<div class='field field-text required size-medium'>"
                 . "<label for='signupemail'>Email</label>"
                 . "<input id='signupemail' type='email' class='text' maxlength='250' name='signupemail' value='$email' />"
-            . "</div>\n" 
-            . "<div class='field field-text required size-medium'>"
-                . "<label for='signuppassword'>Password</label>"
-                . "<input id='signuppassword' type='password' class='text' maxlength='100' name='signuppassword' value='"
-                    . (isset($block['password']) ? $block['password'] : '')
-                    . "' />"
-            . "</div>\n"
-            . "<div class='field field-phone-type-number required size-small'>"
+            . "</div>\n";
+        if( isset($block['signup-confirm-password']) && $block['signup-confirm-password'] == 'yes' ) {
+            $content .= "<div class='newline'></div>";
+            $content .= "<div class='field field-text required size-medium'>"
+                    . "<label for='signuppassword'>Password</label>"
+                    . "<input id='signuppassword' type='password' class='text' maxlength='100' name='signuppassword' value='"
+                        . (isset($block['password']) ? $block['password'] : '')
+                        . "' />"
+                . "</div>\n";
+            $content .= "<div class='field field-text required size-medium'>"
+                    . "<label for='sconfirmpassword'>Confirm Password</label>"
+                    . "<input id='sconfirmpassword' type='password' class='text' maxlength='100' name='sconfirmpassword' value='"
+                        . (isset($block['confirmpassword']) ? $block['confirmpassword'] : '')
+                        . "' />"
+                . "</div>\n";
+        } else {
+            $content .= "<div class='field field-text required size-medium'>"
+                    . "<label for='signuppassword'>Password</label>"
+                    . "<input id='signuppassword' type='password' class='text' maxlength='100' name='signuppassword' value='"
+                        . (isset($block['password']) ? $block['password'] : '')
+                        . "' />"
+                . "</div>\n";
+        }
+        $content .= "<div class='field field-phone-type-number required size-small'>"
                 . "<label for='phone_number_1'>Phone Number</label>"
                 . "<label for='phone_label_1' class='hidden'>Phone Type</label>"
                 . "<div class='joined-fields'>"

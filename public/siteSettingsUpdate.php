@@ -40,6 +40,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-forgot-link-text',
         'account-signin-text',
         'account-create-account-text',
+        'account-signup-confirm-password',
         'account-create-type',
         'account-children-update',
         'account-public-member-info',
