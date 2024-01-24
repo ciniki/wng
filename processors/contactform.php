@@ -177,14 +177,14 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                 //
                 // Create the email message content
                 //
-                $htmlmsg = preg_replace("/\n/", '<br/>', $textmsg);
+                $htmlmsg = preg_replace("/\n/", '<br/>', $msg);
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'hooks', 'inboxAddMessage');
                 $rc = ciniki_mail_hooks_inboxAddMessage($ciniki, $tnid, array(
                     'from_name' => $_POST['contact-form-name'],
                     'from_email' => $_POST['contact-form-email'],
                     'subject' => $subject,
                     'text_content' => $msg,
-                    'html_content' => $msg,
+                    'html_content' => $htmlmsg,
                     'notification' => 'yes',
                     'notification_emails' => (isset($s['notify-emails'])?$s['notify-emails']:''),
                     ));
