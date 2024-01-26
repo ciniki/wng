@@ -293,8 +293,12 @@
 .block-form .field-checkbox {
     display: flex;
     flex-flow: row nowrap;
-    align-items: flex-start;
+    justify-content: left;
+    align-items: center;
     padding-top: 1rem;
+}
+.block-form .field-checkbox input {
+    margin-bottom: 0.5rem;
 }
 .block-form .field-checkbox.description-included {
     flex-flow: row wrap;
@@ -320,7 +324,6 @@
 .block-form .field-termsofuse .field-description {
     flex-basis: 100%;
 }
-
 .block-form .field-content.checkbox-label,
 .block-form.sectioned .field-content.checkbox-label {
     padding-bottom: 0px;
@@ -337,27 +340,47 @@
     padding-bottom: 0.25rem;
 }
 .block-form .field-termsofuse input,
-.block-form .field-radio input,
+.block-form .field-radio input {
+    display: inline-block;
+    width: auto;
+    padding: 1rem;
+    margin: 0.5rem 1rem 0.5rem 0;
+}
+.block-form .field-radio input {
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+}
 .block-form .field-checkbox input {
     display: inline-block;
     width: auto;
     padding: 1rem;
-    margin: 0.5rem 1rem 0 0;
+    margin: 0.5rem 1rem 0.5rem 0;
+    width: 1.2rem;
+    min-width: 1.2rem;
+    height: 1.2rem;
 }
 .block-form .field-checkbox label {
     display: inline;
     width: auto;
 }
+.block-form .field-checkbox #f-terms {
+    align-self: start;
+}
 .block-form .field-radio .option-wrap { 
     display: inline;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: left;
+    align-items: center;
 }
 .block-form .field-radio.block-options .option-wrap {   
     display: block;
 }
 .block-form .field-radio input {
-    margin: 0 0.25rem 0 1rem;
+    margin: 0.25rem 0.25rem 0.25rem 1rem;
 }
-.block-form .field-radio label {
+.block-form .field.field-radio label {
     display: inline;
 }
 .block-form .field-termsofuse label {
