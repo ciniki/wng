@@ -1,0 +1,184 @@
+.block-schedule {
+    width: 100%;
+}
+.block-schedule .content {
+    padding: 1rem;
+}
+.block-schedule h2 {
+    padding-bottom: 1rem;
+}
+.block-schedule.subtitle h2 {
+    padding-bottom: 0rem;
+}
+.block-schedule .timeslot {
+    padding-bottom: 2rem;
+}
+.block-schedule .timetitle {
+    display: table-row;
+    width: 100%;
+}
+.block-schedule .timeslot .time,
+.block-schedule .timeslot .title {
+    font-weight: bold;
+    display: inline-block;
+    display: table-cell;
+}
+.block-schedule .timeslot .time {
+    padding-right: 1.5rem;
+}
+.block-schedule .timeslot .synopsis {
+    padding-bottom: 0.5rem;
+}
+.block-schedule .details-table table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+.block-schedule .details-table tr:nth-child(even) {
+    background: #f6f6f6; 
+}
+.block-schedule .details-table tr:nth-child(odd) {
+    background: #e7e7e7; 
+}
+.block-schedule .details-table td {
+    padding: 0.5rem;
+}
+@media screen and (min-width: 40em) {
+    .block-schedule .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-schedule .timeslot .time {
+        min-width: 8rem;
+    }
+    .block-schedule .timeslot .synopsis,
+    .block-schedule .timeslot .details-table {
+        margin-left: 8rem;
+    }
+    .block-schedule .details-table table {
+    }
+}
+
+/*
+.block-schedule table {
+    width: 100%;
+    border: 1px solid #000;
+}
+.block-schedule.fit-width table {
+    width: auto;
+    width: -webkit-fill-available;
+}
+.block-schedule.fit-width {
+    width: auto;
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
+.block-schedule th,
+.block-schedule td {
+    padding: 0.5em;
+    vertical-align: middle;
+}
+.block-schedule td.aligntop {
+    vertical-align: top;
+}
+.block-schedule td.alignright {
+    text-align: right;
+}
+.block-schedule th {
+    font-weight: bold;
+}
+.block-schedule .fold-label {
+    display: none;
+    padding-right: 1rem;
+    font-weight: bold;
+}
+.block-schedule .buttons {
+    padding: 0.5rem 0rem 0rem 0.5rem;
+}
+.block-schedule th .button {
+    font-weight: normal;
+}
+.block-schedule .buttons .button {
+    margin: 0rem 0.5rem 0.5rem 0rem;
+}
+@media screen and (max-width: 40em) {
+    .block-schedule.fold-at-40 table, 
+    .block-schedule.fold-at-40 tbody, 
+    .block-schedule.fold-at-40 tbody tr, 
+    .block-schedule.fold-at-40 tbody td {
+        display: block;
+    }
+    .block-schedule.fold-at-40 tbody tr {
+        margin-bottom: 1rem;
+    }
+    .block-schedule.fold-at-40 tbody tr td:first-child {
+        font-weight: bold;
+    }
+    .block-schedule.fold-at-40 table {
+        border: 0px;
+    }
+    .block-schedule.fold-at-40 .fold-label {
+        display: inline-block;
+    }
+    .block-schedule.fold-at-40 tr {
+        margin-bottom: 1rem;
+        border: 1px solid #000;
+    }
+    .block-schedule.fold-at-40 th,
+    .block-schedule.fold-at-40 thead,
+    .block-schedule.fold-at-40 td.empty {
+        display: none;
+    }
+    .block-schedule.fold-at-40 tfoot {
+        display: table;
+        width: 100%;
+    }
+    .block-schedule.fold-at-40 .fold-alignleft {
+        text-align: left;
+    }
+    .block-schedule.fold-at-40 .fold-hidden {
+        display: none;    
+    }
+}
+@media screen and (max-width: 50em) {
+    .block-schedule.fold-at-50 table, 
+    .block-schedule.fold-at-50 tbody, 
+    .block-schedule.fold-at-50 tbody tr, 
+    .block-schedule.fold-at-50 tbody td,
+    .block-schedule.fold-at-50 tfoot, 
+    .block-schedule.fold-at-50 tfoot tr, 
+    .block-schedule.fold-at-50 tfoot td {
+        display: block;
+    }
+    .block-schedule.fold-at-50 tbody tr,
+    .block-schedule.fold-at-50 tfoot tr {
+        margin-bottom: 1rem;
+    }
+    .block-schedule.fold-at-50 tbody tr td:first-child,
+    .block-schedule.fold-at-50 tfoot tr td:first-child {
+        font-weight: bold;
+    }
+    .block-schedule.fold-at-50 table {
+        border: 0px;
+    }
+    .block-schedule.fold-at-50 .fold-label {
+        display: inline-block;
+    }
+    .block-schedule.fold-at-50 tr {
+        margin-bottom: 1rem;
+        border: 1px solid #000;
+    }
+    .block-schedule.fold-at-50 th,
+    .block-schedule.fold-at-50 thead,
+    .block-schedule.fold-at-50 td.empty {
+        display: none;
+    }
+    .block-schedule.fold-at-50 .fold-alignleft {
+        text-align: left;
+    }
+    .block-schedule.fold-at-50 .fold-hidden {
+        display: none;    
+    }
+}
+*/
