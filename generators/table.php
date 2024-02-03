@@ -23,6 +23,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     if( isset($block['title']) && $block['title'] != '' ) {
         $content .= "<h2>" . $block['title'] . "</h2>";
     }
+    if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+        $content .= "<h3>" . $block['subtitle'] . "</h3>";
+    }
 
     $content .= "<div class='table'>";
     $content .= "<table>";

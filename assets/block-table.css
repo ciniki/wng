@@ -7,6 +7,9 @@
 .block-table h2 {
     padding-bottom: 1rem;
 }
+.block-table.subtitle h2 {
+    padding-bottom: 0rem;
+}
 .block-table table {
     width: 100%;
     border: 1px solid #000;
@@ -24,6 +27,9 @@
 .block-table td {
     padding: 0.5em;
     vertical-align: middle;
+}
+.block-table td.aligntop {
+    vertical-align: top;
 }
 .block-table td.alignright {
     text-align: right;
