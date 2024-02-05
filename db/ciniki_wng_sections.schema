@@ -50,11 +50,11 @@ create table ciniki_wng_sections (
     sequence smallint unsigned not null,
     flags tinyint not null,
     label varchar(250) not null,
-    settings text not null,
+    settings longtext not null,
 
     date_added datetime not null,
     last_updated datetime not null,
     primary key (id),
     unique index (uuid),
     index sync (tnid, uuid, last_updated)
-) ENGINE='InnoDB', COMMENT='v1.01';
+) ENGINE='InnoDB', COMMENT='v1.02';
