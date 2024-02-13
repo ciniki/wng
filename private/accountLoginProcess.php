@@ -37,6 +37,9 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
     if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'passwordreset' ) {
         $display_form = 'reset';
     }
+    if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'create' ) {
+        $display_form = 'signup';
+    }
     if( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'signup' && isset($_GET['k']) ) {
 
         ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupComplete');
