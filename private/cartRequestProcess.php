@@ -393,7 +393,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     //
     // FIXME: Add check for cookies
     //
-
     //
     // Check if a item is being added to the cart
     //
@@ -456,6 +455,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 ));
             if( $rc['stat'] != 'ok' ) {
                 if( $rc['stat'] == 'soldout' ) {
+                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+                    $display_cart = 'yes';
+                } elseif( $rc['stat'] == 'warn' ) {
                     $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
                     $display_cart = 'yes';
                 } else {
@@ -1374,7 +1376,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Display the signup/login form
     //
     if( $display_signup == 'yes' || $display_signup == 'forgot' || $display_signup == 'createaccount' ) {
-        error_log('signup/login');
         $post_email = '';
         if( isset($_POST['email']) ) {
             $post_email = $_POST['email'];
@@ -2628,6 +2629,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $content .= "</div>";   // Close buttons
 
             $content .= "</form>";
+        } elseif( $cart_err_msg != '' ) {
+            // Empty cart and error message
+            $content .= $cart_err_msg;
         } else {
             $content .= "<p>Your shopping cart is empty.</p>";
         }
