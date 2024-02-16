@@ -39,7 +39,7 @@
 }
 @media screen and (min-width: 40em) {
     .block-cart {
-        padding: 2rem;
+        padding: 0 2rem 2rem 2rem;
     }
 }
 @media screen and (min-width: 50em) {

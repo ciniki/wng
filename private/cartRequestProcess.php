@@ -56,6 +56,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     $display_signup = 'no';
     $display_passwordreset = 'no';
     $cart_err_msg = '';
+    $carterrors = '';
     $signup_err_msg = '';
     $cart = NULL;
     $cart_edit = 'yes';
@@ -455,16 +456,19 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 ));
             if( $rc['stat'] != 'ok' ) {
                 if( $rc['stat'] == 'soldout' ) {
-                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+//                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+                    $carterrors .= ($carterrors != '' ? '<br/>' : '') . $rc['err']['msg'];
                     $display_cart = 'yes';
                 } elseif( $rc['stat'] == 'warn' ) {
-                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+//                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+                    $carterrors .= ($carterrors != '' ? '<br/>' : '') . $rc['err']['msg'];
                     $display_cart = 'yes';
                 } else {
                     return $rc;
                 }
             } elseif( isset($rc['error_message']) && $rc['error_message'] != '' ) {
-                $cart_err_msg .= "<p class='error'>" . $rc['error_message'] . "</p>";
+//                $cart_err_msg .= "<p class='error'>" . $rc['error_message'] . "</p>";
+                $carterrors .= ($carterrors != '' ? '<br/>' : '') . $rc['error_message'];
                 $display_cart = 'yes';
             }
         }
@@ -472,7 +476,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         //
         // Redirect to avoid form duplicate submission
         //
-        if( $display_cart != 'yes' || $cart_err_msg == '' ) {
+        if( $display_cart != 'yes' || $carterrors == '' ) {
             header("Location: " . $request['ssl_domain_base_url'] . "/cart");
             return array('stat'=>'exit');
         }
@@ -678,13 +682,15 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 ));
             if( $rc['stat'] != 'ok' ) {
                 if( $rc['stat'] == 'soldout' ) {
-                    $cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+                    //$cart_err_msg .= "<p class='error'>" . $rc['err']['msg'] . "</p>";
+                    $carterrors .= ($carterrors != '' ? '<br/>' : '') . $rc['err']['msg'];
                     $display_cart = 'yes';
                 } else {
                     return $rc;
                 }
             } elseif( isset($rc['error_message']) && $rc['error_message'] != '' ) {
-                $cart_err_msg .= "<p class='error'>" . $rc['error_message'] . "</p>";
+                // $cart_err_msg .= "<p class='error'>" . $rc['error_message'] . "</p>";
+                $carterrors .= ($carterrors != '' ? '<br/>' : '') . $rc['err']['msg'];
                 $display_cart = 'yes';
             } else {
                 header("Location: " . $request['ssl_domain_base_url'] . "/cart");
@@ -1769,6 +1775,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 );
         }
 
+        $blocks[] = array(
+            'type' => 'title',
+            'title' => $page_title,
+            );
+
         if( isset($carterrors) && $carterrors != '' ) {
             $blocks[] = array(
                 'type' => 'msg',
@@ -1778,14 +1789,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 );
         }
 
-
-
         $content = '';
         $js = '';
         $content .= "<div class='block-cart limit-width'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
-        $content .= "<h1>$page_title</h1>";
         
 /*        if( isset($settings['cart-product-search']) 
             && $settings['cart-product-search'] == 'yes' 
@@ -2057,9 +2065,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             } else {
                 $content .= "<input type='hidden' id='action' name='action' value='update'/>";
             }
-            if( $cart_err_msg != '' ) {
-                $content .= $cart_err_msg;
-            }
+//            if( $cart_err_msg != '' ) {
+//                $content .= $cart_err_msg;
+//            }
             $content .= "<div class='items-wrap'>";
             $content .= "<table class='items'>";
             $content .= "<thead><tr>"
@@ -2629,9 +2637,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $content .= "</div>";   // Close buttons
 
             $content .= "</form>";
-        } elseif( $cart_err_msg != '' ) {
-            // Empty cart and error message
-            $content .= $cart_err_msg;
+//        } elseif( $cart_err_msg != '' ) {
+//            // Empty cart and error message
+//            $content .= $cart_err_msg;
         } else {
             $content .= "<p>Your shopping cart is empty.</p>";
         }
