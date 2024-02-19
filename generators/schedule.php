@@ -11,6 +11,8 @@
 // 
 function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+
     $content = '';
 
     $content .= "<div class='block-schedule"
@@ -36,7 +38,11 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='title'>{$timeslot['title']}</div>";
         $content .= "</div>";
         if( isset($timeslot['synopsis']) && $timeslot['synopsis'] != '' ) {
-            $content .= "<div class='synopsis'>{$timeslot['synopsis']}</div>";
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $timeslot['synopsis']);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.243', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+            }
+            $content .= "<div class='synopsis'>{$rc['content']}</div>";
         } else {
             $content .= "<div class='synopsis'></div>";
         }
@@ -54,7 +60,9 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
             foreach($timeslot['items'] as $item) {
                 $content .= "<tr>";
                 foreach($block['details-columns'] as $col) {
-                    $content .= "<td>";
+                    $content .= "<td"
+                        . (isset($col['class']) && $col['class'] != '' ? " class='{$col['class']}'" : '')
+                        . ">";
                     if( isset($item[$col['field']]) ) {
                         $content .= $item[$col['field']];
                     }
