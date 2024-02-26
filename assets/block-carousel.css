@@ -20,22 +20,24 @@
     width: 100%;
     max-width: 100%;
     transform: translateX(100%);
-    transition-duration: 1s;
     z-index: 500;
 }
 .block-carousel .content .current {
     position: relative;
     transform: translateX(0%);
     z-index: 550;
+    transition-duration: 1s;
 }
 .block-carousel .content .next {
     z-index: 540;
     z-index: -1;
+    transition-duration: 1s;
 }
 .block-carousel .content .prev {
     transform: translateX(-100%);
     z-index: 500;
     z-index: -1;
+    transition-duration: 1s;
 }
 .block-carousel .image {
     min-height: 40%;
