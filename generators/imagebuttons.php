@@ -45,6 +45,11 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
+
+    if( isset($block['title']) && $block['title'] != '' ) {
+        $content .= "<h2>" . $block['title'] . "</h2>";
+    }
+
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
     foreach($block['items'] as $iid => $item) {
