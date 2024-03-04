@@ -17,6 +17,7 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
 
     $content .= "<div class='block-schedule"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['times']) && $block['times'] == 'no' ? ' no-times' : '')
         . (isset($block['subtitle']) && $block['subtitle'] != '' ? ' subtitle' : '')
         . "'>";
     $content .= "<div class='wrap'>";
@@ -31,10 +32,17 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
 
     $content .= "<div class='timeslots'>";
 
+    $prev_time = '';
     foreach($block['items'] as $timeslot) {
         $content .= "<div class='timeslot'>";
         $content .= "<div class='timetitle'>";
-        $content .= "<div class='time'>" . str_replace(' ', '&nbsp;', $timeslot['time']) . "</div>";
+        if( !isset($block['times']) || $block['times'] != 'no' ) {
+            if( $prev_time == $timeslot['time'] ) {
+                $content .= "<div class='time'>&nbsp;</div>";
+            } else {
+                $content .= "<div class='time'>" . str_replace(' ', '&nbsp;', $timeslot['time']) . "</div>";
+            }
+        }
         $content .= "<div class='title'>{$timeslot['title']}</div>";
         $content .= "</div>";
         if( isset($timeslot['synopsis']) && $timeslot['synopsis'] != '' ) {
@@ -75,81 +83,9 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
         }
 
         $content .= "</div>";
+        $prev_time = $timeslot['time'];
     }
 
-
-
-/*
-    $content .= "<table>";
-    $num_cols = 0;
-    if( !isset($block['headers']) || $block['headers'] == 'yes' ) {
-        $content .= "<thead><tr>";
-        foreach($block['columns'] as $column) {
-            $content .= "<th" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">"
-                . $column['label']
-                . "</th>";
-            $num_cols++;
-        }
-        $content .= "</tr></thead>";
-    }
-    $content .= "<tbody>";
-    $count = 0;
-    foreach($block['rows'] as $row) {
-        $content .= "<tr>";
-        $cnum = 1;
-        foreach($block['columns'] as $column) {
-            $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
-            $cell_content = '';
-            if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
-                $cell_content .= "<span class='fold-label'>" . $column['fold-label'] . "</span>";
-            }
-            if( isset($column['strsub']) && $column['strsub'] != '' ) {
-                $value = $column['strsub'];
-                if( preg_match('/{_([a-zA-Z0-9_]+)_}/', $column['strsub'], $m) ) {
-                    foreach($m as $field) {
-                        if( isset($row[$field]) ) {
-                            $value = str_replace("{_{$field}_}", $row[$field], $value);
-                        } 
-                    }
-                }
-                $cell_content .= $value;
-            }
-            if( isset($column['field']) && isset($row[$column['field']]) ) {
-                $cell_content .= $row[$column['field']];
-            } 
-            if( trim($cell_content) == '' ) {
-                $column['class'] .= ($column['class'] != '' ? ' ' : '') . 'empty';
-            }
-            $content .= "<{$cell_type}" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
-            $content .= $cell_content;
-            $content .= "</{$cell_type}>";
-            $cnum++;
-        }
-        $content .= "</tr>";
-        $count++;
-    }
-    if( $count == 0 && isset($block['empty']) ) {
-        $content .= "<tr><td class='empty' colspan='" . $num_cols . "'>" . $block['empty'] . "</td></tr>";
-    }
-    $content .= "</tbody>";
-    if( isset($block['footer']) && count($block['footer']) > 0 ) {
-        $content .= "<tfoot><tr>";
-        foreach($block['footer'] as $cell) {
-            $content .= '<td'
-                . (isset($cell['colspan']) && $cell['colspan'] != '' ? " colspan='{$cell['colspan']}'" : '')
-                . (isset($cell['class']) && $cell['class'] != '' ? " class='{$cell['class']}'" : '')
-                . '>';
-            if( isset($cell['fold-label']) && $cell['fold-label'] != '' ) {
-                $content .= "<span class='fold-label'>" . $cell['fold-label'] . "</span>";
-            }
-            $content .= $cell['value'];
-            $content .= "</td>";
-        }
-        $content .= "</tr></tfoot>";
-    }
-    $content .= "</table>";
-
-*/
     $content .= "</div>";
 
     $content .= '</div>';

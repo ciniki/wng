@@ -33,12 +33,19 @@
     width: 100%;
     border: 1px solid #ddd;
 }
-.block-schedule .details-table tr:nth-child(even) {
+.block-schedule .details-table tbody tr:nth-child(even) {
     background: #f6f6f6; 
 }
-.block-schedule .details-table tr:nth-child(odd) {
+.block-schedule .details-table tbody tr:nth-child(odd) {
     background: #e7e7e7; 
 }
+.block-schedule .details-table thead tr {
+    background: #e0e0e0; 
+}
+.block-schedule .details-table th {
+    font-weight: bold;
+}
+.block-schedule .details-table th,
 .block-schedule .details-table td {
     padding: 0.5rem;
 }
@@ -55,6 +62,10 @@
     .block-schedule .timeslot .synopsis,
     .block-schedule .timeslot .details-table {
         margin-left: 8rem;
+    }
+    .block-schedule.no-times .timeslot .synopsis,
+    .block-schedule.no-times .timeslot .details-table {
+        margin-left: 0px;
     }
     .block-schedule .details-table table {
     }
