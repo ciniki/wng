@@ -53,6 +53,8 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             $aria_label = $block['title'];
         } elseif( isset($block['content']) && $block['content'] != '' ) {
             $aria_label = $block['content'];
+        } elseif( isset($block['link-text']) && $block['link-text'] != '' ) {
+            $aria_label = $block['link-text'];
         }
 
         $url = '';
