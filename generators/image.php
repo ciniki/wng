@@ -42,6 +42,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.154', 'msg'=>'', 'err'=>$rc['err']));
         }
+        $img_url = $rc['url'];
 
         //
         // Make sure the image is in the cache
@@ -54,7 +55,27 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             $aria_label = $block['content'];
         }
 
-        $content .= "<img alt='{$aria_label}' src='" . $rc['url'] . "' />";
+        $url = '';
+        if( isset($block['link-page']) && $block['link-page'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
+            $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                isset($block["link-page"]) ? $block["link-page"] : 0,
+                isset($block["link-url"]) ? $block["link-url"] : ''
+                );
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.117', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
+            }
+            $url = $rc['url'];
+        }
+        if( $url != '' ) {
+            $content .= "<a href='" . $rc['url'] . "'>";
+        }
+
+        $content .= "<img alt='{$aria_label}' src='" . $img_url . "' />";
+
+        if( $url != '' ) {
+            $content .= "</a>";
+        }
 
         //
         // Check if image list passed and need to find prev and next
