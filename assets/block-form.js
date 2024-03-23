@@ -238,7 +238,7 @@ C.form = {
         p.children[0].src='';
     },
     /* Image Clear */
-    iC: function(s, f) {
+    iC: function(f) {
         this.aa['f-' + f] = '0';
         C.getBg(this.ssu, this.aa, function(rsp) {
             if( rsp.stat != 'ok' ) {
