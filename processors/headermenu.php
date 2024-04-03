@@ -376,7 +376,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         $block['right-buttons'] = array(
             array(
                 'page' => $s['right-button-page'],
-                'text' => $request['site']['pages'][$s['right-button-page']]['title'],
+                'text' => (isset($s['right-button-text']) && $s['right-button-text'] != '' ? $s['right-button-text'] : $request['site']['pages'][$s['right-button-page']]['title']),
                 'url' => '',
                 ),
             );

@@ -140,6 +140,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'type' => 'select',
         'pages' => 'yes',
         );
+    $sections['ciniki.wng.headermenu']['settings']['right-button-text'] = array(
+        'label' => 'Right Button Text',
+        'type' => 'text',
+        );
 
     //
     // Footer Menu - No Image
