@@ -44,6 +44,14 @@ function ciniki_wng_formFormulaParse(&$ciniki, $tnid, $args) {
             }
         }
     }
+    if( isset($args['fields']) ) {
+        foreach($args['fields'] as $fid => $field) {
+            if( $field['ftype'] == 'number' || $field['ftype'] == 'formula' ) {
+                $fields[] = $field;
+                $js_formula = str_replace("{_{$field['label']}_}", "C.form.iV('f-{$field['id']}')", $js_formula);
+            }
+        }
+    }
 
     if( preg_match("/SUM\(C.form.iV\('f-([0-9]+)'\),C.form.iV\('f-([0-9]+)'\)\)/", $js_formula, $m) ) {
         $include = 0;
