@@ -49,7 +49,7 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
             $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
             $cell_content = '';
             if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
-                $cell_content .= "<span class='fold-label'>" . $column['fold-label'] . "</span>";
+                $cell_content .= "<span class='fold-label'>" . $column['fold-label'] . "</span><span class='cell-content'>";
             }
             if( isset($column['strsub']) && $column['strsub'] != '' ) {
                 $value = $column['strsub'];
@@ -65,6 +65,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
             if( isset($column['field']) && isset($row[$column['field']]) ) {
                 $cell_content .= $row[$column['field']];
             } 
+            if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
+                $cell_content .= "</span>";
+            }
             if( trim($cell_content) == '' ) {
                 $column['class'] .= ($column['class'] != '' ? ' ' : '') . 'empty';
             }
@@ -95,6 +98,26 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "</tr></tfoot>";
     }
+    if( isset($block['footers']) && count($block['footers']) > 0 ) {
+        $content .= "<tfoot>";
+        foreach($block['footers'] as $footer) {
+            $content .= "<tr>";
+            foreach($footer as $cell) {
+                $content .= '<td'
+                    . (isset($cell['colspan']) && $cell['colspan'] != '' ? " colspan='{$cell['colspan']}'" : '')
+                    . (isset($cell['class']) && $cell['class'] != '' ? " class='{$cell['class']}'" : '')
+                    . '>';
+                if( isset($cell['fold-label']) && $cell['fold-label'] != '' ) {
+                    $content .= "<span class='fold-label'>" . $cell['fold-label'] . "</span>";
+                }
+                $content .= $cell['value'];
+                $content .= "</td>";
+            }
+            $content .= "</tr>";
+        }
+        $content .= "</tfoot>";
+    }
+
     $content .= "</table>";
     $content .= "</div>";
 

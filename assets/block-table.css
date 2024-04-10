@@ -95,6 +95,9 @@
     .block-table.fold-at-40 .fold-hidden {
         display: none;    
     }
+    .block-table.no-fold-footers tfoot { display: table-footer-group; }
+    .block-table.no-fold-footers tfoot tr { display: table-row; }
+    .block-table.no-fold-footers tfoot td { display: table-cell; }
 }
 @media screen and (max-width: 50em) {
     .block-table.fold-at-50 table, 
@@ -120,6 +123,18 @@
     .block-table.fold-at-50 .fold-label {
         display: inline-block;
     }
+    .block-table.fold-at-50.fold-label-headers tbody td {
+        padding: 0rem;
+    }
+    .block-table.fold-at-50.fold-label-headers .fold-label {
+        display: block;
+        padding: 0.5rem;
+    }
+    .block-table.fold-at-50.fold-label-headers .cell-content {
+        display: block;
+        padding: 0.5rem;
+        font-weight: normal;
+    }
     .block-table.fold-at-50 tr {
         margin-bottom: 1rem;
         border: 1px solid #000;
@@ -129,14 +144,76 @@
     .block-table.fold-at-50 td.empty {
         display: none;
     }
-/*    .block-table.fold-at-50 tfoot {
-        display: table;
-        width: 100%;
-    } */
     .block-table.fold-at-50 .fold-alignleft {
         text-align: left;
     }
     .block-table.fold-at-50 .fold-hidden {
         display: none;    
+    }
+    .block-table.invoice tfoot,
+    .block-table.no-fold-footers tfoot { 
+        display: table; 
+        width: 100%;
+        border-bottom: 0px;
+    }
+    .block-table.invoice tfoot tr,
+    .block-table.no-fold-footers tfoot tr { 
+        display: table-row; 
+    }
+    .block-table.invoice tfoot td,
+    .block-table.no-fold-footers tfoot td { 
+        display: table-cell; 
+    }
+}
+.block-table.invoice tbody tr {
+    border-bottom: 1px solid #000;
+}
+.block-table td .indent {
+    font-weight: normal;
+}
+.block-table.invoice td.item-total {
+    flex-grow: 2;
+    order: 6;
+}
+@media screen and (max-width: 50em) {
+    .block-table.fold-at-50.invoice table {
+        border: 1px solid #000;
+    }
+    .block-table.fold-at-50.invoice tbody tr {
+        display: flex;
+        flex-flow: row wrap;
+        margin-bottom: 0px;
+        border: 0px;
+    }
+    .block-table.fold-at-50.invoice tfoot tr {
+        border: 0px;
+    }
+    .block-table.fold-at-50.invoice tbody tr .item-description {
+        flex-basis: 100%;
+        padding-bottom: 0rem;
+    }
+    .block-table.fold-at-50.invoice tfoot tr td:first-child {
+        width: 100%;
+    }
+    .block-table.fold-at-50.invoice .item-quantity:before {
+        content: '(';
+        padding-right: 0.5rem;
+    }
+    .block-table.fold-at-50.invoice .item-quantity {
+        padding-right: 0rem;
+    }
+    .block-table.fold-at-50.invoice .item-quantity:after {
+        content: '@';
+        padding-left: 0.5rem;
+    }
+    .block-table.fold-at-50.invoice .item-price {
+        padding-left: 0.5rem;
+    }
+    .block-table.fold-at-50.invoice .item-price:after {
+        content: ')';
+        padding-left: 0.5rem;
+    }
+    .block-table.fold-at-50.invoice .item-total {
+        font-weight: bold;
     }
 }

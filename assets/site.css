@@ -173,6 +173,9 @@ p:last-child {
 .alignleft {
     text-align: left;
 }
+.indent {
+    margin-left: 1rem;
+}
 .clearright {
     clear: right;
 }
