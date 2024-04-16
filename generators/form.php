@@ -124,6 +124,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 if( isset($section['label']) && $section['label'] != '' ) {
                     $sections .= "<h2>" . $section['label'] . "</h2>";
                 }
+                if( isset($section['sublabel']) && $section['sublabel'] != '' ) {
+                    $sections .= "<h3>" . $section['sublabel'] . "</h3>";
+                }
                 if( isset($section['description']) && $section['description'] != '' ) {
                     $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $section['description']);
                     if( $rc['stat'] != 'ok' ) {
