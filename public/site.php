@@ -267,7 +267,9 @@ function ciniki_wng_site($ciniki) {
                 $info_filename = $ciniki['config']['ciniki.core']['root_dir'] . "/{$pkg}-mods/{$mod}/_info.ini";
                 if( file_exists($info_filename) ) {
                     $info = parse_ini_file($info_filename);
-                    if( isset($info['name']) && $info['name'] != '' ) {
+                    if( isset($info['wng-name']) && $info['wng-name'] != '' ) {
+                        $name = $info['wng-name'];
+                    } elseif( isset($info['name']) && $info['name'] != '' ) {
                         $name = $info['name'];
                     } 
                 }
