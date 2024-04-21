@@ -856,7 +856,15 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 . (isset($field['flex-basis']) ? " style='flex-basis: {$field['flex-basis']}'" : '')
                 . ">";
 
-            if( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
+            if( $field['ftype'] == 'viewtext' ) {
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<span type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . ">"
+                    . (isset($field['value']) ? htmlspecialchars($field['value']) : '')
+                    . "</span>";
+            }
+            elseif( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
                 $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"

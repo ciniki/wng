@@ -51,6 +51,9 @@
 .block-table .buttons .button {
     margin: 0rem 0.5rem 0.5rem 0rem;
 }
+.block-table td .indent {
+    font-weight: normal;
+}
 @media screen and (min-width: 40em) {
     .block-table .content {
         padding-left: 2rem;
@@ -98,6 +101,7 @@
     .block-table.no-fold-footers tfoot { display: table-footer-group; }
     .block-table.no-fold-footers tfoot tr { display: table-row; }
     .block-table.no-fold-footers tfoot td { display: table-cell; }
+    .block-table.fold-at-40.no-fold-footers tr td.spacer { display: none; }
 }
 @media screen and (max-width: 50em) {
     .block-table.fold-at-50 table, 
@@ -164,29 +168,28 @@
     .block-table.no-fold-footers tfoot td { 
         display: table-cell; 
     }
-}
-.block-table.invoice tbody tr {
-    border-bottom: 1px solid #000;
-}
-.block-table td .indent {
-    font-weight: normal;
-}
-.block-table.invoice td.item-total {
-    flex-grow: 2;
-    order: 6;
+    .block-table.fold-at-50.no-fold-footers tr td.spacer { display: none; }
 }
 @media screen and (max-width: 50em) {
     .block-table.fold-at-50.invoice table {
-        border: 1px solid #000;
+        border: 0px solid #000;
     }
     .block-table.fold-at-50.invoice tbody tr {
         display: flex;
         flex-flow: row wrap;
         margin-bottom: 0px;
         border: 0px;
+        border-bottom: 1px solid #000;
     }
     .block-table.fold-at-50.invoice tfoot tr {
         border: 0px;
+        border-bottom: 1px solid #000;
+    }
+    .block-table.fold-at-50.invoice tbody tr:last-child {
+        border-bottom: 0px;
+    }
+    .block-table.fold-at-50.invoice tfoot tr:first-child td {
+        border-top: 0px;
     }
     .block-table.fold-at-50.invoice tbody tr .item-description {
         flex-basis: 100%;
@@ -216,4 +219,40 @@
     .block-table.fold-at-50.invoice .item-total {
         font-weight: bold;
     }
+}
+/* Invoice styles */
+.block-table.invoice table {
+    border: 0px;
+}
+.block-table.invoice table thead,
+.block-table.invoice table tbody {
+    border: 1px solid #000;
+}
+.block-table.invoice table tfoot,
+.block-table.invoice table tfoot tr {
+    border: 0px;
+}
+.block-table.invoice table tfoot tr,
+.block-table.invoice table tfoot tr:nth-child(odd),
+.block-table.invoice table tfoot tr:nth-child(even) {
+    background: none;
+}
+.block-table.invoice tbody tr,
+.block-table.invoice tfoot tr td {
+    border-bottom: 1px solid #000;
+}
+.block-table.invoice tfoot tr td:nth-child(2) {
+    border-left: 1px solid #000;
+}
+.block-table.invoice tfoot tr td:last-child {
+    border-right: 1px solid #000;
+}
+.block-table.invoice tfoot tr td.spacer {
+    background: none;
+    border-bottom: 0px;
+    width: 70%;
+}
+.block-table.invoice td.item-total {
+    flex-grow: 2;
+    order: 6;
 }

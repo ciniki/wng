@@ -16,6 +16,7 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         
     $content .= "<div class='block-table"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['rows']) && (count($block['rows'])%2) == 0 ? ' q-2' : '')
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";

@@ -1,0 +1,73 @@
+.block-stripecheckout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    visibility: none;
+    justify-content: center;
+}
+.block-stripecheckout .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.block-stripecheckout .content {
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0px 15px 30px 0px #000;
+    border-radius: 0.25rem;
+}
+.block-stripecheckout button {
+    width: 100%;
+    margin-top: 1rem;
+}
+.block-stripecheckout #stripe-error-messages {
+    margin-top: 1rem;
+    font-weight: bold;
+    max-width: 20rem;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    background: #fbbbbb;
+}
+.block-stripecheckout .stripe-form-elements {
+    display: none;
+}
+.block-stripecheckout .content {
+/*    min-height: 15rem; */
+}
+.block-stripecheckout .__PrivateStripeElement {
+    transition: none !important;
+}
+.block-stripecheckout.loaded .stripe-form-elements {
+    display: block;
+}
+.block-stripecheckout.waiting .spinner {
+    display: flex; 
+    min-width: 15rem;
+    min-height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.block-stripecheckout.loaded .spinner {
+    display: none;
+}
+.block-stripecheckout .button.cancel-button {
+    border-color: #ddd;
+    background: #eee;
+    color: #555;
+    width: 100%;
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+}
+@media screen and (min-width: 35rem) {
+    .block-stripecheckout .content {
+        padding: 2rem;
+    }
+}

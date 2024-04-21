@@ -91,7 +91,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Check if special pages (Account, cart, search, cpi), must be at top level of site
     //
     if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) 
-        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi'))
+        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi', 'stripehook', 'cwh'))
         ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
@@ -119,10 +119,31 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'unsubscribeRequestProcess');
             $rc = ciniki_wng_unsubscribeRequestProcess($ciniki, $tnid, $request);
         }
+        // 
+        // Handler for the Ciniki API (called cpi to avoid bots testing /api)
+        //
         elseif( $request['uri_split'][0] == 'cpi' ) {
             $request['cur_uri_pos']+=2;
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'apiRequestProcess');
             $rc = ciniki_wng_apiRequestProcess($ciniki, $tnid, $request);
+            $rc['json'] = 'yes';
+        } 
+        // 
+        // Handler for Ciniki Webhooks (called cwh to avoid bots hitting /webhooks
+        //
+        elseif( $request['uri_split'][0] == 'stripehook' ) {
+            $request['cur_uri_pos']++;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'webhookStripeProcess');
+            $rc = ciniki_sapos_wng_webhookStripeProcess($ciniki, $tnid, $request);
+            $rc['json'] = 'yes';
+        } 
+        // 
+        // Handler for Ciniki Webhooks (called cwh to avoid bots hitting /webhooks
+        //
+        elseif( $request['uri_split'][0] == 'whk' ) {
+            $request['cur_uri_pos']+=2;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'webhookRequestProcess');
+            $rc = ciniki_wng_webhookRequestProcess($ciniki, $tnid, $request);
             $rc['json'] = 'yes';
         } 
         else {

@@ -71,6 +71,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'paypal-ec-signature',
         'stripe-pk',
         'stripe-sk',
+        'stripe-version',
+        'stripe-whsec',
         // Theme options
         'theme-css-imports',
         'theme-css-overrides',

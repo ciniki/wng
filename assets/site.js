@@ -171,3 +171,11 @@ C.dU = function(s) {
 C.fD = function(n,p) {
     return '$' + n.toFixed(p);
 }
+// Popup warning
+C.alert = function(m) {
+    var e=C.aE('div', 'popup-alert', 'block-popup', '<div class="wrap"><div class="content"><div class="message">' + m + '</div><button class="button" onclick="C.gE(\'popup-alert\').remove();">Close</button></div></div>');
+    C.gE('page-container').appendChild(e);
+}
+C.alertClose=function(){
+    C.gE('popup-alert');
+}
