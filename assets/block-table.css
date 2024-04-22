@@ -99,6 +99,9 @@
     .block-table.fold-at-40 .fold-alignleft {
         text-align: left;
     }
+    .block-table.invoice.fold-at-40 tfoot tr td:nth-child(2) {
+        width: 70%;
+    }
     .block-table.fold-at-40 .fold-hidden {
         display: none;    
     }
@@ -175,6 +178,9 @@
     .block-table.no-fold-footers tfoot td { 
         display: table-cell;  
         padding: 0.5rem 0.5rem;
+    }
+    .block-table.invoice.fold-at-50 tfoot tr td:nth-child(2) {
+        width: 70%;
     }
     .block-table.fold-at-50.no-fold-footers tr td.spacer { display: none; }
 }
