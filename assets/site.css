@@ -107,16 +107,13 @@ body {
 h1 {
     font-size: 2rem;
     font-weight: bold;
-    padding-bottom: 0.5em;
 }
 h2 {
     font-size: 1.7rem;
     font-weight: bold;
-    padding-bottom: 0.5em;
 }
 h3 {
     font-size: 1.5rem;  
-    padding-bottom: 0.5rem;
 }
 
 /* Helper styles */
