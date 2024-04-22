@@ -25,7 +25,7 @@
 }
 .block-table th,
 .block-table td {
-    padding: 0.5em;
+    padding: 0.5rem;
     vertical-align: middle;
 }
 .block-table td.aligntop {
@@ -75,6 +75,9 @@
     }
     .block-table.fold-at-40 table {
         border: 0px;
+    }
+    .block-table.fold-at-40 td {
+        padding: 0.25rem 0.5rem;
     }
     .block-table.fold-at-40 .fold-label {
         display: inline-block;
@@ -126,6 +129,9 @@
     }
     .block-table.fold-at-50 .fold-label {
         display: inline-block;
+    }
+    .block-table.fold-at-50 td {
+        padding: 0.25rem 0.5rem;
     }
     .block-table.fold-at-50.fold-label-headers tbody td {
         padding: 0rem;
