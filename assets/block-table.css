@@ -104,7 +104,7 @@
     }
     .block-table.no-fold-footers tfoot { display: table-footer-group; }
     .block-table.no-fold-footers tfoot tr { display: table-row; }
-    .block-table.no-fold-footers tfoot td { display: table-cell; }
+    .block-table.no-fold-footers tfoot td { display: table-cell; padding: 0.5rem 0.5rem; }
     .block-table.fold-at-40.no-fold-footers tr td.spacer { display: none; }
 }
 @media screen and (max-width: 50em) {
@@ -173,7 +173,8 @@
     }
     .block-table.invoice tfoot td,
     .block-table.no-fold-footers tfoot td { 
-        display: table-cell; 
+        display: table-cell;  
+        padding: 0.5rem 0.5rem;
     }
     .block-table.fold-at-50.no-fold-footers tr td.spacer { display: none; }
 }
