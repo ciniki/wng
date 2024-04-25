@@ -63,7 +63,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     }
                 }
             } 
-//            $content .= "<div class='item'></div>";
+            $content .= "<div class='item'></div>";
         }
         else {
             foreach($block['items'] as $item) {
