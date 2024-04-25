@@ -60,6 +60,8 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         $extension = 'png';
     } elseif( $img['type'] == 6 ) {
         $extension = 'svg';
+    } elseif( $img['type'] == 7 ) {
+        $extension = 'webp';
     } else {
         $extension = 'jpg';
     }
@@ -118,6 +120,9 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         }
 
         if( $img['type'] == 6 ) {
+            //
+            // Output SVG directly, no scaling need
+            //
             file_put_contents($img_filename, $image);
         } else {
             //
