@@ -20,7 +20,9 @@ function ciniki_wng_generators_title(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
 
-        if( isset($block['level']) && $block['level'] == 2 ) {
+        if( isset($block['level']) && $block['level'] == 3 ) {
+            $content .= "<h3>" . $block['title'] . "</h3>";
+        } elseif( isset($block['level']) && $block['level'] == 2 ) {
             $content .= "<h2>" . $block['title'] . "</h2>";
         } else {
             $content .= "<h1>" . $block['title'] . "</h1>";
