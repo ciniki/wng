@@ -46,6 +46,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         }
     }
 
+    $request['breadcrumbs'][] = array(
+        'name' => 'Cart', 
+        'page-class' => 'page-cart',
+        'url' => $request['ssl_domain_base_url'] . '/cart',
+        );
+
     //
     // Store the content created by the page
     // Make sure everything gets generated ok before returning the content
@@ -163,6 +169,12 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         && isset($request['site']['settings']['stripe-sk']) && $request['site']['settings']['stripe-sk'] != '' 
         ) {
         $stripe_checkout = 'yes';
+    }
+    if( isset($request['site']['settings']['stripe-pk']) && $request['site']['settings']['stripe-pk'] != '' 
+        && isset($request['site']['settings']['stripe-sk']) && $request['site']['settings']['stripe-sk'] != '' 
+        && isset($request['site']['settings']['stripe-version']) && $request['site']['settings']['stripe-version'] == 'elements' 
+        ) {
+        $stripe_checkout = 'elements';
     }
 
 //    if( isset($request['site']['settings']['paypal-ec-clientid']) && $request['site']['settings']['paypal-ec-clientid'] != '' 
@@ -1213,7 +1225,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     //
-    // Check if checkout via stripe
+    // Check if checkout via stripe (old pre 2024 version)
     //
     elseif( $stripe_checkout == 'yes' 
         && isset($_POST['stripe-token']) && $_POST['stripe-token'] != '' 
@@ -1264,6 +1276,65 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     );
             }
         }
+    }
+    //
+    // Check via stripe elements, implemented May 2024
+    //
+    elseif( $stripe_checkout == 'elements' && isset($_GET['payment_intent']) 
+        && $cart != NULL 
+        && isset($cart['customer_id']) && $cart['customer_id'] > 0 
+        ) {
+        $blocks[] = array(
+            'type' => 'title',
+            'level' => 2,
+            'title' => 'Shopping Cart',
+            );
+        if( isset($_GET['redirect_status']) 
+            && ($_GET['redirect_status'] == 'succeeded' || $_GET['redirect_status'] == 'pending') 
+            ) {
+            $request['session']['cart'] = array(
+                'id' => 0,
+                'items' => array(),
+                );
+            $cart = NULL;
+/*            ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
+            $rc = ciniki_core_objectUpdate($ciniki, $tnid, 'ciniki.sapos.invoice', $cart['id'], array(
+                'invoice_type' => 10,
+                ), 0x04);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.245', 'msg'=>'Unable to update the invoice', 'err'=>$rc['err']));
+            } */
+            
+        }
+        if( isset($_GET['redirect_status']) && $_GET['redirect_status'] == 'succeeded' ) {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'success',
+                'content' => 'Thank you for your payment',
+                );
+        } else if( isset($_GET['redirect_status']) && $_GET['redirect_status'] == 'pending' ) {     
+            // FIXME: find out pending status when waiting for interac to complete
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'success',
+                'content' => 'Thank you for your payment',
+                );
+        } else {
+            $blocks[] = array(
+                'type' => 'msg',
+                'level' => 'error',
+                'content' => 'There was a problem with your payment, please try again or contact us for help.',
+                );
+        }
+/*        $blocks[] = [
+            'type' => 'buttons',
+            'align' => 'center',
+            'items' => array(
+                array('text'=>'Continue', 'url'=>"{$request['ssl_domain_base_url']}/account/invoices"), 
+                ),
+            ]; */
+
+        return array('stat'=>'ok', 'blocks'=>$blocks);
     }
 
     //
@@ -2573,10 +2644,10 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             if( $display_cart == 'review' ) {
                 $content .= "<span class='submit'>"
                     . "<input class='button submit' type='submit' name='continue' value='Cancel'/></span>";
-                if( ($stripe_checkout == 'yes' || $etransfer_checkout == 'yes') && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+                if( ($stripe_checkout == 'yes' || $stripe_checkout == 'elements' || $etransfer_checkout == 'yes') && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                 }
-                elseif( $etransfer_checkout == 'yes' || $stripe_checkout == 'yes' ) {
+                elseif( $etransfer_checkout == 'yes' || $stripe_checkout == 'yes' || $stripe_checkout == 'elements' ) {
                     if( $etransfer_checkout == 'yes' ) {
                         $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send e-transfer</button>";
                     }
@@ -2611,6 +2682,14 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $content .= "<input id='stripe-token' type='hidden' name='stripe-token' value=''/>";
                         $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
                         $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
+                    }
+                    if( $stripe_checkout == 'elements' ) {
+                        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'stripeCheckoutCreate');
+                        $rc = ciniki_sapos_wng_stripeCheckoutCreate($ciniki, $tnid, $request, array(
+                            'invoice_id' => $cart['id'],
+                            'return_url' => $request['ssl_domain_base_url'] . '/cart',
+                            ));
+                        $content .= "<button class='button submit' onclick='{$rc['js']}; return false;' name='stripecheckout'>Pay Now</button>";
                     }
                 }
 /*                if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
@@ -2658,6 +2737,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     if( $display_cart == 'etransfer_success' ) {
+        $request['breadcrumbs'][] = array(
+            'name' => 'Cart', 
+            'page-class' => 'page-cart',
+            'url' => $request['ssl_domain_base_url'] . '/cart',
+            );
         $block = array(
             'type' => 'msg',
             'level' => 'success',

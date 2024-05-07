@@ -429,6 +429,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             'level' => 'success', 
             'content' => "A verification link has been sent to your email. Please also check your spam/junk folder.",
             );
+
         $display_form = 'no';
     }
     //
