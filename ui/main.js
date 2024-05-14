@@ -985,6 +985,20 @@ function ciniki_wng_main() {
                     return '<img width="75px" height="75px" src=\'/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg\'/>';
                 }
             }
+            else if( this.repeatfields[this.sections[s].dataMaps[j]].type != null
+                && this.repeatfields[this.sections[s].dataMaps[j]].type == 'select'
+                && this.repeatfields[this.sections[s].dataMaps[j]].options != null
+                && this.repeatfields[this.sections[s].dataMaps[j]].complex_options != null
+                ) {
+                var k = this.repeatfields[this.sections[s].dataMaps[j]].complex_options['value']
+                var n = this.repeatfields[this.sections[s].dataMaps[j]].complex_options['name']
+                var o = this.repeatfields[this.sections[s].dataMaps[j]].options;
+                for(var i in o) {
+                    if( o[i][k] == d[this.sections[s].dataMaps[j]] ) {
+                        return o[i][n];
+                    }
+                }
+            }
             else if( this.sections[s].cellClasses[j] != null
                 && this.sections[s].cellClasses[j] == 'page-link'
                 ) {
@@ -1121,6 +1135,7 @@ function ciniki_wng_main() {
             ) {
             this.size = 'xlarge mediumaside';
             var s = this.data.availablesections[ref].repeats;
+            this.repeatfields = this.data.availablesections[ref].repeats.fields;
             this.sections.repeats.label = s.label;
             this.sections.repeats.num_cols = s.dataMaps != null ? s.dataMaps.length : 1;
             this.sections.repeats.headerValues = s.headerValues != null ? s.headerValues : [];
