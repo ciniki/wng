@@ -985,7 +985,7 @@ function ciniki_wng_main() {
                     return '<img width="75px" height="75px" src=\'/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg\'/>';
                 }
             }
-            else if( this.repeatfields[this.sections[s].dataMaps[j]].type != null
+/*            else if( this.repeatfields[this.sections[s].dataMaps[j]].type != null
                 && this.repeatfields[this.sections[s].dataMaps[j]].type == 'select'
                 && this.repeatfields[this.sections[s].dataMaps[j]].options != null
                 && this.repeatfields[this.sections[s].dataMaps[j]].complex_options != null
@@ -998,7 +998,7 @@ function ciniki_wng_main() {
                         return o[i][n];
                     }
                 }
-            }
+            } */
             else if( this.sections[s].cellClasses[j] != null
                 && this.sections[s].cellClasses[j] == 'page-link'
                 ) {
