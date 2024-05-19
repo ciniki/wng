@@ -91,7 +91,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Check if special pages (Account, cart, search, cpi), must be at top level of site
     //
     if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) 
-        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi', 'stripehook', 'cwh'))
+        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi', 'stripehook', 'whk'))
         ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
@@ -116,8 +116,8 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             && $request['uri_split'][2] == 'unsubscribe' 
             ) {
             $request['cur_uri_pos']+=2;
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'unsubscribeRequestProcess');
-            $rc = ciniki_wng_unsubscribeRequestProcess($ciniki, $tnid, $request);
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'subscriptions', 'wng', 'unsubscribeRequestProcess');
+            $rc = ciniki_subscriptions_wng_unsubscribeRequestProcess($ciniki, $tnid, $request);
         }
         // 
         // Handler for the Ciniki API (called cpi to avoid bots testing /api)
