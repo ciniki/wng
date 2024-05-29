@@ -26,6 +26,9 @@
 .block-schedule .timeslot .time {
     padding-right: 1.5rem;
 }
+.block-schedule .best-in-class {
+    font-weight: bold;
+}
 .block-schedule .content-synopsis {
     padding-bottom: 1rem;
 }
