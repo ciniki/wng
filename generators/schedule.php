@@ -30,6 +30,14 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
         $content .= "<h3>" . $block['subtitle'] . "</h3>";
     }
 
+    if( isset($block['content']) && $block['content'] != '' ) {
+        $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.246', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+        }
+        $content .= "<div class='content-synopsis'>{$rc['content']}</div>";
+    }
+
     $content .= "<div class='timeslots'>";
 
     $prev_time = '';
@@ -54,9 +62,9 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.243', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
-            $content .= "<div class='synopsis'>{$rc['content']}</div>";
+            $content .= "<div class='timeslot-synopsis'>{$rc['content']}</div>";
         } else {
-            $content .= "<div class='synopsis'></div>";
+            $content .= "<div class='timeslot-synopsis'></div>";
         }
         
         if( isset($block['details-columns']) && isset($timeslot['items']) && count($timeslot['items']) > 0 ) {
