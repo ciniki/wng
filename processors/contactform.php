@@ -77,7 +77,6 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
 //            return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>'');
         }
         if( $error_message == '' && (!isset($_POST['contact-form-email']) || $_POST['contact-form-email'] == '') ) {
-            error_log('error');
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'error', 

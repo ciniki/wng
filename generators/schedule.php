@@ -43,7 +43,11 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
                 $content .= "<div class='time'>" . str_replace(' ', '&nbsp;', $timeslot['time']) . "</div>";
             }
         }
-        $content .= "<div class='title'>{$timeslot['title']}</div>";
+        if( isset($block['times']) && $block['times'] == 'no' ) {
+            $content .= "<h3 class='title'>{$timeslot['title']}</h3>";
+        } else {
+            $content .= "<div class='title'>{$timeslot['title']}</div>";
+        }
         $content .= "</div>";
         if( isset($timeslot['synopsis']) && $timeslot['synopsis'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $timeslot['synopsis']);
@@ -71,9 +75,17 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
                     $content .= "<td"
                         . (isset($col['class']) && $col['class'] != '' ? " class='{$col['class']}'" : '')
                         . ">";
-                    if( isset($item[$col['field']]) ) {
-                        $content .= $item[$col['field']];
+                    $cell_content = '';
+                    if( isset($col['fold-label']) && $col['fold-label'] != '' ) {
+                        $cell_content .= "<span class='fold-label'>" . $col['fold-label'] . "</span><span class='cell-content'>";
                     }
+                    if( isset($item[$col['field']]) ) {
+                        $cell_content .= $item[$col['field']];
+                    }
+                    if( isset($col['fold-label']) && $col['fold-label'] != '' ) {
+                        $cell_content .= "</span>";
+                    }
+                    $content .= $cell_content;
                     $content .= "</td>";
                 }
                 $content .= "</tr>";

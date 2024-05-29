@@ -31,7 +31,10 @@
 }
 .block-schedule .details-table table {
     width: 100%;
-    border: 1px solid #ddd;
+    border: 1px solid #bbb;
+}
+.block-schedule .details-table tbody tr {
+    border-bottom: 1px solid #bbb;
 }
 .block-schedule .details-table tbody tr:nth-child(even) {
     background: #f6f6f6; 
@@ -48,6 +51,28 @@
 .block-schedule .details-table th,
 .block-schedule .details-table td {
     padding: 0.5rem;
+}
+.block-schedule .details-table .fold-label {
+    display: none;
+    padding-right: 1rem;
+    font-weight: bold;
+}
+.block-schedule .details-table .video-title {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px dashed #bbb;
+    margin-bottom: 0.25rem;
+}
+.block-schedule .details-table .video-title:last-child {
+    padding-bottom: 0rem;
+    border-bottom: 0px;
+    margin-bottom: 0px;
+}
+.block-schedule .details-table .video-title .perf-video {
+    text-align: right;
 }
 @media screen and (min-width: 40em) {
     .block-schedule .content {
@@ -151,7 +176,7 @@
     .block-schedule.fold-at-40 .fold-hidden {
         display: none;    
     }
-}
+}*/
 @media screen and (max-width: 50em) {
     .block-schedule.fold-at-50 table, 
     .block-schedule.fold-at-50 tbody, 
@@ -173,12 +198,27 @@
     .block-schedule.fold-at-50 table {
         border: 0px;
     }
-    .block-schedule.fold-at-50 .fold-label {
+    .block-schedule.fold-at-50 .details-table .fold-label {
         display: inline-block;
+    }
+    .block-schedule.fold-at-50 .details-table td {
+        padding: 0.25rem 0.5rem;
+    }
+    .block-schedule.fold-at-50.fold-label-headers .details-table tbody td {
+        padding: 0rem;
+    }
+    .block-schedule.fold-at-50.fold-label-headers .details-table .fold-label {
+        display: block;
+        padding: 0.5rem;
+    }
+    .block-schedule.fold-at-50.fold-label-headers .details-table .cell-content {
+        display: block;
+        padding: 0.5rem;
+        font-weight: normal;
     }
     .block-schedule.fold-at-50 tr {
         margin-bottom: 1rem;
-        border: 1px solid #000;
+        border: 1px solid #bbb;
     }
     .block-schedule.fold-at-50 th,
     .block-schedule.fold-at-50 thead,
@@ -192,4 +232,3 @@
         display: none;    
     }
 }
-*/
