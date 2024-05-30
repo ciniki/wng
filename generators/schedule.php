@@ -30,12 +30,49 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
         $content .= "<h3>" . $block['subtitle'] . "</h3>";
     }
 
+    //
+    // Process the video
+    //
+    if( isset($block['video-url']) && $block['video-url'] != '' ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
+        $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array(
+            'url' => $block['video-url'],
+            'title' => $block['title'],
+    //        'sequence' => $block['sequence'],
+    //        'clickload' => (isset($block['clickload']) && $block['clickload'] == 'no' ? 'no' : 'yes'),
+            ));
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+        }
+        $videocontent = $rc['content'];
+        if( !isset($block['js']) ) {
+            $block['js'] = $rc['js'];
+        } else {
+            $block['js'] .= $rc['js'];
+        }
+    }
+
     if( isset($block['content']) && $block['content'] != '' ) {
         $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.246', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
         }
-        $content .= "<div class='content-synopsis'>{$rc['content']}</div>";
+        $textcontent = $rc['content'];
+    }
+
+    if( isset($videocontent) && $videocontent != '' && isset($textcontent) && $textcontent != '' ) {
+        $content .= "<div class='content-video'>"
+            . "<div class='content-wrap'>"
+            . $textcontent
+            . "</div>"
+            . "<div class='video-wrap'>"
+            . $videocontent
+            . "</div>"
+            . "</div>";
+    } elseif( isset($videocontent) && $videocontent != '' ) {
+        $content .= "<div class='video-wrap'>" . $videocontent . "</div>";
+    } elseif( isset($textcontent) && $textcontent != '' ) {
+        $content .= "<div class='content-synopsis'>" . $textcontent . "</div>";
     }
 
     $content .= "<div class='timeslots'>";
@@ -57,14 +94,48 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
             $content .= "<div class='title'>{$timeslot['title']}</div>";
         }
         $content .= "</div>";
+        $textcontent = '';
         if( isset($timeslot['synopsis']) && $timeslot['synopsis'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $timeslot['synopsis']);
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.243', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
-            $content .= "<div class='timeslot-synopsis'>{$rc['content']}</div>";
-        } else {
-            $content .= "<div class='timeslot-synopsis'></div>";
+            $textcontent = $rc['content'];
+        }
+
+        //
+        // Process the video
+        //
+        $videocontent = '';
+        if( isset($timeslot['video-url']) && $timeslot['video-url'] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
+            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, [
+                'url' => $timeslot['video-url'],
+                ]);
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+            }
+            $videocontent = $rc['content'];
+            if( !isset($block['js']) ) {
+                $block['js'] = $rc['js'];
+            } else {
+                $block['js'] .= $rc['js'];
+            }
+        }
+
+        if( isset($videocontent) && $videocontent != '' && isset($textcontent) && $textcontent != '' ) {
+            $content .= "<div class='content-video'>"
+                . "<div class='timeslot-synopsis content-wrap'>"
+                . $textcontent
+                . "</div>"
+                . "<div class='video-wrap'>"
+                . $videocontent
+                . "</div>"
+                . "</div>";
+        } elseif( isset($videocontent) && $videocontent != '' ) {
+            $content .= "<div class='video-wrap'>" . $videocontent . "</div>";
+        } elseif( isset($textcontent) && $textcontent != '' ) {
+            $content .= "<div class='timeslot-synopsis'>" . $textcontent . "</div>";
         }
         
         if( isset($block['details-columns']) && isset($timeslot['items']) && count($timeslot['items']) > 0 ) {
