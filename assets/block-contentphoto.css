@@ -211,7 +211,7 @@
     .block-contentphoto.image-top-left-inline .image-wrap,
     .block-contentphoto.image-top-right-inline .image-wrap {
         float: right;
-        padding: 0rem 0rem 1rem 2rem;
+        padding: 0rem 0rem 2rem 2rem;
         width: auto;
         max-width: 50%;
     }
