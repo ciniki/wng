@@ -1541,8 +1541,8 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             . "<br/>"
             . "<div class='forgot-link'><p>"
                 . "<a class='color' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
-                . "Sign In</a></p></div>\n"
-            . "</div>\n";
+                . "Sign In</a></p></div>";
+        $content .= "</div>";
 
         $content .= "</aside>";
 
@@ -1794,13 +1794,15 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $content .= $form;
         }
 
-        $content .= "<div class='submit'><input type='submit' name='continue' class='button' value='Back' />";
-        $content .= "<input type='submit' name='continue' class='button' value='Next' /></div>\n";
+        $content .= "<div class='submit'><input type='submit' name='continue' class='button' value='Back' />"
+            . "<input type='submit' name='continue' class='button' value='Next' />"
+            . "</div>";
         $content .= "</form>";
+        $content .= "</div>";    // Close div.signupform
 
-        $content .= "</div>\n";
-        $content .= "</div>\n";
-        $content .= "</div>\n";
+        $content .= "</div>";
+        $content .= "</div>";
+        $content .= "</div>";
 
         $blocks[] = array(
             'type' => 'html',
