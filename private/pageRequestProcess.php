@@ -165,7 +165,9 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     //
     // If there is a url request and nothing handled it, return a 404 error
     //
-    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) && $request['uri_split'][0] != '' ) {
+    if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) && $request['uri_split'][0] != '' 
+        && $request['uri_split'][0] != 'download'   // Except for files located on home page
+        ) {
         //
         // No child page found, 404 error
         //
