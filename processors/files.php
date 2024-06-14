@@ -19,7 +19,6 @@ function ciniki_wng_processors_files(&$ciniki, $tnid, &$request, $section) {
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
-error_log('process files');
     //
     // Get the list of files for this section
     //
@@ -111,8 +110,6 @@ error_log('process files');
     } elseif( isset($files) && count($files) > 0 ) {
         foreach($files as $fid => $file) {
             $files[$fid]['url'] = ($request['page']['path'] != '/' ? $request['page']['path'] : '') . '/download/' . $file['permalink'];
-            error_log($files[$fid]['url']);
-            error_log($request['ssl_domain_base_url']);
             if( isset($names[$file['id']]) ) {
                 $files[$fid]['name'] = $names[$file['id']];
             } else {
