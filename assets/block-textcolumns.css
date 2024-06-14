@@ -14,9 +14,6 @@
 /*    align-self: flex-start; */
     padding: 1rem;
 }
-.block-textcolumns .wrap {
-    padding: 1rem;
-}
 .block-textcolumns .column-wrap {
     height: 100%;
 }
@@ -27,6 +24,9 @@
 /*    .block-textcolumns.columns .column {
         padding: 1.5em;
     } */
+    .block-textcolumns .wrap {
+        padding: 1rem;
+    }
     .block-textcolumns.columns-2 .column,
     .block-textcolumns.columns-4 .column {
         width: 50%;
