@@ -69,7 +69,7 @@ function ciniki_wng_processors_images(&$ciniki, $tnid, &$request, $section) {
 
     if( isset($s['title']) && $s['title'] != '' ) {
         $blocks[] = array(
-            'type' => 'text',
+            'type' => 'title',
             'title' => $s['title'],
             'content' => (isset($s['content']) ? $s['content'] : ''),
             );
