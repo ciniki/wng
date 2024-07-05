@@ -31,7 +31,7 @@ function ciniki_wng_flags(&$ciniki) {
 //        array('flag'=>array('bit'=>'11', 'name'=>'')),
 //        array('flag'=>array('bit'=>'12', 'name'=>'')),
         // 0x1000
-//        array('flag'=>array('bit'=>'13', 'name'=>'')),
+        array('flag'=>array('bit'=>'13', 'name'=>'Custom CSS')),
 //        array('flag'=>array('bit'=>'14', 'name'=>'Password Pages')),
         array('flag'=>array('bit'=>'15', 'name'=>'Search')),    
 //        array('flag'=>array('bit'=>'16', 'name'=>'')),
