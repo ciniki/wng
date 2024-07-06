@@ -58,6 +58,10 @@
 .block-table td .indent {
     font-weight: normal;
 }
+.block-table .extra-info {
+    display: block;
+    padding-left: 0rem;
+}
 @media screen and (min-width: 40em) {
     .block-table .content {
         padding-left: 2rem;
@@ -74,7 +78,7 @@
     .block-table.fold-at-40 tbody tr {
         margin-bottom: 1rem;
     }
-    .block-table.fold-at-40 tbody tr td:first-child {
+    .block-table.fold-at-40 tbody tr td:first-child .cell-content {
         font-weight: bold;
     }
     .block-table.fold-at-40 table {
@@ -85,6 +89,9 @@
     }
     .block-table.fold-at-40 .fold-label {
         display: inline-block;
+    }
+    .block-table.fold-at-40 .extra-info {
+        padding-left: 0rem;
     }
     .block-table.fold-at-40 tr {
         margin-bottom: 1rem;

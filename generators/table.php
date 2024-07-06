@@ -77,6 +77,12 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
             if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
                 $cell_content .= "</span>";
             }
+            if( isset($column['info-field']) && isset($row[$column['info-field']]) && $row[$column['info-field']] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $row[$column['info-field']]);
+                if( $rc['stat'] == 'ok' ) {
+                    $cell_content .= "<div class='extra-info'>" . $rc['content'] . '</div>';
+                }
+            }
             if( trim($cell_content) == '' ) {
                 $column['class'] .= ($column['class'] != '' ? ' ' : '') . 'empty';
             }
