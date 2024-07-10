@@ -207,9 +207,42 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'settings'=>array(
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'scrolling' => array('label'=>'Scrolling', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array('no'=>'No', 'yes'=>'Yes')),
+            'speed'=>array('label'=>'Speed', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(    
+                'none' => 'No Auto Advance',
+                'xslow' => 'X-Slow',
+                'slow' => 'Slow',
+                'medium' => 'Medium',
+                'fast' => 'Fast',
+                'xfast' => 'X-Fast',
+                )),
+            'size'=>array('label'=>'Size', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(    
+                'tiny' => 'Tiny',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                'xlarge' => 'X-Large',
+                )),
             ),
+        'repeats' => array(
+            'label' => 'Testimonials',
+            'headerValues' => array('Testimonial', 'Author'),
+            'cellClasses' => array('', ''),
+            'dataMaps' => array('content', 'author'),
+            'addTxt' => 'Add Testimonial',
+            'fields' => array(
+                'content' => array(
+                    'label' => 'Testimonial',
+                    'type' => 'textarea', 
+                    'size' => 'medium', 
+                    ),
+                'author' => array(
+                    'label' => 'Author',
+                    'type' => 'text', 
+                    ),
+                )),
         );
-    for($i = 1; $i <= 10; $i++) {
+/*    for($i = 1; $i <= 10; $i++) {
         $sections['ciniki.wng.testimonials']['settings']["content-{$i}"] = array(
             'label' => 'Testimonial #' . $i, 
             'type' => 'textarea', 
@@ -220,7 +253,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'label' => 'Author', 
             'type' => 'text', 
             );
-    }
+    } */
 
     //
     // Basic Text Content

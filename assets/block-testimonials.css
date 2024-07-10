@@ -5,10 +5,194 @@
 
 .block-testimonials .wrap {
     padding: 1rem;
+    position: relative;
 }
 .block-testimonials .testimonial-wrap {
     padding: 1rem;
 }
 .block-testimonials .author {
     font-style: italic;
+}
+.block-testimonials.scrolling .items {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    z-index: 550;
+}
+.block-testimonials.scrolling .items, .block-testimonials.scrolling .buttons { height: 25rem; }
+.block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 10rem; }
+.block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
+.block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
+.block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 40rem; }
+.block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 50rem; }
+@media screen and (min-width: 40em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 17.5rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 25rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 35rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 45rem; }
+}
+@media screen and (min-width: 60em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 12.5rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 20rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 30rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 40rem; }
+}
+@media screen and (min-width: 80em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 10rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 12.5rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 17.5rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 25rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 30rem; }
+}
+.block-testimonials.scrolling .item {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    max-width: 100%;
+    transform: translateX(100%);
+    z-index: 500;
+    height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    background: #fff;
+}
+.block-testimonials.scrolling .item.current {
+    position: relative;
+    transform: translateX(0%);
+    z-index: 550;
+    transition-duration: 1s;
+}
+.block-testimonials.scrolling .item.next {
+    z-index: -1;
+    transition-duration: 1s;
+}
+.block-testimonials.scrolling .item.prev {
+    transform: translateX(-100%);
+    transition-duration: 1s;
+}
+.block-testimonials.scrolling .buttons {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 100%;
+    align-items: stretch;
+}
+.block-testimonials.scrolling .button-wrap {
+    height: 100%;
+    width: 50%;
+    display: inline-block;
+    display: flex;
+    vertical-align: middle;
+}
+.block-testimonials.scrolling .button-wrap .button {
+    margin: auto;
+    background: transparent;
+    cursor: pointer;
+    width: 11vw;
+    height: 11vw; 
+    padding: 0px;
+    padding-top: 3vw;
+    text-align: center;
+    z-index: 580;
+    border: 0px;
+}
+@media screen and (min-width: 40rem) {
+    .block-testimonials.scrolling .button-wrap .button {
+        width: 7vw;
+        height: 7vw;
+        padding-top: 1vw;
+    }
+}
+.block-testimonials.scrolling svg {
+    stroke: #ddd;
+    height: 50px;
+    height: 5vw; 
+}
+.block-testimonials.scrolling .button-wrap .button:hover {
+    background: rgba(255,255,255,0.5);
+}
+.block-testimonials.scrolling .button-wrap .button:hover svg {
+    stroke: #777;
+}
+.block-testimonials.scrolling .buttons .prev {
+    left: 0px;
+}
+.block-testimonials.scrolling .buttons .next {
+    right: 0px;
+    text-align: right;
+}
+.block-testimonials.scrolling .buttons .prev .button {
+    left: 0px;
+    margin-left: 0px;
+}
+.block-testimonials.scrolling .buttons .next .button {
+    right: 0px;
+    margin-right: 0px;
+}
+html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
+    margin-top: 40%;
+}
+.block-testimonials.scrolling .testimonial-wrap {
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+.block-testimonials.scrolling .testimonial {
+    display: inline-block;
+    max-width: 80%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.block-testimonials.scrolling .testimonial .text {
+    font-size: 1.5rem;
+    text-align: center;
+}
+.block-testimonials.scrolling .testimonial .author {
+    font-size: 1.25rem;
+    text-align: center;
+    padding-top: 1rem;
+    font-style: italic;
+}
+.block-testimonials.scrolling .testimonial-wrap:before {
+    width: 10%;
+    content: '\201c';
+    display: inline-block;
+    font-family: serif;
+    font-size: 3em;
+    font-weight: bold;
+    color: #000;
+    vertical-align: top;
+    padding-right: 0em;
+    top: -0.2em;
+    text-align: right;
+    position: relative;
+    color: #000;
+    margin: 0px;
+}
+.block-testimonials.scrolling .testimonial-wrap:after {
+    width: 10%;
+    content: '\201d';
+    display: inline-block;
+    font-family: serif;
+    font-size: 3em;
+    font-weight: bold;
+    color: #000;
+    vertical-align: top;
+    padding-left: 0em;
+    text-align: left;
+    position: relative;
+    top: -0.2em;
+    color: #000;
+    margin: 0px;
 }

@@ -34,6 +34,10 @@ function ciniki_wng_processors_testimonials(&$ciniki, $tnid, &$request, $section
             'title' => isset($s['title']) ? $s['title'] : '',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'type' => 'testimonials',
+            'speed' => isset($s['speed']) ? $s['speed'] : 'medium',
+            'size' => isset($s['size']) ? $s['size'] : 'medium',
+            'sequence' => $section['sequence'],
+            'scrolling' => isset($s['scrolling']) ? $s['scrolling'] : 'no',
             'data' => $data,
             );
     }
