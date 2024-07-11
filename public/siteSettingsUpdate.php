@@ -84,6 +84,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'meta-facebook-pixel-id',
         'meta-facebook-domain-verification',
         'meta-fathom-analytics-siteid',
+        'meta-matomo-analytics-siteid',
         // Social media accounts for this website
         'social-facebook-url',
         'social-instagram-username',

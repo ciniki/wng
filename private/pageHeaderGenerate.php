@@ -304,6 +304,26 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     }
 
     //
+    // Include matomo analytics
+    //
+    if( isset($request['site']['settings']['meta-matomo-analytics-siteid']) 
+        && $request['site']['settings']['meta-matomo-analytics-siteid'] != ''
+        ) {
+        $content .= "<script type='text/javascript'>"
+            . "var _paq = _paq || [];"
+            . "_paq.push(['trackPageView']);"
+            . "_paq.push(['enableLinkTracking']);"
+            . "(function() {"
+                . "var u='//matomo.ciniki.com/';"
+                . "_paq.push(['setTrackerUrl',u+'piwik.php']);"
+                . "_paq.push(['setSiteId', '" . $request['site']['settings']['meta-matomo-analytics-siteid'] . "']);"
+                . "var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];"
+                . "g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);"
+                . "})();"
+            . "</script>";
+    }
+
+    //
     // Setup the background image
     //
 /*    if( isset($settings['site-background-image']) && $settings['site-background-image'] > 0 ) {

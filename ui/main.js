@@ -524,6 +524,7 @@ function ciniki_wng_main() {
                 'meta-facebook-pixel-id':{'label':'Facebook Pixel ID', 'type':'text'},
                 'meta-facebook-domain-verification':{'label':'Facebook Domain Verification', 'type':'text'},
                 'meta-fathom-analytics-siteid':{'label':'Fathom Analytics', 'type':'text'},
+                'meta-matomo-analytics-siteid':{'label':'Matomo Analytics', 'type':'text'},
                 'theme-google-fonts-link':{'label':'Google Fonts Link', 'type':'text'},
             }},
         'buttons':{'label':'',
