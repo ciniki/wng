@@ -318,10 +318,21 @@ if( $site == null ) {
 // No ciniki.wng site found, revert to ciniki.web module
 //
 if( $site == null ) {
-    $ciniki['request'] = $request;
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processRequest');
-    $rc = ciniki_web_processRequest($ciniki);
-    exit;
+    //
+    // Check if domain exists
+    //
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'lookupClientDomain');
+    $rc = ciniki_web_lookupClientDomain($ciniki, $request['domain'], 'domain');
+    if( $rc['stat'] == 'ok' ) {
+        $ciniki['request'] = $request;
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processRequest');
+        $rc = ciniki_web_processRequest($ciniki);
+        exit;
+    } else {
+        Header('HTTP/1.1 301 Moved Permanently'); 
+        Header('Location: https://' . $ciniki['config']['ciniki.wng']['master.domain'] . $_SERVER['REQUEST_URI']);
+        exit;
+    }
 }
 
 //
