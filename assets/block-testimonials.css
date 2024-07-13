@@ -24,7 +24,7 @@
 .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
 .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
 .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 40rem; }
-.block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 50rem; }
+.block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 60rem; }
 @media screen and (min-width: 40em) {
     .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
     .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 17.5rem; }
@@ -155,14 +155,22 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
     padding-right: 1rem;
 }
 .block-testimonials.scrolling .testimonial .text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-align: center;
 }
 .block-testimonials.scrolling .testimonial .author {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     text-align: center;
     padding-top: 1rem;
     font-style: italic;
+}
+@media screen and (min-width: 40em) {
+    .block-testimonials.scrolling .testimonial .text {
+        font-size: 1.5rem;
+    }
+    .block-testimonials.scrolling .testimonial .author {
+        font-size: 1.25rem;
+    }
 }
 .block-testimonials.scrolling .testimonial-wrap:before {
     width: 10%;

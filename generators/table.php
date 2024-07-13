@@ -11,6 +11,8 @@
 // 
 function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
+
     $content = '';
 
         
