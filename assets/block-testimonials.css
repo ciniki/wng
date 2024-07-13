@@ -180,6 +180,7 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
     align-items: stretch;
     width: 100%;
     padding: 0;
+    justify-content: center;
 }
 .block-testimonials.scrolling .testimonial {
     display: inline-block;
