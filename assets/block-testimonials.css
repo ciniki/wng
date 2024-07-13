@@ -13,6 +13,9 @@
 .block-testimonials .author {
     font-style: italic;
 }
+.block-testimonials.scrolling .wrap {
+    padding: 1rem 0rem;
+}
 .block-testimonials.scrolling .items {
     display: block;
     overflow: hidden;
@@ -21,16 +24,44 @@
 }
 .block-testimonials.scrolling .items, .block-testimonials.scrolling .buttons { height: 25rem; }
 .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 10rem; }
-.block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
+.block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 17.50rem; }
 .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
-.block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 40rem; }
-.block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 60rem; }
+.block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 50rem; }
+.block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 70rem; }
+@media screen and (min-width: 20em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 50rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 60rem; }
+}
+@media screen and (min-width: 25em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 50rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 52.5rem; }
+}
+@media screen and (min-width: 30em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 20rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 30rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 40rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 45rem; }
+}
 @media screen and (min-width: 40em) {
     .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
     .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 17.5rem; }
     .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 25rem; }
     .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 35rem; }
     .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 45rem; }
+}
+@media screen and (min-width: 50em) {
+    .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 15rem; }
+    .block-testimonials.scrolling.size-small .items, .block-testimonials.scrolling.size-small .buttons { height: 17.5rem; }
+    .block-testimonials.scrolling.size-medium .items, .block-testimonials.scrolling.size-medium .buttons { height: 25rem; }
+    .block-testimonials.scrolling.size-large .items, .block-testimonials.scrolling.size-large .buttons { height: 35rem; }
+    .block-testimonials.scrolling.size-xlarge .items, .block-testimonials.scrolling.size-xlarge .buttons { height: 40rem; }
 }
 @media screen and (min-width: 60em) {
     .block-testimonials.scrolling.size-tiny .items, .block-testimonials.scrolling.size-tiny .buttons { height: 12.5rem; }
@@ -145,6 +176,8 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
 }
 .block-testimonials.scrolling .testimonial-wrap {
     display: block;
+    display: flex;
+    align-items: stretch;
     width: 100%;
     padding: 0;
 }
@@ -155,29 +188,21 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
     padding-right: 1rem;
 }
 .block-testimonials.scrolling .testimonial .text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
 }
 .block-testimonials.scrolling .testimonial .author {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     text-align: center;
     padding-top: 1rem;
     font-style: italic;
-}
-@media screen and (min-width: 40em) {
-    .block-testimonials.scrolling .testimonial .text {
-        font-size: 1.5rem;
-    }
-    .block-testimonials.scrolling .testimonial .author {
-        font-size: 1.25rem;
-    }
 }
 .block-testimonials.scrolling .testimonial-wrap:before {
     width: 10%;
     content: '\201c';
     display: inline-block;
     font-family: serif;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: #000;
     vertical-align: top;
@@ -187,13 +212,16 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
     position: relative;
     color: #000;
     margin: 0px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
 }
 .block-testimonials.scrolling .testimonial-wrap:after {
     width: 10%;
     content: '\201d';
     display: inline-block;
     font-family: serif;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: #000;
     vertical-align: top;
@@ -203,4 +231,35 @@ html.browser-ie9 .block-testimonials.scrolling .button-wrap .button {
     top: -0.2em;
     color: #000;
     margin: 0px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+@media screen and (min-width: 30em) {
+    .block-testimonials.scrolling .testimonial .text {
+        font-size: 1.2rem;
+    }
+    .block-testimonials.scrolling .testimonial .author {
+        font-size: 1.1rem;
+    }
+}
+@media screen and (min-width: 40em) {
+    .block-testimonials.scrolling .testimonial .text {
+        font-size: 1.35rem;
+    }
+    .block-testimonials.scrolling .testimonial .author {
+        font-size: 1.2rem;
+    }
+    .block-testimonials.scrolling .testimonial-wrap:before,
+    .block-testimonials.scrolling .testimonial-wrap:after {
+        font-size: 3em;
+    }
+}
+@media screen and (min-width: 45em) {
+    .block-testimonials.scrolling .testimonial .text {
+        font-size: 1.5rem;
+    }
+    .block-testimonials.scrolling .testimonial .author {
+        font-size: 1.25rem;
+    }
 }
