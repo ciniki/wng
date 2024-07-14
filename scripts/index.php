@@ -321,18 +321,19 @@ if( $site == null ) {
     //
     // Check if domain exists
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'lookupClientDomain');
-    $rc = ciniki_web_lookupClientDomain($ciniki, $request['domain'], 'domain');
-    if( $rc['stat'] == 'ok' ) {
-        $ciniki['request'] = $request;
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processRequest');
-        $rc = ciniki_web_processRequest($ciniki);
-        exit;
-    } else {
-        Header('HTTP/1.1 301 Moved Permanently'); 
-        Header('Location: https://' . $ciniki['config']['ciniki.wng']['master.domain'] . $_SERVER['REQUEST_URI']);
-        exit;
+    if( isset($request['domain']) && $request['domain'] != '' ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'lookupClientDomain');
+        $rc = ciniki_web_lookupClientDomain($ciniki, $request['domain'], 'domain');
+        if( $rc['stat'] == 'ok' ) {
+            $ciniki['request'] = $request;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'processRequest');
+            $rc = ciniki_web_processRequest($ciniki);
+            exit;
+        }
     }
+    Header('HTTP/1.1 301 Moved Permanently'); 
+    Header('Location: https://' . $ciniki['config']['ciniki.wng']['master.domain'] . $_SERVER['REQUEST_URI']);
+    exit;
 }
 
 //
