@@ -21,6 +21,90 @@
     box-shadow: 0px 15px 30px 0px #000;
     border-radius: 0.25rem;
 }
+/* Copy stripe CSS */
+.block-stripecheckout.waiting .ciniki-form-elements,
+.block-stripecheckout.loaded .ciniki-form-elements {
+    display: none;
+}
+.block-stripecheckout .ciniki-form-elements {
+    width: 100%;
+    max-width: 18.25rem;
+}
+.block-stripecheckout .ciniki-customer {
+    display: flex;
+    flex-flow: row wrap;
+}
+.block-stripecheckout .ciniki-input {
+    margin-bottom: 0.75rem;
+    flex-grow: 1;
+}
+.block-stripecheckout .ciniki-input.ciniki-ticket {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.block-stripecheckout .ciniki-input label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: rgb(48,49,61);
+}
+.block-stripecheckout .ciniki-input input { 
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.02);
+    width: 100%;
+}
+.block-stripecheckout .ciniki-input.ciniki-ticket input.quantity {
+    width: 3rem;
+    text-align: right;
+}
+@media screen and (min-width: 35em) {
+    .block-stripecheckout .ciniki-form-elements {
+        width: 25rem;
+        max-width: 30rem;
+    }
+    .block-stripecheckout .ciniki-input-first,
+    .block-stripecheckout .ciniki-input-last {
+        display: inline-block;
+        width: 50%;
+    }
+    .block-stripecheckout .ciniki-input-first {
+        padding-right: 0.5rem;
+    }
+    .block-stripecheckout .ciniki-input-last {
+        padding-left: 0.5rem;
+    }
+}
+.block-stripecheckout .ciniki-total {
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: right;
+}
+.block-stripecheckout .ciniki-total .label {
+    font-weight: bold;
+    padding-right: 1rem;
+}
+.block-stripecheckout .ciniki-total .total {
+    min-width: 3rem;
+    text-align: right;
+}
+.block-stripecheckout .ciniki-input .error-msg {
+    display: none; 
+}
+.block-stripecheckout .ciniki-input.error input {
+    border-width: 2px;
+    border-color: #df1b41;
+}
+.block-stripecheckout .ciniki-input.error .error-msg {
+    display: block; 
+}
+.block-stripecheckout .error-msg {
+    color: #df1b41;
+}
 .block-stripecheckout button {
     width: 100%;
     margin-top: 1rem;
@@ -54,17 +138,21 @@
     align-items: center;
     justify-content: center;
 }
-.block-stripecheckout.loaded .spinner {
+.block-stripecheckout .spinner {
     display: none;
+}
+.block-stripecheckout .button {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-top: 0.5rem;
 }
 .block-stripecheckout .button.cancel-button {
     border-color: #ddd;
     background: #eee;
     color: #555;
     width: 100%;
-    display: block;
     margin-top: 1rem;
-    text-align: center;
 }
 @media screen and (min-width: 35rem) {
     .block-stripecheckout .content {

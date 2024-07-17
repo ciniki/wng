@@ -9,7 +9,7 @@
 // ciniki: 
 // tnid:            The ID of the current tenant.
 // 
-function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
+function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
@@ -199,10 +199,64 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, $request, $block) {
             $content .= "</div>";
         }
         
+        $buttons = '';
+        //
+        // Check for any popup purchase buttons
+        //
+        if( isset($block['buy-now']) && $block['buy-now'] == 'yes' 
+            && isset($block['prices']) && count($block['prices']) > 0 
+            ) {
+            //
+            // Check for success message 
+            //
+            if( isset($_GET['redirect_status']) && $_GET['redirect_status'] == 'succeeded' ) {
+                if( !isset($block['success-msg']) || $block['success-msg'] == '' ) {
+                    $block['success-msg'] = "Payment Received, please check your email for your receipt.";
+                }
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'generators', 'msg');
+                $rc = ciniki_wng_generators_msg($ciniki, $tnid, $request, [
+                    'level' => 'success',
+                    'content' => $block['success-msg'],
+                    ]);
+                if( $rc['stat'] == 'ok' ) {
+                    $content .= $rc['content'];
+                }
+            } else {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'stripeCheckoutTickets');
+                $rc = ciniki_sapos_wng_stripeCheckoutTickets($ciniki, $tnid, $request, [
+                    'invoice_id' => 0,
+                    'checkout_id' => isset($block['checkout_id']) ? $block['checkout_id'] : '',
+                    'return_url' => isset($block['return-url']) ? $block['return-url'] : $request['ssl_domain_base_url'] . $request['page']['path'],
+                    'prices' => $block['prices'],
+                    ]);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.247', 'msg'=>'', 'err'=>$rc['err']));
+                }
+                if( isset($rc['js']) && $rc['js'] != '' ) {
+                    $buttons .= "<a class='"
+                        . (isset($block['button-class']) && $block['button-class'] != '' ? $block['button-class'] : 'button')
+                        . "' onclick='{$rc['js']}'>" 
+                        . (isset($block['button-text']) && $block["button-text"] != '' ? $block['button-text'] : 'Buy Now')
+                        . "</a>";
+                }
+            }
+        }
+        elseif( isset($block['buy-now']) && $block['buy-now'] == 'closed' 
+            && isset($block['closed-msg']) && $block['closed-msg'] != '' 
+            ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'generators', 'msg');
+            $rc = ciniki_wng_generators_msg($ciniki, $tnid, $request, [
+                'level' => 'error',
+                'content' => $block['closed-msg'],
+                ]);
+            if( $rc['stat'] == 'ok' ) {
+                $content .= $rc['content'];
+            }
+        }
+
         //
         // Check for any buttons
         //
-        $buttons = '';
         for($i = 1; $i < 10; $i++) {
             if( (!isset($block["button-{$i}-page"]) || $block["button-{$i}-page"] != '')
                 && isset($block["button-{$i}-text"]) && $block["button-{$i}-text"] != '' 

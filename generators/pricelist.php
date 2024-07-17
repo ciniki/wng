@@ -9,7 +9,7 @@
 // ciniki: 
 // tnid:            The ID of the current tenant.
 // 
-function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
+function ciniki_wng_generators_pricelist(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
 
@@ -29,6 +29,24 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
     // Build the list of prices
     //
     if( isset($block['prices']) && is_array($block['prices']) && count($block['prices']) > 0 ) {
+        
+        //
+        // **NOTE** Buy now option was moved to contentphoto so it can be more inline with single
+        //          button with popup for ticket selection.
+        //
+        // Check if buy-now option selected, generate the stripe button
+        //
+/*        if( isset($block['buy-now']) && $block['buy-now'] == 'yes' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'stripeCheckoutCreate');
+            $rc = ciniki_sapos_wng_stripeCheckoutCreate($ciniki, $tnid, $request, [
+                'invoice_id' => 0,
+                'buy-now' => 'yes',
+                'prices' => $block['prices'],
+                'return_url' => $request['ssl_domain_base_url'] . $request['page']['path'],
+                ]);
+            $buy_now_button = "<button class='button submit' onclick='{$rc['js']}; return false;' name='stripecheckout'>Buy Now</button>";
+        } */
+
         $content .= "<div class='block-pricelist"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
@@ -135,6 +153,20 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, $request, $block) {
             elseif( isset($price['regclosed']) && $price['regclosed'] == 'yes' ) {
                 $cart_html .= ' Closed';
             }
+            //
+            // **Note** See previous note about buy now
+            // If buy now has been requested
+            //
+/*            elseif( isset($block['buy-now']) && $block['buy-now'] == 'yes'
+                && count($block['prices']) == 1 
+                && isset($price['cart']) && $price['cart'] == 'yes' 
+                && isset($request['site']['settings']['cart-active']) 
+                && $request['site']['settings']['cart-active'] == 'yes'
+                && isset($ciniki['tenant']['modules']['ciniki.sapos']) 
+                && ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x08)  // Shopping cart enabled
+                ) {
+                $cart_html .= $buy_now_button;
+            } */
             //
             // If quantity is limited, and not sold out
             //

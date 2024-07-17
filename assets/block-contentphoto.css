@@ -114,6 +114,14 @@
     max-height: 25rem;
     height: 25rem;
 }
+/* Embedded block-msg for payment success */
+.block-contentphoto .block-msg .content {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+.block-contentphoto .block-msg .content .msg {
+    flex-grow: 1;
+}
 
 @media screen and (min-width: 40em) {
     .block-contentphoto .content {
