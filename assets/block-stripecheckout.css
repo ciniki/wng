@@ -35,7 +35,6 @@
     flex-flow: row wrap;
 }
 .block-stripecheckout .ciniki-input {
-    margin-bottom: 0.75rem;
     flex-grow: 1;
 }
 .block-stripecheckout .ciniki-input.ciniki-ticket {
@@ -105,10 +104,6 @@
 .block-stripecheckout .error-msg {
     color: #df1b41;
 }
-.block-stripecheckout button {
-    width: 100%;
-    margin-top: 1rem;
-}
 .block-stripecheckout #stripe-error-messages {
     margin-top: 1rem;
     font-weight: bold;
@@ -145,7 +140,7 @@
     width: 100%;
     display: block;
     text-align: center;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 .block-stripecheckout .button.cancel-button {
     border-color: #ddd;
