@@ -12,7 +12,7 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_processors_accordian(&$ciniki, $tnid, &$request, $section) {
+function ciniki_wng_processors_accordion(&$ciniki, $tnid, &$request, $section) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 
@@ -48,7 +48,7 @@ function ciniki_wng_processors_accordian(&$ciniki, $tnid, &$request, $section) {
     }
 
     $blocks[] = array(
-        'type' => 'accordian',
+        'type' => 'accordion',
         'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
         'sequence' => $section['sequence'],
         'items' => $items,

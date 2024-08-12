@@ -1033,10 +1033,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ));
 
     //
-    // Accordian section
+    // Accordion section
     //
-    $sections['ciniki.wng.accordian'] = array(
-        'name'=>'Accordian',
+    $sections['ciniki.wng.accordion'] = array(
+        'name'=>'Accordion',
         'module' => 'Website',
         'settings'=>array(
             'title' => array('label'=>'Title', 'type'=>'text'),

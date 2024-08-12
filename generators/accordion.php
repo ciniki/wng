@@ -9,7 +9,7 @@
 // ciniki: 
 // tnid:            The ID of the current tenant.
 // 
-function ciniki_wng_generators_accordian(&$ciniki, $tnid, &$request, $block) {
+function ciniki_wng_generators_accordion(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
    
@@ -28,7 +28,7 @@ function ciniki_wng_generators_accordian(&$ciniki, $tnid, &$request, $block) {
     // Use the sequence number to give each carousel a unique id which 
     // allows several carousels on the same page
     //
-    $content .= "<div class='block-accordian"
+    $content .= "<div class='block-accordion"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

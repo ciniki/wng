@@ -1,23 +1,23 @@
-.block-accordian .items {
+.block-accordion .items {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     padding: 0.5rem;
 }
-.block-accordian .item {
+.block-accordion .item {
     min-width: auto;
     width: 100%;
     max-width: 100%;
     padding: 0.5rem;
 }
-.block-accordian .item-wrap {
+.block-accordion .item-wrap {
     display: flex;
     border: 1px solid #ddd;
     height: 100%;
     flex-flow: column nowrap;
     justify-content: flex-start;
 }
-.block-accordian .title-wrap {
+.block-accordion .title-wrap {
     display: flex;
     flex-flow: row nowrap;
     position: relative;
@@ -28,14 +28,14 @@
     flex-grow: 1;
     align-items: center;
 }
-.block-accordian .title {
+.block-accordion .title {
     padding: 1rem;
     flex-grow: 1;
 }
-.block-accordian .toggle {
+.block-accordion .toggle {
     padding: 1rem;
 }
-.block-accordian .toggle:after {
+.block-accordion .toggle:after {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,20 +49,20 @@
     height: 1.7rem;
     text-align: center;
 }
-.block-accordian .collapsed .toggle:after {
+.block-accordion .collapsed .toggle:after {
     content: "+";
 }
-.block-accordian .info {
+.block-accordion .info {
     flex-grow: 1;
 }
-.block-accordian .collapsed .info {
+.block-accordion .collapsed .info {
     display: none;
 }
-.block-accordian .info {
+.block-accordion .info {
     padding: 1rem;
 }
 @media screen and (min-width: 40em) {
-    .block-accordian .items {
+    .block-accordion .items {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
     }
