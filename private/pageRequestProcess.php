@@ -171,7 +171,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         //
         // No child page found, 404 error
         //
-        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.118', 'msg'=>'Page not found'));
+        $url_found = 'no';
     }
 //    elseif( $request['cur_uri_pos'] >= 0 && isset($request['uri_split'][($request['cur_uri_pos'])]) ) {
 //        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.92', 'msg'=>'Page not found'));
@@ -187,18 +187,6 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     }
     $request['page'] = $rc['page'];
 
-    //
-    // Check if there should be a page title
-    // *** Removed Jun 8, 2022, no longer used, must add section for page title. ***
-    // *** Page title now used only in head ***
-    //
-//    if( isset($request['page']['page_title']) && $request['page']['page_title'] != '' ) {
-//        $request['response']['blocks'][] = array(
-//            'type' => 'title',
-//            'title' => $request['page']['page_title'],
-//            );
-//    }
-    
     //
     // Process the sections building the request['response']['blocks'] array
     //
@@ -240,6 +228,13 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             }
 
             //
+            // Check if home page block sub content found to prevent 404 error
+            //
+            if( isset($rc['url_found']) ) {
+                $url_found = $rc['url_found'];
+            }
+
+            //
             // Add any resulting blocks to the request['response']['blocks'] array
             //
             if( isset($rc['blocks']) ) {
@@ -263,7 +258,12 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             if( isset($rc['stop']) && $rc['stop'] == 'yes' ) {
                 break;
             }
+            
         }
+    }
+
+    if( isset($url_found) && $url_found == 'no' ) {
+        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.118', 'msg'=>'Page not found'));
     }
 
     return array('stat'=>'ok');
