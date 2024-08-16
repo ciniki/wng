@@ -1399,6 +1399,12 @@ function ciniki_wng_main() {
         this.show(cb);
         this.showHideSettingFields();
     }
+    this.sectionrepeat.downloadFile = function(i) {
+        M.api.openFile('ciniki.files.fileDownload', {
+            'tnid':M.curTenantID, 
+            'file_id':this.data['file-id']
+            });
+    }
     this.sectionrepeat.showHideSettingFields = function() {
         var prev_draggable = 0;
         for(var i in this.sections.fields.fields) {
