@@ -25,11 +25,14 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
             return $rc;
         }
         if( $rc['content'] != '' ) {
-            $content .= "<div class='block-text"
+            $content .= "<div "
+                . (isset($block['id']) && $block['id'] != '' ? "id='{$block['id']}' " : '')
+                . "class='block-text"
                 . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
                 . "'>";
             $content .= "<div class='wrap'>";
             $content .= "<div class='content'>";
+    
 
             if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";

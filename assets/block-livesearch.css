@@ -1,0 +1,32 @@
+.block-livesearch.search .content {
+    padding: 1rem;
+}
+.block-livesearch.search .search-label {
+    padding-bottom: 0.5rem;
+}
+.block-livesearch.search .search-input input {
+    width: 100%;
+    border: 1px solid #aaa;
+}
+@media screen and (min-width: 40em) {
+    .block-livesearch.search .content {
+        padding: 2rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-livesearch.search .content {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .block-livesearch.search .search-label {
+        padding-right: 1rem;
+        padding-bottom: 0;
+    }
+    .block-livesearch.search .search-input {
+        flex-grow: 1;
+    }
+    .block-livesearch.search .search-results {
+        width: 100%;
+    }
+}
