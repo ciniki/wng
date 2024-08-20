@@ -87,8 +87,8 @@ function ciniki_wng_main() {
             'editFn':function(s, i, d) {
 //                if( (M.userPerms&0x01) == 0x01 ) {
                     return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-                }
-//                return '';
+//                }
+                return '';
             },
             },
         'orphanpages':{'label':'Other Pages', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
