@@ -530,7 +530,7 @@ function ciniki_wng_main() {
         'buttons':{'label':'',
             'visible':function() { return (M.ciniki_wng_main.site.view != 'menu' ? 'yes' : 'no'); },
             'buttons':{
-                'save':{'label':'Save', 'fn':'M.ciniki_wng_main.site.save();'},
+                'save':{'label':'Save', 'fn':'M.ciniki_wng_main.site.save("cssoverrides");'},
                 'delete':{'label':'Delete', 
                     'visible':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
                     'fn':'M.ciniki_wng_main.site.remove();',
@@ -713,7 +713,7 @@ function ciniki_wng_main() {
         p.show();
     }
     this.site.save = function(cb) {
-        if( cb == null ) { cb = 'M.ciniki_wng_main.site.open();'; }
+        if( cb == null && cb != 'cssoverrides' ) { cb = 'M.ciniki_wng_main.site.open();'; }
         if( this.view == 'page' && this.page_id > 0 ) {
             if( !this.checkForm() ) { return false; }
             var c = this.serializeForm('no');
@@ -748,20 +748,26 @@ function ciniki_wng_main() {
                     if( cb == 'M.ciniki_wng_main.site.open();' && M.ciniki_wng_main.site.view != 'cssoverrides' ) {
                         M.ciniki_wng_main.site.view = 'menu';
                     }
-                    eval(cb);
+                    if( cb != 'cssoverrides' ) {
+                        eval(cb);
+                    }
                 });
             } else {
                 if( cb == 'M.ciniki_wng_main.site.open();' && M.ciniki_wng_main.site.view != 'cssoverrides' ) {
                     M.ciniki_wng_main.site.view = 'menu';
                 }
-                eval(cb);
+                if( cb != 'cssoverrides' ) {
+                    eval(cb);
+                }
             }
 
         } else {
             if( cb == 'M.ciniki_wng_main.site.open();' && M.ciniki_wng_main.site.view != 'cssoverrides' ) {
                 M.ciniki_wng_main.site.view = 'menu';
             }
-            eval(cb);
+            if( cb != 'cssoverrides' ) {
+                eval(cb);
+            }
         }
     }
     this.site.remove = function() {
