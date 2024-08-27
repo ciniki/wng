@@ -60,7 +60,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
         if( !isset($item['image-ratio']) && isset($block['image-ratio']) ) {
             $item['image-ratio'] = $block['image-ratio'];
         }
-        if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
             //
             // Copy image to cache
             //

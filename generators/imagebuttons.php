@@ -62,7 +62,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         if( !isset($item['title-position']) && isset($block['title-position']) ) {
             $item['title-position'] = $block['title-position'];
         }
-        if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
             //
             // Copy image to cache
             //

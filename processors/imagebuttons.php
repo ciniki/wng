@@ -24,7 +24,7 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
 
     $items = array();
     for($i = 1; $i <= 100; $i++) {
-        if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 ) {
+        if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 && is_numeric($s["image-{$i}"]) ) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
                 'image-position' => isset($s["image-position-{$i}"]) ? str_replace('-', ' ', $s["image-position-{$i}"]) : 'center center',

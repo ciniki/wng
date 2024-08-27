@@ -49,6 +49,7 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.81', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
     }
     if( !isset($rc['image']) ) {
+        error_log('Image ' . $args['image_id'] . ' does not exist');
         return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.82', 'msg'=>'The image you requested does not exist.'));
     }
     $img = $rc['image'];

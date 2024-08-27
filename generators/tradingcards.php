@@ -56,7 +56,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         }
         $content .= "<div class='item-wrap'>";
 
-        if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
             //
             // Copy image to cache
             //
