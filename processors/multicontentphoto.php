@@ -32,7 +32,7 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
             );
     }
     for($i = 1; $i <= 100; $i++) {
-        if( (isset($s["image-{$i}"]) && $s["image-{$i}"] > 0)
+        if( (isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 && is_numeric($s["image-{$i}"]))
             || (isset($s["title-{$i}"]) && $s["title-{$i}"] != '')
             ) {
             $blocks[] = array(

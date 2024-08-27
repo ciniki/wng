@@ -39,7 +39,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
         $link_id = isset($block['title']) && $block['title'] != '' ? ciniki_core_makePermalink($ciniki, $block['title']) : '';
         $content .= "<div id='{$link_id}' class='content'>";
 
-        if( isset($block['image-id']) && $block['image-id'] > 0 ) {
+        if( isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']) ) {
             //
             // Copy image to cache
             //

@@ -132,7 +132,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
             if( isset($request['site']['pages'][$page_id]) ) {
                 if( isset($s['image-position']) && $s['image-position'] == 'center' 
                     && $page_num == ceil(count($request['site']['headermenu'])/2) 
-                    && isset($s['image-id']) && $s['image-id'] > 0 
+                    && isset($s['image-id']) && $s['image-id'] > 0 && is_numeric($s['image-id'])
                     ) {
                     $page = $request['site']['pages'][$request['site']['homepage_id']];
                     $item = array(

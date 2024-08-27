@@ -31,7 +31,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
 
         if( isset($block['layout']) && $block['layout'] == 'originals' ) {
             foreach($block['items'] as $item) {
-                if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+                if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
                     if( isset($item['url']) ) {
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
                         $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, (isset($item['page']) ? $item['page'] : 0), $item['url']);

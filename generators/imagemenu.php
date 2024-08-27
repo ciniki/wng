@@ -35,7 +35,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
     //
     // Add the image, if it's not set to be the home in the menu
     //
-    if( isset($block['image-id']) && $block['image-id'] > 0 ) {
+    if( isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']) ) {
         //
         // Copy image to cache
         //

@@ -30,7 +30,7 @@ function ciniki_wng_processors_iconlistphoto(&$ciniki, $tnid, &$request, $sectio
         if( isset($s['subtitle']) && $s['subtitle'] != '' ) {
             $block['subtitle'] = $s['subtitle'];
         }
-        if( isset($s['image-id']) && $s['image-id'] > 0 ) {
+        if( isset($s['image-id']) && $s['image-id'] > 0 && is_numeric($s['image-id']) ) {
             $block['image-id'] = $s['image-id'];
         }
         $block['image-position'] = isset($s['image-position']) ? $s['image-position'] : 'top-right';

@@ -41,7 +41,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
 
     $items = array_values($block['items']);
     foreach($items as $iid => $item) {
-        if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
             //
             // Copy image to cache
             //
