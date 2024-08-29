@@ -873,6 +873,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
+                    . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
             } 
             elseif( $field['ftype'] == 'email' ) {
@@ -883,6 +884,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
+                    . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'url' ) {
@@ -892,6 +894,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . ($editable == 'no' ? " readonly" : '')
+                    . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'number' ) {
@@ -901,6 +904,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
+                    . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
             }
             elseif( $field['ftype'] == 'price' ) {
@@ -1098,6 +1102,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<span class='nobreak'>";
                 $fields_html .= "<select name='f-{$field['id']}-min' id='f-{$field['id']}-min'"
                     . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
+                    . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
                 $max_minutes = isset($field['max-minutes']) ? $field['max-minutes'] : 60;
                 $minutes = intval($field['value']/60);
@@ -1114,6 +1119,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     $fields_html .= "<span class='nobreak'>";
                     $fields_html .= "<select name='f-{$field['id']}-sec' id='f-{$field['id']}-sec'"
                         . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
+                        . (isset($field['disabled']) ? " disabled" : '')
                         . ">";
                     $second_interval = isset($field['second-interval']) ? $field['second-interval'] : 5;
                     for($i = 0; $i < 60; $i += $second_interval) {
