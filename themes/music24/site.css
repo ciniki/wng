@@ -54,6 +54,9 @@ header .block-imagemenu .title-wrap {
   flex-grow: 3;
   flex-basis: 10%;
 }
+header .block-imagemenu .main-menu nav {
+    font-size: 1.1em; 
+}
 @media screen and (min-width: 24em) {
   header .block-imagemenu .icons {
     flex-grow: 3;
