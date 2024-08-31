@@ -93,6 +93,34 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     }
 
     //
+    // Check theme directory specified, if it exists in wng/themes directory
+    //
+    if( isset($site['theme']) && $site['theme'] != '' ) {
+        $themes_dir = $ciniki['config']['ciniki.core']['modules_dir'] . '/wng/themes/' . $site['theme'];
+        if( ($dh = opendir($themes_dir)) !== false ) {
+            while( ($file = readdir($dh)) !== false ) {
+                $theme_filename = $themes_dir . '/' . $file;
+                $cache_filename = $site['cache_dir'] . '/theme/' . $file;
+                if( $file == 'site.css' ) {
+                    $css .= file_get_contents($themes_dir . '/site.css');
+                }
+                elseif( preg_match("/^block-.*\.css/", $file) ) {
+                    $css .= file_get_contents($themes_dir . '/' . $file);
+                }
+                elseif( preg_match("/^block-.*\.js/", $file) ) {
+                    $js .= file_get_contents($themes_dir . '/' . $file);
+                }
+                elseif( preg_match("/\.(jpg|png|svg|eot|ttf|woff|woff2)$/", $file) 
+                    && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
+                    ) {
+                    copy($theme_filename, $cache_filename);
+                    touch($cache_filename, filemtime($theme_filename));
+                }
+            }
+        }
+    }
+
+    //
     // Add check if css and js should be minified. On development systems we don't want the minified
     //
 
