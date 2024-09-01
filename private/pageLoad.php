@@ -75,7 +75,12 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
     $page['sections'] = isset($rc['sections']) ? $rc['sections'] : array();
     foreach($page['sections'] as $sid => $section) {
         if( $section['settings'] != '' ) {
-            $page['sections'][$sid]['settings'] = unserialize(utf8_decode($section['settings']));
+            $section['settings'] = str_replace("\xC3\xA2\xE2\x82\xAC\xE2\x80\x9C", '-', $section['settings']);
+            $section['settings'] = utf8_decode($section['settings']);
+            $section['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m) {
+                return 's:' . strlen($m[2]) . ':"' . $m[2] . '";';
+                }, $section['settings']);
+            $page['sections'][$sid]['settings'] = unserialize($section['settings']);
             if( $page['sections'][$sid]['settings'] === false ) {
                 error_log("Problem with settings for section: " . $section['id']);
             }
