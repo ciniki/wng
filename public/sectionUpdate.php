@@ -63,7 +63,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.40', 'msg'=>'Unable to find requested section'));
     }
     $section = $rc['section'];
-    $settings = unserialize($section['settings']);
+    $settings = unserialize(utf8_decode($section['settings']));
 
     //
     // Load the section settings

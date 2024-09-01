@@ -207,7 +207,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     }
     if( isset($rc['sections']) ) {
         foreach($rc['sections'] as $sid => $section) {
-            $section['settings'] = unserialize($section['settings']);
+            $section['settings'] = unserialize(utf8_decode($section['settings']));
             if( ($section['flags']&0x01) == 0x01 ) {
                 $site['headersections'][] = $section;
             }

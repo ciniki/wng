@@ -113,7 +113,7 @@ function ciniki_wng_sectionGet($ciniki) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.135', 'msg'=>'Unable to find Section'));
         }
         $section = $rc['sections'][0];
-        $section['settings'] = unserialize($section['settings']);
+        $section['settings'] = unserialize(utf8_decode($section['settings']));
     }
 
     //
