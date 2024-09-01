@@ -76,6 +76,9 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
     foreach($page['sections'] as $sid => $section) {
         if( $section['settings'] != '' ) {
             $page['sections'][$sid]['settings'] = unserialize($section['settings']);
+            if( $page['sections'][$sid]['settings'] === false ) {
+                error_log("Problem with settings for section: " . $section['id']);
+            }
         } else {
             $page['sections'][$sid]['settings'] = array();
         }
