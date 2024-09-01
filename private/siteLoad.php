@@ -209,6 +209,8 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
         foreach($rc['sections'] as $sid => $section) {
             if( isset($section['settings'][0]) && $section['settings'][0] == '{' ) {
                 $section['settings'] = json_decode($section['settings'], true);
+            } elseif( isset($section['settings'][0]) && $section['settings'][0] == '[' ) {
+                $section['settings'] = json_decode($section['settings'], true);
             } else {
                 $section['settings'] = str_replace("\xC3\xA2\xE2\x82\xAC\xE2\x80\x9C", '-', $section['settings']);
                 $section['settings'] = utf8_decode($section['settings']);

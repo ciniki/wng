@@ -77,6 +77,8 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         if( $section['settings'] != '' ) {
             if( isset($section['settings'][0]) && $section['settings'][0] == '{' ) {
                 $page['sections'][$sid]['settings'] = json_decode($section['settings'], true);
+            } elseif( isset($section['settings'][0]) && $section['settings'][0] == '[' ) {
+                $page['sections'][$sid]['settings'] = json_decode($section['settings'], true);
             } else {
                 $section['settings'] = str_replace("\xC3\xA2\xE2\x82\xAC\xE2\x80\x9C", '-', $section['settings']);
                 $section['settings'] = utf8_decode($section['settings']);
