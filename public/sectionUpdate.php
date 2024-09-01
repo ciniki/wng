@@ -63,7 +63,13 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.40', 'msg'=>'Unable to find requested section'));
     }
     $section = $rc['section'];
-    $settings = unserialize(utf8_decode($section['settings']));
+    if( isset($section['settings'][0]) && $section['settings'][0] == '{' ) {
+        $settings = json_decode($section['settings'], true);
+    } elseif( isset($section['settings']) && $section['settings'] != '' ) {
+        $settings = unserialize(utf8_decode($section['settings']));
+    } else {
+        $settings = array();
+    }
 
     //
     // Load the section settings
@@ -130,7 +136,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     //
     // Reserialize the array
     //
-    $settings = utf8_encode(serialize($settings));
+    $settings = json_encode($settings);
     if( $settings != $section['settings'] ) {
         $args['settings'] = $settings;
     }

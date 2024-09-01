@@ -91,7 +91,7 @@ function ciniki_wng_sectionAdd(&$ciniki) {
     //
     // serialize the array
     //
-    $args['settings'] = utf8_encode(serialize($settings));
+    $args['settings'] = json_encode($settings);
 
     //
     // Start transaction
