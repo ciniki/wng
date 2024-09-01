@@ -71,7 +71,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
         $section['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m) {
             return 's:' . strlen($m[2]) . ':"' . $m[2] . '";';
             }, $section['settings']);
-        $settings = unserialize($settings);
+        $settings = unserialize($section['settings']);
     } else {
         $settings = array();
     }
