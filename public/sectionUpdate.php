@@ -66,7 +66,12 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     if( isset($section['settings'][0]) && $section['settings'][0] == '{' ) {
         $settings = json_decode($section['settings'], true);
     } elseif( isset($section['settings']) && $section['settings'] != '' ) {
-        $settings = unserialize(utf8_decode($section['settings']));
+        $section['settings'] = str_replace("\xC3\xA2\xE2\x82\xAC\xE2\x80\x9C", '-', $section['settings']);
+        $section['settings'] = utf8_decode($section['settings']);
+        $section['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m) {
+            return 's:' . strlen($m[2]) . ':"' . $m[2] . '";';
+            }, $section['settings']);
+        $settings = unserialize($settings);
     } else {
         $settings = array();
     }
