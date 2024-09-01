@@ -97,7 +97,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
     //
     if( isset($site['theme']) && $site['theme'] != '' ) {
         $themes_dir = $ciniki['config']['ciniki.core']['modules_dir'] . '/wng/themes/' . $site['theme'];
-        if( ($dh = opendir($themes_dir)) !== false ) {
+        if( file_exists($themes_dir) && ($dh = opendir($themes_dir)) !== false ) {
             while( ($file = readdir($dh)) !== false ) {
                 $theme_filename = $themes_dir . '/' . $file;
                 $cache_filename = $site['cache_dir'] . '/theme/' . $file;
