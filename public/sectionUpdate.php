@@ -130,7 +130,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     //
     // Reserialize the array
     //
-    $settings = serialize($settings);
+    $settings = utf8_encode(serialize($settings));
     if( $settings != $section['settings'] ) {
         $args['settings'] = $settings;
     }
