@@ -74,7 +74,11 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
     }
     $page['sections'] = isset($rc['sections']) ? $rc['sections'] : array();
     foreach($page['sections'] as $sid => $section) {
-        $page['sections'][$sid]['settings'] = unserialize($section['settings']);
+        if( $section['settings'] != '' ) {
+            $page['sections'][$sid]['settings'] = unserialize($section['settings']);
+        } else {
+            $page['sections'][$sid]['settings'] = array();
+        }
     }
 
     return array('stat'=>'ok', 'page'=>$page);
