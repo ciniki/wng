@@ -335,8 +335,14 @@ header .block-imagemenu .main-menu nav {
     max-width: 60rem;
     margin: 0 auto;
 }
-.block-pricelist.donations .pricelist .price .amount {
+.block-pricelist.donations .price {
+    background: #e0e0e0;
+}
+.block-pricelist.donations .price .amount {
     display: none;
+}
+.block-pricelist.donations .price .user-amount input {
+    border-radius: 5px;
 }
 @media screen and (min-width: 40em) {
     .block-pricelist.donations h2 {
