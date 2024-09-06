@@ -321,3 +321,25 @@ header .block-imagemenu .main-menu nav {
         flex-basis: 33.3%;
     }
 }
+
+/* Pricelist - for donations */
+.block-pricelist.donations .content {
+    display: block;
+}
+.block-pricelist.donations h2 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.block-pricelist.donations .content table {
+    width: 100%;
+    max-width: 60rem;
+    margin: 0 auto;
+}
+.block-pricelist.donations .pricelist .price .amount {
+    display: none;
+}
+@media screen and (min-width: 40em) {
+    .block-pricelist.donations h2 {
+        padding-top: 2rem;
+    }
+}

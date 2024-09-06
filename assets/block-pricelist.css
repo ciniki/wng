@@ -5,17 +5,25 @@
 .block-pricelist .pricelist {
     flex-grow: 1;
 }
+.block-pricelist table {
+    display: block;
+}
 .block-pricelist .price {
-    display: table-row;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    background: #eee;
+    border-bottom: 3px solid #fff;
 }
 .block-pricelist .price .label,
 .block-pricelist .price .amount,
 .block-pricelist .price .buttons {
-    display: table-cell;
+    display: inline-block;
     vertical-align: middle;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
 }
 .block-pricelist .price .buttons {
+    flex-grow: 1;
     text-align: right;
 }
 .block-pricelist .price .quantity {
@@ -26,6 +34,9 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
+.block-pricelist .price .user-amount { 
+    padding-right: 1rem;
+}
 .block-pricelist .price form {
     white-space: pre;
     -webkit-appearance: none;
@@ -35,6 +46,25 @@
     -webkit-appearance: none;
 }
 .block-pricelist .price .quantity {
+}
+/*.block-pricelist table tr td {
+    display: inline-block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+} */
+@media screen and (min-width: 30em) {
+    .block-pricelist table {
+        display: table;
+    }
+    .block-pricelist .price { 
+        display: table-row;
+    }
+    .block-pricelist .price .label,
+    .block-pricelist .price .amount,
+    .block-pricelist .price .buttons {
+        display: table-cell;
+        width: auto;
+    }
 }
 @media screen and (min-width: 40em) {
     .block-pricelist .content {
