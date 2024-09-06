@@ -6,6 +6,7 @@ body {
     max-width: 90rem;
     padding-left: 0px;
     padding-right: 0px;
+    box-shadow: 1px 1px 25px #888888;
 }
 #page-content {
     flex-grow: 2;
