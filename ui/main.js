@@ -50,52 +50,58 @@ function ciniki_wng_main() {
     this.site.site_id = 0;
     this.site.page_id = '';
     this.site.sections = {
-        '_tabs':{'label':'', 'type':'paneltabs', 'selected':'pages', 'aside':'yes',
+        '_tabs':{'label':'', 'type':'paneltabs', 'selected':'header', 'aside':'yes',
             'tabs':{
-                'pages':{'label':'Pages', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.switchTab(\'pages\');");'},
+                'header':{'label':'Header', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.switchTab(\'header\');");'},
+                'footer':{'label':'Footer', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.switchTab(\'footer\');");'},
+                'other':{'label':'Other', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.switchTab(\'other\');");'},
 //                'footer':{'label':'Footer', 'fn':'M.ciniki_wng_main.site.switchTab("footer");'},
                 'settings':{'label':'Settings', 'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.site.switchTab(\'settings\');");'},
             }},
-        'headerpages':{'label':'', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
+        'headerpages':{'label':'Header Menu', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
             'visible':function() { 
                     if( M.ciniki_wng_main.site.view_aside == 'yes' 
-                        && M.ciniki_wng_main.site.sections._tabs.selected == 'pages' 
+                        && M.ciniki_wng_main.site.sections._tabs.selected == 'header' 
                         ) {
                         return 'yes';
                     }
                     return 'no';
                 },
             'editFn':function(s, i, d) {
-//                if( (M.userPerms&0x01) == 0x01 ) {
-                    return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-//                }
-//                return '';
-            },
-            'addTxt':'Add Page',
-            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
+                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+                },
+            'menu':{
+                'add':{
+                    'label':'Add Page',
+                    'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
+                    },
+                },
             },
         'footerpages':{'label':'Footer Menu', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
+            'noData':'No footer menu',
             'visible':function() { 
                     if( M.ciniki_wng_main.site.view_aside == 'yes'
-                        && M.ciniki_wng_main.site.sections._tabs.selected == 'pages' 
-                        && M.ciniki_wng_main.site.data.footerpages != null
+                        && M.ciniki_wng_main.site.sections._tabs.selected == 'footer' 
                         ) { 
                         return 'yes';
                     }
                 return 'no';
                 },
             'editFn':function(s, i, d) {
-//                if( (M.userPerms&0x01) == 0x01 ) {
-                    return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-//                }
-                return '';
-            },
+                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+                },
+            'menu':{
+                'add':{
+                    'label':'Add Page',
+                    'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
+                    },
+                },
             },
         'orphanpages':{'label':'Other Pages', 'type':'simplegrid', 'num_cols':1, 'aside':'yes',
+            'noData':'No Other Pages',
             'visible':function() { 
                     if( M.ciniki_wng_main.site.view_aside == 'yes'
-                        && M.ciniki_wng_main.site.sections._tabs.selected == 'pages' 
-                        && M.ciniki_wng_main.site.data.orphanpages != null
+                        && M.ciniki_wng_main.site.sections._tabs.selected == 'other' 
                         ) { 
                         return 'yes';
                     }
@@ -106,7 +112,13 @@ function ciniki_wng_main() {
                     return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
 //                }
                 return '';
-            },
+                },
+            'menu':{
+                'add':{
+                    'label':'Add Page',
+                    'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.site_id);");',
+                    },
+                },
             },
         'options':{'label':'Settings', 'type':'simplelist', 'aside':'yes',
             'visible':function() { return (M.ciniki_wng_main.site.view_aside == 'yes' && M.ciniki_wng_main.site.sections._tabs.selected == 'settings' ? 'yes' : 'no'); },
@@ -530,7 +542,15 @@ function ciniki_wng_main() {
         'buttons':{'label':'',
             'visible':function() { return (M.ciniki_wng_main.site.view != 'menu' ? 'yes' : 'no'); },
             'buttons':{
-                'save':{'label':'Save', 'fn':'M.ciniki_wng_main.site.save("cssoverrides");'},
+                'save':{'label':'Save', 
+                    'visible':function() { return M.ciniki_wng_main.site.view == 'cssoverrides' ? 'no' : 'yes'; },
+                    'fn':'M.ciniki_wng_main.site.save();',
+                    },
+                'savecss':{'label':'Save', 
+                    'visible':function() { return M.ciniki_wng_main.site.view == 'cssoverrides' ? 'yes' : 'no'; },
+                    'fn':'M.ciniki_wng_main.site.save("cssoverrides");',
+                    },
+//                'save':{'label':'Save', 'fn':'M.ciniki_wng_main.site.save("cssoverrides");'},
                 'delete':{'label':'Delete', 
                     'visible':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
                     'fn':'M.ciniki_wng_main.site.remove();',
@@ -626,7 +646,10 @@ function ciniki_wng_main() {
     }
     this.site.rowClass = function(s, i, d) {
         if( (s == 'headerpages' || s == 'footerpages' || s == 'orphanpages') && this.page_id == d.id ) {
-            return 'highlight';
+            return 'highlight' + (d.depth != null ? ' indent-' + d.depth : '');
+        }
+        if( (s == 'headerpages' || s == 'footerpages' || s == 'orphanpages') && d.depth != null ) {
+            return 'indent-' + d.depth;
         }
         return '';
     }

@@ -178,11 +178,16 @@ function ciniki_wng_site($ciniki) {
         foreach($list as $page_id) {
             $indent = '';
             for($i=0;$i<$depth;$i++) {
-                $indent .= ' - ';
+                //$indent .= '<span class="faicon subdue">&#xf101;</span>&nbsp;';
+                //$indent .= '<span class="faicon">&#xf141;</span>&nbsp;';
+                //$indent .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+                //$indent .= '<span class="subdue">-&nbsp;</span>';
+                //$indent .= '<span class="subdue">_&nbsp;</span>';
             }
             if( !in_array($page_id, $skiplist) ) {
                 $pages[] = array(
                     'id' => $page_id, 
+                    'depth' => $depth,
                     'name' => $indent . $sitepages[$page_id]['title'],
                     'flags' => $sitepages[$page_id]['flags'],
                     );
@@ -214,6 +219,7 @@ function ciniki_wng_site($ciniki) {
     }
     $rsp['headersections'] = isset($site['headersections']) ? $site['headersections'] : array();
     $rsp['footersections'] = isset($site['footersections']) ? $site['footersections'] : array();
+    error_log(print_r($rsp['headerpages'],true));
 
     //
     // Setup list of orphan pages
