@@ -51,9 +51,11 @@
 .block-table th .button {
     font-weight: normal;
 }
+.block-table .button {
+    padding: 0.25rem 1rem;
+}
 .block-table .buttons .button {
     margin: 0rem 0.5rem 0.5rem 0rem;
-    padding: 0.25rem 1rem;
 }
 .block-table td .indent {
     font-weight: normal;
