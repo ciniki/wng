@@ -219,7 +219,6 @@ function ciniki_wng_site($ciniki) {
     }
     $rsp['headersections'] = isset($site['headersections']) ? $site['headersections'] : array();
     $rsp['footersections'] = isset($site['footersections']) ? $site['footersections'] : array();
-    error_log(print_r($rsp['headerpages'],true));
 
     //
     // Setup list of orphan pages
