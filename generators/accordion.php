@@ -64,6 +64,9 @@ function ciniki_wng_generators_accordion(&$ciniki, $tnid, &$request, $block) {
             }
             $content .= $rc['content'];
         }
+        elseif( isset($item['html']) && $item['html'] != '' ) {
+            $content .= $item['html'];
+        }
         $content .= '</div>';
 
         //

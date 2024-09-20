@@ -322,6 +322,46 @@ header .block-imagemenu .main-menu nav {
         flex-basis: 33.3%;
     }
 }
+/* SSAM Chart */
+.block-accordion.musicfestival-ssam-chart .title {
+    font-weight: bold;
+}
+.block-accordion.musicfestival-ssam-chart .info div.musicfestival-ssam-chart-title {
+    padding: 0.5rem 0.5rem 0.4rem 0.5rem;
+    border-bottom: 0px dashed #ddd;
+    margin-bottom: 1rem;
+    break-inside: avoid-column;
+    background: #eee;
+}
+.block-accordion.musicfestival-ssam-chart .info span.musicfestival-ssam-chart-title {
+    font-weight: bold;
+}
+.block-accordion.musicfestival-ssam-chart .info .musicfestival-ssam-chart-songs {
+    padding: 0.25rem 0.5rem 0rem 0.5rem;
+    font-style: italic;
+}
+.block-accordion.musicfestival-ssam-chart .info .musicfestival-ssam-chart-song {
+}
+@media screen and (min-width: 45em) {
+    .block-accordion.musicfestival-ssam-chart .info {
+        column-count: 2;
+    }
+}
+@media screen and (min-width: 67em) {
+    .block-accordion.musicfestival-ssam-chart .info {
+        column-count: 3;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-accordion.musicfestival-ssam-chart .info {
+        column-count: 4;
+    }
+}
+@media print {
+    .block-accordion.musicfestival-ssam-chart .info {
+        column-count: 2;
+    }
+}
 
 /* Pricelist - for donations */
 .block-pricelist.donations .content {
