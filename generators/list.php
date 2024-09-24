@@ -60,6 +60,9 @@ function ciniki_wng_generators_list(&$ciniki, $tnid, $request, $block) {
                     return $rc;
                 }
                 $content .= "<li class='listitem'>";
+                if( isset($item['title']) && $item['title'] != '' ) {
+                    $content .= "<div class='listitem-title'>" . $item['title'] . "</div>";
+                }
                 $content .= $rc['content'];
                 $content .= '</li>';
             }

@@ -9,6 +9,9 @@
 .block-list .listitem {
     padding-bottom: 1rem;
 }
+.block-list .listitem-title {
+    font-weight: bold;
+}
 @media screen and (min-width: 40em) {
     .block-list .content {
         padding-left: 2rem;
