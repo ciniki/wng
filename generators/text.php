@@ -29,6 +29,7 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
                 . (isset($block['id']) && $block['id'] != '' ? "id='{$block['id']}' " : '')
                 . "class='block-text"
                 . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+                . (isset($block['columns']) && $block['columns'] != 'no' ? ' columns-' . $block['columns'] : '')
                 . "'>";
             $content .= "<div class='wrap'>";
             $content .= "<div class='content'>";
@@ -52,7 +53,15 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
                 $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
             }
 
+            if( isset($block['columns']) && $block['columns'] != 'no' ) {
+                $content .= "<div class='columns'>";
+            }
+
             $content .= $rc['content'];
+
+            if( isset($block['columns']) && $block['columns'] != 'no' ) {
+                $content .= "</div>";
+            }
 
             $content .= '</div>';
             $content .= '</div>';

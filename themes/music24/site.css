@@ -389,6 +389,23 @@ header .block-imagemenu .main-menu nav {
     }
 }
 
+/* Columns */
+@media screen and (min-width: 100em) {
+    .block-text.columns-small .columns { columns: 3; }
+}
+@media screen and (min-width: 125em) {
+    .block-text.columns-small .columns { columns: 3; }
+}
+@media screen and (min-width: 120em) {
+    .block-text.columns-medium .columns { columns: 3; }
+}
+@media screen and (min-width: 105) {
+    .block-text.columns-large .columns { columns: 2; }
+}
+@media screen and (min-width: 140) {
+    .block-text.columns-large .columns { columns: 2; }
+}
+
 /* Pricelist - for donations */
 .block-pricelist.donations .content {
     display: block;

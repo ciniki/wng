@@ -271,6 +271,12 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
 //            'button-2-page' => array('label'=>'Page', 'pages'=>'yes', 'type'=>'text', 'separator'=>'yes'),
 //            'button-2-text' => array('label'=>'Button 2 Text', 'type'=>'text'),
 //            'button-2-url' => array('label'=>'Button URL', 'type'=>'text'),
+            'columns' => array('label'=>'Columns', 'type'=>'toggle', 'default'=>'none', 'toggles'=>array(
+                'none' => 'None',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                )),
             ),
         );
 

@@ -23,7 +23,7 @@ function ciniki_wng_generators_sponsors(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='items'>";
         foreach($block['items'] as $item) {
             $content .= "<div class='item'>";
-            if( isset($item['url']) ) {
+            if( isset($item['url']) && $item['url'] != '' ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, (isset($item['page']) ? $item['page'] : 0), $item['url']);
                 if( $rc['stat'] != 'ok' ) {

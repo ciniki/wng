@@ -1,9 +1,44 @@
 .block-text .content {
     padding: 1rem;
 }
+.block-text .columns {
+    column-gap: 2rem;
+}
 @media screen and (min-width: 40em) {
     .block-text .content {
         padding: 1rem 2rem;
     }
 }
+@media screen and (min-width: 50em) {
+    .block-text.columns-small .columns { columns: 2; }
+}
+@media screen and (min-width: 75em) {
+    .block-text.columns-small .columns { columns: 3; }
+}
+@media screen and (min-width: 100em) {
+    .block-text.columns-small .columns { columns: 4; }
+}
+@media screen and (min-width: 125em) {
+    .block-text.columns-small .columns { columns: 5; }
+}
 
+@media screen and (min-width: 60em) {
+    .block-text.columns-medium .columns { columns: 2; }
+}
+@media screen and (min-width: 90em) {
+    .block-text.columns-medium .columns { columns: 3; }
+}
+@media screen and (min-width: 120em) {
+    .block-text.columns-medium .columns { columns: 4; }
+}
+
+
+@media screen and (min-width: 70em) {
+    .block-text.columns-large .columns { columns: 2; }
+}
+@media screen and (min-width: 105em) {
+    .block-text.columns-large .columns { columns: 3; }
+}
+@media screen and (min-width: 140em) {
+    .block-text.columns-large .columns { columns: 4; }
+}
