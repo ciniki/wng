@@ -377,6 +377,18 @@ header .block-imagemenu .main-menu nav {
     }
 }
 
+/* Image Buttons - Adjudicators */
+@media screen and (min-width: 80em) {
+    .block-imagebuttons .item {
+        flex-basis: 33.33%;
+    }
+}
+@media screen and (min-width: 100em) {
+    .block-imagebuttons .item {
+        flex-basis: 33.33%;
+    }
+}
+
 /* Pricelist - for donations */
 .block-pricelist.donations .content {
     display: block;
