@@ -859,7 +859,7 @@ function ciniki_wng_main() {
     this.edit.data = {};
     this.edit.page_id = 0;
     this.edit.sections = {
-        'parent':{'label':'New page under', 'fields':{
+        'parent':{'label':'Parent Page', 'fields':{
             'parent_id':{'label':'Parent Page', 'hidelabel':'yes', 'type':'select', 
                 'options':{},
                 'complex_options':{'name':'name', 'value':'id'},
@@ -906,7 +906,21 @@ function ciniki_wng_main() {
                     return false;
                 }
                 var p = M.ciniki_wng_main.edit;
-                p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
+                console.log(M.ciniki_wng_main.site.data.pagelist);
+                p.sections.parent.fields.parent_id.options = [];
+                for(var i in M.ciniki_wng_main.site.data.pagelist) {
+                    var d = M.ciniki_wng_main.site.data.pagelist[i].depth;
+                    var prefix = '';
+                    for(var j = 0; j < d; j++) {
+                        prefix += ' -- ';
+                    }
+                    p.sections.parent.fields.parent_id.options.push({
+                        'id':M.ciniki_wng_main.site.data.pagelist[i].id,
+                        'name':prefix + M.ciniki_wng_main.site.data.pagelist[i].name,
+                        });
+                    
+                }
+//                p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
                 if( rsp.page.parent_id == 0 ) {
                     p.sections.parent.active = 'no';
                 } else {
