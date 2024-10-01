@@ -406,6 +406,16 @@ header .block-imagemenu .main-menu nav {
     .block-text.columns-large .columns { columns: 2; }
 }
 
+/* Filelist */
+.block-filelist .filelist {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+}
+.block-filelist .filelist .file {
+    margin-bottom: 0;
+}
+
 /* Pricelist - for donations */
 .block-pricelist.donations .content {
     display: block;
