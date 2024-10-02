@@ -174,10 +174,11 @@ function ciniki_wng_site($ciniki) {
     //
     // Flatten the header and footer menu to a single list
     //
-    function flattenMenu($pages, $depth, $list, $sitepages, $breadcrumbs, $skiplist=array()) {
+    function flattenMenu($pages, $depth, $list, $sitepages, $breadcrumbs, $skiplist=array(), $indent_str='') {
         foreach($list as $page_id) {
             $indent = '';
             for($i=0;$i<$depth;$i++) {
+                $indent .= $indent_str;
                 //$indent .= '<span class="faicon subdue">&#xf101;</span>&nbsp;';
                 //$indent .= '<span class="faicon">&#xf141;</span>&nbsp;';
                 //$indent .= '&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -189,6 +190,7 @@ function ciniki_wng_site($ciniki) {
                     'id' => $page_id, 
                     'depth' => $depth,
                     'name' => $indent . $sitepages[$page_id]['title'],
+                    'name' => $indent . $sitepages[$page_id]['title'],
                     'flags' => $sitepages[$page_id]['flags'],
                     );
             }
@@ -197,7 +199,7 @@ function ciniki_wng_site($ciniki) {
                 && $sitepages[$page_id]['parent_id'] > 0 
                 && ($breadcrumbs == null || in_array($page_id, $breadcrumbs))
                 ) {
-                $pages = flattenMenu($pages, $depth+1, $sitepages[$page_id]['children'], $sitepages, $breadcrumbs);
+                $pages = flattenMenu($pages, $depth+1, $sitepages[$page_id]['children'], $sitepages, $breadcrumbs, $skiplist, $indent_str);
             }
         }
         return $pages;
@@ -205,14 +207,14 @@ function ciniki_wng_site($ciniki) {
     $skiplist = array();
     if( isset($site['headermenu']) && count($site['headermenu']) > 0 ) {
         $rsp['headerpages'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], $breadcrumbs);
-        $rsp['pagelist'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], null);
+        $rsp['pagelist'] = flattenMenu(array(), 0, $site['headermenu'], $site['pages'], null, [], '-- ');
         foreach($rsp['headerpages'] as $p) {
             $skiplist[] = $p['id'];
         }
     }
     if( isset($site['footermenu']) && count($site['footermenu']) > 0 ) {
         $rsp['footerpages'] = flattenMenu(array(), 0, $site['footermenu'], $site['pages'], $breadcrumbs);
-        $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['footermenu'], $site['pages'], null, $skiplist);
+        $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['footermenu'], $site['pages'], null, $skiplist, '-- ');
         foreach($rsp['footerpages'] as $p) {
             $skiplist[] = $p['id'];
         }
@@ -225,6 +227,7 @@ function ciniki_wng_site($ciniki) {
     //
     if( count($site['orphans']) > 0 ) {
         $rsp['orphanpages'] = flattenMenu(array(), 0, $site['orphans'], $site['pages'], $breadcrumbs);
+        $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['orphans'], $site['pages'], null, $skiplist, '-- ');
 //        $rsp['orphanpages'] = array();
 //        foreach($site['orphans'] as $page_id) {
 //            $rsp['orphanpages'][] = array('id' => $page_id, 'name' => $site['pages'][$page_id]['title']);
@@ -236,7 +239,6 @@ function ciniki_wng_site($ciniki) {
 //            }
 //        }
     }
-    $rsp['pagelist'] = flattenMenu($rsp['pagelist'], 0, $site['orphans'], $site['pages'], null, $skiplist);
     
 
     //

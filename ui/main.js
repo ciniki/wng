@@ -906,8 +906,7 @@ function ciniki_wng_main() {
                     return false;
                 }
                 var p = M.ciniki_wng_main.edit;
-                console.log(M.ciniki_wng_main.site.data.pagelist);
-                p.sections.parent.fields.parent_id.options = [];
+/*                p.sections.parent.fields.parent_id.options = [];
                 for(var i in M.ciniki_wng_main.site.data.pagelist) {
                     var d = M.ciniki_wng_main.site.data.pagelist[i].depth;
                     var prefix = '';
@@ -919,8 +918,8 @@ function ciniki_wng_main() {
                         'name':prefix + M.ciniki_wng_main.site.data.pagelist[i].name,
                         });
                     
-                }
-//                p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
+                } */
+                p.sections.parent.fields.parent_id.options = M.ciniki_wng_main.site.data.pagelist;
                 if( rsp.page.parent_id == 0 ) {
                     p.sections.parent.active = 'no';
                 } else {
