@@ -19,7 +19,6 @@ function ciniki_wng_processors_fourtextcol(&$ciniki, $tnid, &$request, $section)
     $blocks = array();
     $s = isset($section['settings']) ? $section['settings'] : array();
 
-
     $data = array();
     for($i = 1; $i <= 4; $i++) {
         if( isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ) {
