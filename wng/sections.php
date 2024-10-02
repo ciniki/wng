@@ -555,8 +555,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.threetextcol']['settings']["title-{$i}"] = array(
             'label'=>"Column {$i} Title", 'type'=>'text', 'separator'=>'yes');
         $sections['ciniki.wng.threetextcol']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea');
-        $sections['ciniki.wng.threetextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
-        $sections['ciniki.wng.threetextcol']['settings']["burl-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
+        $sections['ciniki.wng.threetextcol']['settings']["button-{$i}-page"] = array('label'=>'Button', 'type'=>'select', 'pages'=>'yes');
+        $sections['ciniki.wng.threetextcol']['settings']["button-{$i}-text"] = array('label'=>'Text', 'type'=>'text');
+        $sections['ciniki.wng.threetextcol']['settings']["button-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
+        $sections['ciniki.wng.threetextcol']['settings']["btext-{$i}"] = array('label'=>'OLD Button Text', 'type'=>'text');
+        $sections['ciniki.wng.threetextcol']['settings']["burl-{$i}"] = array('label'=>'OLD Button URL', 'type'=>'text');
     }
 
     //
@@ -573,8 +576,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         $sections['ciniki.wng.fourtextcol']['settings']["title-{$i}"] = array(
             'label'=>"Title #1", 'type'=>'text', 'separator'=>'yes');
         $sections['ciniki.wng.fourtextcol']['settings']["content-{$i}"] = array('label'=>'Content', 'type'=>'textarea');
-        $sections['ciniki.wng.fourtextcol']['settings']["btext-{$i}"] = array('label'=>'Button Text', 'type'=>'text');
-        $sections['ciniki.wng.fourtextcol']['settings']["burl-{$i}"] = array('label'=>'Button URL', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["button-{$i}-page"] = array('label'=>'Button', 'type'=>'select', 'pages'=>'yes');
+        $sections['ciniki.wng.fourtextcol']['settings']["button-{$i}-text"] = array('label'=>'Text', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["button-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["btext-{$i}"] = array('label'=>'OLD Button Text', 'type'=>'text');
+        $sections['ciniki.wng.fourtextcol']['settings']["burl-{$i}"] = array('label'=>'OLD Button URL', 'type'=>'text');
     }
 
     //

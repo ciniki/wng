@@ -11,6 +11,8 @@
 // 
 function ciniki_wng_generators_textcolumns(&$ciniki, $tnid, $request, $block) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
+
     $content = '';
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
@@ -43,7 +45,25 @@ function ciniki_wng_generators_textcolumns(&$ciniki, $tnid, $request, $block) {
                     $content .= $rc['content'];
                 }
             }
-            if( isset($col['button-text']) && $col['button-text'] != '' 
+            if( (!isset($col["button-page"]) || $col["button-page"] != '')
+                && isset($col["button-text"]) && $col["button-text"] != '' 
+                ) {
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                    isset($col["button-page"]) ? $col["button-page"] : 0,
+                    isset($col["button-url"]) ? $col["button-url"] : ''
+                    );
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.110', 'msg'=>'', 'err'=>$rc['err']));
+                }
+                if( isset($rc['url']) && $rc['url'] != '' ) {
+                    $content .= "<a "
+                        . (isset($col["button-target"]) ? " target='" . $col["button-target"] . "' " : '')
+                        . "class='"
+                        . (isset($col['button-class']) && $col['button-class'] != '' ? $col['button-class'] : 'button')
+                        . "' href='" . $rc['url'] . "'>" . $col["button-text"] . "</a>";
+                }
+            }
+            elseif( isset($col['button-text']) && $col['button-text'] != '' 
                 && isset($col['button-url']) && $col['button-url'] != '' 
                 ) {
                 $content .= "<a class='button' href='" . $col['button-url'] . "'>" . $col['button-text'] . "</a>";

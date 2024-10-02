@@ -23,12 +23,19 @@ function ciniki_wng_processors_fourtextcol(&$ciniki, $tnid, &$request, $section)
     $data = array();
     for($i = 1; $i <= 4; $i++) {
         if( isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ) {
-            $data[] = array(
+            $coldata = array(
                 'title' => isset($s["title-{$i}"]) ? $s["title-{$i}"] : '',
                 'content' => isset($s["content-{$i}"]) ? $s["content-{$i}"] : '',
-                'button-text' => isset($s["btext-{$i}"]) ? $s["btext-{$i}"] : '',
-                'button-url' => isset($s["burl-{$i}"]) ? $s["burl-{$i}"] : '',
                 );
+            if( isset($s["button-{$i}-page"]) ) {
+                $coldata['button-page'] = isset($s["button-{$i}-page"]) ? $s["button-{$i}-page"] : 0;
+                $coldata['button-text'] = isset($s["button-{$i}-text"]) ? $s["button-{$i}-text"] : '';
+                $coldata['button-url'] = isset($s["button-{$i}-url"]) ? $s["button-{$i}-url"] : '';
+            } else {
+                $coldata['button-text'] = isset($s["btext-{$i}"]) ? $s["btext-{$i}"] : '';
+                $coldata['button-url'] = isset($s["burl-{$i}"]) ? $s["burl-{$i}"] : '';
+            }
+            $data[] = $coldata;
         }
     }
 
