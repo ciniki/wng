@@ -32,7 +32,6 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     $content .= "<div id='form-errors-msg' class='msg'>";
 
     if( isset($block['problem-list']) && $block['problem-list'] != '' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
         $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['problem-list']);   
         if( $rc['stat'] != 'ok' ) {
             return $rc;
@@ -205,7 +204,6 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                                 $sections .= "<h2>" . $field['label'] . "</h2>";
                             }
                             if( isset($field['description']) && $field['description'] != '' ) {
-                                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
                                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['description']);
                                 if( $rc['stat'] != 'ok' ) {
                                     return $rc;
@@ -1086,7 +1084,15 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
-                $fields_html .= "<label for='f-{$field['id']}'>{$field['label']}</label>";
+                $label_content = $field['label'];
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['label']);
+                if( $rc['stat'] != 'ok' ) {
+                    return $rc;
+                }
+                if( isset($rc['content']) && $rc['content'] != '' ) {
+                    $label_content = $rc['content'];
+                }
+                $fields_html .= "<label for='f-{$field['id']}'>{$label_content}</label>";
                 $fields_html .= "</input>";
                 $fields_html .= $field_description;
             }
