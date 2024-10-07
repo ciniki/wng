@@ -24,10 +24,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-self: center;
 }
 .block-contactform .icon {
     padding: 1rem 1.5rem 1rem 0rem;
     display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
 }
 .block-contactform svg {
     height: 3rem;
