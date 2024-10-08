@@ -365,12 +365,20 @@ header .block-imagemenu .main-menu nav {
 
 /* Trading Cards - Adjudicators */
 @media screen and (min-width: 100em) {
+    .block-tradingcards.size-regular .item {
+        width: 25%;
+        max-width: 25%;
+    }
     .block-tradingcards.size-25 .item {
         width: 33.33%;
         max-width: 33.33%;
     }
 }
 @media screen and (min-width: 120em) {
+    .block-tradingcards.size-regular .item {
+        width: 25%;
+        max-width: 25%;
+    }
     .block-tradingcards.size-25 .item {
         width: 33.33%;
         max-width: 33.33%;
