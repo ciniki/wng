@@ -245,8 +245,14 @@ header .block-imagemenu .main-menu nav {
 }
 /* Syllabus - Class lists */
 .block-table.musicfestival-classes .extra-info {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     font-style: italic;
+}
+@media screen and (min-width: 30em) {
+    .block-table.musicfestival-classes .extra-info {
+        padding-left: 1rem;
+    }
 }
 @media screen and (max-width: 40em) {
     .block-table.musicfestival-classes.fold-at-40 tr {

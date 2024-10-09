@@ -2219,7 +2219,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                             $content .= $item['quantity'];
                             $content .= "<input id='quantity_" . $item['id'] . "' name='quantity_" . $item['id'] . "' type='hidden' value='" . $item['quantity'] . "'/>";
                          }
-                    } elseif( $display_cart != 'regreview' ) {
+                    } elseif( $display_cart != 'regreview' 
+                        && ($item['flags']&0x8000) == 0 
+                        ) {
                         $content .= $item['quantity'];
                     }
                     $content .= "</td>";
