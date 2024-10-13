@@ -60,7 +60,7 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         . "FROM ciniki_wng_sections "
         . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND ciniki_wng_sections.page_id = '" . ciniki_core_dbQuote($ciniki, $page_id) . "' "
-        . "AND (ciniki_wng_sections.flags&0x03) = 0 " // Body sections only, no header or footer
+        . "AND (ciniki_wng_sections.flags&0x13) = 0 " // Body sections only, no header or footer and Visible
         . "ORDER BY sequence "
         . "";
     // This must be ArrayTree as this is passed back to UI and javascript will sort on ID
@@ -73,6 +73,7 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         return $rc;
     }
     $page['sections'] = isset($rc['sections']) ? $rc['sections'] : array();
+    $tnum = 1;
     foreach($page['sections'] as $sid => $section) {
         if( $section['settings'] != '' ) {
             if( isset($section['settings'][0]) && $section['settings'][0] == '{' ) {
@@ -80,6 +81,7 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
             } elseif( isset($section['settings'][0]) && $section['settings'][0] == '[' ) {
                 $page['sections'][$sid]['settings'] = json_decode($section['settings'], true);
             } else {
+                // FIXME: Remove old serialize handler
                 $section['settings'] = str_replace("\xC3\xA2\xE2\x82\xAC\xE2\x80\x9C", '-', $section['settings']);
                 $section['settings'] = utf8_decode($section['settings']);
                 $section['settings'] = preg_replace_callback('!s:(\d+):"(.*?)";!s', function($m) {
@@ -92,6 +94,13 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
             }
         } else {
             $page['sections'][$sid]['settings'] = array();
+        }
+        //
+        // For any sections that have titles, add title_sequence to the section.
+        // This is used to determine if the heading should be an h1 or h2.
+        //
+        if( isset($page['sections'][$sid]['settings']['title']) && $page['sections'][$sid]['settings']['title'] != '' ) {
+            $page['sections'][$sid]['title_sequence'] = $tnum++;
         }
     }
 
