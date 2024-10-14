@@ -1827,6 +1827,11 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             'url' => $request['ssl_domain_base_url'] . '/cart',
             );
 
+        $blocks[] = array(
+            'type' => 'title',
+            'title' => $page_title,
+            );
+
         if( $display_cart == 'review' && (!isset($carterrors) || $carterrors == '') ) {
             $block = array(
                 'type' => 'msg',
@@ -1848,11 +1853,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 'content' => 'To complete your order, please click on Pay Now below.',
                 );
         }
-
-        $blocks[] = array(
-            'type' => 'title',
-            'title' => $page_title,
-            );
 
         if( isset($carterrors) && $carterrors != '' ) {
             $blocks[] = array(
