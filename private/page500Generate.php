@@ -28,15 +28,25 @@ function ciniki_wng_page500Generate(&$ciniki, $tnid, $request, $errors) {
     }
     $content .= $rc['content'];
 
-    $content .= "<div class='block-text'>\n";
+    $content .= "<div id='page-content'>\n";
+
+    $content .= "<div class='block-title'>\n";
     $content .= "<div class='wrap'>\n";
     $content .= "<div class='content'>\n";
     $content .= "<h1 class='entry-title'>We seem to have hit a snag</h1>";
-    $content .= "<p>I'm sorry, but we seem to be having trouble processing your request.  "
+    $content .= "</div>";
+    $content .= "</div>";
+    $content .= "</div>";
+    $content .= "<div class='block-msg error'>\n";
+    $content .= "<div class='wrap'>\n";
+    $content .= "<div class='content'>\n";
+    $content .= "<div class='msg'><p>I'm sorry, but we seem to be having trouble processing your request.  "
         . "You can continue browsing the site while we fix the problem."
-        . "</p>";
+        . "</p></div>";
     $content .= "</div>";
     $content .= "</div>";
+    $content .= "</div>";
+
     $content .= "</div>";
 
     $err_msg = "Web ERR [500]: " . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] ';

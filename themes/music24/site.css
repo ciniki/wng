@@ -457,3 +457,8 @@ header .block-imagemenu .main-menu nav {
         padding-top: 2rem;
     }
 }
+
+/* Contact form */
+.block-contactform.limit-width {
+    max-width: 100%;
+}
