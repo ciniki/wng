@@ -822,6 +822,25 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         if( isset($_POST['customer_notes']) ) {
             $update_args['customer_notes'] = $_POST['customer_notes'];
         }
+        if( !isset($request['session']['cart']['sapos_id']) || $request['session']['cart']['sapos_id'] <= 0 ) {
+            $blocks[] = [
+                'type' => 'msg',
+                'level' => 'error',
+                'content' => "Session Expired - Please relogin or start your cart again.",
+                ];
+            $blocks[] = [
+                'type' => 'buttons',
+                'class' => 'aligncenter',
+                'items' => [
+                    [
+                        'text' => 'Continue',
+                        'page' => $request['site']['homepage_id'],
+                        'url' => '',
+                        ],
+                    ],
+                ];
+            return array('stat'=>'ok', 'blocks'=>$blocks);
+        }
         if( count($update_args) > 0 ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartUpdate');
             $rc = ciniki_sapos_wng_cartUpdate($ciniki, $tnid, $request, $update_args);
