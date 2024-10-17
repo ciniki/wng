@@ -106,12 +106,16 @@
     gap: 1rem;
 }
 .block-cartsignup .submit .button,
-.block-cart .submit .button {
+.block-cart .submit .button,
+.block-cart .cart-submit .button {
     width: 100%;
     margin: 0px;
 }
 .block-cart td span.submit {
     margin-right: 1rem;
+}
+.block-cart .bottom-message {
+    margin-bottom: 1rem;
 }
 @media screen and (min-width: 40em) {
     .block-cartsignup .submit,
