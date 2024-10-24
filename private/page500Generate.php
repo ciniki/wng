@@ -73,12 +73,14 @@ function ciniki_wng_page500Generate(&$ciniki, $tnid, $request, $errors) {
     // Email sysadmins there was a problem with a web request
     //
     if( !isset($ciniki['config']['ciniki.web']['email.500.errors']) || $ciniki['config']['ciniki.web']['email.500.errors'] == 'yes' ) {
+        $msg = print_r($request, true);
+        $msg = preg_replace("/password.*\n/m", 'password removed', $msg);
         $ciniki['emailqueue'][] = array('to'=>$ciniki['config']['ciniki.core']['alerts.notify'],
             'subject'=>'Web ERR 500',
             'textmsg'=>$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n"
                 . print_r($errors, true)
                 . "\n\n"
-                . print_r($request, true),
+                . $msg
             );
     }
 
