@@ -97,6 +97,8 @@
     align-self: start;
     z-index: 2;
     font-size: 0.8rem;
+    background: #ddd;
+    padding: 0.5rem;
 }
 .block-basiccalendar .slice-0 { margin-top: 2.5rem; }
 .block-basiccalendar .slice-1 { margin-top: 5rem; }
@@ -108,6 +110,23 @@
 .block-basiccalendar .slice-7 { margin-top: 20rem; }
 .block-basiccalendar .slice-8 { margin-top: 22.5rem; }
 .block-basiccalendar .slice-9 { margin-top: 25rem; }
+
+.block-basiccalendar .legend {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+.block-basiccalendar .legend .event {
+    background: #ddd;
+    padding: 0.5rem;
+    flex-basis: 11rem;
+    flex-grow: 0;
+    flex-shrink: 1;
+    width: 10rem;
+    text-align: center;
+}
 
 @media (min-width: 40em) {
     .block-basiccalendar .content {

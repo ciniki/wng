@@ -252,6 +252,18 @@ function ciniki_wng_generators_basiccalendar(&$ciniki, $tnid, $request, $block) 
     $content .= $cal_content;
     $content .= '</div>';
 
+    if( isset($block['legend']) && count($block['legend']) > 0 ) {
+        $legend_content = '';
+        foreach($block['legend'] as $class => $item) {
+            $legend_content .= "<span class='event {$class}'>{$item['label']}</span>";
+        }
+        if( $legend_content != '' ) {
+            $content .= "<div class='legend'>";
+            $content .= $legend_content;
+            $content .= '</div>';
+        }
+    }
+
 
     $content .= '</div>';
     $content .= '</div>';
