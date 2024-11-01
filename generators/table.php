@@ -57,6 +57,7 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         $content .= "<tr>";
         $cnum = 1;
         foreach($block['columns'] as $column) {
+            $column_class = isset($column['class']) ? $column['class'] : '';
             $cell_type = ($cnum == 1 && isset($block['headers']) && $block['headers'] == 'firstcolumn' ? 'th' : 'td');
             $cell_content = '';
             if( isset($column['fold-label']) && $column['fold-label'] != '' ) {
@@ -86,9 +87,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
                 }
             }
             if( trim($cell_content) == '' ) {
-                $column['class'] .= ($column['class'] != '' ? ' ' : '') . 'empty';
+                $column_class .= ($column_class != '' ? ' ' : '') . 'empty';
             }
-            $content .= "<{$cell_type}" . (isset($column['class']) && $column['class'] != '' ? " class='" . $column['class'] . "'" : "") . ">";
+            $content .= "<{$cell_type}" . ($column_class != '' ? " class='{$column_class}'" : "") . ">";
             $content .= $cell_content;
             $content .= "</{$cell_type}>";
             $cnum++;
