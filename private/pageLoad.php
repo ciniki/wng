@@ -99,7 +99,9 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         // For any sections that have titles, add title_sequence to the section.
         // This is used to determine if the heading should be an h1 or h2.
         //
-        if( isset($page['sections'][$sid]['settings']['title']) && $page['sections'][$sid]['settings']['title'] != '' ) {
+        if( isset($page['sections'][$sid]['settings']['title']) && $page['sections'][$sid]['settings']['title'] != '' 
+            && ($section['flags']&0x10) == 0 
+            ) {
             $page['sections'][$sid]['title_sequence'] = $tnum++;
         }
     }

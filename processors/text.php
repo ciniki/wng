@@ -21,6 +21,7 @@ function ciniki_wng_processors_text(&$ciniki, $tnid, &$request, $section) {
     if( isset($section['settings']['content']) && $section['settings']['content'] != '' ) {
         $section['settings']['type'] = 'text';
         $section['settings']['sequence'] = $section['sequence'];
+        $section['settings']['title_sequence'] = isset($section['title_sequence']) ? $section['title_sequence'] : 2;
         $section['settings']['class'] = 'section-' . ciniki_core_makePermalink($ciniki, $section['label']);
         $blocks[] = $section['settings'];
     }

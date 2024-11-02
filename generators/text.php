@@ -34,23 +34,28 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
             $content .= "<div class='wrap'>";
             $content .= "<div class='content'>";
     
+            error_log(print_r($block,true));
 
-            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+            if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
-            } elseif( isset($block['level']) && $block['level'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+            } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
             } elseif( isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h2>" . $block['title'] . "</h2>";
             }
-            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
+                $content .= "<h2>" . $block['subtitle'] . "</h2>";
+            } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subtitle']) && $block['subtitle'] != '' ) {
                 $content .= "<h2>" . $block['subtitle'] . "</h2>";
             } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
                 $content .= "<h3>" . $block['subtitle'] . "</h3>";
             }
-            if( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
-                $content .= "<h2>" . $block['subsubtitle'] . "</h2>";
-            } elseif( isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+            if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
                 $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            } elseif( isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h4>" . $block['subsubtitle'] . "</h4>";
             }
 
             if( isset($block['columns']) && $block['columns'] != 'no' ) {

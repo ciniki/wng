@@ -20,7 +20,7 @@ function ciniki_wng_processors_title(&$ciniki, $tnid, &$request, $section) {
     if( isset($section['settings']['title']) && $section['settings']['title'] != '' ) {
         $section['settings']['type'] = 'title';
         $section['settings']['class'] = 'section-' . ciniki_core_makePermalink($ciniki, $section['label']);
-        $section['settings']['level'] = $section['sequence'] == 1 ? 1 : 2;
+        $section['settings']['title_sequence'] = isset($section['title_sequence']) ? $section['title_sequence'] : 2;
         $blocks[] = $section['settings'];
     }
 
