@@ -60,7 +60,7 @@ function ciniki_wng_pageLoad(&$ciniki, $tnid, $request, $page_id) {
         . "FROM ciniki_wng_sections "
         . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND ciniki_wng_sections.page_id = '" . ciniki_core_dbQuote($ciniki, $page_id) . "' "
-        . "AND (ciniki_wng_sections.flags&0x13) = 0 " // Body sections only, no header or footer and Visible
+        . "AND (ciniki_wng_sections.flags&0x03) = 0 " // Body sections only, no header or footer and Visible
         . "ORDER BY sequence "
         . "";
     // This must be ArrayTree as this is passed back to UI and javascript will sort on ID
