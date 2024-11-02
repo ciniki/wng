@@ -34,8 +34,6 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
             $content .= "<div class='wrap'>";
             $content .= "<div class='content'>";
     
-            error_log(print_r($block,true));
-
             if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
             } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
