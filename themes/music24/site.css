@@ -149,6 +149,30 @@ header .block-imagemenu .main-menu nav {
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
+@media screen and (min-width: 30em) {
+    .block-imagemenu.account-menu .showat-30-em nav > ul {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 1rem;
+    }
+    .block-imagemenu.account-menu .showat-30-em nav > ul li a {
+        padding: 0.5rem 1rem;
+    }
+}
+@media screen and (min-width: 40em) {
+    .block-imagemenu.account-menu .showat-40-em nav > ul {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 1rem;
+    }
+    .block-imagemenu.account-menu .showat-40-em nav > ul li a {
+        padding: 0.5rem 1rem;
+    }
+}
 @media screen and (min-width: 50em) {
     .block-imagemenu.account-menu nav > ul {
         display: flex;
@@ -290,6 +314,19 @@ header .block-imagemenu .main-menu nav {
     }
     .block-table.musicfestival-classes.fold-at-40 tr:nth-child(even) {
         background: #f0f0f0;
+    }
+}
+@media screen and (max-width: 50em) {
+    .block-table.musicfestival-registrations tfoot tr {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: right;
+    }
+    .block-table.musicfestival-registrations tfoot tr td:first-child {
+        flex-grow: 1;
+    }
+    .block-table.musicfestival-registrations tfoot tr td {
+        padding: 0.5rem;
     }
 }
 @media screen and (min-width: 40em) {
