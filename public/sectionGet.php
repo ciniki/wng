@@ -157,12 +157,6 @@ function ciniki_wng_sectionGet($ciniki) {
                         }
                     }
                 }
-/*                if( isset($field['pages']) && $field['pages'] == 'yes' && isset($section['settings']["{$fid}-{$i}"]) ) {
-                    if( $section['settings']["{$fid}-{$i}"] > 0 ) {
-                        error_log('page');
-                    }
-                    
-                } */
             }
             if( count($repeat) > 0 ) {
                 $section['repeats'][$i] = $repeat;
