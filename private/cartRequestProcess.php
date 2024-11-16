@@ -238,6 +238,14 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     //
+    // Check if Cancel button pressed during checkout Address form
+    //
+    elseif( isset($_POST['cancel']) && $_POST['cancel'] == 'Cancel' ) {
+        header("Location: " . $request['ssl_domain_base_url'] . "/cart");
+        return array('stat'=>'exit');
+    }
+
+    //
     // Check if new password from password reset was submitted
     //
     elseif( isset($_POST['action']) && $_POST['action'] == 'passwordreset' ) {
@@ -1127,6 +1135,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $display_signup = 'yes';
             $display_cart = 'no';
         }
+        
         if( count($student_forms) > 0 && ciniki_core_checkModuleActive($ciniki, 'ciniki.forms') ) {
             if( !isset($_POST['regreviewed']) || $_POST['regreviewed'] != 'yes' ) {
                 $display_cart = 'regreview';
@@ -1142,6 +1151,46 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     } elseif( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check required form', 'err'=>$rc['err']));
                     }
+                }
+            }
+        }
+
+        //
+        // Check for donations and require billing address
+        //
+        if( $display_signup != 'yes' ) {
+            $donation_amount = 0;
+            foreach($cart['items'] as $iid => $item) {
+                $item = $item['item'];
+                if( ($item['flags']&0x8000) == 0x8000 ) {
+                    $donation_amount = bcadd($donation_amount, $item['total_amount'], 6);
+                } elseif( ($item['flags']&0x0800) == 0x0800 ) {
+                    $donation_amount = bcadd($donation_amount, ($item['quantity'] * $item['unit_donation_amount']), 6);
+                }
+            }
+            $donation_minimum = 25;
+            if( isset($sapos_settings['donation-receipt-minimum-amount']) && $sapos_settings['donation-receipt-minimum-amount'] != '' ) {
+                $donation_minimum = $sapos_settings['donation-receipt-minimum-amount'];
+            }
+
+            if( $donation_amount > 0 
+                && $donation_amount >= $donation_minimum
+                && ($cart['billing_address1'] == ''
+                || $cart['billing_city'] == ''
+                || $cart['billing_province'] == ''
+                || $cart['billing_postal'] == ''
+                )) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartAddressCheck');
+                $rc = ciniki_sapos_wng_cartAddressCheck($ciniki, $tnid, $request, [
+                    'cart' => $cart,
+                    'msg' => 'We require your address to issue a donation receipt.',
+                    ]);
+                if( isset($rc['blocks']) ) {
+                    return $rc;
+                } elseif( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check address', 'err'=>$rc['err']));
+                } elseif( isset($rc['cart']) ) {
+                    $cart = $rc['cart'];
                 }
             }
         }
