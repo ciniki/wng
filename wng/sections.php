@@ -847,6 +847,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
                 'link-text' => array('label'=>'Text', 'type'=>'text'),
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
+                'visible' => array('label'=>'Visible', 'type'=>'toggle', 'default'=>'yes', 'toggles'=>['no'=>'No', 'yes'=>'Yes']),
                 ),
             ));
 

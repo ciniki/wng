@@ -24,6 +24,9 @@ function ciniki_wng_processors_tradingcards(&$ciniki, $tnid, &$request, $section
 
     $items = array();
     for($i = 1; $i <= 100; $i++) {
+        if( isset($s["visible-{$i}"]) && $s["visible-{$i}"] == 'no' ) {
+            continue;
+        }
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 && is_numeric($s["image-{$i}"]) ) {
             $items[] = array(
                 'image-id' => $s["image-{$i}"],
