@@ -859,7 +859,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
                 $fields_html .= "<span type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ">"
-                    . (isset($field['value']) ? htmlspecialchars($field['value']) : '')
+                    . (isset($field['value']) ? nl2br(htmlspecialchars($field['value'])) : '')
                     . "</span>";
             }
             elseif( $field['ftype'] == 'text' || $field['ftype'] == 'password' ) {
@@ -998,7 +998,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 if( $editable == 'no' ) {
                     $fields_html .= "<div id='f-{$field['id']}' class='textarea-readonly'>"
-                        . (isset($field['value']) ? $field['value'] : '')
+                        . (isset($field['value']) ? nl2br($field['value']) : '')
                         . "</div>";
                 } else {
                     $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
