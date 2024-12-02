@@ -37,6 +37,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-active',
         'account-password-change',
         'account-membership-change',
+        'account-intro-alert',
         'account-forgot-link-text',
         'account-signin-text',
         'account-create-account-text',

@@ -558,6 +558,15 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         }
         $request['session']['loginform'] = 'yes';
 
+        if( isset($settings['account-intro-alert']) && $settings['account-intro-alert'] != '' ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'class' => 'aligncenter',
+                'content' => $settings['account-intro-alert'],
+                );
+        }
+
         $block = array(
             'title' => 'Sign In',
             'type' => 'accountlogin',

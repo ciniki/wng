@@ -417,6 +417,7 @@ function ciniki_wng_main() {
         'accountlogin':{'label':'Account Login/Signup Settings', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'account' ? 'yes' : 'no'); },
             'fields':{
+                'account-intro-alert':{'label':'Intro Alert', 'type':'textarea', 'size':'small'},
                 'account-forgot-link-text':{'label':'Forgot Link Text', 'type':'text'},
                 'account-signin-text':{'label':'Sign In Label', 'type':'text'},
                 'account-create-account-text':{'label':'Create Account Link Label', 'type':'text'},
