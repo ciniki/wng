@@ -17,6 +17,7 @@
 }
 .block-accountlogin .content h2 {
     padding-bottom: 1rem;
+    text-align: center;
 }
 .block-accountlogin .content .signup-form.phone-billing > h2 {
     padding: 1rem;
@@ -71,4 +72,47 @@
 .block-accountlogin .signup-form p,
 .block-accountlogin .forgotpassword-form p {
     padding: 1rem 0rem;
+}
+.block-accountlogin.signin-signup .content {
+    display: flex;
+    flex-flow: row wrap;
+}
+.block-accountlogin.signin-signup .signin-form {
+    flex-basis: 100%;
+} 
+.block-accountlogin.signin-signup .forgotpassword-form {
+    flex-basis: 100%;
+}
+.block-accountlogin.signin-signup .signup-form {
+    flex-basis: 100%;
+    display: block;
+}
+@media screen and (min-width: 50em) {
+    .block-accountlogin.signin-signup .content {
+        margin-top: 2rem;
+        justify-content: stretch;
+    }   
+    .block-accountlogin.signin-signup .content .signin-form,
+    .block-accountlogin.signin-signup .content .forgotpassword-form,
+    .block-accountlogin.signin-signup .content .signup-form.simple {        
+        flex-basis: 50%;
+        flex-shrink: 1;
+        flex-grow: 1;
+        margin: 0 0;
+        max-width: 100%;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }   
+    .block-accountlogin.signin-signup .content h2 {
+        text-align: center;
+    }
+    .block-accountlogin.signin-signup .content p,
+    .block-accountlogin.signin-signup .content form,
+    .block-accountlogin.signin-signup .content > div {
+        max-width: 25rem;
+        margin: 0 auto;
+    }   
+    .block-accountlogin.signin-signup .signup-form {
+        border-left: 1px dashed #ddd;
+    }   
 }

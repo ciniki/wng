@@ -423,6 +423,7 @@ function ciniki_wng_main() {
                 'account-create-type':{'label':'Create Account Form', 'type':'select', 'options':{
                     '':'None',
                     'simple':'Simple',
+                    'signin-signup':'Sign In/Sign Up',
                     'phone-billing':'Phone & Billing Info',
                     }},
                 'account-signup-confirm-password':{'label':'Confirm Password', 'type':'toggle', 'default':'no', 

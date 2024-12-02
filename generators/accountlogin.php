@@ -14,6 +14,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
 
     $content .= "<div class='block-accountlogin"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['create-account']) && $block['create-account'] == 'signin-signup' ? ' signin-signup' : '')
         . "'>";
     $content .= "<div class='wrap'>";
     $content .= "<div class='content'>";
@@ -150,12 +151,14 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     //
     // The simple account create form
     //
-    if( isset($block['create-account']) && $block['create-account'] == 'simple' ) {
+    if( isset($block['create-account']) 
+        && ($block['create-account'] == 'simple' || $block['create-account'] == 'signin-signup') 
+        ) {
         //
         // The forgot reset form
         //
         $content .= "<div id='signup-form' class='signup-form simple"
-            . ($startform == 'signup' ? '' : ' hidden')
+            . (($startform == 'signup' || $block['create-account'] == 'signin-signup') ? '' : ' hidden')
             . "'"
 //            . " style='display:" . ($startform == 'signup' ? 'block;' : 'none;') . "'"
             . ">";
@@ -204,12 +207,14 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
         $content .= "<div class='submit'>"
                 . "<input type='submit' class='button' value='Create Account' />"
             . "</div>\n"
-            . "</form>"
-            . "<div class='create-link'><p>"
+            . "</form>";
+        if( $block['create-account'] != 'signin-signup' ) {
+            $content .= "<div class='create-link'><p>"
                 . "<a class='link' href='javascript:void();' onclick='swapCreateForm(\"signin\"); return false;'>"
                 . "Sign In"
-                . "</a></p></div>\n"
-            . "</div>\n";
+                . "</a></p></div>";
+        }
+        $content .= "</div>\n";
 
         //
         // Javascript to switch login/forgot password forms
