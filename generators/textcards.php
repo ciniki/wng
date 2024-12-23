@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// carousel
+// textcards
 // 
 // Arguments
 // ---------
@@ -99,6 +99,26 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     
         if( $url == 'yes' && isset($item['link-text']) && $item['link-text'] != '' ) {
             $content .= "<div class='button'>{$item['link-text']}</div>";
+        }
+        if( isset($item['buttons']) && count($item['buttons']) > 0 ) {
+            $content .= "<div class='buttons'>";
+            foreach($item['buttons'] as $button) {
+                if( isset($button['text']) && $button['text'] != '' ) {
+                    $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                        isset($button['page']) ? $button['page'] : 0,
+                        $button['url']
+                        );
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.240', 'msg'=>'', 'err'=>$rc['err']));
+                    }
+                    $content .= "<div class='button-wrap"
+                        . (isset($button['class']) && $button['class'] != '' ? ' ' . $button['class'] : '')
+                        . "'><a class='button' "
+                        . (isset($button['target']) && $button['target'] != '' ? "target='{$button['target']}' " : '')
+                        . "href='" . $rc['url'] . "'>" . $button['text'] . "</a></div>";
+                } 
+            }
+            $content .= "</div>";
         }
         $content .= '</div>';
 

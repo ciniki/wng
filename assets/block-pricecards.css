@@ -1,16 +1,16 @@
-.block-textcards .items {
+.block-pricecards .items {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     padding: 0.5rem;
 }
-.block-textcards .item {
+.block-pricecards .item {
     min-width: auto;
     width: 100%;
     max-width: 100%;
     padding: 0.5rem;
 }
-.block-textcards .item-wrap {
+.block-pricecards .item-wrap {
     display: flex;
     padding: 1rem;
     border: 1px solid #ddd;
@@ -18,30 +18,30 @@
     flex-flow: column nowrap;
     justify-content: flex-start;
 }
-.block-textcards .title {
+.block-pricecards .title {
     padding-bottom: 0.5rem;
     position: relative;
 }
-.block-textcards .title h2 {
+.block-pricecards .title h2 {
     max-width: 90%;
 }
-.block-textcards .info {
+.block-pricecards .info {
     flex-grow: 1;
 }
-.block-textcards .item > a {
+.block-pricecards .item > a {
     display: block;
     height: 100%;
 }
-.block-textcards .button {
+.block-pricecards .button {
     width: 100%;
     text-align: center;
 }
-.block-textcards .text .line {
+.block-pricecards .text .line {
     border-bottom: 1px solid #ddd;
     height: 1px;
     margin-bottom: 0.5rem;
 }
-.block-textcards .text .subheading {
+.block-pricecards .text .subheading {
     display: block;
     width: 100%;
     text-align: center;
@@ -49,7 +49,7 @@
     padding: 0.5rem;
     font-size: 1.1em;
 }
-.block-textcards.collapsible .title:after {
+.block-pricecards.collapsible .title:after {
     content: "-";
     position: absolute;
     right: 0px;
@@ -62,47 +62,60 @@
     border-radius: 50%;
     text-align: center;
 }
-.block-textcards.collapsible .collapsed .title:after {
+.block-pricecards.collapsible .collapsed .title:after {
     content: "+";
 }
-.block-textcards .collapsed .info {
+.block-pricecards .info .text p,
+.block-pricecards .info ul {
+    margin-bottom: 0.75rem;
+}
+.block-pricecards .info ul p {
+    margin-bottom: 0.25rem;
+}
+.block-pricecards .info .text:last-child p {
+    margin-bottom: 0;
+}
+.block-pricecards .collapsed .info {
     display: none;
 }
-.block-textcards .buttons .button-wrap {
+.block-pricecards .cart-buttons {
+    padding-top: 1rem;
+}
+.block-pricecards .cart-buttons form {
     margin-bottom: 1rem;
 }
-.block-textcards .buttons .button-wrap:last-child {
+.block-pricecards .cart-buttons form:last-child {
     margin-bottom: 0rem;
 }
 @media screen and (min-width: 40em) {
-    .block-textcards .items {
+    .block-pricecards .items {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
     }
-    .block-textcards .item {
+    .block-pricecards .item {
         width: 50%;
         max-width: 50%;
         padding: 0.5rem;
     }
 }
 @media screen and (min-width: 50em) {
-    .block-textcards .item {
+    .block-pricecards .item {
         flex-basis: 50%;
         max-width: 50%;
     }
 }
 @media screen and (min-width: 75em) {
-    .block-textcards .item {
+    .block-pricecards .item {
         flex-basis: 33.3%;
         max-width: 33.3%;
     }
 }
 @media screen and (min-width: 100em) {
-    .block-textcards .item {
+    .block-pricecards .item {
         flex-basis: 25%;
         max-width: 25%;
     }
-    .block-textcards .items.q-3 .item {
+    .block-pricecards .items.q-3 .item {
         flex-basis: 33.3%;
         max-width: 33.3%;
     }
