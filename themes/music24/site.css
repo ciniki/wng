@@ -499,3 +499,53 @@ header .block-imagemenu .main-menu nav {
 .block-contactform.limit-width {
     max-width: 100%;
 }
+
+/* block calendar */
+.block-basiccalendar .day-name {
+    background: #ddd;
+    font-weight: bold;
+    border-top: 1px solid #777;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+}
+.block-basiccalendar .day-name:first-child {
+    border-left: 1px solid #777;
+}
+.block-basiccalendar .day {
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
+    font-weight: bold;
+}
+.block-basiccalendar .day:nth-of-type(7n + 1) {
+    border-left: 1px solid #777;
+}
+.block-basiccalendar .day.day-prev {
+    font-weight: normal;
+    color: #999;
+    background: #eee;
+}
+.block-basiccalendar .day.day-next {
+    font-weight: normal;
+    color: #999;
+    background: #eee;
+}
+.block-basiccalendar .event {
+    background: #ddd;
+    padding: 0.5rem;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+.block-basiccalendar .event.shift-open {
+    background: #ddffdd;
+}
+.block-basiccalendar .event.shift-filled {
+    background: #ddffdd;
+}
+.block-basiccalendar .event.shift-full {
+    background: #ddecff;
+}
+.block-basiccalendar .event.shift-expired {
+    background: #dddddd;
+}
