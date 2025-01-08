@@ -49,7 +49,8 @@ function ciniki_wng_page500Generate(&$ciniki, $tnid, $request, $errors) {
 
     $content .= "</div>";
 
-    $err_msg = "Web ERR [500]: " . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . ' [' . $_SERVER['HTTP_USER_AGENT'] . '] ';
+    $err_msg = "Web ERR [500]: " . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] 
+        . ' [' . (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'No Agent') . '] ';
 
     if( isset($errors['err']['code']) ) {
         $request['error_codes_msg'] = 'err:' . $errors['err']['code'];
