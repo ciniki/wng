@@ -357,6 +357,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         'type' => 'imagemenu',
         'image-id' => isset($s['image-id']) ? $s['image-id'] : 0,
         'main-menu' =>  $mainmenu,
+        'menu-id' => 'header',
         'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' header-menu',
         'dropdown' => isset($s['dropdown']) ? $s['dropdown'] : '',
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',

@@ -242,7 +242,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 . (isset($item['class']) ? ' ' . $item['class'] : '') 
                 . "";
             if( $dropdown_hm == 'yes' && isset($item['items']) && count($item['items']) > 0 ) {
-                $content .= "<li id='hm-{$num}' class='dropdown {$class}'>";
+                $content .= "<li id='hm-{$block['menu-id']}-{$num}' class='dropdown {$class}'>";
                 if( isset($item['url']) && $item['url'] != '' ) {
                     $content .= "<a class='item'"
                         . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
@@ -250,10 +250,10 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
                 } else {
                     $content .= "<a class='item clickable'"
                         . (isset($item['target']) && $item['target'] != '' ? " target={$item['target']}" : '')
-                        . " onclick='C.imagemenu.mT(\"hm-{$num}\");'>" . $item['title'] . '</a>';
+                        . " onclick='C.imagemenu.mT(\"hm-{$block['menu-id']}-{$num}\");'>" . $item['title'] . '</a>';
                 }
 
-                $content .= "<a class='dropdown' onclick='C.imagemenu.mT(\"hm-{$num}\");'><div class='svg'>";
+                $content .= "<a class='dropdown' onclick='C.imagemenu.mT(\"hm-{$block['menu-id']}-{$num}\");'><div class='svg'>";
                 $content .= '<svg class="expand" viewBox="0 0 100 100">'
                     . '<rect rx="7" x="5" y="45" width="90" height="15"></rect>'
                     . '<rect rx="7" x="45" y="5" width="15" height="90"></rect>'

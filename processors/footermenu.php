@@ -59,6 +59,7 @@ function ciniki_wng_processors_footermenu(&$ciniki, $tnid, &$request, $section) 
         'type' => 'imagemenu',
         'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']) . ' footer-menu',
         'main-menu' =>  $mainmenu,
+        'menu-id' => 'footer',
         'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
         );
 
