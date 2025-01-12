@@ -1068,7 +1068,8 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $unavailable = '';
         $blocked = '';
         $updated = '';
-        $student_forms = array();
+        $student_forms = [];
+        $cart_pkgmods = [];
         foreach($cart['items'] as $iid => $item) {
             if( isset($item['item']['form_id']) && $item['item']['form_id'] > 0 
                 && isset($item['item']['student_id']) && $item['item']['student_id'] > 0
@@ -1077,6 +1078,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 $student_forms["{$item['item']['student_id']}-{$item['item']['form_id']}"] = $item['item'];
             }
             list($pkg, $mod, $f) = explode('.', $item['item']['object']);
+            if( $item['item']['object'] != '' ) {
+                $cart_pkgmods["{$pkg}.{$mod}"] = ['pkg'=>$pkg, 'mod'=>$mod];
+            }
             $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'sapos', 'cartItemCheck');
             if( $rc['stat'] == 'ok' ) {
                 $fn = $rc['function_call'];
@@ -1102,6 +1106,25 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
                 elseif( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
+                }
+            }
+        }
+        //
+        // Some items are better checked with entire cart (eg musicfestivals late fees per registration)
+        //
+        if( count($cart_pkgmods) > 0 ) {
+            foreach($cart_pkgmods as $pkgmod) {
+                $rc = ciniki_core_loadMethod($ciniki, $pkgmod['pkg'], $pkgmod['mod'], 'sapos', 'cartCheck');
+                if( $rc['stat'] == 'ok' ) {
+                    $fn = $rc['function_call'];
+                    $rc = $fn($ciniki, $tnid, ['cart' => $cart]);
+                    if( $rc['stat'] == 'updated' ) {
+                        $updated = $rc['msg'];
+                    } elseif( $rc['stat'] == 'blocked' ) {
+                        $blocked .= $rc['msg'];
+                    } elseif( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
+                    }
                 }
             }
         }
