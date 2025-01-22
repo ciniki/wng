@@ -153,7 +153,10 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                     'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - domainworld.com');
                 return array('stat'=>'ok', 'error_message'=>$error_message, 'success_message'=>"Your message was sent");
             }
-            if( preg_match("/EXPIR.*DOMAIN/", $subject) ) {
+            if( preg_match("/Effective PPC Campaigns/", $subject) 
+                || preg_match("/Sculpting Tomorrow's Digital Icons/", $subject)
+                || preg_match("/EXPIR.*DOMAIN/", $subject) 
+                ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
                 ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
                     'BLOCKED SUBJECT ' . $subject . ' - ' . $_POST['contact-form-email']);
