@@ -439,6 +439,16 @@ header .block-imagemenu .main-menu nav {
         flex-basis: 33.33%;
     }
 }
+.block-imagebuttons.schedule-top-sponsors .items {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.block-imagebuttons.schedule-top-sponsors .item {
+    flex-basis: 15rem;
+}
 
 /* Columns */
 @media screen and (min-width: 100em) {

@@ -1,3 +1,7 @@
+.block-imagebuttons .content > h2 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 .block-imagebuttons .item {
     padding-bottom: 2rem;
 }
