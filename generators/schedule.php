@@ -29,6 +29,9 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
     if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
         $content .= "<h3>" . $block['subtitle'] . "</h3>";
     }
+    if( isset($block['subtitle2']) && $block['subtitle2'] != '' ) {
+        $content .= "<h3>" . $block['subtitle2'] . "</h3>";
+    }
 
     //
     // Process the video

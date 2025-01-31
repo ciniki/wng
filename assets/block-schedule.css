@@ -30,6 +30,9 @@
 .block-schedule.subtitle h2 {
     padding-bottom: 0rem;
 }
+.block-schedule .timeslots {
+    padding-top: 1rem;
+}
 .block-schedule .timeslot {
     padding-bottom: 2rem;
 }
