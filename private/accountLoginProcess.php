@@ -368,6 +368,9 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     $details['country'] = trim($_POST['country']);
                 }
             }
+            if( isset($_POST['signupemail2']) && $_POST['signupemail2'] != '' ) {
+                error_log('Bot Signup: ' . $_POST['signupemail2']);
+            }
             $display_form = 'signup';
             $url = $request['ssl_domain_base_url'] . '/account/signup';
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');

@@ -87,6 +87,9 @@
     flex-basis: 100%;
     display: block;
 }
+.block-accountlogin .signup-form .emailagain {
+    display: none;
+}
 @media screen and (min-width: 50em) {
     .block-accountlogin.signin-signup .content {
         margin-top: 2rem;

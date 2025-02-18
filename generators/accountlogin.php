@@ -188,6 +188,10 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
                 . "<label for='signupemail'>Email</label>"
                 . "<input id='signupemail' type='email' class='text' maxlength='250' name='signupemail' value='$email' />"
             . "</div>\n" 
+            . "<div class='input required emailagain'>"
+                . "<label for='signupemail'>Email Again</label>"
+                . "<input id='signupemail2' type='email' class='text' maxlength='250' name='signupemail2' value='' />"
+            . "</div>\n" 
             . "<div class='input"
                 . (isset($block['signup-confirm-password']) && $block['signup-confirm-password'] == 'yes' ? '' : ' last-field')
                 . " required'>"
