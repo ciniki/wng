@@ -132,6 +132,12 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             $content .= "background-image: -webkit-image-set("
                 . $image['bg_set']
                 . ");"; 
+        } 
+        elseif( isset($item['image-url']) && $item['image-url'] != '' ) {
+            $content .= "background-image: url("
+                . $item['image-url']
+                . ");"; 
+            
         }
         $content .= "'>";
         if( isset($item['title-position']) && $item['title-position'] != '' 

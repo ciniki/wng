@@ -15,7 +15,9 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-    if( isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']) ) {
+    if( (isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']))
+        || (isset($block['image-url']) && $block['image-url'] != '')
+        ) {
         $content .= "<div class='block-image"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
@@ -33,16 +35,23 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         //
         // Copy image to cache
         //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
-        $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
-            'image_id' => $block['image-id'],
-            'version' => 'original',
-            'maxwidth' => 2048,
-            ));
-        if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.154', 'msg'=>'', 'err'=>$rc['err']));
+        if( isset($block['image-id']) ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
+                'image_id' => $block['image-id'],
+                'version' => 'original',
+                'maxwidth' => 2048,
+                ));
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.154', 'msg'=>'', 'err'=>$rc['err']));
+            }
+            $img_url = $rc['url'];
+        } elseif( isset($block['image-url']) && $block['image-url'] != '' ) {
+            error_log('image');
+            $img_url = $block['image-url'];
+        } else {
+            return array('stat'=>'ok', 'content'=>'');
         }
-        $img_url = $rc['url'];
 
         //
         // Make sure the image is in the cache
