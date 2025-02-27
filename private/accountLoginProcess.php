@@ -368,8 +368,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     $details['country'] = trim($_POST['country']);
                 }
             }
+            // Honeypot bots
             if( isset($_POST['signupemail2']) && $_POST['signupemail2'] != '' ) {
                 error_log('Bot Signup: ' . $_POST['signupemail2']);
+                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                return array('stat'=>'exit');
             }
             $display_form = 'signup';
             $url = $request['ssl_domain_base_url'] . '/account/signup';
