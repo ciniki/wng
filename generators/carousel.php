@@ -41,24 +41,28 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
 
     $items = array_values($block['items']);
     foreach($items as $iid => $item) {
-        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
+        if( (isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']))
+            || (isset($item['image-url']) && $item['image-url'] != '')
+            ) {
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
-            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
-                'image_id' => $item['image-id'],
-                'version' => 'original',
-                'maxwidth' => '2048',
-                'webp' => 'yes',
-                'css_selector' => "#carousel-items-{$carousel_id}-{$iid} .image",
-                'sizes' => '500,1000,1500',
-                ));
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
+            if( isset($item['image-id']) && $item['image-id'] > 0 ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+                $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+                    'image_id' => $item['image-id'],
+                    'version' => 'original',
+                    'maxwidth' => '2048',
+                    'webp' => 'yes',
+                    'css_selector' => "#carousel-items-{$carousel_id}-{$iid} .image",
+                    'sizes' => '500,1000,1500',
+                    ));
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
+                }
+                $image = $rc;
+                $css .= $rc['bg_css'];
             }
-            $image = $rc;
-            $css .= $rc['bg_css'];
 
             //
             // Check if this should be setup as last item
@@ -93,6 +97,9 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             } else {
                 $content .= "background-size:cover;";
             }
+            if( isset($item['image-url']) && $item['image-url'] != '' ) {
+                $content .= "background-image: url(" . $item['image-url'] . ");";
+            }
             // Add image set
 /*            if( $image['bg_set'] != '' ) {
                 $content .= "background-image: -webkit-image-set("
@@ -105,7 +112,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             $content .= "<div class='info'>";
             if( isset($block['titles']) && $block['titles'] == 'yes' && isset($item['title']) && $item['title'] != '' ) {
                 $content .= "<div class='title'>";
-                    $content .= $item['title'];
+                $content .= $item['title'];
                 $content .= '</div>';
             }
             if( isset($item['content']) && $item['content'] != '' ) {
