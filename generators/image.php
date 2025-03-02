@@ -47,7 +47,6 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
             }
             $img_url = $rc['url'];
         } elseif( isset($block['image-url']) && $block['image-url'] != '' ) {
-            error_log('image');
             $img_url = $block['image-url'];
         } else {
             return array('stat'=>'ok', 'content'=>'');
