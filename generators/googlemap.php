@@ -81,6 +81,7 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "<div class='content-wrap'>" 
                 . (isset($block['title']) && $block['title'] != '' ? "<div class='title-wrap'><h3>{$block['title']}</h3></div>" : '')
+                . (isset($block['subtitle']) && $block['subtitle'] != '' ? "<div class='subtitle-wrap'><h3>{$block['subtitle']}</h3></div>" : '')
                 . $rc['content'] 
                 . "</div>";
         }
