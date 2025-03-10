@@ -1050,6 +1050,22 @@ function ciniki_wng_main() {
                     }
                 }
             } 
+            else if( this.repeatfields != null
+                && this.repeatfields[this.sections[s].dataMaps[j]] != null
+                && this.repeatfields[this.sections[s].dataMaps[j]].type != null
+                && this.repeatfields[this.sections[s].dataMaps[j]].type == 'toggle'
+                && this.repeatfields[this.sections[s].dataMaps[j]].toggles != null
+                ) {
+                var v = d[this.sections[s].dataMaps[j]];
+                if( v == null ) {
+                    v = this.repeatfields[this.sections[s].dataMaps[j]]['default'];
+                }
+                for(var i in this.repeatfields[this.sections[s].dataMaps[j]]['toggles']) {
+                    if( v == i ) {
+                        return this.repeatfields[this.sections[s].dataMaps[j]]['toggles'][i];
+                    }
+                }
+            }
             else if( this.sections[s].cellClasses[j] != null
                 && this.sections[s].cellClasses[j] == 'page-link'
                 ) {

@@ -297,14 +297,18 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         'repeats' => array(
             'label' => 'Buttons',
-            'headerValues' => array('Text', 'Linked To'),
-            'cellClasses' => array('', 'page-link'),
-            'dataMaps' => array('link-text', 'link-page'),
+            'headerValues' => array('Text', 'Linked To', 'Visibility'),
+            'cellClasses' => array('', 'page-link', 'visibility'),
+            'dataMaps' => array('link-text', 'link-page', 'visibility'),
             'addTxt' => 'Add Button',
             'fields' => array(
                 'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
                 'link-text' => array('label'=>'Text', 'type'=>'text'),
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
+                'visibility' => array('label'=>'Visibility', 'type'=>'toggle', 'default'=>'visible', 'toggles'=>array(
+                    'hidden' => 'Hidden',
+                    'visible' => 'Visible',
+                    )),
                 ),
             ));
 /*    for($i = 1; $i < 15; $i++ ) {

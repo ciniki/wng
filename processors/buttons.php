@@ -21,6 +21,9 @@ function ciniki_wng_processors_buttons(&$ciniki, $tnid, &$request, $section) {
 
     $items = array();
     for($i = 1; $i <= 100; $i++) {
+        if( isset($s["visibility-{$i}"]) && $s["visibility-{$i}"] == 'hidden' ) {
+            continue;
+        }
         if( isset($s["link-text-{$i}"]) && $s["link-text-{$i}"] != '' 
             && ((isset($s["link-url-{$i}"]) && $s["link-url-{$i}"] != '') 
                 || (isset($s["link-page-{$i}"]) && $s["link-page-{$i}"] > 0)
