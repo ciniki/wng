@@ -126,7 +126,7 @@
         flex-grow: 2;
     }
     .block-flexcards .q-2 .info {
-        padding: 1rem 0rem;
+        padding: 1rem 1rem;
     }
     .block-flexcards .q-2 .item:nth-child(even) .item-wrap {
         flex-direction: column;
