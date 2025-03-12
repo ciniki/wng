@@ -49,6 +49,9 @@
     padding: 0.5rem;
     font-size: 1.1em;
 }
+.block-textcards.collapsible .title {
+    padding-bottom: 0;
+}
 .block-textcards.collapsible .title:after {
     content: "-";
     position: absolute;
@@ -64,6 +67,27 @@
 }
 .block-textcards.collapsible .collapsed .title:after {
     content: "+";
+}
+.block-textcards.collapsible .collapsed .item-wrap {
+    height: auto;
+    background: #eee;
+}
+.block-textcards.collapsible .item:not(.collapsed) .title {
+    padding: 1rem;
+    background: #eee;
+}
+.block-textcards.collapsible .item:not(.collapsed) .title:after {
+    margin: 1rem;
+}
+.block-textcards.collapsible .item:not(.collapsed) .item-wrap {
+    padding: 0;
+}
+.block-textcards.collapsible .item:not(.collapsed) .info {
+    padding: 1rem;
+}
+.block-textcards.collapsible .title h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 .block-textcards .collapsed .info {
     display: none;
