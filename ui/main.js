@@ -610,7 +610,7 @@ function ciniki_wng_main() {
         if( s == 'pagedetails' || s == 'pageredirect' || s == 'pageurl' ) {
             if( i == 'page_url' ) {
                 return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>'
-                    + ' <button class="button" onclick="M.ciniki_wng_main.qrcode.open(\'M.ciniki_wng_main.site.open();\',\'' + this.data.page.page_url + '\');">QR Code</button>'
+                    + ' <button class="button" onclick="M.ciniki_wng_main.qrcode.open(\'M.ciniki_wng_main.site.open();\',\'' + this.data.page.page_url + '\',M.ciniki_wng_main.site.data.page.title);">QR Code</button>'
                     + '';
             }
             return this.data.page != null ? this.data.page[i] : '';
@@ -1584,18 +1584,16 @@ function ciniki_wng_main() {
     this.qrcode.sections = {
         'info':{'label':'QR Code Info', 'fields':{
             'url':{'label':'URL', 'type':'text'},    
-            'output':{'label':'Format', 'type':'toggle', 'default':'svg', 'toggles':{'svg':'SVG', 'png':'PNG'}},    
+            'output':{'label':'Format', 'type':'toggle', 'default':'pdf', 'toggles':{'pdf':'PDF', 'svg':'SVG', 'png':'PNG'}},    
+            'title':{'label':'Title (for pdf)', 'type':'text'},    
             }},
         '_buttons':{'label':'', 'buttons':{
             'generate':{'label':'Download QR Code', 'fn':'M.ciniki_wng_main.qrcode.generate();'},
             }},
         };
-    this.qrcode.open = function(cb, url) {
-        if( url != null ) {
-            this.data.url = url;
-        } else {
-            this.data.url = '';
-        }
+    this.qrcode.open = function(cb, url, title) {
+        this.data.title = (title != null ? title : '');
+        this.data.url = (url != null ? url : '');
         this.refresh();
         this.show(cb);
     }
@@ -1603,6 +1601,7 @@ function ciniki_wng_main() {
         M.api.openFile('ciniki.wng.qrcode', {
             'tnid':M.curTenantID, 
             'url':this.formValue('url'), 
+            'title':this.formValue('title'), 
             'output':this.formValue('output'),
             });
     }

@@ -21,6 +21,7 @@ function ciniki_wng_qrcode(&$ciniki) {
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'url'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'URL'), 
+        'title'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Title'), 
         'output'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Format'), 
         )); 
     if( $rc['stat'] != 'ok' ) { 
@@ -34,7 +35,18 @@ function ciniki_wng_qrcode(&$ciniki) {
     $barcodeobj = new TCPDF2DBarcode($args['url'], 'QRCODE,H');
 
     // output the barcode as SVG image
-    if( $args['output'] == 'png' ) {
+    if( $args['output'] == 'pdf' ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'qrcodePDF');
+        $rc = ciniki_wng_qrcodePDF($ciniki, $args['tnid'], $args);
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        if( isset($rc['pdf']) ) {
+            $rc['pdf']->Output($rc['filename'], 'I');
+            return array('stat'=>'exit');
+        }
+
+    } elseif( $args['output'] == 'png' ) {
         header("Content-type: image/png");
         $barcodeobj->getBarcodePNG(6, 6, array(0,0,0));
         return array('stat'=>'exit');
