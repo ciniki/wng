@@ -553,10 +553,10 @@ function ciniki_wng_main() {
                     'fn':'M.ciniki_wng_main.site.save("cssoverrides");',
                     },
 //                'save':{'label':'Save', 'fn':'M.ciniki_wng_main.site.save("cssoverrides");'},
-                'delete':{'label':'Delete', 
-                    'visible':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
-                    'fn':'M.ciniki_wng_main.site.remove();',
-                    },
+//                'delete':{'label':'Delete', 
+//                    'visible':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
+//                    'fn':'M.ciniki_wng_main.site.remove();',
+//                    },
             }},
         };
     this.site.thumbFn = function(s, i, d) {
@@ -886,6 +886,10 @@ function ciniki_wng_main() {
             }},
         '_buttons':{'label':'', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.edit.save();'},
+            'delete':{'label':'Delete', 
+                'visible':function() { return (M.ciniki_wng_main.edit.page_id > 0 ? 'yes' : 'no'); },
+                'fn':'M.ciniki_wng_main.edit.remove();',
+                },
             }},
         };
     this.edit.updateForm = function(s, i) {
@@ -969,6 +973,21 @@ function ciniki_wng_main() {
                 eval(cb);
             });
         }
+    }
+    this.edit.remove = function() {
+        M.confirm('Are you sure you want to remove this page and the sections?',null,function() {
+            M.api.getJSONCb('ciniki.wng.pageDelete', {'tnid':M.curTenantID, 'page_id':M.ciniki_wng_main.edit.page_id}, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                if( M.ciniki_wng_main.site.page_id == M.ciniki_wng_main.edit.page_id ) {
+                    M.ciniki_wng_main.site.page_id = 0;
+                    M.ciniki_wng_main.site.view = 'menu';
+                }
+                M.ciniki_wng_main.edit.close();
+            });
+        });
     }
     this.edit.addButton('save', 'Save', 'M.ciniki_wng_main.edit.save();');
     this.edit.addClose('Cancel');
