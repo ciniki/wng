@@ -8,7 +8,7 @@
 // ciniki: 
 // tnid:            The ID of the current tenant.
 // 
-function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
+function ciniki_wng_generators_googlemap(&$ciniki, $tnid, &$request, $block) {
 
     $content = '';
     $js = '';
@@ -30,48 +30,70 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, $request, $block) {
         if( !isset($block['sid']) || $block['sid'] == '' ) {
             $block['sid'] = '1';
         }
-        $content .= "<div class='googlemap' id='{$block['id']}'></div>";
         $zoom = 13;
         if( isset($block['zoom']) && $block['zoom'] > 1 && $block['zoom'] < 32 ) {
             $zoom = $block['zoom'];
         }
-
-        $js = ''
-            . "function gmap_initialize{$block['sid']}() {"
-                . "gmap_show('{$block['id']}',{$block['latitude']},{$block['longitude']});"
-            . "};"
-            . "function gmap_show(id,lat,long){"
-                . 'var myLatlng = new google.maps.LatLng(lat,long);'
-                . 'var mapOptions = {'
-                    . 'zoom: ' . $zoom . ','
-                    . 'center: myLatlng,'
-                    . 'panControl: false,'
-                    . 'zoomControl: true,'
-                    . 'scaleControl: true,'
-                    . 'mapTypeId: google.maps.MapTypeId.ROADMAP'
+        if( isset($block['gmp-map']) && $block['gmp-map'] == 'yes' ) {
+            $js = '';
+            $content .= "<div class='googlemap' id='{$block['id']}'>"
+                . "<gmp-map"
+                    . " center=\"{$block['latitude']},{$block['longitude']}\""
+                    . " zoom=\"{$zoom}\""
+                    . " map-id=\"{$block['sid']}\""
+//                    . " style=\"height: 400px\""
+                    . ">"
+                    . "<gmp-advanced-marker"
+                        . " position=\"{$block['latitude']},{$block['longitude']}\""
+                        . " title=\"" . (isset($block['location-name']) ? $block['location-name'] : $block['title']) . "\""
+                        . "></gmp-advanced-marker>"
+                    . "</gmp-map>"
+                    . "<script src=\"https://maps.googleapis.com/maps/api/js?key={$ciniki['config']['ciniki.web']['google.maps.api.key']}&libraries=marker&v=beta\" defer></script>"
+                . "</div>";
+//            $request['response']['head']['scripts']['google-maps'] = [
+//                'src' => "https://maps.googleapis.com/maps/api/js?key={$ciniki['config']['ciniki.web']['google.maps.api.key']}"
+//                    . "&libraries=marker&v=beta",
+//                'type' => 'text/javascript',
+//                ];
+        } else {
+            $content .= "<div class='googlemap' id='{$block['id']}'></div>";
+            $js = ''
+                . "function gmap_initialize{$block['sid']}() {"
+                    . "gmap_show('{$block['id']}',{$block['latitude']},{$block['longitude']});"
+                . "};"
+                . "function gmap_show(id,lat,long){"
+                    . 'var myLatlng = new google.maps.LatLng(lat,long);'
+                    . 'var mapOptions = {'
+                        . 'zoom: ' . $zoom . ','
+                        . 'center: myLatlng,'
+                        . 'panControl: false,'
+                        . 'zoomControl: true,'
+                        . 'scaleControl: true,'
+                        . 'mapTypeId: google.maps.MapTypeId.ROADMAP'
+                    . '};'
+                    . "var map = new google.maps.Map(document.getElementById(id), mapOptions);"
+                    . 'var marker = new google.maps.Marker({'
+                        . 'position: myLatlng,'
+                        . 'map: map,'
+                        . 'title:"",'
+                        . '});'
                 . '};'
-                . "var map = new google.maps.Map(document.getElementById(id), mapOptions);"
-                . 'var marker = new google.maps.Marker({'
-                    . 'position: myLatlng,'
-                    . 'map: map,'
-                    . 'title:"",'
-                    . '});'
-            . '};'
-            . "function loadMap{$block['sid']}() {"
-                . 'if(C.gE("googlemap")==null){'
-                    . 'var script = document.createElement("script");'
-                    . 'script.setAttribute("id", "googlemap");'
-                    . 'script.type = "text/javascript";'
-                    . 'script.src = "' . ($request['ssl']=='yes'?'https':'http') . '://maps.googleapis.com/maps/api/js?key=' . $ciniki['config']['ciniki.web']['google.maps.api.key'] . "&sensor=false&callback=gmap_initialize{$block['sid']}\";"
-                    . 'document.body.appendChild(script);'
-                . '}else{'
-                    . "setTimeout(function(){"
-                        . "gmap_show('{$block['id']}',{$block['latitude']},{$block['longitude']});"
-                    . "}, 1000);"
-                . '}'
-            . '};'
-            . "addEventListener('load', (event) => {loadMap{$block['sid']}();});"
-            . "";
+                . "function loadMap{$block['sid']}() {"
+                    . 'if(C.gE("googlemap")==null){'
+                        . 'var script = document.createElement("script");'
+                        . 'script.setAttribute("id", "googlemap");'
+                        . 'script.type = "text/javascript";'
+                        . 'script.src = "' . ($request['ssl']=='yes'?'https':'http') . '://maps.googleapis.com/maps/api/js?key=' . $ciniki['config']['ciniki.web']['google.maps.api.key'] . "&sensor=false&callback=gmap_initialize{$block['sid']}\";"
+                        . 'document.body.appendChild(script);'
+                    . '}else{'
+                        . "setTimeout(function(){"
+                            . "gmap_show('{$block['id']}',{$block['latitude']},{$block['longitude']});"
+                        . "}, 1000);"
+                    . '}'
+                . '};'
+                . "addEventListener('load', (event) => {loadMap{$block['sid']}();});"
+                . ""; 
+        }
 
         if( isset($block['content']) && $block['content'] != '' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
