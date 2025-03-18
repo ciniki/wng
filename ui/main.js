@@ -609,7 +609,9 @@ function ciniki_wng_main() {
     this.site.fieldValue = function(s, i, d) {
         if( s == 'pagedetails' || s == 'pageredirect' || s == 'pageurl' ) {
             if( i == 'page_url' ) {
-                return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>';
+                return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>'
+                    + ' <button class="button" onclick="M.ciniki_wng_main.qrcode.open(\'M.ciniki_wng_main.site.open();\',\'' + this.data.page.page_url + '\');">QR Code</button>'
+                    + '';
             }
             return this.data.page != null ? this.data.page[i] : '';
         }
@@ -1571,6 +1573,40 @@ function ciniki_wng_main() {
     }
     this.sectionrepeat.addButton('save', 'Save', 'M.ciniki_wng_main.sectionrepeat.save();');
     this.sectionrepeat.addClose('Cancel');
+
+    //
+    // The options and information for the slider page
+    //
+    this.qrcode = new M.panel('QR Codes',
+        'ciniki_wng_main', 'qrcode',
+        'mc', 'medium', 'sectioned', 'ciniki.wng.main.qrcode');
+    this.qrcode.data = {};
+    this.qrcode.sections = {
+        'info':{'label':'QR Code Info', 'fields':{
+            'url':{'label':'URL', 'type':'text'},    
+            'output':{'label':'Format', 'type':'toggle', 'default':'svg', 'toggles':{'svg':'SVG', 'png':'PNG'}},    
+            }},
+        '_buttons':{'label':'', 'buttons':{
+            'generate':{'label':'Download QR Code', 'fn':'M.ciniki_wng_main.qrcode.generate();'},
+            }},
+        };
+    this.qrcode.open = function(cb, url) {
+        if( url != null ) {
+            this.data.url = url;
+        } else {
+            this.data.url = '';
+        }
+        this.refresh();
+        this.show(cb);
+    }
+    this.qrcode.generate = function() {
+        M.api.openFile('ciniki.wng.qrcode', {
+            'tnid':M.curTenantID, 
+            'url':this.formValue('url'), 
+            'output':this.formValue('output'),
+            });
+    }
+    this.qrcode.addClose('Back');
 
     //
     // Start the app
