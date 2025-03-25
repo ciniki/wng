@@ -176,7 +176,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
             //
             if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.mail', 0x10) ) {
                 //
-                // Create the email message content
+                // Create the email message content, inboxAddMessage will take care of notifications
                 //
                 $htmlmsg = preg_replace("/\n/", '<br/>', $msg);
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'hooks', 'inboxAddMessage');
@@ -244,6 +244,13 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                     }
                 }
             }
+
+            //
+            // Message submitted, redirect
+            //
+            $request['session']['contact-form-success'] = 'yes';
+            header("Location: " . $request['page']['path']);
+            return array('stat'=>'exit');
         }
 
         if( $error_message == '' ) {
@@ -254,6 +261,11 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                 }
             }
         }
+    }
+
+    if( isset($request['session']['contact-form-success']) && $request['session']['contact-form-success'] == 'yes' ) {
+        $blocks[] = $success_message;
+        unset($request['session']['contact-form-success']);
     }
 
     $staff = array();
