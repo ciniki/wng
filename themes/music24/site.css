@@ -428,6 +428,11 @@ header .block-imagemenu .main-menu nav {
     }
 }
 
+/* Block Textcards - Sponsors */
+.block-textcards.musicfestival-sponsors .title {
+    padding-bottom: 0;
+}
+
 /* Image Buttons - Adjudicators */
 @media screen and (min-width: 80em) {
     .block-imagebuttons .item {
