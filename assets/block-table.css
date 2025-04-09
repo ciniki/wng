@@ -246,6 +246,80 @@
         font-weight: bold;
     }
 }
+@media screen and (max-width: 60em) {
+    .block-table.fold-at-60 table, 
+    .block-table.fold-at-60 tbody, 
+    .block-table.fold-at-60 tbody tr, 
+    .block-table.fold-at-60 tbody td,
+    .block-table.fold-at-60 tfoot, 
+    .block-table.fold-at-60 tfoot tr, 
+    .block-table.fold-at-60 tfoot td {
+        display: block;
+    }
+    .block-table.fold-at-60 tbody tr,
+    .block-table.fold-at-60 tfoot tr {
+        margin-bottom: 1rem;
+    }
+    .block-table.fold-at-60 tbody tr td:first-child,
+    .block-table.fold-at-60 tfoot tr td:first-child {
+        font-weight: bold;
+    }
+    .block-table.fold-at-60 table {
+        border: 0px;
+    }
+    .block-table.fold-at-60 .fold-label {
+        display: inline-block;
+    }
+    .block-table.fold-at-60 td {
+        padding: 0.25rem 0.5rem;
+    }
+    .block-table.fold-at-60.fold-label-headers tbody td {
+        padding: 0rem;
+    }
+    .block-table.fold-at-60.fold-label-headers .fold-label {
+        display: block;
+        padding: 0.5rem;
+    }
+    .block-table.fold-at-60.fold-label-headers .cell-content {
+        display: block;
+        padding: 0.5rem;
+        font-weight: normal;
+    }
+    .block-table.fold-at-60 tr {
+        margin-bottom: 1rem;
+        border: 1px solid #000;
+    }
+    .block-table.fold-at-60 th,
+    .block-table.fold-at-60 thead,
+    .block-table.fold-at-60 td.empty {
+        display: none;
+    }
+    .block-table.fold-at-60 .fold-alignleft {
+        text-align: left;
+    }
+    .block-table.fold-at-60 .fold-hidden {
+        display: none;    
+    }
+    .block-table.invoice tfoot,
+    .block-table.no-fold-footers tfoot { 
+        display: table; 
+        width: 100%;
+        border-bottom: 0px;
+    }
+    .block-table.invoice tfoot tr,
+    .block-table.no-fold-footers tfoot tr { 
+        display: table-row; 
+    }
+    .block-table.invoice tfoot td,
+    .block-table.no-fold-footers tfoot td { 
+        display: table-cell;  
+        padding: 0.5rem 0.5rem;
+    }
+    .block-table.invoice.fold-at-60 tfoot tr td:nth-child(2) {
+        width: 70%;
+    }
+    .block-table.fold-at-60.no-fold-footers tr td.spacer { display: none; }
+}
 /* Invoice styles */
 .block-table.invoice table {
     border: 0px;
