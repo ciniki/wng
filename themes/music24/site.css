@@ -438,7 +438,7 @@ header .block-imagemenu .main-menu nav {
 @media screen and (min-width: 100em) {
     .block-textcards.musicfestival-locations .item {
         flex-basis: 33.3%;
-        max-width: 33.3%
+        max-width: 33.3%;
     }
 }
 
