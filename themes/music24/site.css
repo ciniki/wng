@@ -432,6 +432,15 @@ header .block-imagemenu .main-menu nav {
 .block-textcards.musicfestival-sponsors .title {
     padding-bottom: 0;
 }
+.block-textcards.musicfestival-locations .buttons {
+    margin-top: 1rem;
+}
+@media screen and (min-width: 100em) {
+    .block-textcards.musicfestival-locations .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%
+    }
+}
 
 /* Image Buttons - Adjudicators */
 @media screen and (min-width: 80em) {
