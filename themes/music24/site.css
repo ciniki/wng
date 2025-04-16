@@ -406,6 +406,15 @@ header .block-imagemenu .main-menu nav {
     }
 }
 
+/* Titles */
+.block-title.trophy-title {
+    clear: both;
+}
+.block-title.trophy-title .content {
+    padding-bottom: 0;
+    padding-top: 2rem;
+}
+
 /* Trading Cards - Adjudicators */
 @media screen and (min-width: 100em) {
     .block-tradingcards.size-regular .item {
