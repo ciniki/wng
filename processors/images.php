@@ -23,7 +23,7 @@ function ciniki_wng_processors_images(&$ciniki, $tnid, &$request, $section) {
     $items = array();
     $requested_image = 0;
     $cur_item_num = 1;
-    for($i = 1; $i <= 100; $i++) {
+    for($i = 1; $i <= 200; $i++) {
         if( isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 && is_numeric($s["image-{$i}"]) ) {
             $caption = '';
             if( isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ) {
