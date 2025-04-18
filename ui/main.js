@@ -1119,7 +1119,7 @@ function ciniki_wng_main() {
         if( i == 0 ) {
             M.ciniki_wng_main.sectionrepeat.data = {};
             i++;
-            while(i <= 100 ) {
+            while(i <= 200 ) {
                 if( this.data.repeats == null || this.data.repeats[i] == null ) {
                     break;
                 }
