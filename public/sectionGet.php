@@ -144,7 +144,7 @@ function ciniki_wng_sectionGet($ciniki) {
     if( isset($sections[$section['ref']]['repeats']) ) {
         $repeats = $sections[$section['ref']]['repeats'];
         $section['repeats'] = array();
-        for($i = 1; $i <= 100; $i++) {
+        for($i = 1; $i <= 200; $i++) {
             $repeat = array();
             foreach($repeats['fields'] as $fid => $field) {
                 if( isset($section['settings']["{$fid}-{$i}"]) ) {

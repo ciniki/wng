@@ -115,7 +115,7 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     // Check for any repeats
     //
     if( isset($section_object['repeats']['fields']) ) {
-        for($i = 1; $i <= 100; $i++) {
+        for($i = 1; $i <= 200; $i++) {
 
             foreach($section_object['repeats']['fields'] as $key => $setting) {
                 if( isset($args['delete_repeat']) && $args['delete_repeat'] == $i ) {
