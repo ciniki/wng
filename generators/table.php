@@ -54,7 +54,9 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     $content .= "<tbody>";
     $count = 0;
     foreach($block['rows'] as $row) {
-        $content .= "<tr>";
+        $content .= "<tr"
+            . (isset($row['cssclass']) && $row['cssclass'] != '' ? " class='{$row['cssclass']}'" : '')
+            . ">";
         $cnum = 1;
         foreach($block['columns'] as $column) {
             $column_class = isset($column['class']) ? $column['class'] : '';

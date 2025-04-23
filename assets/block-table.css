@@ -7,6 +7,72 @@
 .block-table h2 {
     padding-bottom: 1rem;
 }
+.block-table tr.statuswhite:nth-child(odd),
+.block-table tr.statuswhite:nth-child(even),
+.block-table td.statuswhite {
+    background: #ffffff;
+    border: 1px solid #000;
+}
+.block-table tr.statusgreen:nth-child(odd),
+.block-table tr.statusgreen:nth-child(even),
+.block-table td.statusgreen {
+    background: #ddffdd;
+}
+.block-table tr.statusorange:nth-child(odd),
+.block-table tr.statusorange:nth-child(even),
+.block-table td.statusorange {
+    background: #ffefdd;
+}
+.block-table tr.statusyellow:nth-child(odd),
+.block-table tr.statusyellow:nth-child(even),
+.block-table td.statusyellow {
+    background: #fffdc5;
+}
+.block-table tr.statusred:nth-child(odd),
+.block-table tr.statusred:nth-child(even),
+.block-table td.statusred {
+    background: #ffdddd;
+}
+.block-table tr.statusgrey:nth-child(odd),
+.block-table tr.statusgrey:nth-child(even),
+.block-table td.statusgrey {
+    background: #eeeeee;
+}
+.block-table tr.statusblue:nth-child(odd),
+.block-table tr.statusblue:nth-child(even),
+.block-table td.statusblue {
+    background: #ddf1ff;
+}
+.block-table tr.statuspurple:nth-child(odd),
+.block-table tr.statuspurple:nth-child(even),
+.block-table td.statuspurple {
+    background: #f0ddff;
+}
+.block-table tr.statusteal:nth-child(odd),
+.block-table tr.statusteal:nth-child(even),
+.block-table td.statusteal {
+    background: #cefff8;
+}
+.block-table tr.statuswhite:nth-child(odd),
+.block-table tr.statuswhite:nth-child(even),
+.block-table tr.statusgreen:nth-child(odd),
+.block-table tr.statusgreen:nth-child(even),
+.block-table tr.statusyellow:nth-child(odd),
+.block-table tr.statusyellow:nth-child(even),
+.block-table tr.statusorange:nth-child(odd),
+.block-table tr.statusorange:nth-child(even),
+.block-table tr.statusred:nth-child(odd),
+.block-table tr.statusred:nth-child(even),
+.block-table tr.statusgrey:nth-child(odd),
+.block-table tr.statusgrey:nth-child(even),
+.block-table tr.statusblue:nth-child(odd),
+.block-table tr.statusblue:nth-child(even),
+.block-table tr.statuspurple:nth-child(odd),
+.block-table tr.statuspurple:nth-child(even),
+.block-table tr.statusteal:nth-child(odd),
+.block-table tr.statusteal:nth-child(even) {
+    border-bottom: 1px solid #000;
+}
 .block-table.subtitle h2 {
     padding-bottom: 0rem;
 }
