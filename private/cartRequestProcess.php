@@ -1262,6 +1262,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         && isset($cart['items']) && count($cart['items']) > 0 
         ) {
         $cart_total = $cart['total_amount']; // Save for later use in success message
+        $invoice_number = $cart['invoice_number']; // Save for later use in success message
         ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'etransferCheckout');
         $rc = ciniki_sapos_wng_etransferCheckout($ciniki, $tnid, $request, $cart);
         if( $rc['stat'] != 'ok' ) {
@@ -2848,6 +2849,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             $block['content'] = $settings['cart-etransfer-submitted-message'];
         } 
         $block['content'] = str_replace('{_invoice_total_}', '$' . number_format($cart_total, 2), $block['content']);
+        $block['content'] = str_replace('{_invoice_number_}', $invoice_number, $block['content']);
         $blocks[] = $block;
 
         //
