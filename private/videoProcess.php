@@ -23,11 +23,13 @@ function ciniki_wng_videoProcess($ciniki, $tnid, $request, $args) {
     $js = '';
     if( preg_match("/youtu.be\/([^\/]+)/", $video_url, $m) ) {
         $youtube_id = $m[1];
-    } elseif( preg_match("/youtube.*v=([^\/\&]+)/", $video_url, $m) ) {
+    } elseif( preg_match("/youtube.*v=([^\/\&\?]+)/", $video_url, $m) ) {
         $youtube_id = $m[1];
-    } elseif( preg_match("/youtube.*\/embed\/([^\/\&]+)/", $video_url, $m) ) {
+    } elseif( preg_match("/youtube.*\/embed\/([^\/\&\?]+)/", $video_url, $m) ) {
         $youtube_id = $m[1];
-    } elseif( preg_match("/youtube.*\/shorts\/([^\/\&]+)/", $video_url, $m) ) {
+    } elseif( preg_match("/youtube.*\/shorts\/([^\/\&\?]+)/", $video_url, $m) ) {
+        $youtube_id = $m[1];
+    } elseif( preg_match("/youtube.*\/watch\/([^\/\&\?]+)/", $video_url, $m) ) {
         $youtube_id = $m[1];
     } elseif( preg_match("/vimeo.*\/([^\/\&]+)/", $video_url, $m) ) {
         $vimeo_id = $m[1];
