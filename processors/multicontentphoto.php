@@ -35,7 +35,7 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
         if( (isset($s["image-{$i}"]) && $s["image-{$i}"] > 0 && is_numeric($s["image-{$i}"]))
             || (isset($s["title-{$i}"]) && $s["title-{$i}"] != '')
             ) {
-            $blocks[] = array(
+            $block = array(
                 'type' => 'contentphoto',
                 'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
                 'image-id' => (isset($s["image-{$i}"]) ? $s["image-{$i}"] : 0),
@@ -44,6 +44,18 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
                 'title' => (isset($s["title-{$i}"]) ? $s["title-{$i}"] : ''),
                 'content' => (isset($s["content-{$i}"]) ? $s["content-{$i}"] : ''),
                 );
+            for($j = 1; $j <= 3; $j++) {
+                if( isset($s["button-{$j}-page-{$i}"]) ) {
+                    $block["image-{$j}-page"] = $s["button-{$j}-page-{$i}"];
+                }
+                if( isset($s["button-{$j}-text-{$i}"]) ) {
+                    $block["image-{$j}-text"] = $s["button-{$j}-text-{$i}"];
+                }
+                if( isset($s["button-{$j}-url-{$i}"]) ) {
+                    $block["image-{$j}-url"] = $s["button-{$j}-url-{$i}"];
+                }
+            }
+            $blocks[] = $block;
             if( isset($s['image-alternate']) && $s['image-alternate'] == 'yes' ) {
                 if( $image_position == 'top-left' ) {
                     $image_position = 'top-right';
