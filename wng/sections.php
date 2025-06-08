@@ -881,7 +881,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                     'bottom-right' => 'Bottom Right',
                 )),
             'image-alternate' => array(
-                'label' => 'Alternate Positions', 'type'=>'toggle', 'default'=>'yes', 'toggles'=>array(
+                'label' => 'Alternate Positions', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
                     'no' => 'No',
                     'yes' => 'Yes',
                 )),
