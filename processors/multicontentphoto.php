@@ -46,13 +46,13 @@ function ciniki_wng_processors_multicontentphoto(&$ciniki, $tnid, &$request, $se
                 );
             for($j = 1; $j <= 3; $j++) {
                 if( isset($s["button-{$j}-page-{$i}"]) ) {
-                    $block["image-{$j}-page"] = $s["button-{$j}-page-{$i}"];
+                    $block["button-{$j}-page"] = $s["button-{$j}-page-{$i}"];
                 }
                 if( isset($s["button-{$j}-text-{$i}"]) ) {
-                    $block["image-{$j}-text"] = $s["button-{$j}-text-{$i}"];
+                    $block["button-{$j}-text"] = $s["button-{$j}-text-{$i}"];
                 }
                 if( isset($s["button-{$j}-url-{$i}"]) ) {
-                    $block["image-{$j}-url"] = $s["button-{$j}-url-{$i}"];
+                    $block["button-{$j}-url"] = $s["button-{$j}-url-{$i}"];
                 }
             }
             $blocks[] = $block;
