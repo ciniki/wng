@@ -25,8 +25,10 @@ C.form = {
         C.aC(C.gE('b-' + i), 'selected');
         var e = C.gE('s-' + i)
         C.aC(e, 'selected');
-        window.scroll(0,e.offsetTop);
         this.cs = i;
+        if( e.parentNode.getBoundingClientRect().y < 0 ) {
+            window.scroll(0,e.offsetTop);
+        }
     },
     /* Switch Repeat tab */
     sR: function(s,i) {
