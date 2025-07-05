@@ -13,10 +13,17 @@ body {
 }
 p a.button,
 .block-form .field input.button,
-.block-imagemenu.account-menu .main-menu a,
+.block-imagemenu.account-menu .main-menu li,
 .button {
     border-radius: 0.25rem;
     -webkit-appearance: none;
+}
+p a.button:hover,
+.block-form .field input.button:hover,
+.block-imagemenu.account-menu .main-menu li:hover,
+.button:hover {
+    color: #555;
+    background: #fff;
 }
 
 /* Header */
@@ -526,6 +533,16 @@ header .block-imagemenu .main-menu nav {
     .block-pricelist.donations h2 {
         padding-top: 2rem;
     }
+}
+
+/* Forms */
+.block-form .form-section.selected > a,
+.block-form .repeat-tabs .selected {
+    background: #fff;
+    color: #555;
+}
+.block-form .field {
+    padding: 0.5rem;
 }
 
 /* Contact form */

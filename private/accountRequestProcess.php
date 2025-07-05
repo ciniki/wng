@@ -148,7 +148,8 @@ function ciniki_wng_accountRequestProcess(&$ciniki, $tnid, &$request) {
             $fn = $rc['function_call'];
             $rc = $fn($ciniki, $tnid, $request, array(
                 'base_url' => $request['base_url'] . '/account',
-                'selected' => isset($request['uri_split'][1]) ? $request['uri_split'][1] : '',
+                'selected' => (isset($request['uri_split'][1]) ? $request['uri_split'][1] : '')
+                    . (isset($request['uri_split'][2]) ? '/' . $request['uri_split'][2] : ''),
                 ));
             if( $rc['stat'] == 'ok' && isset($rc['items']) ) {
                 //

@@ -172,10 +172,27 @@ function ciniki_wng_main() {
         //
         // Page sections
         //
-        'pagedetails':{'label':'Page Details',
+        'pagedetails':{'label':'Page Details', 'type':'simplegrid', 'num_cols':2, 
             'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
-            'fields':{
-                'title':{'label':'Menu Title', 'required':'yes', 'type':'text'},
+            'cellClasses':['label', ''],
+            'menu':{
+                'edit':{
+                    'label':'Edit', 
+                    'fn':'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);',
+                    },
+                'qrcode':{
+                    'label':'Download QR Code', 
+                    'fn':'M.ciniki_wng_main.qrcode.open(\'M.ciniki_wng_main.site.open();\',M.ciniki_wng_main.site.data.page.page_url,M.ciniki_wng_main.site.data.page.title);',
+                    },
+                'duplicate':{
+                    'label':'Duplicate Page', 
+                    'fn':'M.ciniki_wng_main.site.pageDuplicate();',
+                    },
+                },
+            },
+//            'fields':{
+//                'title':{'label':'Menu Title', 'required':'yes', 'type':'text', 'editable':'no'},
+//                'page_url':{'label':'Page URL', 'type':'noedit', 'editable':'no'},
 //                'page_title':{'label':'Page Title', 'type':'text'},
 //                'sequence':{'label':'Page Order', 'type':'text', 'size':'small'},
 /*                'menu_flags':{'label':'Menu Options', 'type':'flags', 'field':'menu_flags',
@@ -196,25 +213,23 @@ function ciniki_wng_main() {
                 'flags3':{'label':'Members Only', 'type':'flagtoggle', 'bit':0x04, 'field':'flags', 'default':'off',
                     'active':function() { return M.modFlagSet('ciniki.customers', 0x02); },
                     }, */
-                'ptype':{'label':'Format', 'type':'toggle', 
+/*                'ptype':{'label':'Format', 'type':'toggle', 
                     'onchange':'M.ciniki_wng_main.site.switchType',
                     'toggles':{
                         '10':'Sectioned',
-                        '40':'Redirect',
-                    }},
-                },
-            },
-        'pageurl':{'label':'',
-            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
-            'fields':{
-                'page_url':{'label':'Page URL', 'type':'noedit', 'editable':'no'},
+                        '40':'Redirect', 
+                    }}, */
+//                },
+//        'pageurl':{'label':'',
+//            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
+///            'fields':{
 //                'flags4':{'label':'Password', 'type':'flagtoggle', 'bit':0x08, 'field':'flags_4', 'default':'off',
 //                    'active':(M.modFlagSet('ciniki.web', 0x2000)),
 //                    'on_fields':['page_password'],
 //                    },
 //                'password':{'label':'', 'type':'text', 'visible':(M.modFlagOn('ciniki.web', 0x2000) && (rsp.page.flags&0x08) == 0x08 ? 'yes' : 'no')},
-                },
-            },
+//                },
+//            },
 //        'page_type':{'label':'Page Type', 'aside':'yes', 'visible':'no', 'fields':{
 //            'page_type':{'label':'', 'hidelabel':'yes', 'type':'toggle', 'toggles':{}, 'onchange':'M.ciniki_web_pages[\'' + pn + '\'].setPageType();'},
 //            }},
@@ -231,8 +246,15 @@ function ciniki_wng_main() {
                 return 'no';
                 },
 //            'visible':function() { return (M.ciniki_wng_main.site.view == 'page' &&? 'yes' : 'hidden'); },
-            'addTxt':'Add Content',
-            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);");',
+            'menu':{
+                'add':{
+                    'label':'Add Content',
+                    'fn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);");',
+                    },
+                },
+//            'addTxt':'Add Content',
+//            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,M.ciniki_wng_main.site.page_id,M.ciniki_wng_main.site.site_id);");',
+            'noData':'No content added',
             'seqDrop':function(e,from,to) {
                 M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
                     'action':'sectionsequenceupdate',
@@ -253,7 +275,7 @@ function ciniki_wng_main() {
                     });
                 },
             },
-        'pageredirect':{'label':'Redirect', 
+/*        'pageredirect':{'label':'Redirect', 
             'active':function() { 
                 if( M.ciniki_wng_main.site.view == 'page' && M.ciniki_wng_main.site.data.page.ptype == '40' ) {
                     return 'yes';
@@ -262,7 +284,7 @@ function ciniki_wng_main() {
                 },
             'fields':{
                 'redirect_url':{'label':'URL', 'type':'text'},
-                }},
+                }}, */
 //        'pagebuttons':{'label':'',
 //            'active':function() { return (M.ciniki_wng_main.site.view == 'page' ? 'yes' : 'no'); },
 //            'buttons':{
@@ -545,7 +567,7 @@ function ciniki_wng_main() {
             'visible':function() { return (M.ciniki_wng_main.site.view != 'menu' ? 'yes' : 'no'); },
             'buttons':{
                 'save':{'label':'Save', 
-                    'visible':function() { return M.ciniki_wng_main.site.view == 'cssoverrides' ? 'no' : 'yes'; },
+                    'visible':function() { return M.ciniki_wng_main.site.view == 'page' || M.ciniki_wng_main.site.view == 'cssoverrides' ? 'no' : 'yes'; },
                     'fn':'M.ciniki_wng_main.site.save();',
                     },
                 'savecss':{'label':'Save', 
@@ -668,6 +690,12 @@ function ciniki_wng_main() {
                 case 0: return d.label + ((d.flags&0x10) == 0x10 ? ' (Hidden)' : '');
             }
         }
+        if( s == 'pagedetails' ) {
+            switch(j) {
+                case 0: return d.label;
+                case 1: return d.value;
+            }
+        }
     }
     this.site.rowFn = function(s, i, d) {
         if( s == 'headerpages' || s == 'footerpages' || s == 'orphanpages' ) {
@@ -682,6 +710,7 @@ function ciniki_wng_main() {
         if( s == 'footersections' ) {
             return 'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',\'footer\',M.ciniki_wng_main.site.site_id);");';
         }
+        return '';
     }
     this.site.openSettings = function(s) {
         this.view = s;
@@ -705,6 +734,19 @@ function ciniki_wng_main() {
         }
         var p = M.ciniki_wng_main.site;
         p.data = rsp;
+        if( rsp.page != null ) {
+            p.data.pagedetails = [
+                {'label':'Title', 'value':rsp.page.title},
+                {'label':'URL', 
+                    'value':'<a target="_preview" href="' + rsp.page.page_url + '">' + rsp.page.page_url + '</a>',
+                    },
+                ];
+            if( rsp.page.ptype == '40' ) {
+                p.data.pagedetails.push({'label':'Redirect', 'value':rsp.page.redirect_url});
+            }
+        } else {
+            p.data.pagedetails = [];
+        }
         p.sections.accountmenu.fields = {};
         if( rsp['account-menuitems'] != null ) {
             for(var i in rsp['account-menuitems']) {
@@ -797,6 +839,18 @@ function ciniki_wng_main() {
             }
         }
     }
+    this.site.pageDuplicate = function() {
+        M.api.getJSONCb('ciniki.wng.pageCopy', {'tnid':M.curTenantID, 'site_id':this.site_id, 'page_id':this.page_id}, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                var p = M.ciniki_wng_main.site;
+                p.page_id = rsp.id;
+                p.open();
+            });
+        
+    }
     this.site.remove = function() {
         M.confirm('Are you sure you want to remove this page and the sections?',null,function() {
             M.api.getJSONCb('ciniki.wng.pageDelete', {'tnid':M.curTenantID, 'page_id':M.ciniki_wng_main.site.page_id}, function(rsp) {
@@ -882,7 +936,20 @@ function ciniki_wng_main() {
             'flags3':{'label':'Members Only', 'type':'flagtoggle', 'bit':0x04, 'field':'flags', 'default':'off',
                 'active':function() { return M.modFlagSet('ciniki.customers', 0x02); },
                 },
+            'ptype':{'label':'Format', 'type':'toggle', 'default':'10',
+                'onchange':'M.ciniki_wng_main.edit.updateForm',
+                'toggles':{
+                    '10':'Sectioned',
+                    '40':'Redirect',
+                }},
+            'redirect_url':{'label':'URL', 'type':'text', 'visible':'hidden'},
             }},
+//        'pageredirect':{'label':'Redirect', 
+//            'active':function() { return M.ciniki_wng_main.edit.data.ptype == '40' ? 'yes' : 'no'; },
+//            'visible':'hidden',
+//            'fields':{
+//                'redirect_url':{'label':'URL', 'type':'text'},
+//                }},
         'meta':{'label':'SEO Page Description', 'fields':{
             'meta_description':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'size':'medium'},
             }},
@@ -894,6 +961,16 @@ function ciniki_wng_main() {
                 },
             }},
         };
+/*    this.edit.switchType = function(e,s,f) {
+        var e = this.formValue('ptype');
+        if( ptype == '40' ) {
+            this.sections.pageredirect.visible = 'yes';
+        } else {
+            this.sections.pageredirect.visible = 'hidden';
+        }
+        this.showHideSection('pageredirect');
+//        this.save("M.ciniki_wng_main.edit.open(null," + this.page_id + "," + this.site_id + ");");
+    } */
     this.edit.updateForm = function(s, i) {
         var parent_id = this.formFieldValue(this.sections.parent.fields.parent_id, 'parent_id');
         if( parent_id == M.ciniki_wng_main.site.data.site.homepage_id ) {
@@ -902,6 +979,14 @@ function ciniki_wng_main() {
             this.sections.details.fields.menu_flags.visible = 'no';
         }
         this.showHideFormField('details', 'menu_flags');
+
+        var ptype = this.formFieldValue(this.sections.details.fields.ptype, 'ptype');
+        if( ptype == '40' ) {
+            this.sections.details.fields.redirect_url.visible = 'yes';
+        } else {
+            this.sections.details.fields.redirect_url.visible = 'no';
+        }
+        this.showHideFormField('details', 'redirect_url');
     }
     this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
     this.edit.open = function(cb, pid, sid) {

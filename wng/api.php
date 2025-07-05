@@ -32,7 +32,13 @@ function ciniki_wng_wng_api(&$ciniki, $tnid, &$request) {
         ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'wng', 'apiSearch');
         return ciniki_wng_wng_apiSearch($ciniki, $tnid, $request);
-    }
+    } 
+//    elseif( isset($request['uri_split'][$request['cur_uri_pos']]) 
+//        && $request['uri_split'][$request['cur_uri_pos']] == 'addresslookup' 
+//        ) {
+//        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'wng', 'apiAddressLookup');
+//        return ciniki_wng_wng_apiAddressLookup($ciniki, $tnid, $request);
+//    }
 
     return array('stat'=>'ok');
 }
