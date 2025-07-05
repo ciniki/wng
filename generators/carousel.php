@@ -67,7 +67,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
             //
             // Check if this should be setup as last item
             //
-            if( $iid == (count($block['items'])-1) && count($block['items']) > 2 ) {
+            if( $iid == (count($block['items'])-1) && count($block['items']) > 1 ) {
                 $class = 'prev';
             }
             $content .= "<div id='carousel-items-{$carousel_id}-{$iid}' class='item {$class}'>";
@@ -143,7 +143,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
     //
     // Buttons for controlling slider
     //
-    if( count($block['items']) > 2 ) {
+    if( count($block['items']) > 1 ) {
         $content .= "<div class='buttons'>";
 
         $content .= "<div class='button-wrap prev'>";
