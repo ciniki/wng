@@ -599,3 +599,12 @@ header .block-imagemenu .main-menu nav {
 .block-basiccalendar .event.shift-expired {
     background: #dddddd;
 }
+
+/* Recommenations in Account */
+.block-form.musicfestival-recommendations #s-save.form-section .fields {
+    background: transparent;
+    border: 0;
+}
+.block-form.musicfestival-recommendations #s-save.form-section .fields .field {
+    flex-basis: 40%;
+}

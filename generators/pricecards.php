@@ -71,6 +71,9 @@ function ciniki_wng_generators_pricecards(&$ciniki, $tnid, &$request, $block) {
         if( isset($item['synopsis']) && !isset($item['content']) ) {
             $item['content'] = $item['synopsis'];
         }
+        if( isset($item['name']) && !isset($item['title']) ) {
+            $item['title'] = $item['name'];
+        }
         $content .= "<div class='item'>";
         $url = 'no';
         if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {

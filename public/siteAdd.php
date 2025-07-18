@@ -141,7 +141,7 @@ function ciniki_wng_siteAdd(&$ciniki) {
             'title' => 'Home',
             'permalink' => 'home',
             'path' => '/',
-            'flags' => 0,
+            'flags' => 0x01,
             'password' => '',
             'image_id' => 0,
             'image_caption' => '',
