@@ -21,6 +21,9 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     if( strncmp($unprocessed_content, "RAW::", 5) == 0 ) {
         return array('stat'=>'ok', 'content'=>substr($unprocessed_content, 5));
     }
+    if( strncmp($unprocessed_content, "<p>", 3) == 0 ) {
+        return array('stat'=>'ok', 'content'=>$unprocessed_content);
+    }
 
     $processed_content = $unprocessed_content;
 

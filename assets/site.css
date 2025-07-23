@@ -51,16 +51,20 @@ body {
 /*ol, ul {
     list-style: none;
 } */
+ol {
+    padding-left: 3rem;
+    margin-bottom: 1em;
+}
 ul > li {
     margin-left: 1em;
 }
 blockquote, q {
     quotes: none;
 }
-b {
+b, strong {
     font-weight: bold;
 }
-i {
+i, em {
     font-style: italic;
 }
 blockquote:before, blockquote:after,

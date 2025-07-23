@@ -21,6 +21,7 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
 
     $title_position = isset($s['title-position']) ? $s['title-position'] : '';
     $image_ratio = isset($s['image-ratio']) ? $s['image-ratio'] : '';
+    $image_format = isset($s['image-format']) ? $s['image-format'] : '';
 
     $items = array();
     for($i = 1; $i <= 100; $i++) {
@@ -48,6 +49,7 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
             'type' => 'imagebuttons',
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'sequence' => $section['sequence'],
+            'image-format' => isset($s["image-format"]) ? $s["image-format"] : $image_format,
             'items' => $items,
             );
     }

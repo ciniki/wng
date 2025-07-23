@@ -933,6 +933,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                     '3-4' => 'Tall',
                     '4-6' => 'Taller',
                 )),
+            'image-format'=>array('label'=>'Images', 'type'=>'toggle', 'default'=>'cropped', 'toggles'=>array(
+                'cropped' => 'Cropped',
+                'padded' => 'Padded',
+                )),
             'title-position' => array('label' => 'Title Position', 
                 'type'=>'select', 
                 'default'=>'below', 
