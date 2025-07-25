@@ -1319,7 +1319,7 @@ function ciniki_wng_main() {
             this.sections.repeats.visible = 'yes';
             M.ciniki_wng_main.sectionrepeat.sections.fields.fields = s.fields;
         } else {
-            this.size = 'large';
+            this.size = 'xlarge';
             this.sections.repeats.visible = 'hidden';
         }
         var e = M.gE(this.panelUID).children[0].className = this.size;
@@ -1428,6 +1428,7 @@ function ciniki_wng_main() {
             p.refresh();
             p.show(cb);
             p.setSectionOptions();
+            p.show(); // Need second show to init tinymce
         });
     }
     this.section.save = function(cb) {
