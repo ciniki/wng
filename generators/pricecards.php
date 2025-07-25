@@ -95,6 +95,43 @@ function ciniki_wng_generators_pricecards(&$ciniki, $tnid, &$request, $block) {
         }
         $content .= "</div>";
 
+        if( isset($item['image-id']) && $item['image-id'] > 0 && is_numeric($item['image-id']) ) {
+            //
+            // Copy image to cache
+            //
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+                'image_id' => $item['image-id'],
+                'version' => (isset($block['image-version']) ? $block['image-version'] : 'original'),
+                'maxwidth' => (isset($block['image-size']) ? $block['image-size'] : '2048'),
+                'webp' => 'yes',
+                ));
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
+            }
+            $image = $rc;
+
+            $content .= "<div class='image-wrap'><div class='image ratio-"
+                . (isset($item['image-ratio']) && $item['image-ratio'] ? $item['image-ratio'] : '1-1')
+                . "' "
+                . "style='background:#fff url(" . $image['url'] . ") "
+                . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
+                . ";";
+            if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
+                $content .= "background-size:contain;background-repeat:no-repeat;";
+            } else {
+                $content .= "background-size:cover;";
+            }
+            // Add image set
+            if( isset($image['bg_set']) && $image['bg_set'] != '' ) {
+                $content .= "background-image: -webkit-image-set("
+                    . $image['bg_set']
+                    . ");"; 
+            }
+            $content .= "'>";
+            $content .= '</div></div>';
+        }
+
         $content .= "<div class='info'>";
         if( isset($item['intro']) && $item['intro'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['intro']);
