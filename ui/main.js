@@ -1328,6 +1328,7 @@ function ciniki_wng_main() {
         this.refreshSection("repeats");
         this.showHideSection("_settings", "repeats");
         this.showHideSettingFields();
+        this.refreshHTMLEditor();
     }
     this.section.showHideSettingFields = function() {
         var prev_draggable = 0;
@@ -1428,7 +1429,7 @@ function ciniki_wng_main() {
             p.refresh();
             p.show(cb);
             p.setSectionOptions();
-            p.show(); // Need second show to init tinymce
+            p.refreshHTMLEditor();
         });
     }
     this.section.save = function(cb) {
