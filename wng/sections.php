@@ -1140,6 +1140,20 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 ), 
             )); */
 
+    $sections['ciniki.wng.breadcrumbs'] = array(
+        'name'=>'Breadcrumbs',
+        'module' => 'Website',
+        'settings'=>array(
+            'show-depth' => array('label'=>'Display at Depth', 'type'=>'toggle', 'default'=>'3', 'toggles'=>['1'=>'1', '2'=>'2', '3'=>'3', '4'=>'4', '5'=>'5']),
+            'separator' => array('label'=>'Separator', 'type'=>'text', 'size'=>'small'),
+            'align' => array('label'=>'Alignment', 'type'=>'toggle', 'default'=>'left', 'toggles'=>array(
+                'left' => 'Left',
+                'center' => 'Center',
+                'right' => 'Right',
+                )),
+            ),
+        );
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>
