@@ -1,0 +1,33 @@
+.block-breadcrumbs .content {
+    width: 100%;
+    padding: 1rem;
+}
+.block-breadcrumbs .breadcrumbs {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+    gap: 0.5rem;
+}
+.block-breadcrumbs.space-between .breadcrumbs {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.block-breadcrumbs.alignright .breadcrumbs {
+    justify-content: right;
+}
+.block-breadcrumbs.aligncenter .breadcrumbs {
+    justify-content: center;
+}
+@media screen and (min-width: 40em) {
+    .block-breadcrumbs .content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .block-breadcrumbs .breadcrumbs {
+        gap: 0.5rem;
+    }
+}
+
