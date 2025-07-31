@@ -35,6 +35,9 @@ function ciniki_wng_generators_breadcrumbs(&$ciniki, $tnid, $request, $block) {
                 $item['url']
                 );
             $url = $rc['url'];
+            if( !isset($item['title']) && isset($item['name']) ) {
+                $item['title'] = $item['name'];
+            }
             $breadcrumbs_content .= ($breadcrumbs_content != '' ? $separator : '')
                 . "<span class='breadcrumb'><a href='{$url}'>{$item['title']}</a></span>";
         }
