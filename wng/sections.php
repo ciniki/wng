@@ -729,6 +729,57 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'link-url' => array('label'=>'URL', 'type'=>'text'),
                 ),
             ));
+
+    //
+    // Section for button cards
+    //
+    $sections['ciniki.wng.buttoncards'] = array(
+        'name'=>'Button Cards',
+        'module' => 'Website',
+        'settings'=>array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            ),
+        'repeats' => array(
+            'label' => 'Cards',
+            'headerValues' => array('Title'),
+            'cellClasses' => array(''),
+            'dataMaps' => array('title'),
+            'addTxt' => 'Add Card',
+            'fields' => array(
+                'title' => array('label'=>'Title', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'medium'),
+                'link-1-page' => array('label'=>'Button 1', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-1-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-1-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-2-page' => array('label'=>'Button 2', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-2-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-2-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-3-page' => array('label'=>'Button 3', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-3-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-3-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-4-page' => array('label'=>'Button 4', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-4-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-4-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-5-page' => array('label'=>'Button 5', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-5-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-5-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-6-page' => array('label'=>'Button 6', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-6-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-6-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-7-page' => array('label'=>'Button 7', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-7-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-7-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-8-page' => array('label'=>'Button 8', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-8-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-8-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-9-page' => array('label'=>'Button 9', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-9-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-9-url' => array('label'=>'URL', 'type'=>'text'),
+                'link-10-page' => array('label'=>'Button 10', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
+                'link-10-text' => array('label'=>'Text', 'type'=>'text'),
+                'link-10-url' => array('label'=>'URL', 'type'=>'text'),
+                ),
+            ));
     //
     // Section for flex cards
     //
