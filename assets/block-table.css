@@ -422,3 +422,53 @@
     flex-grow: 2;
     order: 6;
 }
+/* Form Styles */
+.block-table.form {
+    padding: 0;
+    margin: 0;
+}
+.block-table.form td select {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2.5rem;
+}
+.block-table.form td select {
+    box-sizing: border-box;
+    -webkit-appearance: none!important;
+    max-width: 100%;
+    border: 1px solid #777;
+    border-radius: 0;
+    padding: 0.25rem 2.5rem 0.25rem 1rem;
+    background: #fff; 
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(119,119,119)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: center;
+}
+.block-table.form td input {
+    padding: 0.25rem 1rem 0.25rem 1rem;
+}
+.block-table.form td input.small {
+    max-width: 5rem;
+}
+.block-table.form td input.aligncenter {
+    text-align: center;
+}
+.block-table.form .form-buttons {
+    padding: 1rem 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.block-table.form .form-buttons .button {
+    min-width: 10rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+@media screen and (max-width: 30em) {
+    .block-table.form .form-buttons .button {
+        width: 100%;
+    }
+}

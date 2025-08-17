@@ -723,6 +723,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'addTxt' => 'Add Card',
             'fields' => array(
                 'title' => array('label'=>'Title', 'type'=>'text'),
+                'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
                 'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'medium'),
                 'link-page' => array('label'=>'Link to', 'type'=>'select', 'pages'=>'yes'),
                 'link-text' => array('label'=>'Text', 'type'=>'text'),

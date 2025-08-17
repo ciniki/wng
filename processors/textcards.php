@@ -26,6 +26,7 @@ function ciniki_wng_processors_textcards(&$ciniki, $tnid, &$request, $section) {
             ) {
             $items[] = array(
                 'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '&nbsp;',
+                'subtitle' => isset($s["subtitle-{$i}"]) && $s["subtitle-{$i}"] != '' ? $s["subtitle-{$i}"] : '',
                 'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 'page' => isset($s["link-page-{$i}"]) ? $s["link-page-{$i}"] : (isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0),
                 'link-text' => isset($s["link-text-{$i}"]) ? $s["link-text-{$i}"] : (isset($s["link-{$i}-text"]) ? $s["link-{$i}-text"] : ''),

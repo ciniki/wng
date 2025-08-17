@@ -18,6 +18,7 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         
     $content .= "<div class='block-table"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+        . (isset($block['form']) && $block['form'] != '' ? ' form' : '')
         . (isset($block['rows']) && (count($block['rows'])%2) == 0 ? ' q-2' : '')
         . "'>";
     $content .= "<div class='wrap'>";
@@ -39,6 +40,12 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     }
 
     $content .= "<div class='table'>";
+    if( isset($block['form']) && $block['form'] == 'yes' ) {    
+        $content .= "<form action='' method='POST'>";
+        if( isset($block['form-action']) && $block['form-action'] != '' ) {
+            $content .= "<input type='hidden' name='action' value='{$block['form-action']}'>";
+        }
+    }
     $content .= "<table>";
     $num_cols = 0;
     if( !isset($block['headers']) || $block['headers'] == 'yes' ) {
@@ -139,6 +146,15 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
     }
 
     $content .= "</table>";
+    if( isset($block['form']) && $block['form'] == 'yes' ) {    
+        $content .= "<div class='form-buttons'>";
+        if( isset($block['cancel-url']) && $block['cancel-url'] != '' ) {
+            $content .= "<a class='button' href='{$block['cancel-url']}'>Cancel</a>";
+        }
+        $content .= "<input class='button' type='submit' value='Save'>";
+        $content .= "</div>";
+        $content .= "</form>";
+    }
     $content .= "</div>";
 
     $content .= '</div>';
