@@ -38,7 +38,7 @@ function ciniki_wng_processors_textcards(&$ciniki, $tnid, &$request, $section) {
     if( isset($s['title']) && $s['title'] != '' ) {
         $blocks[] = array(
             'type' => 'title',
-            'level' => isset($section['title_sequence']) > 1 ? 2 : 1,
+            'level' => isset($section['title_sequence']) && $section['title_sequence'] > 1 ? 2 : 1,
             'title' => $s['title'],
             );
     }
