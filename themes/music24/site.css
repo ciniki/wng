@@ -451,12 +451,46 @@ header .block-imagemenu .main-menu nav {
 .block-textcards.musicfestival-locations .buttons {
     margin-top: 1rem;
 }
+.block-tradingcards.musicfestival-locations h2 {
+    font-size: 1.4rem;
+}
 @media screen and (min-width: 100em) {
     .block-textcards.musicfestival-locations .item {
         flex-basis: 33.3%;
         max-width: 33.3%;
     }
 }
+@media screen and (min-width: 75em) {
+    .block-tradingcards.size-30.musicfestival-locations .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+}
+@media screen and (min-width: 120em) {
+    .block-tradingcards.size-30.musicfestival-locations .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+}
+/*
+@media screen and (min-width: 60em) {
+    .block-tradingcards.size-regular.musicfestival-locations .item {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+}
+@media screen and (min-width: 75em) {
+    .block-tradingcards.size-regular.musicfestival-locations .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+}
+@media screen and (min-width: 80em) {
+    .block-tradingcards.size-regular.musicfestival-locations .item {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+} */
 
 /* Image Buttons - Adjudicators */
 @media screen and (min-width: 80em) {
