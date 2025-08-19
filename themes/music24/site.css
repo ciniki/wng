@@ -451,6 +451,9 @@ header .block-imagemenu .main-menu nav {
 .block-textcards.musicfestival-locations .buttons {
     margin-top: 1rem;
 }
+.block-tradingcards.musicfestival-locations .title {
+    text-align: center;
+}
 .block-tradingcards.musicfestival-locations h2 {
     font-size: 1.4rem;
 }
