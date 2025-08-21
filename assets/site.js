@@ -17,8 +17,13 @@ C.tC = function(e, c) {
         }
     }
 };
-// Fint the parent node with class pc and toggle class c
+// Find the parent node with class pc and toggle class c
 C.tpC=function(e,pc,c) {
+    // Check if text was selected and avoid toggle
+    const s = document.getSelection();
+    if( s != null && s.type === 'Range' ) {
+        return;
+    }
     if( e.classList != null ) {
         if( e.classList.contains(pc) ) {
             C.tC(e,c);
