@@ -1,6 +1,9 @@
 .block-text .content {
     padding: 1rem;
 }
+.block-text .content > ul {
+    margin-bottom: 1rem;
+}
 .block-text .columns {
     column-gap: 2rem;
 }
