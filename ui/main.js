@@ -1198,7 +1198,10 @@ function ciniki_wng_main() {
         return '';
     }
     this.section.fieldHistoryArgs = function(s, i) {
-        return {'method':'ciniki.wng.sectionHistory', 'args':{'tnid':M.curTenantID, 'section_id':this.section_id, 'field':i}};
+        if( s == 'general' ) {
+            return {'method':'ciniki.wng.sectionHistory', 'args':{'tnid':M.curTenantID, 'section_id':this.section_id, 'field':i}};
+        }
+        return {'method':'ciniki.wng.sectionSettingsHistory', 'args':{'tnid':M.curTenantID, 'section_id':this.section_id, 'field':i}};
     }
     this.section.editRepeat = function(i) {
         if( i == 0 ) {
