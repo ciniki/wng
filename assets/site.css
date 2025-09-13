@@ -293,29 +293,29 @@ span.nobreak {
 
 /* Content limits, only some blocks add these rules */
 .limit-width { 
-    max-width: 80em; 
+    max-width: 80rem; 
     margin: 0 auto;
 }
 .limit-width-30 {
-    max-width: 30em;
+    max-width: 30rem;
 }
 .limit-width-40 {
-    max-width: 40em;
+    max-width: 40rem;
 }
 .limit-width-50 {
-    max-width: 50em;
+    max-width: 50rem;
 }
 .limit-width-60 {
-    max-width: 60em;
+    max-width: 60rem;
 }
 .limit-width-70 {
-    max-width: 70em;
+    max-width: 70rem;
 }
 .limit-width-80 {
-    max-width: 80em;
+    max-width: 80rem;
 }
 .limit-width-90 {
-    max-width: 90em;
+    max-width: 90rem;
 }
 .limit-width.center {
     margin: 0 auto;

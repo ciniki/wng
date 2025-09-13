@@ -56,7 +56,7 @@
     text-align: right;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: right;
+    justify-content: left;
     padding: 1rem 0rem;
     text-align: right;
     gap: 1rem;

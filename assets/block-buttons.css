@@ -18,6 +18,9 @@
 .block-buttons.alignright .buttons {
     justify-content: right;
 }
+.block-buttons.alignapart .buttons {
+    justify-content: space-between;
+}
 .block-buttons.aligncenter .buttons {
     justify-content: center;
 }
