@@ -631,7 +631,7 @@ function ciniki_wng_main() {
     this.site.fieldValue = function(s, i, d) {
         if( s == 'pagedetails' || s == 'pageredirect' || s == 'pageurl' ) {
             if( i == 'page_url' ) {
-                return '<a target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>'
+                return '<a class="website" target="_preview" href="' + this.data.page.page_url + '">' + this.data.page.page_url + '</a>'
                     + ' <button class="button" onclick="M.ciniki_wng_main.qrcode.open(\'M.ciniki_wng_main.site.open();\',\'' + this.data.page.page_url + '\',M.ciniki_wng_main.site.data.page.title);">QR Code</button>'
                     + '';
             }
@@ -738,7 +738,7 @@ function ciniki_wng_main() {
             p.data.pagedetails = [
                 {'label':'Title', 'value':rsp.page.title},
                 {'label':'URL', 
-                    'value':'<a target="_preview" href="' + rsp.page.page_url + '">' + rsp.page.page_url + '</a>',
+                    'value':'<a class="website" target="_preview" href="' + rsp.page.page_url + '">' + rsp.page.page_url + '</a>',
                     },
                 ];
             if( rsp.page.ptype == '40' ) {
