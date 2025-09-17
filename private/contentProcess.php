@@ -21,6 +21,10 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     if( strncmp($unprocessed_content, "RAW::", 5) == 0 ) {
         return array('stat'=>'ok', 'content'=>substr($unprocessed_content, 5));
     }
+    //
+    // Check for tinymce content, only look for website and emails
+    //
+    $tinymce = 'no';
     if( strncmp($unprocessed_content, "<p>", 3) == 0 
         || strncmp($unprocessed_content, "<p ", 3) == 0 
         || strncmp($unprocessed_content, "<ul>", 4) == 0 
@@ -28,7 +32,7 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
         || strncmp($unprocessed_content, "<ol>", 4) == 0 
         || strncmp($unprocessed_content, "<ol ", 4) == 0 
         ) {
-        return array('stat'=>'ok', 'content'=>$unprocessed_content);
+        $tinymce = 'yes';
     }
 
     $processed_content = $unprocessed_content;
@@ -82,6 +86,13 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
         }, $processed_content);
 
     $processed_content = preg_replace('/((?<!mailto:|=|[a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,64})(?![a-zA-Z]|<\/[aA]>))/', '<a class="link" name="Send email to $1" href="mailto:$1">$1</a>', $processed_content);
+
+    //
+    // Don't do any further processing on tinymce content
+    //
+    if( $tinymce == 'yes' ) {
+        return array('stat'=>'ok', 'content'=>$processed_content);
+    }
 
     // Do the simple processing
     $processed_content = "<p class='$pclass'>" . preg_replace('/\n\s*\n/m', "</p><p class='$pclass'>", $processed_content) . '</p>';
