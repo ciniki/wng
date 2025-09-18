@@ -64,6 +64,9 @@
 .block-form.simple .submit-buttons:has(>a) {
     justify-content: space-between;
 }
+.block-form.simple .submit-buttons:has(input:nth-child(2)) {
+    justify-content: space-between;
+}
 .block-form.simple .submit-buttons.hidden {
     display: none;
 }
