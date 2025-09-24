@@ -349,7 +349,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 )),
             'title' => array('label'=>'Title', 'type'=>'text'),
             'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
-            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            'content' => array('label'=>'Content', 'type'=>'htmlarea'),
             'button-1-page' => array('label'=>'Button 1', 'type'=>'select', 'pages'=>'yes', 'separator'=>'yes'),
             'button-1-text' => array('label'=>'Text', 'type'=>'text'),
             'button-1-url' => array('label'=>'URL', 'type'=>'text'),
