@@ -982,7 +982,7 @@ function ciniki_wng_main() {
         this.showHideFormField('details', 'menu_flags');
 
         var ptype = this.formFieldValue(this.sections.details.fields.ptype, 'ptype');
-        if( ptype == '40' ) {
+        if( ptype == '40' || ptype == '41' ) {
             this.sections.details.fields.redirect_url.visible = 'yes';
         } else {
             this.sections.details.fields.redirect_url.visible = 'no';
