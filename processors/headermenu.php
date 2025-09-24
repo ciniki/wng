@@ -181,10 +181,13 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     $item['hidden'] = 'yes';
                 }
                 if( $page['ptype'] == 40 && $page['redirect_url'] != '' ) {
+                    $item['url'] = $page['redirect_url'];
+                }
+                elseif( $page['ptype'] == 41 && $page['redirect_url'] != '' ) {
                     // Only redirect to new tab if redirect is to a different site
-                    if( preg_match("/https?:\/\//", $page['redirect_url']) ) {
+                    // if( preg_match("/https?:\/\//", $page['redirect_url']) ) {
                         $item['target'] = '_blank';
-                    }
+                    // }
                     $item['url'] = $page['redirect_url'];
                 }
                 //

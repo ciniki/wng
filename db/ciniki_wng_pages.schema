@@ -17,7 +17,8 @@
 #                               10 - Sections, standard design for wng
 #                               20 - Basic **future** same as ciniki.web custom page_type 
 #                               30 - Manual **future** no processing, raw html
-#                               40 - Redirect page to another URL
+#                               40 - Redirect page to another URL, same tab
+#                               41 - Redirect page to another URL, new tab
 #                               50 - Module **future** 
 #
 # sequence:                 The order to show the page in.

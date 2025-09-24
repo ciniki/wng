@@ -741,7 +741,7 @@ function ciniki_wng_main() {
                     'value':'<a class="website" target="_preview" href="' + rsp.page.page_url + '">' + rsp.page.page_url + '</a>',
                     },
                 ];
-            if( rsp.page.ptype == '40' ) {
+            if( rsp.page.ptype == '40' || rsp.page.ptype == '41' ) {
                 p.data.pagedetails.push({'label':'Redirect', 'value':rsp.page.redirect_url});
             }
         } else {
@@ -941,6 +941,7 @@ function ciniki_wng_main() {
                 'toggles':{
                     '10':'Sectioned',
                     '40':'Redirect',
+                    '41':'Redirect (new window/tab)',
                 }},
             'redirect_url':{'label':'URL', 'type':'text', 'visible':'hidden'},
             }},
