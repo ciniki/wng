@@ -49,6 +49,11 @@ function ciniki_wng_sessionStart(&$ciniki, $tnid, &$request) {
     if( !isset($ciniki['session']['change_log_id']) ) {
         $ciniki['session']['change_log_id'] = $request['session']['change_log_id'];
     }
+    if( !isset($ciniki['session']['change_log_customer_id']) 
+        && isset($request['session']['customer']['id'])
+        ) {
+        $ciniki['session']['change_log_customer_id'] = $request['session']['customer']['id'];
+    }
 
     return array('stat'=>'ok');
 }
