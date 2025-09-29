@@ -374,6 +374,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
                 return array('stat'=>'exit');
             }
+            if( isset($_POST['signupemail']) && ($_POST['signupemail'] == 'estankov@yahoo.com') ) {
+                error_log('Bot Signup Blocked: ' . $_POST['signupemail']);
+                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                return array('stat'=>'exit');
+            }
             $display_form = 'signup';
             $url = $request['ssl_domain_base_url'] . '/account/signup';
             ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
