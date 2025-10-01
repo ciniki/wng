@@ -114,6 +114,19 @@ function ciniki_wng_objects(&$ciniki) {
             'url' => array('name'=>'URL', 'default'=>''),
             ),
         );
+    $objects['signuprequest'] = array(
+        'name' => 'Signup Request',
+        'sync' => 'yes',
+        'o_name' => 'request',
+        'o_container' => 'requests',
+        'table' => 'ciniki_wng_signuprequests',
+        'fields' => array(
+            'ip_address' => array('name'=>'IP Address'),
+            'email' => array('name'=>'Email'),
+            'first' => array('name'=>'First'),
+            'last' => array('name'=>'Last'),
+            ),
+        );
     //
     return array('stat'=>'ok', 'objects'=>$objects);
 }

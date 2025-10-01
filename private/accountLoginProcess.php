@@ -369,7 +369,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 }
             }
             // Honeypot bots
-            if( isset($_POST['signupemail2']) && $_POST['signupemail2'] != '' ) {
+/*            if( isset($_POST['signupemail2']) && $_POST['signupemail2'] != '' ) {
                 error_log('Bot Signup Blocked: ' . $_POST['signupemail2']);
                 header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
                 return array('stat'=>'exit');
@@ -378,19 +378,22 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 error_log('Bot Signup Blocked: ' . $_POST['signupemail']);
                 header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
                 return array('stat'=>'exit');
-            }
+            } */
             $display_form = 'signup';
             $url = $request['ssl_domain_base_url'] . '/account/signup';
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
-            $rc = ciniki_customers_wng_signupRequestProcess($ciniki, $tnid, $request, array(    
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'signupRequestProcess');
+//            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
+//            $rc = ciniki_customers_wng_signupRequestProcess($ciniki, $tnid, $request, array(    
+            $rc = ciniki_wng_signupRequestProcess($ciniki, $tnid, $request, [    
                 'first' => trim($_POST['first']),
                 'last' => trim($_POST['last']),
                 'email' => trim($_POST['signupemail']),
+                'email2' => isset($_POST['signupemail2']) ? $_POST['signupemail2'] : null,
                 'password' => trim($_POST['signuppassword']),
                 'details' => $details,
                 'return-url' => isset($args['return-url']) ? $args['return-url'] : '',
                 'url' => $url,
-                ));
+                ]);
             if( $rc['stat'] == 'accountexists' ) {
                 //
                 // Signing up with existing email, send forgot password instead
@@ -409,6 +412,26 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     );
                 $display_form = 'no';
             } 
+            elseif( $rc['stat'] == 'pending' ) {
+                $blocks[] = array(
+                    'type' => 'msg', 
+                    'level' => 'error', 
+                    'content' => "You have a signup pending, please check your email and spam folders.",
+                    );
+                $display_form = 'no';
+            }
+            elseif( $rc['stat'] == 'honeypot' ) {
+                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
+                return array('stat'=>'exit');
+            }
+            elseif( $rc['stat'] == 'blocked' ) {
+                $blocks[] = array(
+                    'type' => 'msg', 
+                    'level' => 'error', 
+                    'content' => "We are unable to create your account, please contact us for assistance.",
+                    );
+                $display_form = 'no';
+            }
             elseif( $rc['stat'] == 'notactive' ) {
                 $blocks[] = array(
                     'type' => 'msg', 

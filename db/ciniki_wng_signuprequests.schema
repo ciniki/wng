@@ -1,0 +1,35 @@
+#
+# Description
+# -----------
+# This table stores all signup requests and is used to fight bots
+#
+# Fields
+# ------
+# id:                       The ID assigned to the record.
+# uuid:                     The Universal Unique ID.
+# tnid:                     The Tenant ID the record belongs to.
+#
+# ip_address:               The IP Address the signup came from.
+# email_address:            The email address uses
+# first:                    The first name
+# last:                     The last name
+#
+# date_added:               The UTC date and time the record was added.
+# last_updated:             The UTC date and time the record was last update.
+#
+create table ciniki_wng_signuprequests (
+    id bigint not null auto_increment,
+    uuid char(36) not null,
+    tnid int not null,
+
+    ip_address varchar(20) not null,
+    email varchar(250) not null,
+    first varchar(100) not null,
+    last varchar(100) not null,
+
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    index (ip_address, email, first, last),
+    index sync (tnid, uuid, last_updated)
+) ENGINE='InnoDB', COMMENT='v1.01';
