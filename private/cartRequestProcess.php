@@ -683,6 +683,16 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     elseif( (isset($_POST['action']) && $_POST['action'] == 'update')
         && isset($_POST['donate']) && $_POST['donate'] != '' 
         ) {
+        if( $cart == NULL ) {
+            // Create a shopping cart
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartCreate');
+            $rc = ciniki_sapos_wng_cartCreate($ciniki, $tnid, $request, array());
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            $cart = $request['session']['cart'];
+        } 
+
         if( $_POST['donate'] == 'Add' && isset($_POST['amount']) && $_POST['amount'] != '' ) {
             $amount = preg_replace("/[^0-9\.]/", '', $_POST['amount']);
         } else {
