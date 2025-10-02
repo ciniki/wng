@@ -1,0 +1,30 @@
+.block-donatebuttons {
+    padding: 1rem;
+}
+.block-donatebuttons .content {
+    background: #eee;
+    border: 1px solid #555;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.block-donatebuttons .donation-options {
+    padding-top: 1rem;
+}
+.block-donatebuttons .donation-options .button {
+    margin-left: 1rem;
+}
+.block-donatebuttons .other-amount .quantity {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    max-width: 5em;
+}
+.block-donatebuttons .other-amount {
+    padding-top: 1rem;
+}
+
+@media screen and (min-width: 40em) {
+    .block-donatebuttons {
+        padding: 0 2rem 2rem 2rem;
+    }
+}
