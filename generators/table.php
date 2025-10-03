@@ -22,7 +22,8 @@ function ciniki_wng_generators_table(&$ciniki, $tnid, $request, $block) {
         . (isset($block['rows']) && (count($block['rows'])%2) == 0 ? ' q-2' : '')
         . "'>";
     $content .= "<div class='wrap'>";
-    $content .= "<div class='content'>";
+    $link_id = isset($block['title']) && $block['title'] != '' ? ciniki_core_makePermalink($ciniki, $block['title']) : '';
+    $content .= "<div id='{$link_id}' class='content'>";
 
     if( isset($block['title']) && $block['title'] != '' ) {
         $content .= "<h2>" . $block['title'] . "</h2>";
