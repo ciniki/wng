@@ -1,0 +1,29 @@
+.block-tablefilter.search .content {
+    padding: 1rem;
+}
+.block-tablefilter.search .search-label {
+    padding-bottom: 0.5rem;
+}
+.block-tablefilter.search .search-input input {
+    width: 100%;
+    border: 1px solid #aaa;
+}
+@media screen and (min-width: 40em) {
+    .block-tablefilter.search .content {
+        padding: 2rem;
+    }
+}
+@media screen and (min-width: 50em) {
+    .block-tablefilter.search .content {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .block-tablefilter.search .search-label {
+        padding-right: 1rem;
+        padding-bottom: 0;
+    }
+    .block-tablefilter.search .search-input {
+        flex-grow: 1;
+    }
+}
