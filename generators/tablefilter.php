@@ -43,7 +43,7 @@ function ciniki_wng_generators_tablefilter(&$ciniki, $tnid, $request, $block) {
     //
     // Initialize livesearch with arguments provided
     //
-    $js = "window.addEventListener('load',(e)=>{C.tablefilter.init(e,{$id},\"{$block['selector']}\");});";
+    $js = "window.addEventListener('load',(e)=>{C.tablefilter.init(e,{$id},\"{$block['selector']}\",{$block['callback']});});";
 
     return array('stat'=>'ok', 'content'=>$content, 'js'=>$js);
 }

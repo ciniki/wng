@@ -1,7 +1,9 @@
 C.tablefilter = {
     selector: 'tr',
-    init: function(e,id,selector) {
+    cb: '',
+    init: function(e,id,selector,cb) {
         this.selector = selector;
+        this.cb = cb;
     },
     update: function(id) {
         var e=C.gE('tablefilter-'+id);
@@ -13,6 +15,9 @@ C.tablefilter = {
             } else {
                 C.aC(rows[i], 'hidden');
             }
+        }
+        if( this.cb != '' ) {
+            this.cb(e.value);
         }
     },
 };
