@@ -39,8 +39,10 @@ function ciniki_wng_generators_donatebuttons(&$ciniki, $tnid, $request, $block) 
         $content .= "<b>Donate</b>: ";
         $content .= "<span class='buttons'>";
         foreach($amounts as $amount) {
-            $amount = preg_replace("/[^0-9\.]/", '', $amount);
-            $content .= "<input class='button submit' type='submit' name='donate' value='$" . number_format($amount, 0) . "'/>";
+            if( is_numeric($amount) ) {
+                $amount = preg_replace("/[^0-9\.]/", '', $amount);
+                $content .= "<input class='button submit' type='submit' name='donate' value='$" . number_format($amount, 0) . "'/>";
+            }
         }
         $content .= "</span>";
         $content .= "</div>";
