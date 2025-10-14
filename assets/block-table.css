@@ -117,7 +117,7 @@
 .block-table th .button {
     font-weight: normal;
 }
-.block-table .button {
+.block-table table .button {
     padding: 0.25rem 1rem;
 }
 .block-table .buttons .button {
