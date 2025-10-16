@@ -587,6 +587,10 @@ header .block-imagemenu .main-menu nav {
 .block-form .field {
     padding: 0.5rem;
 }
+.block-form .field-checkbox #f-secondwaiver,
+.block-form .field-checkbox #f-thirdwaiver {
+    align-self: start;
+}
 
 /* Contact form */
 .block-contactform.limit-width {
