@@ -28,10 +28,9 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Check if page is hidden
     //
     if( isset($request['site']['pages'][$page_id]['flags']) 
-        && ($request['site']['pages'][$page_id]['flags']&0x01) == 0 
+        && ($request['site']['pages'][$page_id]['flags']&0x07) == 0 
         ) {
-            
-//        return array('stat'=>'404');
+        return array('stat'=>'404');
     }
 
 
