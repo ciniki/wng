@@ -30,7 +30,8 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     if( isset($request['site']['pages'][$page_id]['flags']) 
         && ($request['site']['pages'][$page_id]['flags']&0x01) == 0 
         ) {
-        return array('stat'=>'404');
+            
+//        return array('stat'=>'404');
     }
 
 
