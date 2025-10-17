@@ -25,6 +25,16 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         );
 
     //
+    // Check if page is hidden
+    //
+    if( isset($request['site']['pages'][$page_id]['flags']) 
+        && ($request['site']['pages'][$page_id]['flags']&0x01) == 0x01 
+        ) {
+        return array('stat'=>'404');
+    }
+
+
+    //
     // Check if page only available to members
     //
     if( isset($request['site']['pages'][$page_id]['flags']) 
