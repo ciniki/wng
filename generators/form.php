@@ -1095,6 +1095,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             elseif( $field['ftype'] == 'checkbox' ) {
                 $fields_html .= "<input type='checkbox' name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                     . (isset($field['value']) && $field['value'] == 'on' ? ' checked' : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . ">";
