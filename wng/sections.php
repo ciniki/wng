@@ -1206,6 +1206,19 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             ),
         );
 
+    //
+    // Raw HTML Content
+    //
+    $sections['ciniki.wng.html'] = array(
+        'name'=>'HTML (Advanced)',
+        'module' => 'Website',
+        'settings'=>array(
+//            'title' => array('label'=>'Title', 'type'=>'text'),
+//            'subtitle' => array('label'=>'Subtitle', 'type'=>'text'),
+            'html' => array('label'=>'HTML', 'type'=>'textarea', 'size'=>'large'),
+            ),
+        );
+
     return array('stat'=>'ok', 'sections'=>$sections);
 }
 ?>
