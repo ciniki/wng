@@ -191,6 +191,12 @@ header .block-imagemenu .main-menu nav {
     .block-imagemenu.account-menu nav > ul li a {
         padding: 0.5rem 1rem;
     }
+    #page-content .block-accountlogin.signin-signup .content h2 {
+        display: block;
+        max-width: 25rem;
+        margin: 0 auto;
+        padding-bottom: 0.5rem;
+    }
 }
 
 /* Footer */
