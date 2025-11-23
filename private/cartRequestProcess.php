@@ -189,50 +189,30 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $etransfer_checkout = 'yes';
     }
 
-    //
-    // Check if a login occured before loading the cart
-    //
-    if( isset($_POST['action']) && $_POST['action'] == 'signin' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-        $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $_POST['email'], sha1($_POST['password']));
-        if( $rc['stat'] != 'ok' ) {
-            $signinerrors = "Unable to authenticate, please try again or click Forgot your password to get a new one.";
-            $display_signup = 'yes';
-            $display_cart = 'no';
-        } else {
-            $display_signup = 'no';
-            $display_cart = 'yes';
-            $cart_edit = 'yes';
-//            $display_cart = 'review';
-//            $cart_edit = 'no';
-            
-            //
-            // Check for any module information that should be loaded into the session
-            //
-            foreach($ciniki['tenant']['modules'] as $module => $m) {
-                list($pkg, $mod) = explode('.', $module);
-                $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, 'wng', 'accountSessionLoad');
-                if( $rc['stat'] == 'ok' ) {
-                    $fn = $rc['function_call'];
-                    $rc = $fn($ciniki, $tnid, $request);
-                    if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.98', 'msg'=>'Unable to load account information', 'err'=>$rc['err']));
-                    }
-                }
-            }
-
-            if( isset($_POST['next']) && $_POST['next'] == 'edit' ) {
-                header("Location: " . $request['ssl_domain_base_url'] . "/cart");
-                return array('stat'=>'exit');
-            }
+    if( (isset($_POST['action']) && in_array($_POST['action'], ['signin', 'signup', 'forgot']))
+        || isset($_GET['signup-success'])
+        || isset($_GET['forgot-success'])
+        || (isset($request['uri_split'][1]) && $request['uri_split'][1] == 'passwordreset')
+        || isset($_GET['reset-pwd-success'])
+        ) {
+        $create_type = 'signin-signup-billing';
+        if( isset($request['site']['settings']['account-create-type']) 
+            && $request['site']['settings']['account-create-type'] == 'signin-signup' 
+            ) {
+            $create_type = 'signin-signup';
         }
+        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000040) ) {
+            $create_type = 'signin-signup-billing-shipping';
+        }
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
+        $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request, [
+            'create-account' => $create_type,
+            'return-url' => $request['ssl_domain_base_url'] . '/cart',
+            ]);
+        return $rc;
     }
 
-    
-    //
-    // Check if Cancel button pressed during checkout
-    //
-    elseif( isset($_POST['continue']) && $_POST['continue'] == 'Cancel' ) {
+    if( isset($_POST['continue']) && $_POST['continue'] == 'Cancel' ) {
         header("Location: " . $request['ssl_domain_base_url'] . "/cart");
         return array('stat'=>'exit');
     }
@@ -243,139 +223,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     elseif( isset($_POST['cancel']) && $_POST['cancel'] == 'Cancel' ) {
         header("Location: " . $request['ssl_domain_base_url'] . "/cart");
         return array('stat'=>'exit');
-    }
-
-    //
-    // Check if new password from password reset was submitted
-    //
-    elseif( isset($_POST['action']) && $_POST['action'] == 'passwordreset' ) {
-        if( !isset($_POST['newpassword']) || strlen($_POST['newpassword']) < 8 ) {
-            $passwordreseterrors = "Your new password must be at least 8 characters long.";
-            $display_passwordreset = 'yes';
-            $display_cart = 'no';
-        } elseif( !isset($_POST['email']) || $_POST['email'] == '' ) {
-            $passworderrors = "You need to enter an email address to reset your password.";
-            $display_passwordreset = 'yes';
-            $display_cart = 'no';
-        } elseif( !isset($_POST['temppassword']) || $_POST['temppassword'] == '' ) {
-            $signuperrors = "Sorry, but the link was invalid.  Please try again.";
-            $display_signup = 'yes';
-            $display_cart = 'no';
-        } else {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'changeTempPassword');
-            $rc = ciniki_customers_wng_changeTempPassword($ciniki, $tnid, $request, $_POST['email'], $_POST['temppassword'], $_POST['newpassword']);
-            if( $rc['stat'] != 'ok' ) {
-                $signinerrors = "Sorry, we were unable to set your new password.  Please try again or call us for help.";
-                $display_signup = 'yes';
-                $display_cart = 'no';
-            } else {
-                $signinmsg = "Your password has been reset, please login to continue.";
-                $display_signup = 'yes';
-                $display_cart = 'no';
-            }
-        }
-    }
-
-    //
-    // Check if create account form was submitted
-    //
-    elseif( isset($_POST['action']) && $_POST['action'] == 'createaccount' && (!isset($_POST['continue']) || $_POST['continue'] != 'Back') ) {
-        $signinerrors = '';
-        $display_signup = 'yes';
-        $display_cart = 'no';
-
-        //
-        // Check for required fields
-        //
-        $args = $_POST;
-        if( isset($args['province_code_' . $args['country']]) && $args['province_code_' . $args['country']] != '' ) {
-            $args['province'] = $args['province_code_' . $args['country']];
-        }
-        if( isset($args['shipcountry']) 
-            && isset($args['shipprovince_code_' . $args['shipcountry']]) 
-            && $args['shipprovince_code_' . $args['shipcountry']] != '' 
-            ) {
-            $args['shipprovince'] = $args['shipprovince_code_' . $args['shipcountry']];
-        }
-        $missing_fields = array();
-        foreach($required_account_fields as $fid => $fname) {
-            if( !isset($args[$fid]) || trim($args[$fid]) == '' ) {
-                $missing_fields[] = $fname;
-            }
-        }
-        if( count($missing_fields) > 1 ) {
-            $signinerrors = "You must enter " . implode(', ', $missing_fields) . " to create your account.";
-        } elseif( count($missing_fields) > 0 ) {
-            $signinerrors = "You must enter " . implode(', ', $missing_fields) . " to create your account.";
-        }
-        if( $signinerrors == '' ) {
-            //
-            // Check if email address already exists
-            //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'hooks', 'customerLookup');
-            $rc = ciniki_customers_hooks_customerLookup($ciniki, $tnid, array('email'=>$_POST['email_address']));
-            if( $rc['stat'] != 'noexist' ) {
-                $signinerrors = "There is already an account for that email address, please use the Forgot Password link to recover your password.";
-            }
-        }
-
-        //
-        // Check for restricted countries
-        //
-        if( isset($restricted_countries[$args['country']]) ) {
-            $signinerrors = "We're sorry, we are unable to deliver goods or services to your country. Please contact us and we'll determine if we can.";
-        }
-        if( isset($args['shipcountry']) && isset($restricted_countries[$args['shipcountry']]) ) {
-            $signinerrors = "We're sorry, we are unable to deliver goods or services to your country. Please contact us and we'll determine if we can.";
-        }
-
-        if( $signinerrors == '' ) {
-            //
-            // Setup the customer defaults
-            //
-            $args['phone_label_1'] = 'Home';
-            $args['phone_number_1'] = trim($args['phone']);
-            unset($args['phone']);
-
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'customerAdd');
-            $rc = ciniki_customers_wng_customerAdd($ciniki, $tnid, $request, $args);
-            if( $rc['stat'] != 'ok' ) {
-                return $rc;
-            }
-            $customer_id = $rc['id'];
-
-            //
-            // Once the account is created, authenticate
-            //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'auth');
-            $rc = ciniki_customers_wng_auth($ciniki, $tnid, $request, $args['email_address'], sha1($args['password']));
-            if( $rc['stat'] != 'ok' ) {
-                return $rc;
-            }
-
-            //
-            // FIXME: Load module session info
-            //
-
-            //
-            // Attach to cart
-            //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartCustomerUpdate');
-            $rc = ciniki_sapos_wng_cartCustomerUpdate($ciniki, $tnid, $request);
-            if( $rc['stat'] != 'ok' ) {
-                return $rc;
-            }
-            $display_signup = 'no';
-            if( isset($_POST['next']) && $_POST['next'] == 'edit' ) {
-                header("Location: " . $request['ssl_domain_base_url'] . "/cart");
-                return array('stat'=>'exit');
-            } else {
-                $display_cart = 'yes';
-                $cart_edit = 'yes';
-//                $display_cart = 'review';
-//                $cart_edit = 'no';
-            }
-        }
     }
 
     //
@@ -1045,33 +892,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     // Check if action is forgot
     //
     else */
-    if( isset($_POST['action']) && $_POST['action'] == 'forgot' ) {
-        $url = $request['ssl_domain_base_url'] . '/cart/passwordreset';
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'passwordRequestReset');
-        $rc = ciniki_customers_wng_passwordRequestReset($ciniki, $tnid, $request, $_POST['email'], $url);
-        if( $rc['stat'] != 'ok' ) {
-            $signinerrors = "You must enter a valid email address to get a new password.";
-        } else {
-            $signinmsg = "A link has been sent to your email to get a new password.";
-        }
-        $request['session']['passwordreset_referer'] = $request['ssl_domain_base_url'] . "/cart";
-        $display_signup = 'yes';
-        $display_cart = 'no';
-    }
-
-    //
-    // Check if action is forgot
-    //
-    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'passwordreset' ) {
-        $display_signup = 'no';
-        $display_cart = 'no';
-        $display_passwordreset = 'yes';
-    }
-
-    //
-    // Check if checkout
-    //
-    elseif( isset($_POST['checkout']) && $_POST['checkout'] != '' && $cart != NULL ) {
+    if( isset($_POST['checkout']) && $_POST['checkout'] != '' && $cart != NULL ) {
         //
         // Check the items in the cart before checkout to make sure still available
         //
@@ -1236,33 +1057,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $display_signup = 'createaccount';
         $display_cart = 'no';
     }
-
-    //
-    // Check if checkout via paypal
-    //
-/*    elseif( isset($_POST['paypalexpresscheckout']) && $_POST['paypalexpresscheckout'] != '' && $cart != NULL 
-        && isset($cart['customer_id']) && $cart['customer_id'] > 0 
-        ) {
-        //
-        // Load paypal settings
-        //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'paypalExpressCheckoutSet');
-        $rc = ciniki_sapos_wng_paypalExpressCheckoutSet($ciniki, $tnid, $request, array(
-            'amount' => $cart['total_amount'],
-            'type' => 'Sale',
-            'returnurl' => $request['ssl_domain_base_url'] . '/cart/pesuccess',
-            'cancelurl' => $request['ssl_domain_base_url'] . '/cart/pecancel',
-            'currency' => $intl_currency,
-            'shipping' => ($cart['shipping_status'] > 0 ? 'yes' : 'no'),
-            ));
-        if( $rc['stat'] != 'ok' ) {
-            $carterrors = $rc['err']['msg'];
-            $display_cart = 'yes';
-        } else {
-            $display_cart = 'review';
-        }
-        $page_title = 'Checkout - Review';
-    } */
 
     //
     // Check if etransfer checkout
@@ -1441,477 +1235,25 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
     }
 
     //
-    // Check if checkout was paypal express success
-    //
-/*    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pesuccess'
-        && isset($_GET['token']) && $_GET['token'] != '' 
-        ) {
-
-        //
-        // Get the paypal payment information
-        //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'paypalExpressCheckoutGet');
-        $rc = ciniki_sapos_wng_paypalExpressCheckoutGet($ciniki, $tnid, $request, array(
-            'token'=>$_GET['token'],
-            ));
-        if( $rc['stat'] != 'ok' ) {
-            $carterrors = "Oops, we seem to have a problem with your payment. Please try again or contact us for help.";
-            error_log('ERR-CART: Paypal DoExpressCheckout: [' . $rc['err']['code'] . '] ' . $rc['err']['msg']);
-            return $rc;
-        }
-
-        $display_cart = 'paypalexpresscheckoutconfirm';
-        $cart_edit = 'no';
-        $page_title = 'Checkout - Confirm Payment';
-    } */
-
-    //
-    // Check if checkout was paypal express success
-    //
-/*    elseif( isset($request['uri_split'][1]) && $request['uri_split'][1] == 'pecancel') {
-        $carterrors = "You cancelled the transaction at Paypal, your purchase was not completed.";
-    } */
-
-/*    elseif( isset($_POST['paypalexpresscheckoutdo']) && $_POST['paypalexpresscheckoutdo'] != '' && $cart != NULL ) {
-        //
-        // Get the paypal payment information
-        //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'paypalExpressCheckoutDo');
-        $rc = ciniki_sapos_wng_paypalExpressCheckoutDo($ciniki, $tnid, $request, array(
-            'invoice_id' => $cart['id'],
-            'type' => 'Sale',
-            'amount' => $cart['total_amount'],
-            'currency' => $intl_currency,
-            ));
-        if( $rc['stat'] != 'ok' ) {
-            $carterrors = "Oops, we seem to have a problem with your payment. Please try again or contact us for help.";
-            error_log('ERR-CART: Paypal DoExpressCheckout: [' . $rc['err']['code'] . '] ' . $rc['err']['msg']);
-            $display_cart = 'paypalexpresscheckoutconfirm';
-            $cart_edit = 'no';
-        }
-
-        if( !isset($carterrors) || $carterrors == '' ) {
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartPaymentReceived');
-            $rc = ciniki_sapos_wng_cartPaymentReceived($ciniki, $tnid, $request, $cart);
-            if( $rc['stat'] != 'ok' ) {
-                $carterrors = "We have received your payment, thank you. "
-                    . "There was a problem processing your order, so have notified the approriate people to look into it.";
-                error_log('ERR-CART: ' . print_r($rc['err'], true));
-                $ciniki['emailqueue'][] = array('to'=>$ciniki['config']['ciniki.core']['alerts.notify'],
-                    'subject'=>'Web Cart ERR 500',
-                    'textmsg'=>$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n"
-                        . "carterrors:\n"
-                        . $carterrors . "\n"
-                        . "Customer: \n" 
-                        . print_r($request['session']['customer'], true) 
-                        . "\n"
-                        . print_r($rc, true)
-                        . "\n",
-                    );
-            } else {
-                //
-                // Checkout success
-                //
-                $display_success = 'yes';
-                $display_cart = 'checkout_success';
-                $cart = NULL;
-                $request['session']['cart']['sapos_id'] = 0;
-                $request['session']['cart']['num_items'] = 0;
-            }
-        }
-    } */
-    
-    //
-    // Display the forgot password link
-    //
-    if( $display_passwordreset == 'yes' ) {
-        $request['breadcrumbs'][] = array(
-            'name' => 'Reset Password', 
-            'page-class' => 'page-cart',
-            'url' => $request['ssl_domain_base_url'] . '/cart',
-            );
-
-        if( isset($passwordreseterrors) && $passwordreseterrors != '' ) {
-            $blocks[] = array(
-                'type' => 'msg',
-                'level' => 'error',
-                'class' => 'limit-width',
-                'content' => $passwordreseterrors,
-                );
-        }
-
-        $block = array(
-            'type' => 'accountpwdreset',
-            'title' => 'Reset Password',
-            'class' => 'limit-width limit-width-30',
-            'email' => isset($_GET['email']) ? $_GET['email'] : (isset($_POST['email']) ? $_POST['email'] : ''),
-            'temppassword' => isset($_GET['pwd']) ? $_GET['pwd'] : (isset($_POST['temppassword']) ? $_POST['temppassword'] : ''),
-            'message' => 'Please enter a new password.  It must be at least 8 characters long.',
-            'action' => $request['ssl_domain_base_url'] . '/cart',
-            );
-        $blocks[] = $block;
-    }
-
-    //
     // Display the signup/login form
     //
-    if( $display_signup == 'yes' || $display_signup == 'forgot' || $display_signup == 'createaccount' ) {
-        $post_email = '';
-        if( isset($_POST['email']) ) {
-            $post_email = $_POST['email'];
-        }
-        if( isset($signinmsg) && $signinmsg != '' ) {
-            $blocks[] = array(  
-                'type' => 'msg',
-                'level' => 'success',
-                'class' => 'limit-width',
-                'content' => $signinmsg,
-                );
-        }
-        if( isset($signinerrors) && $signinerrors != '' ) {
-            $blocks[] = array(  
-                'type' => 'msg',
-                'level' => 'error',
-                'class' => 'limit-width',
-                'content' => $signinerrors,
-                );
-        }
-
-        $content = '';
-        $content .= "<div class='block-cartsignup'>";
-        $content .= "<div class='wrap'>";
-        $content .= "<div class='content'>";
-        $content .= "<aside>";
-        // Javascript to switch forms   
-        $js = " function swapLoginForm(l) {"
-                . "if(l=='forgotpassword'){"
-                    . "C.gE('signin-form').style.display = 'none';"
-                    . "C.gE('forgotpassword-form').style.display = 'block';"
-                    . "C.gE('forgotemail').value = document.getElementById('email').value;"
-                . "} else {"
-                    . "C.gE('signin-form').style.display = 'block';"
-                    . "C.gE('forgotpassword-form').style.display = 'none';"
-                . "}"
-            . "return true;"
-            . "}";
-        $content .= "<div id='signin-form' style='display:" . ($display_signup=='yes' || $display_signup == 'createaccount' ?'block':'none') . ";'>";
-        $content .= "<h2>Existing Account</h2>";
-        $content .= "<p>Joined us or purchased previously? Please sign in to your account.</p>";
-//        $content .= "<p>Bought something here before? Please sign in to your account:</p>";
-        $content .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
-        if( $display_signup == 'createaccount' ) {
-            $content .= "<input type='hidden' name='next' value='edit'>";
-        }
-        if( $signup_err_msg != '' ) {
-            $content .= "<p class='formerror'>$signup_err_msg</p>";
-        }
-        $content .="<input type='hidden' name='action' value='signin'>\n"
-            . "<div class='input first-field'><label for='email'>Email</label>"
-                . "<input id='email' type='email' class='text' maxlength='250' name='email' value='$post_email' />"
-            . "</div>" 
-            . "<div class='input last-field'><label for='password'>Password</label>"
-                . "<input id='password' type='password' class='text' maxlength='100' name='password' value='' />"
-            . "</div>"
-            . "<div class='submit'><input type='submit' class='button' value='Sign In' /></div>"
-            . "</form>"
-            . "<br/>";
-        if( !isset($settings['page-account-password-change']) 
-            || $settings['page-account-password-change'] == 'yes' ) {
-            $content .= "<div id='forgot-link'><p>"
-                . "<a class='color' href='javascript:void();' onclick='swapLoginForm(\"forgotpassword\"); return false;'>"
-                    . "Forgot your password?"
-                . "</a>"
-                . "</p>"
-                . "</div>";
-        }
-        $content .= "</div>";
-
-        // Forgot password form
-        $content .= "<div id='forgotpassword-form' style='display:" . ($display_signup=='forgot'?'block':'none') . ";'>";
-        $content .= "<h2>Forgot Password</h2>";
-        $content .= "<p>Please enter your email address and you will receive a link to create a new password.</p>";
-        $content .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
-        if( $signup_err_msg != '' ) {
-            $content .= "<p class='formerror'>$signup_err_msg</p>\n";
-        }
-        $content .= "<input type='hidden' name='action' value='forgot'>\n"
-            . "<input type='hidden' name='redirect' value='" . $request['ssl_domain_base_url'] . "/cart' />"
-            . "<div class='input first-field last-field'><label for='forgotemail'>Email </label>"
-                . "<input id='forgotemail' type='email' class='text' maxlength='250' name='email' value='$post_email' />"
-            . "</div>\n" 
-            . "<div class='submit'><input type='submit' class='button' value='Get New Password' /></div>\n"
-            . "</form>"
-            . "<br/>"
-            . "<div class='forgot-link'><p>"
-                . "<a class='color' href='javascript:void();' onclick='swapLoginForm(\"signin\"); return false;'>"
-                . "Sign In</a></p></div>";
-        $content .= "</div>";
-
-        $content .= "</aside>";
-
-        //
-        // Signup for a new account form
-        //
-        $content .= "<div class='signupform'>";
-        $content .= "<h2>Create a new account</h2>";
-        $content .= "<form action='" .  $request['ssl_domain_base_url'] . "/cart' method='POST'>";
-        $content .= "<input type='hidden' name='action' value='createaccount'>";
-        if( $display_signup == 'createaccount' ) {
-            $content .= "<input type='hidden' name='next' value='edit'>";
-        }
-        $fields = array();
-        //
-        // Check if callsign enabled
-        //
-        $fields['first'] = array('name'=>'First Name', 'type'=>'text', 'class'=>'text', 
-            'value'=>(isset($_POST['first'])?$_POST['first']:''), 
-            'autocomplete'=>'given-name',
-            );
-        $fields['last'] = array('name'=>'Last Name', 'type'=>'text', 'class'=>'text', 
-            'value'=>(isset($_POST['last'])?$_POST['last']:''), 
-            'autocomplete'=>'family-name',
-            );
-        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.customers', 0x0400) ) {
-            $fields['callsign'] = array('name'=>'Callsign', 'type'=>'text', 'class'=>'text', 
-                'value'=>(isset($_POST['callsign'])?$_POST['callsign']:''),
-                );
-        }
-        $fields['email_address'] = array('name'=>'Email Address', 'type'=>'email', 'class'=>'text', 
-            'value'=>(isset($_POST['email_address'])?$_POST['email_address']:''), 
-            'autocomplete'=>'email',
-            );
-        $fields['password'] = array('name'=>'Password', 'type'=>'password', 'class'=>'text', 
-            'value'=>(isset($_POST['password'])?$_POST['password']:''),
-            );
-        $fields['phone'] = array('name'=>'Phone Number', 'type'=>'text', 'class'=>'text', 
-            'value'=>(isset($_POST['phone'])?$_POST['phone']:''), 
-            'autocomplete'=>'tel',
-            );
-        $cname = ' first-field';
-        foreach($fields as $fid => $field) {
-            if( $fid == 'phone' ) {
-                $cname = ' last-field';
-            }
-            $content .= "<div class='input{$cname}'><label for='$fid'>" 
-                . $field['name'] . (array_key_exists($fid, $required_account_fields)?' *':'') . "</label>"
-                . "<input type='" . $field['type'] . "' class='" . $field['class'] . "' name='$fid' value='" . $field['value'] . "'"
-                . (isset($field['autocomplete']) && $field['autocomplete'] != '' ? " autocomplete='" . $field['autocomplete'] . "'" : '')
-                . ">";
-            $cname = '';
-            if( isset($errors[$fid]) && $errors[$fid] != '' ) {
-                $content .= "<p class='formerror'>" . $errors[$fid] . "</p>";
-            }
-            $content .= "</div>";
-        }
-
-
-        //
-        // Setup the address fields
-        //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'countryCodes');
-        $rc = ciniki_core_countryCodes($ciniki);
-        $country_codes = $rc['countries'];
-        if( isset($request['site']['settings']['account-allowed-countries']) 
-            && trim($request['site']['settings']['account-allowed-countries']) != '' 
+    if( $display_signup == 'yes' || $display_signup == 'forgot' || $display_signup == 'createaccount' 
+        ) {
+        $create_type = 'signin-signup-billing';
+        if( isset($request['site']['settings']['account-create-type']) 
+            && $request['site']['settings']['account-create-type'] == 'signin-signup' 
             ) {
-            if( ($allowed_codes = preg_split("/,\s*/", trim($request['site']['settings']['account-allowed-countries']))) !== false ) {
-                foreach($country_codes as $code => $country) {
-                    if( !in_array($code, $allowed_codes) ) {
-                        unset($country_codes[$code]);
-                    }
-                }
-            }
+            $create_type = 'signin-signup';
         }
-        $province_codes = $rc['provinces'];
-        $address = array(
-            'address1'=>(isset($_POST['address1'])?$_POST['address1']:''),
-            'address2'=>(isset($_POST['address2'])?$_POST['address2']:''),
-            'city'=>(isset($_POST['city'])?$_POST['city']:''),
-            'province'=>(isset($args['province'])?$args['province']:''),
-            'postal'=>(isset($_POST['postal'])?$_POST['postal']:''),
-            'country'=>(isset($_POST['country'])?$_POST['country']:'Canada'),
-            );
-        $form = '';
-        $form .= "<h2>Billing Address</h2>";
-        $form .= "<div class='input country first-field'>"
-            . "<label for='country'>Country" . (array_key_exists('country', $required_account_fields)?' *':'') . "</label>"
-            . "<select id='country_code' type='select' class='select' name='country' onchange='updateProvince()'>";
-        if( !isset($request['site']['settings']['account-allowed-countries']) 
-            || trim($request['site']['settings']['account-allowed-countries']) == '' 
-            ) {
-            $form .= "<option value=''></option>";
-        }
-        $selected_country = '';
-        foreach($country_codes as $country_code => $country_name) {
-            $form .= "<option value='" . $country_code . "' " 
-                . (($country_code == $address['country'] || $country_name == $address['country'])?' selected':'')
-                . ">" . $country_name . "</option>";
-            if( $country_code == $address['country'] || $country_name == $address['country'] ) {
-                $selected_country = $country_code;
-            }
-        }
-        $form .= "</select></div>";
-        $form .= "<div class='input address1'>"
-            . "<label for='address1'>Address" . (array_key_exists('address1', $required_account_fields)?' *':'') . "</label>"
-            . "<input type='text' class='text' name='address1' value='" . $address['address1'] . "' autocomplete='billing address-line1'>"
-            . "</div>";
-        $form .= "<div class='input address2'>"
-            . "<label for='address2'>" . (array_key_exists('address2', $required_account_fields)?' *':'') . "</label>"
-            . "<input type='text' class='text' name='address2' value='" . $address['address2'] . "' autocomplete='billing address-line2'>"
-            . "</div>";
-        $form .= "<div class='input city'>"
-            . "<label for='city'>City" . (array_key_exists('city', $required_account_fields)?' *':'') . "</label>"
-            . "<input type='text' class='text' name='city' value='" . $address['city'] . "' autocomplete='billing address-level2'>"
-            . "</div>";
-        $form .= "<div class='input province'>"
-            . "<label for='province'>State/Province" . (array_key_exists('province', $required_account_fields)?' *':'') . "</label>"
-            . "<input id='province_text' type='text' class='text' name='province' "
-                . ((isset($province_codes[$selected_country]) && $province_codes[$selected_country])?" style='display:none;'":"")
-                . "value='" . $address['province'] . "' autocomplete='billing address-level1'>";
-        $formjs = '';
-        foreach($province_codes as $country_code => $provinces) {
-            $form .= "<select id='province_code_{$country_code}' type='select' class='select' "
-                . (($country_code != $selected_country)?" style='display:none;'":"")
-                . " name='province_code_{$country_code}' autocomplete='billing address-level1'>"
-                . "<option value=''></option>";
-            $formjs .= "document.getElementById('province_code_" . $country_code . "').style.display='none';";
-            foreach($provinces as $province_code => $province_name) {
-                $form .= "<option value='" . $province_code . "'" 
-                    . (($province_code == (isset($_POST["province_code_{$country_code}"])?$_POST["province_code_{$country_code}"]:'') || $province_name == (isset($_POST["province_code_{$country_code}"])?$_POST["province_code_{$country_code}"]:''))?' selected':'')
-                    . ">" . $province_name . "</option>";
-            }
-            $form .= "</select>";
-        }
-        $form .= "</div>";
-        $form .= "<div class='input postal last-field'>"
-            . "<label for='postal'>ZIP/Postal Code" . (array_key_exists('postal', $required_account_fields)?' *':'') . "</label>"
-            . "<input type='text' class='text' name='postal' value='" . $address['postal'] . "' autocomplete='address postal-code'>"
-            . "</div>";
-        $form .= "<script type='text/javascript'>"
-            . "function updateProvince() {"
-                . "var cc = C.gE('country_code');"
-                . "var pr = C.gE('province_text');"
-                . "var pc = C.gE('province_code_'+cc.value);"
-                . $formjs
-                . "if( pc != null ) {"
-                    . "pc.style.display='';"
-                    . "pr.style.display='none';"
-                . "}else{"
-                    . "pr.style.display='';"
-                . "}"
-            . "}"
-            . "</script>";
-        $content .= $form;
-
-        //
-        // Check if shipping enabled and then display shipping address
-        //
         if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x10000040) ) {
-            $address = array(
-                'shipaddress1'=>(isset($_POST['shipaddress1'])?$_POST['shipaddress1']:''),
-                'shipaddress2'=>(isset($_POST['shipaddress2'])?$_POST['shipaddress2']:''),
-                'shipcity'=>(isset($_POST['shipcity'])?$_POST['shipcity']:''),
-                'shipprovince'=>(isset($args['shipprovince'])?$args['shipprovince']:''),
-                'shippostal'=>(isset($_POST['shippostal'])?$_POST['shippostal']:''),
-                'shipcountry'=>(isset($_POST['shipcountry'])?$_POST['shipcountry']:'Canada'),
-                );
-            if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.customers', 0x01000000) ) {
-                $address['shipphone'] = (isset($_POST['shipphone'])?$_POST['shipphone']:'');
-            }
-            $form = '';
-            $form .= "<h2>Shipping Address</h2>";
-            $form .= "<div class='input shipcountry'>"
-                . "<label for='shipcountry'>Country" . (array_key_exists('shipcountry', $required_account_fields)?' *':'') . "</label>"
-                . "<select id='shipcountry_code' type='select' class='select' name='shipcountry' onchange='updateShipProvince()' autocomplete='shipping country'>";
-            if( !isset($request['site']['settings']['account-allowed-countries']) 
-                || trim($request['site']['settings']['account-allowed-countries']) == '' 
-                ) {
-                $form .= "<option value=''></option>";
-            }
-            $selected_country = '';
-            foreach($country_codes as $country_code => $country_name) {
-                $form .= "<option value='" . $country_code . "' " 
-                    . (($country_code == $address['shipcountry'] || $country_name == $address['shipcountry'])?' selected':'')
-                    . ">" . $country_name . "</option>";
-                if( $country_code == $address['shipcountry'] || $country_name == $address['shipcountry'] ) {
-                    $selected_country = $country_code;
-                }
-            }
-            $form .= "</select></div>";
-            $form .= "<div class='input shipaddress1'>"
-                . "<label for='shipaddress1'>Address" . (array_key_exists('shipaddress1', $required_account_fields)?' *':'') . "</label>"
-                . "<input type='text' class='text' name='shipaddress1' value='" . $address['shipaddress1'] . "' autocomplete='shipping address-line1'>"
-                . "</div>";
-            $form .= "<div class='input shipaddress2'>"
-                . "<label for='shipaddress2'>" . (array_key_exists('shipaddress2', $required_account_fields)?' *':'') . "</label>"
-                . "<input type='text' class='text' name='shipaddress2' value='" . $address['shipaddress2'] . "' autocomplete='shipping address-line2'>"
-                . "</div>";
-            $form .= "<div class='input shipcity'>"
-                . "<label for='shipcity'>City" . (array_key_exists('shipcity', $required_account_fields)?' *':'') . "</label>"
-                . "<input type='text' class='text' name='shipcity' value='" . $address['shipcity'] . "' autocomplete='shipping address-level2'>"
-                . "</div>";
-            $form .= "<div class='input shipprovince'>"
-                . "<label for='shipprovince'>State/Province" . (array_key_exists('shipprovince', $required_account_fields)?' *':'') . "</label>"
-                . "<input id='shipprovince_text' type='text' class='text' name='shipprovince' "
-                    . ((isset($province_codes[$selected_country]) && $province_codes[$selected_country])?" style='display:none;'":"")
-                    . "value='" . $address['shipprovince'] . "' autocomplete='shipping address-level1'>";
-            $formjs = '';
-            foreach($province_codes as $country_code => $provinces) {
-                $form .= "<select id='shipprovince_code_{$country_code}' type='select' class='select' "
-                    . (($country_code != $selected_country)?" style='display:none;'":"")
-                    . " name='shipprovince_code_{$country_code}'  autocomplete='shipping address-level1'>"
-                    . "<option value=''></option>";
-                $formjs .= "document.getElementById('shipprovince_code_" . $country_code . "').style.display='none';";
-                foreach($provinces as $province_code => $province_name) {
-                    $form .= "<option value='" . $province_code . "'" 
-                        . (($province_code == (isset($_POST["shipprovince_code_{$country_code}"])?$_POST["shipprovince_code_{$country_code}"]:'') || $province_name == (isset($_POST["shipprovince_code_{$country_code}"])?$_POST["shipprovince_code_{$country_code}"]:''))?' selected':'')
-                        . ">" . $province_name . "</option>";
-                }
-                $form .= "</select>";
-            }
-            $form .= "</div>";
-            $form .= "<div class='input shippostal'>"
-                . "<label for='shippostal'>ZIP/Postal Code" . (array_key_exists('shippostal', $required_account_fields)?' *':'') . "</label>"
-                . "<input type='text' class='text' name='shippostal' value='" . $address['shippostal'] . "' autocomplete='shipping postal-code'>"
-                . "</div>";
-            if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.customers', 0x01000000) ) {
-                $form .= "<div class='input shipphone'>"
-                    . "<label for='shipphone'>Phone Number" . (array_key_exists('shipphone', $required_account_fields)?' *':'') . "</label>"
-                    . "<input id='shipphone_text' type='text' class='text' name='shipphone' "
-                        . "value='" . $address['shipphone'] . "' autocomplete='shipping address-phone'>";
-            }
-            $form .= "<script type='text/javascript'>"
-                . "function updateShipProvince() {"
-                    . "var cc = document.getElementById('shipcountry_code');"
-                    . "var pr = document.getElementById('shipprovince_text');"
-                    . "var pc = document.getElementById('shipprovince_code_'+cc.value);"
-                    . $formjs
-                    . "if( pc != null ) {"
-                        . "pc.style.display='';"
-                        . "pr.style.display='none';"
-                    . "}else{"
-                        . "pr.style.display='';"
-                    . "}"
-                . "}"
-                . "</script>";
-            $content .= $form;
+            $create_type = 'signin-signup-billing-shipping';
         }
-
-        $content .= "<div class='submit'><input type='submit' name='continue' class='button' value='Back' />"
-            . "<input type='submit' name='continue' class='button' value='Next' />"
-            . "</div>";
-        $content .= "</form>";
-        $content .= "</div>";    // Close div.signupform
-
-        $content .= "</div>";
-        $content .= "</div>";
-        $content .= "</div>";
-
-        $blocks[] = array(
-            'type' => 'html',
-            'html' => $content,
-            'js' => $js,
-            );
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'accountLoginProcess');
+        $rc = ciniki_wng_accountLoginProcess($ciniki, $tnid, $request, [
+            'create-account' => $create_type,
+            'return-url' => $request['ssl_domain_base_url'] . '/cart',
+            ]);
+        return $rc;
     }
 
     //
@@ -1921,7 +1263,6 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         || $display_cart == 'confirm' 
         || $display_cart == 'review' 
         || $display_cart == 'regreview' 
-//        || $display_cart == 'paypalexpresscheckoutconfirm' 
         ) {
         $request['breadcrumbs'][] = array(
             'name' => 'Cart', 
@@ -2799,17 +2140,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $content .= "<button class='button submit' onclick='{$rc['js']}; return false;' name='stripecheckout'>Pay Now</button>";
                     }
                 }
-/*                if( $paypal_checkout == 'yes' && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
-                    $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
-                }
-                elseif( $paypal_checkout == 'yes' ) {
-                    $content .= "<input class='button submit' type='submit' name='paypalexpresscheckout' value='Checkout with a Credit Card'/>";
-                } */
                 $content .= "</span>";
-/*            } elseif( $display_cart == 'paypalexpresscheckoutconfirm' ) {
-                $content .= "<span class='cart-submit'>"
-                    . "<input class='button submit' type='submit' name='paypalexpresscheckoutdo' value='Pay Now'/>"
-                    . "</span>"; */
             } elseif( $display_cart == 'regreview' ) {
                 $content .= "<span class='cart-submit'>"
                     . "<input type='hidden' name='regreviewed' value='yes'/>"

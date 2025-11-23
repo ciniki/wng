@@ -49,6 +49,15 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         }
 
         //
+        // Attach to cart
+        //
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'cartCustomerUpdate');
+        $rc = ciniki_sapos_wng_cartCustomerUpdate($ciniki, $tnid, $request);
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+
+        //
         // Return to where the process started from
         //
         if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
@@ -237,6 +246,28 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
     // Check if the create simple or phone-billing account form submitted
     //
     elseif( isset($_POST['action']) && $_POST['action'] == 'signup' ) {
+        $billing = 'no';
+        $shipping = 'no';
+        if( $args['create-account'] == 'phone-billing' ) {
+            $billing = 'yes';
+        } elseif( $args['create-account'] == 'signin-signup-billing' ) {
+            $billing = 'yes';
+        } elseif( $args['create-account'] == 'signin-signup-billing-shipping' ) {
+            $billing = 'yes';
+            $shipping = 'yes';
+        }
+        if( isset($_POST['country']) && $_POST['country'] != ''
+            && isset($_POST["province_code_{$_POST['country']}"])
+            && $_POST["province_code_{$_POST['country']}"] != ''
+            ) {
+            $_POST['province'] = $_POST["province_code_{$_POST['country']}"];
+        }
+        if( isset($_POST['shipping_country']) && $_POST['shipping_country'] != ''
+            && isset($_POST["shipping_province_code_{$_POST['shipping_country']}"])
+            && $_POST["shipping_province_code_{$_POST['shipping_country']}"] != ''
+            ) {
+            $_POST['shipping_province'] = $_POST["shipping_province_code_{$_POST['shipping_country']}"];
+        }
         if( !isset($_POST['first']) || trim($_POST['first']) == '' ) {
             $blocks[] = array(
                 'type' => 'msg', 
@@ -277,43 +308,83 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 );
             $display_form = 'signup';
         }
-        elseif( $args['create-account'] == 'phone-billing' && (!isset($_POST['address1']) || trim($_POST['address1']) == '') ) {
+        elseif( $billing == 'yes' && (!isset($_POST['address1']) || trim($_POST['address1']) == '') ) {
             $blocks[] = array(
                 'type' => 'msg', 
                 'level' => 'error', 
-                'content' => "You must enter a valid address.",
+                'content' => "You must enter a valid billing address.",
                 );
             $display_form = 'signup';
         }
-        elseif( $args['create-account'] == 'phone-billing' && (!isset($_POST['city']) || trim($_POST['city']) == '') ) {
+        elseif( $billing == 'yes' && (!isset($_POST['city']) || trim($_POST['city']) == '') ) {
             $blocks[] = array(
                 'type' => 'msg', 
                 'level' => 'error', 
-                'content' => "You must enter a valid city.",
+                'content' => "You must enter a valid billing address city.",
                 );
             $display_form = 'signup';
         }
-        elseif( $args['create-account'] == 'phone-billing' && (!isset($_POST['province']) || trim($_POST['province']) == '') ) {
+        elseif( $billing == 'yes' && (!isset($_POST['province']) || trim($_POST['province']) == '') ) {
             $blocks[] = array(
                 'type' => 'msg', 
                 'level' => 'error', 
-                'content' => "You must enter a valid province or state.",
+                'content' => "You must enter a valid billing address province or state.",
                 );
             $display_form = 'signup';
         }
-        elseif( $args['create-account'] == 'phone-billing' && (!isset($_POST['postal']) || trim($_POST['postal']) == '' || strlen(trim($_POST['postal'])) < 5) ) {
+        elseif( $billing == 'yes' && (!isset($_POST['postal']) || trim($_POST['postal']) == '' || strlen(trim($_POST['postal'])) < 5) ) {
             $blocks[] = array(
                 'type' => 'msg', 
                 'level' => 'error', 
-                'content' => "You must enter a valid postal or zip code.",
+                'content' => "You must enter a valid billing postal or zip code.",
                 );
             $display_form = 'signup';
         }
-        elseif( $args['create-account'] == 'phone-billing' && (!isset($_POST['country']) || trim($_POST['country']) == '') ) {
+        elseif( $billing == 'yes' && (!isset($_POST['country']) || trim($_POST['country']) == '') ) {
             $blocks[] = array(
                 'type' => 'msg', 
                 'level' => 'error', 
-                'content' => "You must enter a valid country.",
+                'content' => "You must enter a valid billing country.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( $shipping == 'yes' && (!isset($_POST['shipping_address1']) || trim($_POST['shipping_address1']) == '') ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid shipping address.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( $shipping == 'yes' && (!isset($_POST['shipping_city']) || trim($_POST['shipping_city']) == '') ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid shipping city.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( $shipping == 'yes' && (!isset($_POST['shipping_province']) || trim($_POST['shipping_province']) == '') ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid shipping province or state.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( $shipping == 'yes' && (!isset($_POST['shipping_postal']) || trim($_POST['shipping_postal']) == '' || strlen(trim($_POST['shipping_postal'])) < 5) ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid shipping postal or zip code.",
+                );
+            $display_form = 'signup';
+        }
+        elseif( $shipping == 'yes' && (!isset($_POST['shipping_country']) || trim($_POST['shipping_country']) == '') ) {
+            $blocks[] = array(
+                'type' => 'msg', 
+                'level' => 'error', 
+                'content' => "You must enter a valid shipping country.",
                 );
             $display_form = 'signup';
         }
@@ -349,6 +420,8 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     $details['phone_number_2'] = trim($_POST['phone_number_2']);
                     $details['phone_label_2'] = trim($_POST['phone_label_2']);
                 }
+            }
+            if( $billing == 'yes' ) {
                 if( isset($_POST['address1']) && $_POST['address1'] != '' ) {
                     $details['address1'] = trim($_POST['address1']);
                 }
@@ -368,22 +441,29 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     $details['country'] = trim($_POST['country']);
                 }
             }
-            // Honeypot bots
-/*            if( isset($_POST['signupemail2']) && $_POST['signupemail2'] != '' ) {
-                error_log('Bot Signup Blocked: ' . $_POST['signupemail2']);
-                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
-                return array('stat'=>'exit');
+            if( $shipping == 'yes' ) {
+                if( isset($_POST['shipping_address1']) && $_POST['shipping_address1'] != '' ) {
+                    $details['shipping_address1'] = trim($_POST['shipping_address1']);
+                }
+                if( isset($_POST['shipping_address2']) && $_POST['shipping_address2'] != '' ) {
+                    $details['shipping_address2'] = trim($_POST['shipping_address2']);
+                }
+                if( isset($_POST['shipping_city']) && $_POST['shipping_city'] != '' ) {
+                    $details['shipping_city'] = trim($_POST['shipping_city']);
+                }
+                if( isset($_POST['shipping_province']) && $_POST['shipping_province'] != '' ) {
+                    $details['shipping_province'] = trim($_POST['shipping_province']);
+                }
+                if( isset($_POST['shipping_postal']) && $_POST['shipping_postal'] != '' ) {
+                    $details['shipping_postal'] = trim($_POST['shipping_postal']);
+                }
+                if( isset($_POST['shipping_country']) && $_POST['shipping_country'] != '' ) {
+                    $details['shipping_country'] = trim($_POST['shipping_country']);
+                }
             }
-            if( isset($_POST['signupemail']) && ($_POST['signupemail'] == 'estankov@yahoo.com') ) {
-                error_log('Bot Signup Blocked: ' . $_POST['signupemail']);
-                header("Location: " . $_SERVER['REQUEST_URI'] . "?signup-success");
-                return array('stat'=>'exit');
-            } */
             $display_form = 'signup';
             $url = $request['ssl_domain_base_url'] . '/account/signup';
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'signupRequestProcess');
-//            ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'signupRequestProcess');
-//            $rc = ciniki_customers_wng_signupRequestProcess($ciniki, $tnid, $request, array(    
             $rc = ciniki_wng_signupRequestProcess($ciniki, $tnid, $request, [    
                 'first' => trim($_POST['first']),
                 'last' => trim($_POST['last']),
@@ -620,6 +700,12 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
             'province' => isset($_POST['province']) ? trim($_POST['province']) : '',
             'postal' => isset($_POST['postal']) ? trim($_POST['postal']) : '',
             'country' => isset($_POST['country']) ? trim($_POST['country']) : 'Canada',
+            'shipping_address1' => isset($_POST['shipping_address1']) ? trim($_POST['shipping_address1']) : '',
+            'shipping_address2' => isset($_POST['shipping_address2']) ? trim($_POST['shipping_address2']) : '',
+            'shipping_city' => isset($_POST['shipping_city']) ? trim($_POST['shipping_city']) : '',
+            'shipping_province' => isset($_POST['shipping_province']) ? trim($_POST['shipping_province']) : '',
+            'shipping_postal' => isset($_POST['shipping_postal']) ? trim($_POST['shipping_postal']) : '',
+            'shipping_country' => isset($_POST['shipping_country']) ? trim($_POST['shipping_country']) : '',
             'startform' => $display_form,
             );
         //

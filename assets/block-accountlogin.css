@@ -19,14 +19,17 @@
     padding-bottom: 1rem;
     text-align: center;
 }
-.block-accountlogin .content .signup-form.phone-billing > h2 {
+/*.block-accountlogin .content .signup-form.phone-billing > h2 {*/
+.block-accountlogin .content .signup-form h2:not(:first-child) {
     padding: 1rem;
+    padding-bottom: 0px;
 }
 @media screen and (min-width: 40em) {
-    .block-accountlogin .content .signup-form.phone-billing > h2 {
+    .block-accountlogin .content .signup-form h2:not(:first-child) {
         padding: 1rem 2rem;
+        padding-bottom: 0px;
     }
-}
+} 
 .block-accountlogin .input label {
     display: block;
     width: 100%;
@@ -35,7 +38,8 @@
 .block-accountlogin .input {
     padding: 0.5rem 0rem;
 }
-.block-accountlogin .input input {
+.block-accountlogin .input input,
+.block-accountlogin .input select {
     display: block;
     width: 100%;
     padding: 0.5rem 1rem;
