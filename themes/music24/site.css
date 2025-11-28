@@ -455,6 +455,37 @@ header .block-imagemenu .main-menu nav {
         max-width: 33.33%;
     }
 }
+/* Block textcards - accolades */
+.block-textcards.musicfestival-accolades .item-wrap {
+    padding: 0;
+}
+.block-textcards.musicfestival-accolades .item-wrap .title {
+    padding: 1rem;
+    text-align: center;
+}
+.block-textcards.musicfestival-accolades .item-wrap .title h2 {
+    max-width: 100%;
+    text-align: center;
+}
+.block-textcards.musicfestival-accolades .item-wrap .info {
+    padding: 0 1rem 1rem 1rem;
+}
+.block-textcards.musicfestival-accolades .item-wrap .button {
+    width: auto;
+    margin: 0 1rem 1rem 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-textcards.musicfestival-accolades .item {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-textcards.musicfestival-accolades .item {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+}
 
 /* Block Textcards - Sponsors */
 .block-textcards.musicfestival-sponsors .title {
