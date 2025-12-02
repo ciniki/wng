@@ -1,0 +1,52 @@
+.block-countdown .running,
+.block-countdown .finished {
+    padding: 1rem;
+}
+.block-countdown .content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.block-countdown .title {
+    text-align: center;
+}
+.block-countdown .countdown {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+    flex-grow: 1;
+    background: #333;
+    color: #fff;
+    gap: 1rem;
+    padding: 1rem;
+}
+.block-countdown .countdown > div {
+    flex-grow: 1;
+}
+.block-countdown .countdown .number {
+    text-align: center;
+    font-size: 2rem;
+}
+.block-countdown .countdown .label {
+    text-align: center;
+}
+
+@media screen and (min-width: 40em) {
+    .block-countdown .countdown {
+        gap: 2rem;
+        font-size: 1.5rem;
+    }
+    .block-countdown .countdown .number {
+        text-align: center;
+        font-size: 3rem;
+    }
+    .block-countdown .running {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .block-countdown .countdown {
+        padding: 1rem 3rem;
+    }
+}
+
