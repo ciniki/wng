@@ -1,6 +1,11 @@
 .block-pricelist .content {
     display: flex;
+    flex-flow: row wrap;
     padding: 0rem 1rem 1rem 1rem;
+}
+.block-pricelist .title {
+    flex-basis: 100%;
+    padding-bottom: 1rem;
 }
 .block-pricelist .pricelist {
     flex-grow: 1;

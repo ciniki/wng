@@ -55,7 +55,7 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, &$request, $block) {
         $content .= "<div class='content'>";
 
         if( isset($block['title']) && $block['title'] != '' ) {
-            $content .= "<h2>" . $block['title'] . "</h2>";
+            $content .= "<div class='title'><h2>" . $block['title'] . "</h2></div>";
         }
 
         if( isset($block['intro']) && $block['intro'] != '' ) {
