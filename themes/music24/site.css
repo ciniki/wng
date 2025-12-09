@@ -500,6 +500,9 @@ header .block-imagemenu .main-menu nav {
 .block-tradingcards.musicfestival-locations h2 {
     font-size: 1.4rem;
 }
+.block-tradingcards.musicfestival-locations h3 {
+    font-size: 1.3rem;
+}
 @media screen and (min-width: 100em) {
     .block-textcards.musicfestival-locations .item {
         flex-basis: 33.3%;
@@ -627,6 +630,24 @@ header .block-imagemenu .main-menu nav {
 .block-form .field-checkbox #f-secondwaiver,
 .block-form .field-checkbox #f-thirdwaiver {
     align-self: start;
+}
+
+/* Google Map */
+.block-googlemap.content-view .googlemap {
+    min-height: 30rem;
+    min-height: 80vw;
+}
+@media screen and (min-width: 40em) {
+    .block-googlemap.content-view .googlemap {
+        min-height: 25rem;
+        max-height: 50rem;
+    }
+}
+@media screen and (min-width: 60em) {
+    .block-googlemap.content-view .googlemap {
+        min-height: 30rem;
+        max-height: 50rem;
+    }
 }
 
 /* Contact form */
