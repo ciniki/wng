@@ -548,6 +548,7 @@ header .block-imagemenu .main-menu nav {
     }
 }
 @media screen and (min-width: 100em) {
+    .block-imagebuttons .items-5 .item,
     .block-imagebuttons .item {
         flex-basis: 33.33%;
     }
