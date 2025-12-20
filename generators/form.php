@@ -1298,7 +1298,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
                         . "</a>";
                 } elseif( !isset($block['submit-hide']) || $block['submit-hide'] != 'yes' ) {
-                    $content .= "<input type='submit' name='submit' class='button' value='"
+                    $content .= "<input id='submit-button' type='submit' name='submit' class='button' value='"
                         . (isset($block['submit-label']) && $block['submit-label'] != '' ? $block['submit-label'] : 'Submit')
                         . "' >";
                 }
