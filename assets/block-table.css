@@ -123,6 +123,10 @@
 .block-table .buttons .button {
     margin: 0rem 0.5rem 0.5rem 0rem;
 }
+.block-table .buttons .text {
+    display: inline-block;
+    margin: 0rem 0.5rem 0.5rem 0rem;
+}
 .block-table td .indent {
     font-weight: normal;
 }
