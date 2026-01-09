@@ -1004,7 +1004,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "</div>";
             }
             elseif( $field['ftype'] == 'textarea' ) {
-                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
+                $fields_html .= "<label for='f-{$field['id']}' class='" . ($field['label'] == '' ? 'hidden' : '') . "'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $maxwords = 0;
                 if( isset($field['max-words']) && $field['max-words'] > 0 ) {
