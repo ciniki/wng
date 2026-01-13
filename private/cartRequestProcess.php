@@ -1203,18 +1203,22 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             } */
             
         }
+        $thankyoumsg = 'Thank you for your payment.';
+        if( isset($settings['cart-payment-success-message']) && $settings['cart-payment-success-message'] != '' ) {
+            $thankyoumsg = $settings['cart-payment-success-message'];
+        } 
         if( isset($_GET['redirect_status']) && $_GET['redirect_status'] == 'succeeded' ) {
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'success',
-                'content' => 'Thank you for your payment',
+                'content' => $thankyoumsg,
                 );
         } else if( isset($_GET['redirect_status']) && $_GET['redirect_status'] == 'pending' ) {     
             // FIXME: find out pending status when waiting for interac to complete
             $blocks[] = array(
                 'type' => 'msg',
                 'level' => 'success',
-                'content' => 'Thank you for your payment',
+                'content' => $thankyoumsg,
                 );
         } else {
             $blocks[] = array(
