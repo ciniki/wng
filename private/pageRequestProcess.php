@@ -90,7 +90,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
     // Check if special pages (Account, cart, search, cpi), must be at top level of site
     //
     if( $request['cur_uri_pos'] == -1 && isset($request['uri_split'][0]) 
-        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'cpi', 'stripehook', 'whk'))
+        && in_array($request['uri_split'][0], array('account', 'cart', 'search', 'mail', 'ahk', 'cpi', 'stripehook', 'whk'))
         ) {
         if( $request['uri_split'][0] == 'account' ) {
             $request['cur_uri_pos']++;
@@ -126,6 +126,14 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'apiRequestProcess');
             $rc = ciniki_wng_apiRequestProcess($ciniki, $tnid, $request);
             $rc['json'] = 'yes';
+        } 
+        // 
+        // Handler for the Ciniki Account Hook
+        //
+        elseif( $request['uri_split'][0] == 'ahk' ) {
+            $request['cur_uri_pos']+=2;
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'acthookRequestProcess');
+            $rc = ciniki_wng_acthookRequestProcess($ciniki, $tnid, $request);
         } 
         // 
         // Handler for Ciniki Webhooks (called cwh to avoid bots hitting /webhooks
