@@ -718,6 +718,7 @@ header .block-imagemenu .main-menu nav {
 .block-form.musicfestival-recommendations #s-submit.form-section {
     display: block;
 }
+.block-form.musicfestival-recommendations .form-section .form-buttons,
 .block-form.musicfestival-recommendations #s-save.form-section .form-buttons,
 .block-form.musicfestival-recommendations #s-submit.form-section .form-buttons {
     display: none;
