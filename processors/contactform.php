@@ -162,6 +162,10 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                 || preg_match("/Effective PPC Campaigns/", $subject) 
                 || preg_match("/Sculpting Tomorrow's Digital Icons/", $subject)
                 || preg_match("/domainworld.com/", $_POST['contact-form-email']) 
+                || preg_match("/info.greatlink.cc/", $_POST['contact-form-email']) 
+                || preg_match("/theyaretrusted.com/", $_POST['contact-form-email']) 
+                || preg_match("/allcards.ai/", $_POST['contact-form-email']) 
+                || preg_match("/revenuecreato.ai/", $_POST['contact-form-email']) 
                 ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
                 ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
