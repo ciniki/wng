@@ -86,6 +86,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
 
         $content .= "<div class='item title-"
             . (isset($item['title-position']) && $item['title-position'] != '' ? $item['title-position'] : 'below')
+            . (isset($item['class']) && $item['class'] != '' ? ' ' . $item['class'] : '')
             . "'>";
         $url = 'no';
         if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
