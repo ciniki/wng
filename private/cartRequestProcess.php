@@ -952,7 +952,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     if( $rc['stat'] == 'updated' ) {
                         $updated = $rc['msg'];
                     } elseif( $rc['stat'] == 'blocked' ) {
-                        $blocked .= $rc['err']['msg'];
+                        $blocked .= $rc['blocked'];
                     } elseif( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
                     }
