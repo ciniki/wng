@@ -933,7 +933,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     $blocked .= ($blocked != '' ? "\n" : '') . $item['item']['description'];
                 }
                 elseif( $rc['stat'] == 'updated' ) {
-                    $updated .= ($updated != '' ? "\n" : '') . $rc['msg'];
+                    $updated .= ($updated != '' ? "\n" : '') . $rc['err']['msg'];
                 }
                 elseif( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
@@ -952,7 +952,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     if( $rc['stat'] == 'updated' ) {
                         $updated = $rc['msg'];
                     } elseif( $rc['stat'] == 'blocked' ) {
-                        $blocked .= $rc['msg'];
+                        $blocked .= $rc['err']['msg'];
                     } elseif( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
                     }
