@@ -455,6 +455,10 @@ header .block-imagemenu .main-menu nav {
         max-width: 33.33%;
     }
 }
+/* Accolades */
+.block-asideimage.musicfestival-accolade img {
+    max-height: 35rem;
+}
 /* Block textcards - accolades */
 .block-textcards.musicfestival-accolades .item-wrap {
     padding: 0;

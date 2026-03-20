@@ -89,7 +89,14 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
             }
             $content .= "'>";
             $content .= '</div></div>';
-        } 
+        } elseif( isset($block['no-image']) && $block['no-image'] == 'blank' ) {
+            $content .= "<div class='image-wrap'><div class='image ratio-{$image_ratio}'"
+                . " style='background:#fff; "
+                . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
+                . ";";
+            $content .= "'>";
+            $content .= '</div></div>';
+        }
 
         $content .= "<div class='details'>";
         if( isset($item['title']) ) {
