@@ -90,6 +90,12 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
             $content .= "'>";
             $content .= '</div></div>';
         } elseif( isset($block['no-image']) && $block['no-image'] == 'blank' ) {
+            $image_ratio = '1-1';
+            if( isset($item['image-ratio']) && $item['image-ratio'] != '' ) {
+                $image_ratio = $item['image-ratio'];
+            } elseif( isset($block['image-ratio']) && $block['image-ratio'] != '' ) {
+                $image_ratio = $block['image-ratio'];
+            }
             $content .= "<div class='image-wrap'><div class='image ratio-{$image_ratio}'"
                 . " style='background:#fff; "
                 . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')

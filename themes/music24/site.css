@@ -459,6 +459,24 @@ header .block-imagemenu .main-menu nav {
 .block-asideimage.musicfestival-accolade img {
     max-height: 35rem;
 }
+@media screen and (max-width: 40em) {
+    .block-tradingcards.musicfestival-accolades .item.no-image .image-wrap {
+        display: none;
+    }
+}
+.block-tradingcards.musicfestival-accolades a {
+    display: block;
+    box-shadow: 1px 1px 5px #ddd;
+    border-radius: 0.5rem;
+    height: 100%;
+    background: #fff;
+}
+.block-tradingcards.musicfestival-accolades .item-wrap {
+    border-radius: 0.5rem;
+}
+.block-tradingcards.musicfestival-accolades .item {
+    padding: 0.75rem;
+}
 /* Block textcards - accolades */
 .block-textcards.musicfestival-accolades .item-wrap {
     padding: 0;
