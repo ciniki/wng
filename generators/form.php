@@ -424,7 +424,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             }
                             $sections .= $field_description;
                             $sections .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
-                                . ($editable == 'no' ? " readonly" : '')
+                                . ($editable == 'no' ? " disabled" : '')
                                 . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                                 . ">";
                             if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
@@ -1032,6 +1032,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
                 $fields_html .= "<select name='f-{$field['id']}' id='f-{$field['id']}'"
+                    . ($editable == 'no' ? " disabled" : '')
                     . (isset($field['onchange']) ? " onchange='{$field['onchange']}'" : '')
                     . ">";
                 if( !isset($field['blank']) || $field['blank'] == 'yes' ) {
