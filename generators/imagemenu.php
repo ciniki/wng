@@ -64,9 +64,13 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         } else {
             $content .= "<a href='" . $request['base_url'] . "'>";
         }
-        $content .= "<img alt='Home' src='" . $rc['url'] . "'"
-            . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\" sizes='50vw'" : '')
-            . "/>";
+        if( isset($block['image-size']) && $block['image-size'] == 'full' ) {
+            $content .= "<img alt='Home' src='" . $rc['url'] . "'/>";
+        } else {
+            $content .= "<img alt='Home' src='" . $rc['url'] . "'"
+                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\" sizes='50vw'" : '')
+                . "/>";
+        }
         $content .= "</a>";
         $content .= '</div>';
 

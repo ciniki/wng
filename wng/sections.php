@@ -91,6 +91,11 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'center' => 'Center',
 //                'right' => 'Right', // **Future**
                 ));
+    $sections['ciniki.wng.headermenu']['settings']['image-size'] = array(
+        'label'=>'Image Position', 'type'=>'toggle', 'default'=>'auto', 'toggles'=>array(
+                'auto' => 'Auto',
+                'full' => 'Full',
+                ));
     $sections['ciniki.wng.headermenu']['settings']['title'] = array('label'=>'Title', 'type'=>'text');
     $sections['ciniki.wng.headermenu']['settings']['dropdown'] = array(
         'label'=>'Dropdown Menus', 'type'=>'toggle', 'default'=>'off', 'toggles'=>array(

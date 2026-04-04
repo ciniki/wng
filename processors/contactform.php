@@ -157,6 +157,12 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                     'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - NUMERIC MESSAGE');
                 return array('stat'=>'ok', 'blocks'=>array($success_message));
             }
+            if( isset($msg) && preg_match("/(SEO|PPC)/", $msg) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
+                    'BLOCKED FROM ' . $_POST['contact-form-email'] . ' - SEO MESSAGE');
+                return array('stat'=>'ok', 'blocks'=>array($success_message));
+            }
             if( preg_match("/domainreg[a-z]*.com/", $_POST['contact-form-email'])
                 || preg_match("/EXPIR.*DOMAIN/", $subject) 
                 || preg_match("/Effective PPC Campaigns/", $subject) 

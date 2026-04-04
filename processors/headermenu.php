@@ -373,6 +373,9 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
         $block['image-toggle-em'] = isset($s['toggle-em']) ? $s['toggle-em'] : '';
         $block['class'] .= ' center-logo';
     }
+    if( isset($s['image-size']) && $s['image-size'] != '' ) {
+        $block['image-size'] = $s['image-size'];
+    }
     if( isset($s['dropdown']) && $s['dropdown'] != '' && $s['dropdown'] != 'off' ) {
         $block['dropdown'] = $s['dropdown'];
     }
