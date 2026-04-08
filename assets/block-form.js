@@ -26,7 +26,7 @@ C.form = {
         var e = C.gE('s-' + i)
         C.aC(e, 'selected');
         this.cs = i;
-        if( e.parentNode.getBoundingClientRect().y < 0 ) {
+        if( e.parentNode.getBoundingClientRect().y < 0 || e.parentNode.getBoundingClientRect().y > window.innerHeight ) {
             window.scroll(0,e.offsetTop);
         }
     },
