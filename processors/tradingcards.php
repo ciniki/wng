@@ -40,6 +40,16 @@ function ciniki_wng_processors_tradingcards(&$ciniki, $tnid, &$request, $section
                 'synopsis' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 );
         }
+        elseif( isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ) {
+            $items[] = array(
+                'title' => isset($s["title-{$i}"]) && $s["title-{$i}"] != '' ? $s["title-{$i}"] : '&nbsp;',
+                'title-position' => isset($s["title-position-{$i}"]) ? $s["title-position-{$i}"] : $title_position,
+                'button-1-page' => isset($s["link-page-{$i}"]) ? $s["link-page-{$i}"] : (isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0),
+                'button-1-text' => isset($s["link-text-{$i}"]) ? $s["link-text-{$i}"] : (isset($s["link-{$i}-text"]) ? $s["link-{$i}-text"] : ''),
+                'button-1-url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : (isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : ''),
+                'synopsis' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
+                );
+        }
     }
 
     if( isset($s['title']) && $s['title'] != '' ) {
