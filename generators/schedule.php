@@ -37,21 +37,26 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
     // Process the video
     //
     if( isset($block['video-url']) && $block['video-url'] != '' ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
-        $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array(
-            'url' => $block['video-url'],
-            'title' => $block['title'],
-    //        'sequence' => $block['sequence'],
-    //        'clickload' => (isset($block['clickload']) && $block['clickload'] == 'no' ? 'no' : 'yes'),
-            ));
-        if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
-        }
-        $videocontent = $rc['content'];
-        if( !isset($block['js']) ) {
-            $block['js'] = $rc['js'];
-        } else {
-            $block['js'] .= $rc['js'];
+        $urls = explode(',', $block['video-url']);
+        $videocontent = '';
+        foreach($urls as $url) {
+            $url = trim($url);
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'videoProcess');
+            $rc = ciniki_wng_videoProcess($ciniki, $tnid, $request, array(
+                'url' => $url,
+                'title' => $block['title'],
+        //        'sequence' => $block['sequence'],
+        //        'clickload' => (isset($block['clickload']) && $block['clickload'] == 'no' ? 'no' : 'yes'),
+                ));
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+            }
+            $videocontent .= $rc['content'];
+            if( !isset($block['js']) ) {
+                $block['js'] = $rc['js'];
+            } else {
+                $block['js'] .= $rc['js'];
+            }
         }
     }
 
