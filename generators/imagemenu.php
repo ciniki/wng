@@ -87,6 +87,9 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
             $content .= "<a href='" . $request['base_url'] . "'>";
         }
         $content .= "<h1>" . $block['title'] . "</h1>";
+        if( isset($block['subtitle']) && $block['subtitle'] != '' ) {
+            $content .= "<h2>" . $block['subtitle'] . "</h2>";
+        }
         $content .= "</a></div>";
     }
 
