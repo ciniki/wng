@@ -68,6 +68,14 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
             $content .= "<div class='item'>";
         }
         $url = 'no';
+        //
+        // Check if urls in content
+        //
+        $processed_content = '';
+        if( isset($item['content']) && $item['content'] != '' ) {
+            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
+            $processed_content = $rc['content'];
+        }
         if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request,
                 isset($item['page']) ? $item['page'] : 0,
@@ -76,8 +84,12 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.228', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
             }
-            $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
-            $url = 'yes';
+            if( !str_contains($processed_content, '<a ') ) {
+                $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
+                $url = 'yes';
+            } else {
+                $link_url = $rc['url'];
+            }
         }
         $content .= "<div class='item-wrap'>";
 
@@ -90,15 +102,14 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
         $content .= "<div class='info'>";
         if( isset($item['content']) && $item['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.229', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
-            }
             $content .= "<div class='text'>" . $rc['content'] . "</div>";
         }
         $content .= '</div>';
     
         if( $url == 'yes' && isset($item['link-text']) && $item['link-text'] != '' ) {
             $content .= "<div class='button'>{$item['link-text']}</div>";
+        } elseif( isset($link_url) ) {
+            $content .= "<div class='button-wrap'><a class='button' href='{$link_url}'>{$item['link-text']}</a></div>";
         }
         if( isset($item['buttons']) && count($item['buttons']) > 0 ) {
             $content .= "<div class='buttons'>";
