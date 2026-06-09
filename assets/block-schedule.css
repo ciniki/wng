@@ -103,6 +103,9 @@
 .block-schedule .details-table .video-title .perf-video {
     text-align: right;
 }
+.block-schedule .cell-content {
+    display: block;
+}
 @media screen and (min-width: 40em) {
     .block-schedule .content {
         padding-left: 2rem;
