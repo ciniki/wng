@@ -43,13 +43,15 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
-            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+//            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+//            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $block['image-id'],
                 'version' => 'original',
                 'maxwidth' => 2048,
-                'webp' => 'yes',
-                'sizes' => '400,600,1000,1500',
+//                'webp' => 'yes',
+//                'sizes' => '400,600,1000,1500',
                 ));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.102', 'msg'=>'', 'err'=>$rc['err']));
@@ -59,9 +61,10 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
             // Make sure the image is in the cache
             //
             $image_content .= "<div class='image-wrap'>";
-            $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
-                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
-                . "/>";
+            $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
+//            $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
+//                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
+//                . "/>";
             if( isset($block['image-caption']) && $block['image-caption'] != '' ) {
                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['image-caption']);
                 if( $rc['stat'] != 'ok' ) {
