@@ -235,6 +235,8 @@ if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
     $request['domain'] = $_SERVER['HTTP_HOST'];
     $request['base_url'] = '';
     $strsql = "SELECT tenants.id AS tnid, "
+        . "tenants.uuid AS tenant_uuid, "
+        . "tenants.name AS tenant_name, "
         . "domains.domain, "
         . "domains.flags AS domain_flags, "
         . "sites.id, "
@@ -265,6 +267,16 @@ if( $site == null && isset($_SERVER['HTTP_HOST']) ) {
                 $site = $s;
                 $request['base_url'] = '/' . $s['permalink'];
                 array_shift($request['uri_split']);
+            } elseif( $site == null && (($s['flags']&0x01) == 0x01 || $s['permalink'] == '') ) {
+                // Start building cache to reduce database lookups
+                $ciniki['tenant'] = [
+                    'uuid' => $s['tenant_uuid'],
+                    'name' => $s['tenant_name'],
+                    'modules' => [],
+                    ];
+                unset($s['tenant_uuid']);
+                unset($s['tenant_name']);
+                $site = $s;
             } elseif( ($s['flags']&0x01) == 0x01 && $site == null ) {
                 $site = $s;
             } elseif( $s['permalink'] == '' && $site == null ) {
@@ -373,24 +385,26 @@ $request['api_url'] = $request['base_url'] . '/cpi';
 //
 // Load the tenant information
 //
-$strsql = "SELECT uuid, name "
-    . "FROM ciniki_tenants "
-    . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $site['tnid']) . "' "
-    . "";
-$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'tenant');
-if( $rc['stat'] != 'ok' ) {
-    ciniki_wng_printError($ciniki, $rc, 'Unable to load site');
-    exit;
+if( !isset($ciniki['tenant']['uuid']) ) {
+    $strsql = "SELECT uuid, name "
+        . "FROM ciniki_tenants "
+        . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $site['tnid']) . "' "
+        . "";
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'tenant');
+    if( $rc['stat'] != 'ok' ) {
+        ciniki_wng_printError($ciniki, $rc, 'Unable to load site');
+        exit;
+    }
+    if( !isset($rc['tenant']) ) {
+        ciniki_wng_printError($ciniki, null, 'Unable to load site');
+        exit;
+    }
+    $ciniki['tenant'] = array(
+        'uuid' => $rc['tenant']['uuid'],
+        'name' => $rc['tenant']['name'],
+        'modules' => array(),
+        );
 }
-if( !isset($rc['tenant']) ) {
-    ciniki_wng_printError($ciniki, null, 'Unable to load site');
-    exit;
-}
-$ciniki['tenant'] = array(
-    'uuid' => $rc['tenant']['uuid'],
-    'name' => $rc['tenant']['name'],
-    'modules' => array(),
-    );
 
 //
 // Check if the module is enabled for this tenant, don't really care about the ruleset
