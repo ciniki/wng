@@ -53,9 +53,10 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
                     'image_id' => $item['image-id'],
                     'version' => 'original',
                     'maxwidth' => '2048',
-                    'webp' => 'yes',
+// Removed webp as it doesn't look as good
+//                    'webp' => 'yes',
                     'css_selector' => "#carousel-items-{$carousel_id}-{$iid} .image",
-                    'sizes' => '500,1000,1500',
+                    'sizes' => '1000,2048',
                     ));
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.158', 'msg'=>'', 'err'=>$rc['err']));
