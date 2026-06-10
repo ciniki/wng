@@ -15,7 +15,7 @@
 // Returns
 // -------
 //
-function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
+function ciniki_wng_cacheImageAdd(&$ciniki, $tnid, $site, $args) {
 
     if( !isset($args['image_id']) || $args['image_id'] == '' || $args['image_id'] == 0 ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.75', 'msg'=>'No image specified'));
@@ -39,20 +39,26 @@ function ciniki_wng_cacheImageAdd($ciniki, $tnid, $site, $args) {
     //
     // Load the image
     //
-    $strsql = "SELECT id, uuid, type, UNIX_TIMESTAMP(ciniki_images.last_updated) AS last_updated "
-        . "FROM ciniki_images "
-        . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $args['image_id']) . "' "
-        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
-        . "";
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.images', 'image');
-    if( $rc['stat'] != 'ok' ) { 
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.81', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
+    if( isset($ciniki['dbcache']['ciniki.wng.imagelastupdated.' . $args['image_id']]) ) {
+        $img = $ciniki['dbcache']['ciniki.wng.imagelastupdated.' . $args['image_id']];
+    } else {
+        $strsql = "SELECT id, uuid, type, UNIX_TIMESTAMP(ciniki_images.last_updated) AS last_updated "
+            . "FROM ciniki_images "
+            . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $args['image_id']) . "' "
+            . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.images', 'image');
+        if( $rc['stat'] != 'ok' ) { 
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.81', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
+        }
+        if( !isset($rc['image']) ) {
+            error_log('Image ' . $args['image_id'] . ' does not exist');
+            return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.82', 'msg'=>'The image you requested does not exist.'));
+        }
+        $img = $rc['image'];
+        $ciniki['dbcache']['ciniki.wng.imagelastupdated.' . $args['image_id']] = $img;
     }
-    if( !isset($rc['image']) ) {
-        error_log('Image ' . $args['image_id'] . ' does not exist');
-        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.wng.82', 'msg'=>'The image you requested does not exist.'));
-    }
-    $img = $rc['image'];
+
 
     //
     // Build working path, and final url

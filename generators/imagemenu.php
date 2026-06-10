@@ -39,16 +39,19 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         //
         // Copy image to cache
         //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
-        $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+        $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array(
+//        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+//        $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
             'image_id' => $block['image-id'],
             'version' => 'original',
-//            'maxheight' => 500,
-            'maxwidth' => '1000',
+            'maxheight' => 750,
+//            'maxwidth' => '1000',
             'quality' => 90,
-            'webp' => 'yes',
-            'sizes' => '150,250,500,750',
-            ));
+//            'webp' => 'yes',
+//            'sizes' => '500,1000',
+            )); 
+
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.108', 'msg'=>'', 'err'=>$rc['err']));
         }
@@ -64,13 +67,13 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
         } else {
             $content .= "<a href='" . $request['base_url'] . "'>";
         }
-        if( isset($block['image-size']) && $block['image-size'] == 'full' ) {
+//        if( isset($block['image-size']) && $block['image-size'] == 'full' ) {
             $content .= "<img alt='Home' src='" . $rc['url'] . "'/>";
-        } else {
-            $content .= "<img alt='Home' src='" . $rc['url'] . "'"
-                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\" sizes='50vw'" : '')
-                . "/>";
-        }
+//        } else {
+//            $content .= "<img alt='Home' src='" . $rc['url'] . "'"
+//                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\" sizes='50vw'" : '')
+//                . "/>";
+//        }
         $content .= "</a>";
         $content .= '</div>';
 
