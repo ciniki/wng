@@ -28,6 +28,9 @@ function ciniki_wng_contentProcess($ciniki, $tnid, $request, $unprocessed_conten
     if( strncmp($unprocessed_content, "<p>", 3) == 0 
         || strncmp($unprocessed_content, "<p ", 3) == 0 
         || strncmp($unprocessed_content, "<ul>", 4) == 0 
+        || strncmp($unprocessed_content, "<h1", 3) == 0 
+        || strncmp($unprocessed_content, "<h2", 3) == 0 
+        || strncmp($unprocessed_content, "<h3", 3) == 0 
         || strncmp($unprocessed_content, "<ul ", 4) == 0 
         || strncmp($unprocessed_content, "<ol>", 4) == 0 
         || strncmp($unprocessed_content, "<ol ", 4) == 0 
