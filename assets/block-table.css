@@ -53,6 +53,51 @@
 .block-table td.statusteal {
     background: #cefff8;
 }
+.block-table tr.statusgreenfade:nth-child(odd),
+.block-table tr.statusgreenfade:nth-child(even),
+.block-table td.statusgreenfade {
+    background: linear-gradient(90deg, #ddffdd, #ffffff);
+}
+.block-table tr.statusorangefade:nth-child(odd),
+.block-table tr.statusorangefade:nth-child(even),
+.block-table td.statusorangefade {
+    background: linear-gradient(90deg, #ffefdd, #ffffff);
+}
+.block-table tr.statusyellowfade:nth-child(odd),
+.block-table tr.statusyellowfade:nth-child(even),
+.block-table td.statusyellowfade {
+    background: linear-gradient(90deg, #fffdc5, #ffffff);
+}
+.block-table tr.statusredfade:nth-child(odd),
+.block-table tr.statusredfade:nth-child(even),
+.block-table td.statusredfade {
+    background: #ffdddd;
+    background: linear-gradient(90deg, #ffdddd, #ffffff);
+}
+.block-table tr.statusgreyfade:nth-child(odd),
+.block-table tr.statusgreyfade:nth-child(even),
+.block-table td.statusgreyfade {
+    background: linear-gradient(90deg, #dddddd, #ffffff);
+}
+.block-table tr.statusbluefade:nth-child(odd),
+.block-table tr.statusbluefade:nth-child(even),
+.block-table td.statusbluefade {
+    background: linear-gradient(90deg, #ddf1ff, #ffffff);
+}
+.block-table tr.statuspurplefade:nth-child(odd),
+.block-table tr.statuspurplefade:nth-child(even),
+.block-table td.statuspurplefade {
+    background: linear-gradient(90deg, #f0ddff, #ffffff);
+}
+.block-table tr.statustealfade:nth-child(odd),
+.block-table tr.statustealfade:nth-child(even),
+.block-table td.statustealfade {
+    background: linear-gradient(90deg, #cefff8, #ffffff);
+}
+.block-table tr.statuslinethrough td,
+.block-table td.statuslinethrough {
+    text-decoration: line-through;
+}
 .block-table tr.statuswhite:nth-child(odd),
 .block-table tr.statuswhite:nth-child(even),
 .block-table tr.statusgreen:nth-child(odd),
@@ -70,7 +115,23 @@
 .block-table tr.statuspurple:nth-child(odd),
 .block-table tr.statuspurple:nth-child(even),
 .block-table tr.statusteal:nth-child(odd),
-.block-table tr.statusteal:nth-child(even) {
+.block-table tr.statusteal:nth-child(even),
+.block-table tr.statusgreenfade:nth-child(odd),
+.block-table tr.statusgreenfade:nth-child(even),
+.block-table tr.statusyellowfade:nth-child(odd),
+.block-table tr.statusyellowfade:nth-child(even),
+.block-table tr.statusorangefade:nth-child(odd),
+.block-table tr.statusorangefade:nth-child(even),
+.block-table tr.statusredfade:nth-child(odd),
+.block-table tr.statusredfade:nth-child(even),
+.block-table tr.statusgreyfade:nth-child(odd),
+.block-table tr.statusgreyfade:nth-child(even),
+.block-table tr.statusbluefade:nth-child(odd),
+.block-table tr.statusbluefade:nth-child(even),
+.block-table tr.statuspurplefade:nth-child(odd),
+.block-table tr.statuspurplefade:nth-child(even),
+.block-table tr.statustealfade:nth-child(odd),
+.block-table tr.statustealfade:nth-child(even) {
     border-bottom: 1px solid #000;
 }
 .block-table.subtitle h2 {
