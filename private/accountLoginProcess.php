@@ -729,6 +729,14 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
         }
 
         $blocks[] = $block;
+
+        if( isset($settings['account-bottom-msg']) && $settings['account-bottom-msg'] != '' ) {
+            $blocks[] = array(
+                'type' => 'text', 
+                'class' => 'aligncenter',
+                'content' => $settings['account-bottom-msg'],
+                );
+        }
     }
 
     //

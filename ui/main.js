@@ -452,6 +452,7 @@ function ciniki_wng_main() {
                 'account-signup-confirm-password':{'label':'Confirm Password', 'type':'toggle', 'default':'no', 
                     'toggles':{'no':'No', 'yes':'Yes'},
                     },
+                'account-bottom-msg':{'label':'Bottom Message', 'type':'textarea', 'size':'small'},
             }},
         'accountmenu':{'label':'Account Menu Items', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'account' ? 'yes' : 'no'); },
