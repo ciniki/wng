@@ -36,6 +36,11 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         $quotient = ' q-prime';
     }
 
+    $image_bg = '#fff';
+    if( isset($block['background-color']) && $block['background-color'] != '' ) {
+        $image_bg = $block['background-color'];
+    }
+
     //
     // Use the sequence number to give each carousel a unique id which 
     // allows several carousels on the same page
@@ -120,7 +125,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         $content .= "<div class='image-wrap'><div class='image ratio-"
             . (isset($item['image-ratio']) && $item['image-ratio'] ? $item['image-ratio'] : '1-1')
             . "' "
-            . "style='background:#fff url(" . $image['url'] . ") "
+            . "style='background:{$image_bg} url(" . $image['url'] . ") "
             . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
             . ";";
         if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {

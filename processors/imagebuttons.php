@@ -50,6 +50,7 @@ function ciniki_wng_processors_imagebuttons(&$ciniki, $tnid, &$request, $section
             'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'sequence' => $section['sequence'],
             'image-format' => isset($s["image-format"]) ? $s["image-format"] : $image_format,
+            'background-color' => isset($s["background-color"]) ? $s["background-color"] : '',
             'items' => $items,
             );
     }
