@@ -66,12 +66,14 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             //
             // Copy image to cache
             //
-            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
-            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+//            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageSizes');
+//            $rc = ciniki_wng_cacheImageSizes($ciniki, $tnid, $request['site'], array( 
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+            $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                 'image_id' => $item['image-id'],
                 'version' => 'original',
-                'maxwidth' => '1200',
-                'webp' => 'yes',
+                'maxwidth' => 1200,
+//                'webp' => 'yes',
 //                'sizes' => '500,1000',
                 ));
             if( $rc['stat'] != 'ok' ) {
