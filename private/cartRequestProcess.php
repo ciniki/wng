@@ -70,6 +70,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
 //    $paypal_checkout = 'no';
     $stripe_checkout = 'no';
     $etransfer_checkout = 'no';
+    $cheque_checkout = 'no';
     $page_title = "Shopping Cart";
     $required_account_fields = array();
     $required_account_fields['first'] = 'First Name';
@@ -187,6 +188,9 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
 
     if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.sapos', 0x40000000) ) {
         $etransfer_checkout = 'yes';
+    }
+    if( isset($request['session']['customer']['cheque_checkout']) && $request['session']['customer']['cheque_checkout'] == 'yes' ) {
+        $cheque_checkout = 'yes';
     }
 
     if( (isset($_POST['action']) && in_array($_POST['action'], ['signin', 'signup', 'forgot']))
@@ -1075,6 +1079,31 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         } else {
             $display_success = 'yes';
             $display_cart = 'etransfer_success';
+            $cart = NULL;
+            $request['session']['cart'] = array(
+                'id' => 0,
+                'sapos_id' => 0,
+                'num_items' => 0,
+                );
+        }
+    }
+    //
+    // Check if cheque checkout
+    //
+    elseif( isset($_POST['action']) && $_POST['action'] == 'update' 
+        && isset($_POST['cheque_checkout']) 
+        && isset($cart['items']) && count($cart['items']) > 0 
+        ) {
+        $cart_total = $cart['total_amount']; // Save for later use in success message
+        $invoice_number = $cart['invoice_number']; // Save for later use in success message
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'chequeCheckout');
+        $rc = ciniki_sapos_wng_chequeCheckout($ciniki, $tnid, $request, $cart);
+        if( $rc['stat'] != 'ok' ) {
+            $carterrors = $rc['err']['msg'];
+            $display_cart = 'yes';
+        } else {
+            $display_success = 'yes';
+            $display_cart = 'cheque_success';
             $cart = NULL;
             $request['session']['cart'] = array(
                 'id' => 0,
@@ -2096,12 +2125,15 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             if( $display_cart == 'review' ) {
                 $content .= "<span class='submit'>"
                     . "<input class='button submit' type='submit' name='continue' value='Cancel'/></span>";
-                if( ($stripe_checkout == 'yes' || $stripe_checkout == 'elements' || $etransfer_checkout == 'yes') && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
+                if( ($stripe_checkout == 'yes' || $stripe_checkout == 'elements' || $etransfer_checkout == 'yes' || $cheque_checkout == 'yes') && $cart['total_amount'] == 0 && $cart['preorder_total_amount'] == 0 ) {
                     $content .= "<button class='button submit' onclick='' type='submit' name='nocharge_checkout'>Confirm</button>";
                 }
-                elseif( $etransfer_checkout == 'yes' || $stripe_checkout == 'yes' || $stripe_checkout == 'elements' ) {
+                elseif( $etransfer_checkout == 'yes' || $cheque_checkout == 'yes' || $stripe_checkout == 'yes' || $stripe_checkout == 'elements' ) {
                     if( $etransfer_checkout == 'yes' ) {
                         $content .= "<button class='button submit' onclick='' type='submit' name='etransfer_checkout'>Submit and Send e-transfer</button>";
+                    }
+                    if( $cheque_checkout == 'yes' ) {
+                        $content .= "<button class='button submit' onclick='' type='submit' name='cheque_checkout'>Submit and Send Cheque</button>";
                     }
                     if( $stripe_checkout == 'yes' ) {
                         if( !isset($request['response']['head']['scripts']) ) {
@@ -2192,6 +2224,38 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
             );
         if( isset($settings['cart-etransfer-submitted-message']) && $settings['cart-etransfer-submitted-message'] != '' ) {
             $block['content'] = $settings['cart-etransfer-submitted-message'];
+        } 
+        $block['content'] = str_replace('{_invoice_total_}', '$' . number_format($cart_total, 2), $block['content']);
+        $block['content'] = str_replace('{_invoice_number_}', $invoice_number, $block['content']);
+        $blocks[] = $block;
+
+        //
+        // Check for a redirect 
+        //
+        if( isset($request['session']['cart-redirect-success']) 
+            && $request['session']['cart-redirect-success'] != ''
+            ) {
+            $request['session']['cart-payment-success'] = 'yes';
+            header('Location: ' . $request['session']['cart-redirect-success']);
+            unset($request['session']['cart-redirect-success']);
+            return array('stat'=>'exit');
+        }
+
+    }
+    if( $display_cart == 'cheque_success' ) {
+        $request['breadcrumbs'][] = array(
+            'name' => 'Cart', 
+            'page-class' => 'page-cart',
+            'url' => $request['ssl_domain_base_url'] . '/cart',
+            );
+        $block = array(
+            'type' => 'msg',
+            'level' => 'success',
+            'class' => 'limit-width',
+            'content' => 'Thank you for your order, please send an cheque for the amount of: {_invoice_total_}.',
+            );
+        if( isset($settings['cart-cheque-submitted-message']) && $settings['cart-cheque-submitted-message'] != '' ) {
+            $block['content'] = $settings['cart-cheque-submitted-message'];
         } 
         $block['content'] = str_replace('{_invoice_total_}', '$' . number_format($cart_total, 2), $block['content']);
         $block['content'] = str_replace('{_invoice_number_}', $invoice_number, $block['content']);

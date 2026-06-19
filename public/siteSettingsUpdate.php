@@ -61,6 +61,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'cart-checkout-message',
         'cart-etransfer-submitted-message',
         'cart-etransfer-submitted-emails',
+        'cart-cheque-submitted-message',
+        'cart-cheque-submitted-emails',
         'cart-payment-success-message',
         'cart-payment-success-emails',
         'cart-donation-message',
