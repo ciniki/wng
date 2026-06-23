@@ -28,7 +28,7 @@ create table ciniki_wng_settings (
     tnid int not null,
     site_id int not null,
     detail_key varchar(255) not null,
-    detail_value varchar(10000) not null,
+    detail_value text not null,
     date_added datetime not null,
     last_updated datetime not null,
     primary key (id),
