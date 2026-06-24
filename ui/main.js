@@ -67,9 +67,10 @@ function ciniki_wng_main() {
                     }
                     return 'no';
                 },
-            'editFn':function(s, i, d) {
-                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-                },
+// Edit pencil icon is confusing to people, can access via the 3 dots when open page
+//            'editFn':function(s, i, d) {
+//                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+//                },
             'menu':{
                 'add':{
                     'label':'Add Page',
@@ -87,9 +88,9 @@ function ciniki_wng_main() {
                     }
                 return 'no';
                 },
-            'editFn':function(s, i, d) {
-                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
-                },
+//            'editFn':function(s, i, d) {
+//                return 'M.ciniki_wng_main.edit.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',M.ciniki_wng_main.site.site_id);';
+//                },
             'menu':{
                 'add':{
                     'label':'Add Page',

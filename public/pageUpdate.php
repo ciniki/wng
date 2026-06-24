@@ -50,6 +50,13 @@ function ciniki_wng_pageUpdate(&$ciniki) {
     }
 
     //
+    // Check if trying to move page as it's own parent
+    //
+    if( isset($args['parent_id']) && $args['parent_id'] == $args['page_id'] ) {
+        return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.wng.98', 'msg'=>'Parent cannot be same as page'));
+    }
+
+    //
     // Load the current page details
     //
     $strsql = "SELECT ciniki_wng_pages.id, "
