@@ -995,7 +995,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'cropped' => 'Cropped',
                 'padded' => 'Padded',
                 )),
-            'background-color'=>array('label'=>'Background', 'type'=>'toggle', 'default'=>'ffffff', 'toggles'=>array(
+            'background-color'=>array('label'=>'Background', 'type'=>'toggle', 'default'=>'#ffffff', 'toggles'=>array(
                 '#ffffff' => 'White',
                 'transparent' => 'Transparent',
                 )),

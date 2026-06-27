@@ -37,7 +37,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
     }
 
     $image_bg = '#fff';
-    if( isset($block['background-color']) && $block['background-color'] != '' ) {
+    if( isset($block['background-color']) && $block['background-color'] != '' && $block['background-color'] != 0) {
         $image_bg = $block['background-color'];
     }
 
