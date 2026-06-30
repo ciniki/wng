@@ -1118,6 +1118,12 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 $fields_html .= $field_description;
             }
+            elseif( $field['ftype'] == 'htmlcontent' ) {
+                if( isset($field['label']) && $field['label'] != '' ) {
+                    $fields_html .= "<div class='label'>{$field['label']}</div>";
+                }
+                $fields_html .= "<div id='f-{$field['id']}' class='field-description'>" . $field['content'] . "</div>";
+            }
             elseif( $field['ftype'] == 'minsec' ) {
                 $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
                 $fields_html .= $field_description;
