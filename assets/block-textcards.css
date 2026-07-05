@@ -92,6 +92,9 @@
 .block-textcards .collapsed .info {
     display: none;
 }
+.block-textcards div.button {
+    margin-top: 1rem;
+}
 .block-textcards .buttons .button-wrap {
     margin-bottom: 1rem;
 }
