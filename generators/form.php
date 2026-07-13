@@ -883,6 +883,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
+                    . (isset($field['placeholder']) ? " placeholder='{$field['placeholder']}'" : '')
                     . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . (isset($field['disabled']) ? " disabled" : '')

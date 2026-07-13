@@ -87,7 +87,7 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
             $image = $rc;
         } else {
             $image = array(
-                'url' => 'noimage_240.png',
+                'url' => '',
                 );
         }
 
@@ -125,9 +125,12 @@ function ciniki_wng_generators_imagebuttons(&$ciniki, $tnid, &$request, $block) 
         $content .= "<div class='image-wrap'><div class='image ratio-"
             . (isset($item['image-ratio']) && $item['image-ratio'] ? $item['image-ratio'] : '1-1')
             . "' "
-            . "style='background:{$image_bg} url(" . $image['url'] . ") "
-            . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center')
-            . ";";
+            . "style='background:{$image_bg}";
+        if( $image['url'] != '' ) {
+            $content .= " url(" . $image['url'] . ") "
+                . (isset($item['image-position']) && $item['image-position'] != '' ? $item['image-position'] : 'center');
+        }
+        $content .= ";";
         if( isset($block['image-format']) && $block['image-format'] == 'padded' ) {
             $content .= "background-size:contain;background-repeat:no-repeat;";
         } elseif( isset($block['image-format']) && $block['image-format'] == 'covertop' ) {
