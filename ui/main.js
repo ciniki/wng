@@ -1121,9 +1121,14 @@ function ciniki_wng_main() {
             },
         '_buttons':{'label':'', 'aside':'no', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.section.save();'},
+            'move':{'label':'Move', 
+                'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
+                'fn':'M.ciniki_wng_main.section.move();',
+                },
             'delete':{'label':'Delete', 
                 'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
-                'fn':'M.ciniki_wng_main.section.remove();'},
+                'fn':'M.ciniki_wng_main.section.remove();',
+                },
             }},
         };
     this.section.fieldValue = function(s, i, d) { 
@@ -1449,7 +1454,7 @@ function ciniki_wng_main() {
         if( !this.checkForm() ) { return false; }
         if( this.section_id > 0 ) {
             var c = this.serializeForm('no');
-            if( c != '' ) {
+            if( c != '' || this.page_id != this.data.page_id ) {
                 M.api.postJSONCb('ciniki.wng.sectionUpdate', {'tnid':M.curTenantID, 'section_id':this.section_id, 'site_id':this.site_id, 'page_id':this.page_id}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
@@ -1470,6 +1475,17 @@ function ciniki_wng_main() {
                 M.ciniki_wng_main.section.section_id = rsp.id;
                 eval(cb);
             });
+        }
+    }
+    this.section.move = function() {
+        M.ciniki_wng_main.pageselect.open('M.ciniki_wng_main.section.moveFinish', this.site_id);
+    }
+    this.section.moveFinish = function(pid) {
+        if( pid != null && pid > 0 && pid != this.page_id ) {
+            this.page_id = pid;
+            this.save();
+        } else {
+            this.show();
         }
     }
     this.section.remove = function() {
@@ -1705,6 +1721,40 @@ function ciniki_wng_main() {
             });
     }
     this.qrcode.addClose('Back');
+
+    //
+    // The panel to edit Page
+    //
+    this.pageselect = new M.panel('Select Page', 'ciniki_wng_main', 'pageselect', 'mc', 'large', 'sectioned', 'ciniki.wng.main.pageselect');
+    this.pageselect.data = {};
+    this.pageselect.page_id = 0;
+    this.pageselect.sections = {
+        'page':{'label':'Move to', 'fields':{
+            'page_id':{'label':'Page', 'hidelabel':'yes', 'type':'select', 
+                'options':{},
+                'complex_options':{'name':'name', 'value':'id'},
+                },
+            }},
+        '_buttons':{'label':'', 'buttons':{
+            'save':{'label':'Move Content', 'fn':'M.ciniki_wng_main.pageselect.save();'},
+            'delete':{'label':'Cancel', 
+                'fn':'M.ciniki_wng_main.pageselect.close();',
+                },
+            }},
+        };
+    this.pageselect.open = function(cb, sid) {
+        this.cb = cb + '();';
+        this.sections.page.fields.page_id.options = M.ciniki_wng_main.site.data.pagelist;
+        this.move_cb = cb;
+        this.site_id = sid;
+        this.refresh();
+        this.show(this.cb);
+    }
+    this.pageselect.save = function() {
+        var pid = this.formValue('page_id');
+        eval(this.move_cb + '(' + pid + ');');
+    }
+    this.pageselect.addClose('Cancel');
 
     //
     // Start the app
