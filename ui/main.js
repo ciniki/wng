@@ -1099,14 +1099,22 @@ function ciniki_wng_main() {
     this.section.curDragging = 0;
     this.section.nplist = [];
     this.section.sections = {
-        'general':{'label':'', 'aside':'yes', 'fields':{
-            'ref':{'label':'Content Type', 'type':'select', 'options':{}, 
-                'onchange':'M.ciniki_wng_main.section.setSectionOptions',
+        'general':{'label':'Content', 'aside':'yes', 
+            'fields':{
+                'ref':{'label':'Content Type', 'type':'select', 'options':{}, 
+                    'onchange':'M.ciniki_wng_main.section.setSectionOptions',
+                    },
+                'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'medium'},
+                'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
+                'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
                 },
-            'label':{'label':'Label', 'required':'yes', 'type':'text', 'size':'medium'},
-            'sequence':{'label':'Order', 'required':'yes', 'type':'text', 'size':'small'},
-            'flags5':{'label':'Hidden', 'type':'flagtoggle', 'bit':0x10, 'field':'flags', 'default':'on'},
-            }},
+            'menu':{
+                'move':{'label':'Move', 
+                    'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
+                    'fn':'M.ciniki_wng_main.section.move();',
+                    },
+                },
+            },
         '_settings':{'label':'Content Details', 'visible':'hidden', 'aside':'yes', 'fields':{
             }},
         'repeats':{'label':'Repeats', 'type':'simplegrid', 'num_cols':1,
@@ -1121,10 +1129,6 @@ function ciniki_wng_main() {
             },
         '_buttons':{'label':'', 'aside':'no', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.section.save();'},
-            'move':{'label':'Move', 
-                'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
-                'fn':'M.ciniki_wng_main.section.move();',
-                },
             'delete':{'label':'Delete', 
                 'visible':function() {return M.ciniki_wng_main.section.section_id > 0 ? 'yes' : 'no'; },
                 'fn':'M.ciniki_wng_main.section.remove();',
@@ -1478,6 +1482,7 @@ function ciniki_wng_main() {
         }
     }
     this.section.move = function() {
+        this.popupMenuClose('general');
         M.ciniki_wng_main.pageselect.open('M.ciniki_wng_main.section.moveFinish', this.site_id);
     }
     this.section.moveFinish = function(pid) {
