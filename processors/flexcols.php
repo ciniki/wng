@@ -53,6 +53,22 @@ function ciniki_wng_processors_flexcols(&$ciniki, $tnid, &$request, $section) {
                 'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 ];
         }
+        if( isset($s["social-icons-{$i}"]) && $s["social-icons-{$i}"] != '' ) {
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGet');
+            $rc = ciniki_wng_socialIconsGet($ciniki, $tnid, $request);
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            $icons = isset($rc['icons']) ? $rc['icons'] : array();
+            if( count($icons) > 0 ) {
+                $columns[$col]['items'][] = [
+                    'type' => 'socialicons',
+                    'items' => $icons,
+                    ];
+            }
+        }
+
+
         $link_type = isset($s["link-type-{$i}"]) && $s["link-type-{$i}"] != '' ? $s["link-type-{$i}"] : 'link';
 
         $links = [];
@@ -81,7 +97,6 @@ function ciniki_wng_processors_flexcols(&$ciniki, $tnid, &$request, $section) {
                 ];
         }
     }
-        error_log(print_r($columns,true));
 
     if( isset($s['title']) && $s['title'] != '' ) {
         $blocks[] = array(

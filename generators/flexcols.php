@@ -102,6 +102,16 @@ function ciniki_wng_generators_flexcols(&$ciniki, $tnid, &$request, $block) {
                 }
                 $content .= "<div class='text'>" . $rc['content'] . "</div>";
             }
+            if( isset($item['type']) && $item['type'] == 'socialicons' && isset($item['items']) && is_array($item['items']) && count($item['items']) > 0 ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGenerate');
+                $rc = ciniki_wng_socialIconsGenerate($ciniki, $tnid, $request, $item['items']);
+                if( $rc['stat'] != 'ok' ) {
+                    return $rc;
+                }
+                if( isset($rc['content']) && $rc['content'] != '' ) {
+                    $content .= "<div class='icons'>" . $rc['content'] . "</div>";
+                }
+            }
             if( isset($item['type']) && $item['type'] == 'links' && isset($item['items']) && is_array($item['items']) && count($item['items']) > 0 ) {
                 $link_content = '';
                 foreach($item['items'] as $link) {

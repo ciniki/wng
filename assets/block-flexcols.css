@@ -29,6 +29,46 @@
 .block-flexcols .column p {
     margin-bottom: 1rem;
 }
+/*.block-socialicons .wrap {
+    display: flex;
+    flex-flow: row nowrap;
+}
+.block-socialicons .content,
+.block-socialicons .icons {
+    width: 50%;
+}
+.block-socialicons .content {
+    padding: 1rem;
+} */
+.block-flexcols .icons {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    padding-right: 1rem;
+}
+.block-flexcols a {
+    display: inline-block;
+    vertical-align: middle;
+}
+.block-flexcols .icon {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0px;
+    padding-left: 0.5rem;
+    padding-top: 0.1rem;
+} 
+.block-flexcols .icons .icon {
+    padding-top: 0rem;
+} 
+.block-flexcols .icon svg {
+    color: #fff;
+    background: #333;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+}
 @media screen and (min-width: 40em) {
     .block-flexcols .content {
         padding: 2rem;

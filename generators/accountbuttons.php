@@ -34,7 +34,16 @@ function ciniki_wng_generators_accountbuttons(&$ciniki, $tnid, $request, $block)
         $content .= "</span>";
 
         if( isset($block['social-icons']) && count($block['social-icons']) > 0 ) {
-            $content .= "<span class='icons'>";
+            ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGenerate');
+            $rc = ciniki_wng_socialIconsGenerate($ciniki, $tnid, $request, $block['social-icons']);
+            if( $rc['stat'] != 'ok' ) {
+                return $rc;
+            }
+            if( isset($rc['content']) && $rc['content'] != '' ) {
+                $content .= "<span class='icons'>" . $rc['content'] . "</span>";
+            }
+
+/*            $content .= "<span class='icons'>";
             foreach($block['social-icons'] as $icon) {
                 if( $icon['type'] == 'facebook' ) {
                     $content .= "<span class='icon'><a target='_blank' aria-label='Facebook' name='Facebook' href='" . $icon['url'] . "'>"
@@ -58,7 +67,7 @@ function ciniki_wng_generators_accountbuttons(&$ciniki, $tnid, $request, $block)
                         . "</a></span>";
                 }
             }
-            $content .= "</span>";
+            $content .= "</span>"; */
         }
 
         $content .= '</div>';

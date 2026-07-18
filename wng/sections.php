@@ -650,6 +650,10 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 'image-link-page' => array('label'=>'Image Click', 'type'=>'select', 'pages'=>'yes'),
                 'image-link-url' => array('label'=>'URL', 'type'=>'text'),
                 'content' => array('label'=>'Content', 'type'=>'htmlarea', 'size'=>'medium'),
+                'social-icons' => array('label'=>'Social Icons', 'type'=>'toggle', 'default'=>'no', 'toggles'=>array(
+                    'no' => 'No',
+                    'yes' => 'Yes',
+                    )),
                 'link-type' => array('label'=>'Link Type', 'type'=>'toggle', 'default'=>'link', 'toggles'=>array(
                     'link' => 'Links',
                     'button' => 'Buttons',

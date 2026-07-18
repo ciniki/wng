@@ -23,8 +23,13 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
     // ** NOTE ** Any changes also need to be processors_socialicons
     //
     if( isset($s['social-icons']) && $s['social-icons'] == 'yes' ) {
-        $icons = array();
-        if( isset($request['site']['settings']['social-facebook-url']) 
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGet');
+        $rc = ciniki_wng_socialIconsGet($ciniki, $tnid, $request);
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        $icons = isset($rc['icons']) ? $rc['icons'] : array();
+/*        if( isset($request['site']['settings']['social-facebook-url']) 
             && $request['site']['settings']['social-facebook-url'] != ''
             ) {
             $icons[] = array(
@@ -59,7 +64,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                 'name' => 'YouTube',
                 'url' => $request['site']['settings']['social-youtube-url'],
                 );
-        }
+        } */
     }
 
     //

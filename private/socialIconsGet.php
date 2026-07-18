@@ -2,6 +2,7 @@
 //
 // Description
 // -----------
+// This function will return the list of social media icons for a site
 // 
 // Arguments
 // ---------
@@ -11,24 +12,9 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section) {
+function ciniki_wng_socialIconsGet(&$ciniki, $tnid, $request) {
 
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-
-    $blocks = array();
-    $s = isset($section['settings']) ? $section['settings'] : array();
-
-    //
-    // Get the social links available
-    // ** Note ** Any changes need to also be in processors_headermenu
-    //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGet');
-    $rc = ciniki_wng_socialIconsGet($ciniki, $tnid, $request);
-    if( $rc['stat'] != 'ok' ) {
-        return $rc;
-    }
-    $icons = isset($rc['icons']) ? $rc['icons'] : array();
-/*    $icons = array();
+    $icons = array();
     if( isset($request['site']['settings']['social-facebook-url']) 
         && $request['site']['settings']['social-facebook-url'] != ''
         ) {
@@ -60,25 +46,8 @@ function ciniki_wng_processors_socialicons(&$ciniki, $tnid, &$request, $section)
             'type' => 'youtube',
             'url' => $request['site']['settings']['social-youtube-url'],
             );
-    } */
-    
-    $block = array(
-        'type' => 'socialicons',
-        'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
-        'content' => isset($s['content']) ? $s['content'] : '',
-        'toggle-em' => isset($s['toggle-em']) ? $s['toggle-em'] : '',
-        'icons' => $icons,
-        );
-
-    if( isset($s['content']) && $s['content'] != '' ) {
-        $block['class'] .= ($block['class'] != '' ? ' ' : '') . 'address';
-    }
-    if( count($icons) > 0 ) {
-        $block['class'] .= ($block['class'] != '' ? ' ' : '') . 'icons';
     }
 
-    $blocks[] = $block;
-
-    return array('stat'=>'ok', 'blocks'=>$blocks);
+    return array('stat'=>'ok', 'icons'=>$icons);
 }
 ?>
