@@ -26,6 +26,15 @@
     flex-basis: 30em;
     flex-grow: 8;
 }
+.block-flexcols .column > div {
+    margin-bottom: 1rem;
+}
+.block-flexcols .column > div.title {
+    margin-bottom: 0.5rem;
+}
+.block-flexcols .column > div:last-child {
+    margin-bottom: 0rem;
+}
 .block-flexcols .column p {
     margin-bottom: 1rem;
 }
@@ -45,8 +54,8 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
+    gap: 1rem;
     text-align: left;
-    padding-right: 1rem;
 }
 .block-flexcols a {
     display: inline-block;
@@ -56,7 +65,6 @@
     display: inline-block;
     vertical-align: middle;
     line-height: 0px;
-    padding-left: 0.5rem;
     padding-top: 0.1rem;
 } 
 .block-flexcols .icons .icon {
