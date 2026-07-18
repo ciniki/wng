@@ -53,7 +53,7 @@ function ciniki_wng_processors_flexcols(&$ciniki, $tnid, &$request, $section) {
                 'content' => isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ? $s["content-{$i}"] : '',
                 ];
         }
-        if( isset($s["social-icons-{$i}"]) && $s["social-icons-{$i}"] != '' ) {
+        if( isset($s["social-icons-{$i}"]) && $s["social-icons-{$i}"] == 'yes' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'socialIconsGet');
             $rc = ciniki_wng_socialIconsGet($ciniki, $tnid, $request);
             if( $rc['stat'] != 'ok' ) {
