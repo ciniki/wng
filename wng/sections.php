@@ -595,6 +595,75 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
     }
 
     //
+    // The Flex Column
+    //
+    $sections['ciniki.wng.flexcols'] = array(
+        'name'=>'Flex Columns',
+        'module' => 'Website',
+        'settings'=>array(
+            'title'=>array('label'=>'Title', 'type'=>'text'),
+            'column-1-size'=>array('label'=>'1st Column Size', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(
+                'xsmall' => 'X-Small',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                'xlarge' => 'X-Large',
+                )),
+            'column-2-size'=>array('label'=>'2nd Column Size', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(
+                'xsmall' => 'X-Small',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                'xlarge' => 'X-Large',
+                )),
+            'column-3-size'=>array('label'=>'3rd Column Size', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(
+                'xsmall' => 'X-Small',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                'xlarge' => 'X-Large',
+                )),
+            'column-4-size'=>array('label'=>'4th Column Size', 'type'=>'toggle', 'default'=>'medium', 'toggles'=>array(
+                'xsmall' => 'X-Small',
+                'small' => 'Small',
+                'medium' => 'Medium',
+                'large' => 'Large',
+                'xlarge' => 'X-Large',
+                )),
+            ),
+        'repeats' => array(
+            'label' => 'Content',
+            'headerValues' => array('Column', 'Label'),
+            'cellClasses' => array('', ''),
+            'dataMaps' => array('col', 'label'),
+            'addTxt' => 'Add Content',
+            'fields' => array(
+                'label'=>array('label'=>'Label', 'type'=>'text'),
+                'col' => array('label'=>'Column', 'type'=>'toggle', 'default'=>'1', 'toggles'=>array(
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    )),
+                'title'=>array('label'=>'Title', 'type'=>'text'),
+                'image' => array('label'=>"Image", 'type'=>'image_id', 'controls'=>'all', 'size'=>'medium'),
+                'image-link-page' => array('label'=>'Image Click', 'type'=>'select', 'pages'=>'yes'),
+                'image-link-url' => array('label'=>'URL', 'type'=>'text'),
+                'content' => array('label'=>'Content', 'type'=>'htmlarea', 'size'=>'medium'),
+                'link-type' => array('label'=>'Link Type', 'type'=>'toggle', 'default'=>'link', 'toggles'=>array(
+                    'link' => 'Links',
+                    'button' => 'Buttons',
+                    )),
+                ),
+            ),
+        );
+    for($i = 1; $i <= 10; $i++) {
+        $sections['ciniki.wng.flexcols']['repeats']['fields']["link-{$i}-page"] = array('label'=>"Link/Button #{$i}", 'type'=>'select', 'pages'=>'yes');
+        $sections['ciniki.wng.flexcols']['repeats']['fields']["link-{$i}-text"] = array('label'=>'Text', 'type'=>'text');
+        $sections['ciniki.wng.flexcols']['repeats']['fields']["link-{$i}-url"] = array('label'=>'URL', 'type'=>'text');
+    }
+
+    //
     // Google Map
     //
     $sections['ciniki.wng.googlemap'] = array(

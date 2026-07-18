@@ -1,0 +1,39 @@
+.block-flexcols .content {
+    padding: 1rem;
+}
+.block-flexcols .columns {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+}
+.block-flexcols .column.size-xsmall {
+    flex-basis: 10rem;
+    flex-grow: 4;
+}
+.block-flexcols .column.size-small {
+    flex-basis: 15em;
+    flex-grow: 5;
+}
+.block-flexcols .column.size-medium {
+    flex-basis: 20em;
+    flex-grow: 6;
+}
+.block-flexcols .column.size-large {
+    flex-basis: 25em;
+    flex-grow: 7;
+}
+.block-flexcols .column.size-xlarge {
+    flex-basis: 30em;
+    flex-grow: 8;
+}
+.block-flexcols .column p {
+    margin-bottom: 1rem;
+}
+@media screen and (min-width: 40em) {
+    .block-flexcols .content {
+        padding: 2rem;
+    }
+    .block-flexcols .columns {
+        gap: 2rem;
+    }
+}
