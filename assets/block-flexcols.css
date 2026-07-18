@@ -68,6 +68,7 @@
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
+    padding: 0.25em;
 }
 @media screen and (min-width: 40em) {
     .block-flexcols .content {
