@@ -714,6 +714,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'address' => array('label'=>'Location', 'type'=>'textarea', 'size'=>'small'),
             'mailing' => array('label'=>'Mailing', 'type'=>'textarea', 'size'=>'small'),
             'phone' => array('label'=>'Phone', 'type'=>'text'),
+            'tollfree' => array('label'=>'Toll Free', 'type'=>'text'),
             'fax' => array('label'=>'Fax', 'type'=>'text'),
             'email' => array('label'=>'Email', 'type'=>'text'),
             'staff-1-name' => array('label'=>'Staff #1 Name', 'type'=>'text'),

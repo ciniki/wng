@@ -303,6 +303,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
         'address' => isset($s['address']) ? $s['address'] : '',
         'mailing' => isset($s['mailing']) ? $s['mailing'] : '',
         'phone' => isset($s['phone']) ? $s['phone'] : '',
+        'tollfree' => isset($s['tollfree']) ? $s['tollfree'] : '',
         'fax' => isset($s['fax']) ? $s['fax'] : '',
         'email' => isset($s['email']) ? $s['email'] : '',
         'staff' => $staff,

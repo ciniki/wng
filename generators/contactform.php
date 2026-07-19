@@ -99,6 +99,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
     if( (isset($block['contact-intro']) && $block['contact-intro'] != '')
         || (isset($block['address']) && $block['address'] != '')
         || (isset($block['phone']) && $block['phone'] != '')
+        || (isset($block['tollfree']) && $block['tollfree'] != '')
         || (isset($block['email']) && $block['email'] != '')
         || (isset($block['mailing']) && $block['mailing'] != '')
         || (isset($block['contact-outro']) && $block['contact-outro'] != '')
@@ -151,22 +152,41 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
         }
 
         // Phone
-        if( isset($block['phone']) && $block['phone'] != '' ) {
+        if( (isset($block['phone']) && $block['phone'] != '')
+            || (isset($block['tollfree']) && $block['tollfree'] != '')
+            ) {
             $content .= "<div class='detail phone'>";
             $content .= "<div class='icon'><svg viewbox='0 0 32 32'>"
                 . '<path d="M30.8,23l-3.9-3.9c-0.7-0.7-1.5-1.1-2.4-1.1c-0.9,0-1.7,0.4-2.5,1.1l-2.3,2.3c-0.2-0.1-0.4-0.2-0.6-0.3  c-0.3-0.1-0.5-0.3-0.7-0.4c-2.1-1.3-4.1-3.1-5.9-5.4c-0.9-1.1-1.5-2.1-1.9-3.1c0.6-0.5,1.1-1.1,1.7-1.6c0.2-0.2,0.4-0.4,0.6-0.6  c1.5-1.5,1.5-3.5,0-5l-2-2c-0.2-0.2-0.5-0.5-0.7-0.7C9.8,1.9,9.4,1.5,8.9,1.1C8.2,0.4,7.4,0,6.5,0C5.6,0,4.8,0.4,4.1,1.1l0,0  L1.6,3.5c-0.9,0.9-1.4,2-1.6,3.3c-0.2,2.1,0.4,4,0.9,5.3c1.2,3.1,2.9,6,5.5,9.1c3.1,3.7,6.9,6.7,11.2,8.8c1.6,0.8,3.8,1.7,6.3,1.9  c0.2,0,0.3,0,0.5,0c1.7,0,3-0.6,4.1-1.8c0,0,0,0,0,0c0.4-0.5,0.8-0.9,1.3-1.3c0.3-0.3,0.6-0.6,0.9-0.9c0.7-0.7,1.1-1.6,1.1-2.5  C31.9,24.6,31.5,23.7,30.8,23z M29.4,26.6c-0.3,0.3-0.6,0.6-0.9,0.9c-0.5,0.4-0.9,0.9-1.4,1.4c-0.7,0.8-1.6,1.1-2.7,1.1  c-0.1,0-0.2,0-0.3,0c-2.1-0.1-4.1-1-5.6-1.7c-4.1-2-7.6-4.8-10.6-8.3c-2.4-2.9-4.1-5.7-5.2-8.6C2.1,9.7,1.9,8.3,2,7  c0.1-0.8,0.4-1.5,1-2.1l2.4-2.4c0.4-0.3,0.7-0.5,1.1-0.5c0.5,0,0.8,0.3,1,0.5l0,0C8,2.9,8.5,3.3,8.9,3.7C9.1,4,9.3,4.2,9.6,4.4l2,2  c0.8,0.8,0.8,1.5,0,2.2c-0.2,0.2-0.4,0.4-0.6,0.6c-0.6,0.6-1.2,1.2-1.8,1.7c0,0,0,0,0,0c-0.6,0.6-0.5,1.2-0.4,1.6l0,0.1  c0.5,1.2,1.2,2.4,2.3,3.8l0,0c2,2.4,4.1,4.3,6.4,5.8c0.3,0.2,0.6,0.3,0.9,0.5c0.3,0.1,0.5,0.3,0.7,0.4c0,0,0.1,0,0.1,0.1  c0.2,0.1,0.5,0.2,0.7,0.2c0.6,0,1-0.4,1.1-0.5l2.5-2.5c0.2-0.2,0.6-0.5,1.1-0.5c0.4,0,0.8,0.3,1,0.5l4,4  C30.2,25.1,30.2,25.9,29.4,26.6z"/>'
                 . "</svg></div>";
-            $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['phone']);
-            if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.161', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+            $content .= "<div class='item'>";
+            if( isset($block['phone']) && $block['phone'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['phone']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.161', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= "<div class='label'>"
+                    . (isset($block['phone-label']) && $block['phone-label'] != '' ? $block['phone-label'] : "Phone")
+                    . "</div>";
+                if( preg_match("/([0-9][0-9][0-9][^0-9][0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9])/", $rc['content'], $m) ) {
+                    $content .= "<div class='value'><a href='tel:{$m[1]}'>" . $rc['content'] . "</a></div>";
+                } else {
+                    $content .= "<div class='value'>" . $rc['content'] . "</div>";
+                }
             }
-            $content .= "<div class='item'><div class='label'>"
-                . (isset($block['phone-label']) && $block['phone-label'] != '' ? $block['phone-label'] : "Phone")
-                . "</div>";
-            if( preg_match("/([0-9][0-9][0-9][^0-9][0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9])/", $rc['content'], $m) ) {
-                $content .= "<div class='value'><a href='tel:{$m[1]}'>" . $rc['content'] . "</a></div>";
-            } else {
-                $content .= "<div class='value'>" . $rc['content'] . "</div>";
+            if( isset($block['tollfree']) && $block['tollfree'] != '' ) {
+                $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['tollfree']);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.266', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                }
+                $content .= "<div class='label'>"
+                    . (isset($block['tollfree-label']) && $block['tollfree-label'] != '' ? $block['tollfree-label'] : "Toll Free")
+                    . "</div>";
+                if( preg_match("/([0-9][0-9][0-9][^0-9][0-9][0-9][0-9][^0-9][0-9][0-9][0-9][0-9])/", $rc['content'], $m) ) {
+                    $content .= "<div class='value'><a href='tel:{$m[1]}'>" . $rc['content'] . "</a></div>";
+                } else {
+                    $content .= "<div class='value'>" . $rc['content'] . "</div>";
+                }
             }
             $content .= "</div></div>";
         }
