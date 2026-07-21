@@ -42,9 +42,9 @@ function ciniki_wng_processors_flexcols(&$ciniki, $tnid, &$request, $section) {
             $columns[$col]['items'][] = array(
                 'type' => 'image',
                 'image-id' => $s["image-{$i}"],
-                'page' => isset($s["image-link-page-{$i}"]) ? $s["link-page-{$i}"] : (isset($s["link-{$i}-page"]) ? $s["link-{$i}-page"] : 0),
+                'page' => isset($s["image-link-page-{$i}"]) ? $s["image-link-page-{$i}"] : 0,
                 'link-text' => '',
-                'url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : (isset($s["link-{$i}-url"]) ? $s["link-{$i}-url"] : ''),
+                'url' => isset($s["link-url-{$i}"]) ? $s["link-url-{$i}"] : '',
                 );
         }
         if( isset($s["content-{$i}"]) && $s["content-{$i}"] != '' ) {
