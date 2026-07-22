@@ -47,6 +47,14 @@ function ciniki_wng_socialIconsGet(&$ciniki, $tnid, $request) {
             'url' => $request['site']['settings']['social-youtube-url'],
             );
     }
+    if( isset($request['site']['settings']['social-linkedin-url']) 
+        && $request['site']['settings']['social-linkedin-url'] != ''
+        ) {
+        $icons[] = array(
+            'type' => 'linkedin',
+            'url' => $request['site']['settings']['social-linkedin-url'],
+            );
+    }
 
     return array('stat'=>'ok', 'icons'=>$icons);
 }
