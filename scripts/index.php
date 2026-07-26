@@ -92,8 +92,13 @@ if( isset($_POST) && is_array($_POST) ) {
     if( isset($_SERVER['CONTENT_TYPE']) && substr($_SERVER['CONTENT_TYPE'], 0, 19) == 'multipart/form-data' ) {
         foreach($_POST as $arg_key => $arg_value) {
             $arg_key = urldecode($arg_key);
-            if( $arg_key != '' ) {
+            if( $arg_key != '' && is_string($arg_value) ) {
                 $request['args'][$arg_key] = rawurldecode($arg_value);
+            } elseif( $arg_key != '' && is_array($arg_value) ) {
+                error_log('ERROR: Array passed as POST variable');
+                error_log(print_r($_POST,true));
+                ciniki_wng_printError($ciniki, null, 'Invalid request');
+                exit;
             }
         }
     } else {

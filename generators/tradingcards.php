@@ -41,6 +41,10 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
     $content .= "<div class='items'>";
     foreach($block['items'] as $iid => $item) {
 
+        if( !isset($item['title']) && isset($item['name']) ) {
+            $item['title'] = $item['name'];
+        }
+
         $content .= "<div "
             . (isset($item['id-permalink']) && $item['id-permalink'] != '' ? "id='{$item['id-permalink']}' " : '')
             . "class='item"
