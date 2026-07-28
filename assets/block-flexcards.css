@@ -2,8 +2,8 @@
     padding-bottom: 2rem;
 }
 .block-flexcards .item > a {
-    display: block;
-    height: 100%;
+/*    display: block; 
+    height: 100%; */
 }
 .block-flexcards .image-wrap {
     position: relative;

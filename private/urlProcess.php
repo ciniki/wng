@@ -31,9 +31,8 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
     } 
     //
     // Check if external link
-    // FIXME: Add check to see if domain owned by tenant or not
     //
-    elseif( preg_match("/^\s*http/", $url) ) {
+    elseif( preg_match("/^\s*http/", $url) && !str_contains($url, $ciniki['config']['ciniki.wng']['master.domain']) ) {
         $target = '_blank';
     }
     elseif( $url != '' && !preg_match('/^\s*http.*[^\.]\.[^\.]/i', $url) ) {

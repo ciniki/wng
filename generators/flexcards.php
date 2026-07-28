@@ -48,6 +48,9 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
     foreach($block['items'] as $iid => $item) {
+        if( isset($item['name']) && !isset($item['title']) ) {
+            $item['title'] = $item['name'];
+        }
         if( isset($item['synopsis']) && !isset($item['content']) ) {
             $item['content'] = $item['synopsis'];
         }
@@ -93,7 +96,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.97', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
             }
-            $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
+            $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "'>";
             $url = 'yes';
         }
         $content .= "<div class='item-wrap'>";
