@@ -49,6 +49,9 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
         //
         $content .= "<div class='filelist'>";
         foreach($block['items'] as $item) {
+            if( isset($item['title']) && !isset($item['name']) ) {
+                $item['name'] = $item['title'];
+            }
             
             if( isset($item['url']) && $item['url'] != '' ) {
                 $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
