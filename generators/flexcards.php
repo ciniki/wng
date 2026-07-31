@@ -48,6 +48,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
     $content .= "<div class='items items-{$num_items}{$quotient}'>";
 
     foreach($block['items'] as $iid => $item) {
+        $additional_classes = '';
         if( isset($item['name']) && !isset($item['title']) ) {
             $item['title'] = $item['name'];
         }
@@ -79,6 +80,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
             }
             $image = $rc;
         } else {
+            $additional_classes .= ' no-image';
             $image = array(
                 'url' => 'noimage_240.png',
                 );
@@ -86,6 +88,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
 
         $content .= "<div class='item title-"
             . (isset($item['title-position']) && $item['title-position'] != '' ? $item['title-position'] : 'below')
+            . $additional_classes
             . "'>";
         $url = 'no';
         if( (isset($item['page']) && $item['page'] > 0) || (isset($item['url']) && $item['url'] != '') ) {
