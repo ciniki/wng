@@ -92,12 +92,16 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
             }
         }
         $content .= "<div class='item-wrap'>";
-
-        $content .= "<div class='title'><h{$hlevel}>" . $item['title'] . "</h{$hlevel}>";
-        if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
-            $content .= "<h" . ($hlevel+1) . ">{$item['subtitle']}</h" . ($hlevel+1) . ">";
+        if( (isset($item['title']) && $item['title'] != '') || (isset($item['subtitle']) && $item['subtitle'] != '') ) {
+            $content .= "<div class='title'>";
+            if( isset($item['title']) && $item['title'] != '' ) {
+                $content .= "<h{$hlevel}>" . $item['title'] . "</h{$hlevel}>";
+            }
+            if( isset($item['subtitle']) && $item['subtitle'] != '' ) {
+                $content .= "<h" . ($hlevel+1) . ">{$item['subtitle']}</h" . ($hlevel+1) . ">";
+            }
+            $content .= "</div>";
         }
-        $content .= "</div>";
 
         $content .= "<div class='info'>";
         if( isset($item['content']) && $item['content'] != '' ) {
