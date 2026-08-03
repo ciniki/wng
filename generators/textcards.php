@@ -68,6 +68,7 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
             $content .= "<div class='item'>";
         }
         $url = 'no';
+        $link_url = '';
         //
         // Check if urls in content
         //
@@ -112,7 +113,7 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     
         if( $url == 'yes' && isset($item['link-text']) && $item['link-text'] != '' ) {
             $content .= "<div class='button'>{$item['link-text']}</div>";
-        } elseif( isset($link_url) ) {
+        } elseif( isset($link_url) && $link_url != '' ) {
             $content .= "<div class='button-wrap'><a class='button' href='{$link_url}'>{$item['link-text']}</a></div>";
         }
         if( isset($item['buttons']) && count($item['buttons']) > 0 ) {
