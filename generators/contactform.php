@@ -103,6 +103,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
         || (isset($block['email']) && $block['email'] != '')
         || (isset($block['mailing']) && $block['mailing'] != '')
         || (isset($block['contact-outro']) && $block['contact-outro'] != '')
+        || (isset($block['staff']) && count($block['staff']) > 0)
         ) {
         $content .= "<div class='address-details'>";
         $content .= "<div class='details'>";
