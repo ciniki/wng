@@ -84,7 +84,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
             || (isset($block['subtitle']) && $block['subtitle'] != '') 
             ) {
             $content .= "<div class='title-wrap'>";
-            if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
+            if( isset($block['level']) && $block['level'] == 1 ) {
+                $content .= "<h1>" . $block['title'] . "</h1>";
+            } elseif( isset($block['level']) && $block['level'] == 2 ) {
+                $content .= "<h2>" . $block['title'] . "</h2>";
+            } elseif( isset($block['level']) && $block['level'] == 3 ) {
+                $content .= "<h3>" . $block['title'] . "</h3>";
+            } elseif( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
             } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['title']) && $block['title'] != '' ) {
                 $content .= "<h1>" . $block['title'] . "</h1>";
