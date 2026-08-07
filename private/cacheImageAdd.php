@@ -41,7 +41,7 @@ function ciniki_wng_cacheImageAdd(&$ciniki, $tnid, $site, $args) {
     //
     if( isset($ciniki['dbcache']['ciniki.wng.imagelastupdated.' . $args['image_id']]) ) {
         $img = $ciniki['dbcache']['ciniki.wng.imagelastupdated.' . $args['image_id']];
-    } elseif( isset($args['last_updated']) && $args['last_updated'] != '' 
+    } elseif( isset($args['last_updated']) && is_numeric($args['last_updated']) && $args['last_updated'] > 0 
         && isset($args['uuid']) && $args['uuid'] != ''
         && isset($args['type']) && $args['type'] != ''
         ) {

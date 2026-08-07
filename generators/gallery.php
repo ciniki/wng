@@ -46,9 +46,9 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
                     $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], array( 
                         'image_id' => $item['image-id'],
                         'version' => 'original',
-                        'last_updated' => isset($item['image-last-updated']) ? $item['image-last-updated'] : '',
                         'uuid' => isset($item['image-uuid']) ? $item['image-uuid'] : '',
                         'type' => isset($item['image-type']) ? $item['image-type'] : '',
+                        'last_updated' => isset($item['image-last-updated']) ? $item['image-last-updated'] : 0,
                         'maxwidth' => (isset($block['maxwidth']) ? $block['maxwidth'] : '1024'),
                         ));
                     if( $rc['stat'] != 'ok' ) {
