@@ -82,6 +82,14 @@ th {
 tr {
     vertical-align: middle;
 }
+table.user-table th {
+    border: 1px solid #aaa;
+    padding: 0.25rem 0.5rem;
+}
+table.user-table td {
+    border: 1px solid #aaa;
+    padding: 0.25rem 0.5rem;
+}
 img {
     max-width: 100%;
     display: block;
