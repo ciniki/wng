@@ -82,6 +82,10 @@ th {
 tr {
     vertical-align: middle;
 }
+table.user-table {
+    display: inline-block;
+    overflow-x: auto;
+}
 table.user-table th {
     border: 1px solid #aaa;
     padding: 0.25rem 0.5rem;
