@@ -104,6 +104,13 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
             } elseif( isset($block['subtitle']) && $block['subtitle'] != '' ) {
                 $content .= "<h3>" . $block['subtitle'] . "</h3>";
             }
+            if( isset($block['title_sequence']) && $block['title_sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            } elseif( isset($block['sequence']) && $block['sequence'] == 1 && isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h3>" . $block['subsubtitle'] . "</h3>";
+            } elseif( isset($block['subsubtitle']) && $block['subsubtitle'] != '' ) {
+                $content .= "<h4>" . $block['subsubtitle'] . "</h4>";
+            }
             $content .= "</div>";
         }
         if( $image_position == 'inline' ) {
