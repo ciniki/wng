@@ -65,6 +65,7 @@ function ciniki_wng_pagePermalinkValidate(&$ciniki, $tnid, $args) {
         . "FROM ciniki_wng_pages "
         . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND site_id = '" . ciniki_core_dbQuote($ciniki, $args['site_id']) . "' "
+        . "AND parent_id = '" . ciniki_core_dbQuote($ciniki, $args['parent_id']) . "' "
         . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'item');
