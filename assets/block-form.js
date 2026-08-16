@@ -187,6 +187,28 @@ C.form = {
             C.gE('f-'+f).value = file.files[0].name;
         }
     },
+    /* document Upload */
+    dU: function(e,f) {
+        var i = C.gE('f-' + f);
+        if( i != null && i.files != null && i.files[0] != null ) {
+            var fD = new FormData;
+            fD.append('f-' + f, i.files[0]);
+            C.rC(C.gE('l-' + f), 'hidden');
+            C.aC(C.gE('p-' + f), 'hidden');
+            C.postFDBg(this.ssu, this.aa, fD, function(rsp) {
+                C.aC(C.gE('l-' + f), 'hidden');
+                C.rC(C.gE('p-' + f), 'hidden');
+                if( rsp.err != null && rsp.err.err != null && rsp.err.err.problem != null 
+                    && (rsp.err.err.problem == 'tosmall' || rsp.err.err.problem == 'tolarge' || rsp.err.err.problem == 'other' ) ) {
+                    C.form.showErrors(rsp, rsp.err.err.msg);
+                }
+                if( rsp.api_args != null ) {
+                    this.aa = rsp.api_args;
+                }
+                C.gE('p-'+f).value = i.files[0].name;
+                });
+        }
+    },
     /* Image Upload */
     iU: function(e,s,f) {
         C.rC(C.gE('l-' + f), 'hidden');

@@ -528,7 +528,20 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             }
                         }
                         elseif( $field['ftype'] == 'document' ) {
-                            // FIXME: Add document support
+                            $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                            $sections .= $field_description;
+                            $sections .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading File...</div>";
+                            $sections .= "<input type='text' name='p-{$field['id']}' id='p-{$field['id']}'"
+                                . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                                . " readonly>";
+                            if( $editable == 'yes' ) {
+                                $sections .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload</a>";
+                                $sections .= "<div class='hidden'>"
+                                    . "<input type='file' id='f-{$field['id']}' name='f-{$field['id']}'"
+                                    . "onchange='C.form.dU(event,\"{$field['id']}\");'"
+                                    . " />"
+                                    . "</div>";
+                            }
                         }
                         elseif( $field['ftype'] == 'formula' ) {
                             $sections .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
@@ -1179,7 +1192,20 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
             }
             elseif( $field['ftype'] == 'document' ) {
-                // FIXME: Add document support
+                $fields_html .= "<label for='f-{$field['id']}' class='{$req}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $fields_html .= "<div id='l-{$field['id']}' class='loading hidden'>Uploading File...</div>";
+                $fields_html .= "<input type='text' name='p-{$field['id']}' id='p-{$field['id']}'"
+                    . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
+                    . " readonly>";
+                if( $editable == 'yes' ) {
+                    $fields_html .= "<a class='button' onclick='C.gE(\"f-{$field['id']}\").click();'>Upload</a>";
+                    $fields_html .= "<div class='hidden'>"
+                        . "<input type='file' id='f-{$field['id']}' name='f-{$field['id']}'"
+                        . "onchange='C.form.dU(event,\"{$field['id']}\");'"
+                        . " />"
+                        . "</div>";
+                }
             }
             elseif( $field['ftype'] == 'formula' ) {
                 $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
@@ -1313,7 +1339,24 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             $content .= '</div>';
         }
-        if( isset($js_calcs) && $js_calcs != '' ) {
+        if( (isset($block['api-save-url']) 
+            || isset($block['api-image-url']) 
+            || isset($block['api-cartsubmit-url']) 
+            || isset($block['api-formcheck-url']) 
+            )
+            && isset($block['api-args']) && is_array($block['api-args']) 
+            ) {
+            $js = "window.addEventListener('load', (e)=>{C.form.start(e,'',"
+                . "'" . (isset($block['api-save-url']) ? $block['api-save-url'] : '') . "',"
+                . "'" . (isset($block['api-image-url']) ? $block['api-image-url'] : '') . "',"
+                . "'" . (isset($block['api-formcheck-url']) ? $block['api-formcheck-url'] : '') . "',"
+                . "'" . (isset($block['api-cartsubmit-url']) ? $block['api-cartsubmit-url'] : '') . "',"
+                . json_encode($js_calcs)
+                . ","
+                . json_encode($block['api-args'])
+                . ")});";
+        }
+        elseif( isset($js_calcs) && $js_calcs != '' ) {
             $js = "window.addEventListener('load', (e)=>{C.form.start(e, '','','','',''," . json_encode($js_calcs) . ",'');C.form.calc();});";
         }
 

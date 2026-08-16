@@ -25,17 +25,21 @@
 .block-form.simple .field {
     padding: 0.5rem;
 }
+.block-form .field.field-document:not(.hidden),
 .block-form.simple .field.field-file:not(.hidden) {
     display:flex;
     flex-flow: row wrap;
 }
+.block-form .field.field-document label,
 .block-form.simple .field.field-file label {    
     flex-basis: 100%;
 }
+.block-form .field.field-document input,
 .block-form.simple .field.field-file input {
     flex-basis: 50%;
     flex-grow: 1;
 }
+.block-form .field.field-document .button,
 .block-form.simple .field.field-file .button {
     margin-left: 1rem;
 }
