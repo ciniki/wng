@@ -994,7 +994,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-city' id='f-{$field['id']}-city'"
                     . ' value="' . (isset($field['value']['city']) ? htmlspecialchars($field['value']['city']) : '') . '"'
                     . " maxlength='100'"
-                    . ($editable == 'no' ? '' : " autocomplete='address-level1'")
+                    . ($editable == 'no' ? '' : " autocomplete='address-level2'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "</div>";
@@ -1003,7 +1003,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}-province' id='f-{$field['id']}-province'"
                     . ' value="' . (isset($field['value']['province']) ? htmlspecialchars($field['value']['province']) : '') . '"'
                     . " maxlength='100'"
-                    . ($editable == 'no' ? '' : " autocomplete='address-level2'")
+                    . ($editable == 'no' ? '' : " autocomplete='address-level1'")
                     . ($editable == 'no' ? " readonly" : '')
                     . ">"; 
                 $fields_html .= "</div>";
