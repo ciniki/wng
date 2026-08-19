@@ -186,6 +186,7 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     $item['hidden'] = 'yes';
                 }
                 if( $page['ptype'] == 40 && $page['redirect_url'] != '' ) {
+                    error_log('main redirect');
                     $item['url'] = $page['redirect_url'];
                 }
                 elseif( $page['ptype'] == 41 && $page['redirect_url'] != '' ) {
@@ -276,6 +277,9 @@ function ciniki_wng_processors_headermenu(&$ciniki, $tnid, &$request, $section) 
                     if( preg_match("/https?:\/\//", $page['redirect_url']) ) {
                         $item['target'] = '_blank';
                     }
+                    $item['url'] = $page['redirect_url'];
+                } elseif( $page['ptype'] == 41 && $page['redirect_url'] != '' ) {
+                    $item['target'] = '_blank';
                     $item['url'] = $page['redirect_url'];
                 }
                 //
