@@ -895,6 +895,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
                     . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+                    . (isset($field['onfocus']) ? " onfocus='{$field['onfocus']}'" : '')
+                    . (isset($field['onblur']) ? " onblur='{$field['onblur']}'" : '')
                     . (isset($field['max-characters']) && $field['max-characters'] > 0 ? " maxlength='" . $field['max-characters'] . "'" : '')
                     . (isset($field['placeholder']) ? " placeholder='{$field['placeholder']}'" : '')
                     . (isset($field['autocomplete']) ? " autocomplete='{$field['autocomplete']}'" : '')
