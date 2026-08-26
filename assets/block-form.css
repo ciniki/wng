@@ -716,3 +716,18 @@
 .block-form.viewonly form .field .textarea-readonly {
     flex-grow: 1;
 }
+.block-form .field .search-results {
+    background: #fff;
+    color: #000;
+    margin: 0 0.1rem;
+}
+.block-form .field .search-results table,
+.block-form .field .search-results tr {
+    width: 100%;
+}
+.block-form .field .search-results td {
+    border: 1px solid #555;
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+
