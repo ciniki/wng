@@ -34,6 +34,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'header-site-title',
         'header-image-id',
         'header-social-icons',
+        'favicon-image-id',
+        'favicon-filename',
         'account-active',
         'account-password-change',
         'account-membership-change',
@@ -142,6 +144,13 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
     $settings = isset($rc['settings']) ? $rc['settings'] : array();
 
     //
+    // Check if favicon added, reset cache filename, this will trigger the copy into the cache and update of filename
+    //
+    if( isset($ciniki['request']['args']['favicon-image-id']) ) {
+        $ciniki['request']['args']['favicon-filename'] = '';
+    }
+
+    //
     // Start transaction
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionStart');
@@ -182,6 +191,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
             }
         }
     }
+
     //
     // Commit the changes to the database
     //

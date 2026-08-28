@@ -83,6 +83,14 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
             elseif( preg_match("/^block-.*\.js/", $file) ) {
                 $js .= file_get_contents($asset_dir . '/' . $file);
             }
+            elseif( $file == 'favicon.png' ) {
+                if( isset($site['settings']['favicon-image-id']) && $site['settings']['favicon-image-id'] > 0 ) {
+                    // Ignore standard favicon
+                } else {
+                    copy($theme_filename, $cache_filename);
+                    touch($cache_filename, filemtime($theme_filename));
+                }
+            }
             elseif( preg_match("/\.(jpg|png|svg|eot|ttf|woff|woff2)$/", $file) 
                 && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($theme_filename)) 
                 ) {
@@ -91,6 +99,77 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
             }
         }
     }
+
+    //
+    // Check for favicon
+    //
+    if( isset($site['settings']['favicon-image-id']) && $site['settings']['favicon-image-id'] > 0 
+        && (!isset($site['settings']['favicon-filename']) || $site['settings']['favicon-filename'] == '')
+        ) {
+        //
+        // Lookup image details
+        //
+        $strsql = "SELECT images.id, "
+            . "images.uuid, "
+            . "images.original_filename, "
+            . "UNIX_TIMESTAMP(images.last_updated) "
+            . "FROM ciniki_images AS images "
+            . "WHERE images.id = '" . ciniki_core_dbQuote($ciniki, $site['settings']['favicon-image-id']) . "' "
+            . "AND images.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'image');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.267', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
+        }
+        if( isset($rc['image']) ) {
+            $filename = preg_replace("/^.*\.(gif|png|jpg|jpeg|webp|svg)$/", "favicon.$1", $rc['image']['original_filename']);
+            $cache_filename = $site['cache_dir'] . '/theme/' . $filename;
+            $storage_filename = $tenant_storage_dir . '/ciniki.images/' . $rc['image']['uuid'][0] . '/' . $rc['image']['uuid'];
+            if( file_exists($storage_filename) 
+                && (!file_exists($cache_filename) || filemtime($cache_filename) < filemtime($storage_filename)) 
+                ) {
+                copy($storage_filename, $cache_filename);
+            }
+            //
+            // Lookup the setting
+            //
+            $strsql = "SELECT settings.id, "
+                . "settings.detail_value "
+                . "FROM ciniki_wng_settings AS settings "
+                . "WHERE settings.site_id = '" . ciniki_core_dbQuote($ciniki, $site['id']) . "' "
+                . "AND settings.detail_key = 'favicon-filename' "
+                . "AND settings.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+                . "";
+            $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'setting');
+            if( $rc['stat'] != 'ok' ) {
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.270', 'msg'=>'Unable to load setting', 'err'=>$rc['err']));
+            }
+            if( isset($rc['setting']) ) {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
+                $rc = ciniki_core_objectUpdate($ciniki, $tnid, 'ciniki.wng.setting', $rc['setting']['id'], [
+                    'detail_value' => $filename,
+                    ], 0x04);
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.268', 'msg'=>'Unable to update the setting', 'err'=>$rc['err']));
+                    }
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.269', 'msg'=>'Unable to update favicon', 'err'=>$rc['err']));
+                }
+
+            } else {
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
+                $rc = ciniki_core_objectAdd($ciniki, $tnid, 'ciniki.wng.setting', array(
+                    'site_id' => $site['id'],
+                    'detail_key' => 'favicon-filename',
+                    'detail_value' => $filename,
+                    ), 0x04);
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.271', 'msg'=>'Unable to add the setting', 'err'=>$rc['err']));
+                }
+            }
+        }
+    }
+
 
     //
     // Check theme directory specified, if it exists in wng/themes directory

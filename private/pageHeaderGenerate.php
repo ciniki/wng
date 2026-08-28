@@ -117,7 +117,17 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
             . '<link href="' . $request['site']['settings']['theme-google-fonts-link'] . '" rel="stylesheet">';
     }
 
-    $content .= "<link rel='icon' href='" . $request['site']['cache_url'] . "/theme/favicon.png' type='image/png' />\n";
+    if( isset($request['site']['settings']['favicon-filename']) && $request['site']['settings']['favicon-filename'] != '' ) {
+        if( str_ends_with($request['site']['settings']['favicon-filename'], '.png') ) {
+            $content .= "<link rel='icon' type='image/png' href='{$request['site']['cache_url']}/theme/{$request['site']['settings']['favicon-filename']}' />\n";
+        } elseif( str_ends_with($request['site']['settings']['favicon-filename'], '.svg') ) {
+            $content .= "<link rel='icon' type='image/svg+xml' href='{$request['site']['cache_url']}/theme/{$request['site']['settings']['favicon-filename']}' />\n";
+        } else {
+            $content .= "<link rel='icon' href='{$request['site']['cache_url']}/theme/{$request['site']['settings']['favicon-filename']}' />\n";
+        }
+    } else {
+        $content .= "<link rel='icon' href='{$request['site']['cache_url']}/theme/favicon.png' type='image/png' />\n";
+    }
 
     //
     // Add CSS and javascript

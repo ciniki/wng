@@ -330,6 +330,17 @@ function ciniki_wng_main() {
             'active':function() { return (M.ciniki_wng_main.site.view == 'header' ? 'yes' : 'no'); },
             'fields':{
                 'header-site-title':{'label':'Site Title', 'type':'text'},
+                'favicon-image-id':{'label':'Favicon', 'type':'image_id', 'controls':'all', 'history':'no', 'size':'icon',
+                    'addDropImage':function(iid) {
+                        M.ciniki_wng_main.site.setFieldValue('favicon-image-id', iid);
+                        return true;
+                        },
+                    'addDropImageRefresh':'', 
+                    'deleteImage':function() {
+                        M.ciniki_wng_main.site.setFieldValue('favicon-image-id', 0);
+                        return true;
+                        },
+                    },
                 // FIXME: Add header-seo-title, header-seo-description
             }},
         'headersections':{'label':'Header Content', 'type':'simplegrid', 'num_cols':1,
