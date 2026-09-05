@@ -4,8 +4,6 @@ Ciniki - Multitenant Cloud Application Platform
 The next generation website delivery module. This is an upgrade 
 from the web module and bases all data on blocks.
 
-Developed as a Private module, may be opened sourced in the future.
-
 License
 -------
-Copyright 2021 Andrew Rivett veggiefrog@gmail.com
+Ciniki is free software, and is released under the terms of the MIT License. See LICENSE.md.
