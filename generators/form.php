@@ -799,6 +799,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             if( isset($field['required']) && $field['required'] == 'yes' ? ' required' : '' ) {
                 $req = ' required';
             }
+            $class = $req;
             $field_description = '';
             if( isset($field['description']) && $field['description'] != '' ) {
                 $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $field['description']);
@@ -833,7 +834,6 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $field['onkeyup'] = "C.form.calc();" . $field['onkeyup'];
             }
 
-            $class = $req;
             if( $field['ftype'] == 'checkbox' 
                 && isset($field['prev_fid']) 
                 && ($block['fields'][$field['prev_fid']]['ftype'] == 'content'
