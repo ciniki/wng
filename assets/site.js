@@ -86,6 +86,9 @@ C.cC = function(e, c) {
 C.gE = function(i) {
     return document.getElementById(i);
 };
+C.qS = function(i) {
+    return document.querySelector(i);
+};
 //
 // Call back to API
 //

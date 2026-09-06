@@ -764,7 +764,9 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     $fields_html = '';
                 }
                 if( isset($field['label']) && $field['label'] != '' ) {
-                    $fields_html .= "<h2>" . $field['label'] . "</h2>";
+                    $fields_html .= "<h2 class='"
+                        . (isset($field['class']) && $field['class'] != '' ? " {$field['class']}" : '')
+                        . "'>" . $field['label'] . "</h2>";
                 }
                 if( isset($field['description']) && $field['description'] != '' ) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
