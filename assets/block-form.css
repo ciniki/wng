@@ -22,6 +22,9 @@
     border: 1px solid #aaa;
     background: #eee;
 }
+.block-form.simple .fields.break-no-title {
+    margin-top: 1rem;
+}
 .block-form.simple .field {
     padding: 0.5rem;
 }
@@ -417,6 +420,8 @@
 }
 .block-form .field.field-textarea {
     flex-basis: 100%;
+    display: flex;
+    flex-flow: column nowrap;
 }
 .block-form .field .img-preview {
     padding-bottom: 1rem;
