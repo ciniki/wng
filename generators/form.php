@@ -1279,6 +1279,23 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "</div>";
             }
             elseif( $field['ftype'] == 'submit' ) {
+                $fields_html .= "<input type='hidden' name='action' value='submit'>";
+                $fields_html .= "<input type='submit' name='submit' class='button' value='"
+                    . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
+                    . "' >";
+            }
+            elseif( $field['ftype'] == 'cancel' ) {
+                error_log('cancel');
+                if( isset($field['url']) && $field['url'] != '' ) {
+                    $fields_html .= "<input type='hidden' name='cancel-url' value='{$field['url']}'>";
+                    $fields_html .= "<a class='button' href='{$field['url']}'>"
+                        . (isset($field['label']) && $field['label'] != '' ? $field['label'] : 'Cancel')
+                        . "</a>";
+                } else {
+                    $fields_html .= "<input type='submit' name='submit' class='button' value='"
+                        . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
+                        . "' >";
+                }
             }
             
             $fields_html .= "</div>";
