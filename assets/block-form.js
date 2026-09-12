@@ -273,6 +273,31 @@ C.form = {
             });
         delete(this.aa['f-'+f]);
     },
+    /* Dropdown toggle */
+    ddT: function(e,f) {
+        C.tC(C.gE('options-'+f), 'hidden');
+    },
+    /* Dropdown Select */
+    ddS: function(e,f,v) {
+        C.gE('f-'+f).value = v;
+        C.gE('selected-'+f).innerHTML = C.gE('option-'+f+'-'+v).innerHTML;
+        C.aC(C.gE('options-'+f), 'hidden');
+    },
+    /* Dropdown filer */
+    ddF: function(f) {
+        var e=C.gE('options-'+f);
+        var s=C.gE('search-'+f).value.toLowerCase();
+        for(var i in e.children) {
+            if( e.children[i].classList != null && e.children[i].classList.contains('dropdown-option') ) {
+                console.log(e.children[i].innerText);
+                if( s != '' && e.children[i] != null && !e.children[i].innerText.toLowerCase().includes(s) ) {
+                    C.aC(e.children[i], 'hidden');
+                } else {
+                    C.rC(e.children[i], 'hidden');
+                }
+            }
+        }
+    },
     iCleared: function(rsp) {
     },
     sTOU: function() {

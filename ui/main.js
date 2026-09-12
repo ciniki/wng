@@ -341,6 +341,17 @@ function ciniki_wng_main() {
                         return true;
                         },
                     },
+                'og-image-id':{'label':'Open Graph Image', 'type':'image_id', 'controls':'all', 'history':'no', 'size':'medium',
+                    'addDropImage':function(iid) {
+                        M.ciniki_wng_main.site.setFieldValue('og-image-id', iid);
+                        return true;
+                        },
+                    'addDropImageRefresh':'', 
+                    'deleteImage':function() {
+                        M.ciniki_wng_main.site.setFieldValue('og-image-id', 0);
+                        return true;
+                        },
+                    },
                 // FIXME: Add header-seo-title, header-seo-description
             }},
         'headersections':{'label':'Header Content', 'type':'simplegrid', 'num_cols':1,
@@ -972,6 +983,21 @@ function ciniki_wng_main() {
 //                }},
         'meta':{'label':'SEO Page Description', 'fields':{
             'meta_description':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'size':'medium'},
+            }},
+        'og':{'label':'Open Graph Settings', 'fields':{
+            'og_title':{'label':'Title', 'type':'text'},
+            'og_image_id':{'label':'Image', 'type':'image_id', 'controls':'all', 'history':'no', 
+                'addDropImage':function(iid) {
+                    M.ciniki_wng_main.edit.setFieldValue('og_image_id', iid);
+                    return true;
+                    },
+                'addDropImageRefresh':'', 
+                'deleteImage':function() {
+                    M.ciniki_wng_main.edit.setFieldValue('og_image_id', 0);
+                    return true;
+                    },
+                },
+            'og_description':{'label':'Description', 'type':'textarea', 'size':'small'},
             }},
         '_buttons':{'label':'', 'buttons':{
             'save':{'label':'Save', 'fn':'M.ciniki_wng_main.edit.save();'},

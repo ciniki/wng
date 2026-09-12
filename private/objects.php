@@ -56,6 +56,9 @@ function ciniki_wng_objects(&$ciniki) {
             'image_caption' => array('name'=>'Image Caption', 'default'=>''),
             'synopsis' => array('name'=>'Synopsis', 'default'=>''),
             'meta_description' => array('name'=>'Meta Description', 'default'=>''),
+            'og_title' => array('name'=>'Open Graph Title', 'default'=>''),
+            'og_image_id' => array('name'=>'Open Graph Image', 'default'=>0),
+            'og_description' => array('name'=>'Open Graph Description', 'default'=>''),
             ),
         'history_table' => 'ciniki_wng_history',
         );

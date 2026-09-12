@@ -36,6 +36,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'header-social-icons',
         'favicon-image-id',
         'favicon-filename',
+        'og-image-id',
+        'og-image-filename',
         'account-active',
         'account-password-change',
         'account-membership-change',
@@ -148,6 +150,13 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
     //
     if( isset($ciniki['request']['args']['favicon-image-id']) ) {
         $ciniki['request']['args']['favicon-filename'] = '';
+    }
+
+    //
+    // Check if open graph image added, reset cache filename, this will trigger the copy into the cache and update of filename
+    //
+    if( isset($ciniki['request']['args']['og-image-id']) ) {
+        $ciniki['request']['args']['og-image-filename'] = '';
     }
 
     //

@@ -1095,6 +1095,52 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 $fields_html .= "</select>";
             }
+            elseif( $field['ftype'] == 'dropdown' ) {
+                $fields_html .= "<label for='f-{$field['id']}'>" . $field['label'] . "</label>";
+                $fields_html .= $field_description;
+                $options_html = "<div id='options-{$field['id']}' class='dropdown-options hidden'>";
+                if( $field['searchable'] == 'yes' ) {
+                    $options_html .= "<div class='dropdown-search'>";
+                    $options_html .= "<input type='text' name='search-{$field['id']}' id='search-{$field['id']}' value='' placeholder='Search' onkeyup='C.form.ddF(\"{$field['id']}\");'>";
+                    $options_html .= "</div>";
+                }
+                $selected_html = "<div id='selected-{$field['id']}' class='dropdown-option dropdown-selected' "
+                    . "onclick='C.form.ddT(event,\"{$field['id']}\");' "
+                    . ">&nbsp;</div>";
+                foreach($field['options'] as $id => $option) {
+                    if( $field['value'] == $option['id'] ) {
+                        $selected_html = "<div id='selected-{$field['id']}' class='dropdown-option dropdown-selected' "
+                            . "onclick='C.form.ddT(event,\"{$field['id']}\");' "
+                            . ">";
+                        if( isset($field['option-line-1']) && $field['option-line-1'] != '' && isset($option[$field['option-line-1']]) ) {
+                            $selected_html .= "<div class='line-1'>" . $option[$field['option-line-1']] . "</div>";
+                        }
+                        if( isset($field['option-line-2']) && $field['option-line-2'] != '' && isset($option[$field['option-line-2']]) ) {
+                            $selected_html .= "<div class='line-2'>" . $option[$field['option-line-2']] . "</div>";
+                        }
+                        if( isset($field['option-line-3']) && $field['option-line-3'] != '' && isset($option[$field['option-line-3']]) ) {
+                            $selected_html .= "<div class='line-3'>" . $option[$field['option-line-3']] . "</div>";
+                        }
+                        $selected_html .= "</div>";
+                    }
+                    $options_html .= "<div id='option-{$field['id']}-{$option['id']}' class='dropdown-option clickable' onclick='C.form.ddS(event,\"{$field['id']}\",\"{$option['id']}\");'>";
+                    if( isset($field['option-line-1']) && $field['option-line-1'] != '' && isset($option[$field['option-line-1']]) ) {
+                        $options_html .= "<div class='line-1'>" . $option[$field['option-line-1']] . "</div>";
+                    }
+                    if( isset($field['option-line-2']) && $field['option-line-2'] != '' && isset($option[$field['option-line-2']]) ) {
+                        $options_html .= "<div class='line-2'>" . $option[$field['option-line-2']] . "</div>";
+                    }
+                    if( isset($field['option-line-3']) && $field['option-line-3'] != '' && isset($option[$field['option-line-3']]) ) {
+                        $options_html .= "<div class='line-3'>" . $option[$field['option-line-3']] . "</div>";
+                    }
+                    $options_html .= "</div>";
+                }
+                $options_html .= "</div>";
+
+                $fields_html .= "<input type='hidden' name='f-{$field['id']}' id='f-{$field['id']}' value='{$field['value']}'/>";
+                $fields_html .= $selected_html;
+                $fields_html .= $options_html;
+            }
             elseif( $field['ftype'] == 'radio' ) {
                 $fields_html .= "<div class='label'>{$field['label']}</div>";
                 $fields_html .= $field_description;
@@ -1285,7 +1331,6 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                     . "' >";
             }
             elseif( $field['ftype'] == 'cancel' ) {
-                error_log('cancel');
                 if( isset($field['url']) && $field['url'] != '' ) {
                     $fields_html .= "<input type='hidden' name='cancel-url' value='{$field['url']}'>";
                     $fields_html .= "<a class='button' href='{$field['url']}'>"

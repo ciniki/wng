@@ -23,6 +23,7 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         'title' => $request['site']['pages'][$page_id]['title'],
         'url' => $request['site']['pages'][$page_id]['path'],
         );
+    $request['response']['og']['title'] = $request['site']['pages'][$page_id]['title'];
 
     //
     // Check if page is hidden
@@ -202,6 +203,28 @@ function ciniki_wng_pageRequestProcess(&$ciniki, $tnid, &$request, $page_id) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.21', 'msg'=>'Unable to load page', 'err'=>$rc['err']));
     }
     $request['page'] = $rc['page'];
+
+    //
+    // Set the open graph settings
+    //
+    if( isset($request['page']['og_title']) && $request['page']['og_title'] != '' ) {
+        $request['response']['og']['title'] = $request['page']['og_title'];
+    }
+    $request['response']['og']['url'] = $request['ssl_domain_base_url'] . $request['page']['path'];
+    if( isset($request['page']['og_image_id']) && $request['page']['og_image_id'] != '' && $request['page']['og_image_id'] > 0 ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'cacheImageAdd');
+        $rc = ciniki_wng_cacheImageAdd($ciniki, $tnid, $request['site'], [
+            'image_id' => $request['page']['og_image_id'],
+            'version' => 'original',
+            'maxwidth' => 1200,
+            ]);
+        if( $rc['stat'] == 'ok' ) {
+            $request['response']['og']['image'] = $request['cache_domain_base_url'] . $rc['url'];
+        }
+    }
+    if( isset($request['page']['og_description']) && $request['page']['og_description'] != '' ) {
+        $request['response']['og']['description'] = $request['page']['og_description'];
+    }
 
     //
     // Process the sections building the request['response']['blocks'] array

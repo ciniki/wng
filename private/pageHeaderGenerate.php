@@ -231,24 +231,11 @@ function ciniki_wng_pageHeaderGenerate(&$ciniki, $tnid, $request) {
     //
     // Check for header Open Graph (Facebook) object information, for better linking into facebook
     //
-    if( isset($ciniki['response']['head']['og']) ) {
-        $og_site_name = $ciniki['tenant']['name'];
-        foreach($ciniki['response']['head']['og'] as $og_type => $og_value) {
+    if( isset($request['response']['og']) ) {
+        foreach($request['response']['og'] as $og_type => $og_value) {
             if( $og_value != '' ) {
-                if( $og_type == 'description' ) {
-                    $content .= "<meta name='$og_type' content='$og_value' />\n";
-                }
-                if( $og_type == 'site_name' ) {
-                    $og_site_name = $og_value;
-                }
                 $content .= '<meta property="og:' . $og_type . '" content="' . preg_replace('/"/', "'", $og_value) . '"/>' . "\n";
             }
-        }
-        if( $og_site_name != '' ) {
-            $content .= "<meta property=\"og:site_name\" content=\"" . preg_replace('/"/', "\'", $og_site_name) . "\"/>\n";
-        }
-        if( $ciniki['response']['head']['og']['title'] == '' ) {
-            $content .= '<meta property="og:title" content="' . $ciniki['tenant']['details']['name'] . ' - ' . $title . '"/>' . "\n";
         }
     }
 

@@ -1,0 +1,4 @@
+ALTER TABLE ciniki_wng_pages ADD COLUMN og_title text not null AFTER meta_description;
+ALTER TABLE ciniki_wng_pages ADD COLUMN og_image_id text not null AFTER og_title;
+ALTER TABLE ciniki_wng_pages ADD COLUMN og_description text not null AFTER og_image_id;
+ALTER TABLE ciniki_wng_pages COMMENT='v1.03';

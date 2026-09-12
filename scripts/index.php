@@ -372,11 +372,14 @@ if( isset($site['domain_flags']) && ($site['domain_flags']&0x10) == 0x10 && $req
 if( $request['ssl'] == 'yes' ) {
     $request['domain_base_url'] = 'https://' . $request['domain'] . $request['base_url'];
     $request['ssl_domain_base_url'] = 'https://' . $request['domain'] . $request['base_url'];
+    $request['cache_domain_base_url'] = 'https://' . $request['domain'];
 }
 else {
     $request['domain_base_url'] = 'http://' . $request['domain'] . $request['base_url'];
+    $request['cache_domain_base_url'] = 'http://' . $request['domain'];
     if( !isset($ciniki['config']['ciniki.core']['ssl']) || $ciniki['config']['ciniki.core']['ssl'] != 'off' ) {
         $request['ssl_domain_base_url'] = 'https://' . $request['domain'] . $request['base_url'];
+        $request['cache_domain_base_url'] = 'https://' . $request['domain'];
     } else {
         $request['ssl_domain_base_url'] = 'http://' . $request['domain'] . $request['base_url'];
     }

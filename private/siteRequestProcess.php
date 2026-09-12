@@ -54,14 +54,17 @@ function ciniki_wng_siteRequestProcess(&$ciniki, $tnid, $request) {
         'css' => '',
         // Setup the array with meta variables required by facebook and others
         'og' => array(
-            'url' => '',
+            'type' => 'website',
+            'site_name' => isset($request['site']['settings']['header-site-title']) ? $request['site']['settings']['header-site-title'] : '',
             'title' => '',
-            'site_name' => '',
+            'url' => '',
             'image' => '',
             'description' => '',
-            'type' => '',
             ),
         );
+        if( isset($request['site']['settings']['og-image-filename']) && $request['site']['settings']['og-image-filename'] != '' ) {
+            $request['response']['og']['image'] = "{$request['cache_domain_base_url']}{$request['site']['cache_url']}/theme/{$request['site']['settings']['og-image-filename']}";
+        }
 
     //
     // Update the cache 

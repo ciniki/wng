@@ -33,6 +33,9 @@ function ciniki_wng_pageUpdate(&$ciniki) {
         'image_caption'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image Caption'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Synopsis'),
         'meta_description'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Meta Description'),
+        'og_title'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Open Graph Title'),
+        'og_image_id'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Open Graph Image'),
+        'og_description'=>array('required'=>'no', 'blank'=>'yes', 'trim'=>'yes', 'name'=>'Open Graph Description'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;

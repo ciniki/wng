@@ -293,6 +293,63 @@
 .block-form .field-minsec select {
     min-width: 4em;
 }
+.block-form .field.field-dropdown .dropdown-options {
+    margin: 0px;
+    border: 1px solid #777;
+}
+.block-form .field.field-dropdown .dropdown-options .dropdown-option:nth-child(odd) {
+    background: #ddd;
+}
+.block-form .field.field-dropdown .dropdown-options .dropdown-option:nth-child(even) {
+    background: #eee;
+}
+.block-form .field.field-dropdown .dropdown-option {
+    padding: 0.5rem 1rem;
+}
+.block-form .field.field-dropdown .dropdown-option .line-1 {
+    font-size: 1.1em;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    padding: 0rem;
+    font-weight: bold;
+}
+.block-form .field.field-dropdown .dropdown-option .line-2 {
+    font-size: 1.1em;
+    padding: 0rem 0.5rem 0rem 2rem;
+    padding: 0rem 0rem 0rem 2rem;
+}
+.block-form .field.field-dropdown .dropdown-option .line-3 {
+    font-size: 1.1em;
+    padding: 0rem 0.5rem 0rem 2rem;
+    padding: 0rem 0rem 0rem 2rem;
+}
+.block-form .field.field-dropdown .dropdown-option div:first-child {
+/*    padding-top: 0.5rem; */
+}
+.block-form .field.field-dropdown .dropdown-option div:last-child {
+/*    padding-bottom: 0.5rem; */
+}
+.block-form .field.field-dropdown .dropdown-search {
+    padding: 0.5rem;
+    border-bottom: 1px solid #aaa;
+}
+.block-form .field.field-dropdown .dropdown-search input {
+    padding: 0.5rem 0.5rem 0.5rem 2.5rem;
+    background: #fff;
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(119,119,119)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.0" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="11" r="6"></circle><line x1="21" y1="19" x2="17.25" y2="15.25"></line></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 0;
+    background-position-y: center;
+}
+.block-form .field.field-dropdown .dropdown-selected {
+    border: 1px solid #777;
+    border-radius: 0;
+    padding: 0.5rem 2.0rem 0.5rem 1rem;
+    background: #fff;
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(119,119,119)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: center;
+}
 .block-form .field-termsofuse {
     display: flex;
     flex-flow: row wrap;
