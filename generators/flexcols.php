@@ -59,9 +59,9 @@ function ciniki_wng_generators_flexcols(&$ciniki, $tnid, &$request, $block) {
                 //
                 // Check if url for image 
                 //
-                $link_url != '';
-                if( (isset($item['page']) && $link['page'] != '')
-                    || (isset($item['url']) && $link['url'] != '')
+                $link_url = '';
+                if( (isset($item['page']) && $item['page'] != '')
+                    || (isset($item['url']) && $item['url'] != '')
                     ) {
                     $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request,
                         isset($item['page']) ? $item['page'] : 0,
