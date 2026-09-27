@@ -66,6 +66,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
         }
 
         $url = '';
+        $target = '';
         if( isset($block['link-page']) && $block['link-page'] != '' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'urlProcess');
             $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
@@ -76,9 +77,12 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.117', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
             }
             $url = $rc['url'];
+            if( isset($rc['target']) && $rc['target'] != '' ) {
+                $target = $rc['target'];
+            }
         }
         if( $url != '' ) {
-            $content .= "<a href='" . $rc['url'] . "'>";
+            $content .= "<a " . ($target != '' ? "target='{$target}' " : '') . "href='" . $rc['url'] . "'>";
         }
 
         $content .= "<img alt='{$aria_label}' src='" . $img_url . "' />";

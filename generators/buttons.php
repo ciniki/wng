@@ -77,7 +77,6 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.89', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 $target = isset($rc['target']) ? $rc['target'] : '';
-                $target = '';
                 if( isset($item['target']) && $item['target'] != '' ) {
                     $target = $item['target'];
                 }

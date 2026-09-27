@@ -29,6 +29,9 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
     elseif( isset($url[0]) && $url[0] == '/' ) {
         $url = $request['base_url'] . $url;
     } 
+    elseif( preg_match("/^\s*http/", $url) && strncmp($url, $request['ssl_domain_base_url'], strlen($request['ssl_domain_base_url'])) === 0 ) {
+        $target = '';
+    }
     //
     // Check if external link
     //
