@@ -32,10 +32,15 @@
 .block-form.simple .field.field-file:not(.hidden) {
     display:flex;
     flex-flow: row wrap;
+    align-content: flex-start;
 }
 .block-form .field.field-document label,
 .block-form.simple .field.field-file label {    
     flex-basis: 100%;
+}
+.block-form .field.field-document .help-button,
+.block-form.simple .field.field-file .help-button {    
+    margin-left: 0.5rem;
 }
 .block-form .field.field-document input,
 .block-form.simple .field.field-file input {
@@ -154,6 +159,31 @@
     width: 100%;
 /*    padding: 0.5em; */
     font-weight: bold;
+    position: relative;
+}
+.block-form .field.help-instructions .label,
+.block-form .field.help-instructions label {
+    display: inline;
+    width: auto;
+    flex-basis: auto;
+}
+.block-form .field.field-document.help-instructions label,
+.block-form.simple .field.field-file.help-instructions label {    
+    flex-basis: auto;
+}
+.block-form .field .help-button svg {
+    max-width: 1rem;
+    max-height: 1rem;
+}
+.block-form .field .help-content {
+    flex-basis: 100%;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+.block-form .field .help-content p {
+    margin-bottom: 0.5em;
+}
+.block-form .field .help-content p:last-child {
+    margin-bottom: 0em;
 }
 .block-form .field.hidden-label label,
 .block-form .line.hidden,

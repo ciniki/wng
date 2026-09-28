@@ -303,6 +303,9 @@ C.form = {
     sTOU: function() {
         C.tC(C.gE('tou-message'), 'hidden');
     },
+    sH: function(e,f) {
+        C.tC(C.gE('h-'+f),'hidden');
+    },
     start: function(e, s, ssu, ipu, fcu, csu, jsc, aa) {
         this.cs = s;
         this.cr = 1;

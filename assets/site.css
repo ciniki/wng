@@ -198,6 +198,10 @@ p:last-child {
 span.nobreak {
     white-space: nowrap;
 }
+.flexrowbreak {
+    flex-basis: 100%;
+    height: 0;
+}
 
 /* Background Image Ratios */
 .ratio-round {
