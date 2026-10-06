@@ -13,7 +13,7 @@ function ciniki_wng_generators_monthpicker(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-    $content .= "<div class='block-monthpicker"
+    $content .= "<div class='block block-monthpicker"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

@@ -48,7 +48,7 @@ function ciniki_wng_generators_pricelist(&$ciniki, $tnid, &$request, $block) {
             $buy_now_button = "<button class='button submit' onclick='{$rc['js']}; return false;' name='stripecheckout'>Buy Now</button>";
         } */
 
-        $content .= "<div class='block-pricelist"
+        $content .= "<div class='block block-pricelist"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

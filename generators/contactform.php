@@ -18,7 +18,7 @@ function ciniki_wng_generators_contactform(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
         
-    $content .= "<div class='block-contactform"
+    $content .= "<div class='block block-contactform"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

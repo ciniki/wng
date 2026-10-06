@@ -14,7 +14,7 @@ function ciniki_wng_generators_definitiontable(&$ciniki, $tnid, $request, $block
     $content = '';
 
         
-    $content .= "<div class='block-definitiontable"
+    $content .= "<div class='block block-definitiontable"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

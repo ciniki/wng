@@ -20,7 +20,7 @@ function ciniki_wng_generators_buttons(&$ciniki, $tnid, $request, $block) {
     }
 
     if( (isset($block['items']) && is_array($block['items']) && count($block['items']) > 0) ) {
-        $content .= "<div class='block-buttons"
+        $content .= "<div class='block block-buttons"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['align']) && $block['align'] != '' ? ' align' . $block['align'] : '')
             . "'>";

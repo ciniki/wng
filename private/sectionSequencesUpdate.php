@@ -28,7 +28,7 @@ function ciniki_wng_sectionSequencesUpdate(&$ciniki, $tnid, $site_id, $page_id, 
         . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND ciniki_wng_sections.page_id = '" . ciniki_core_dbQuote($ciniki, $page_id) . "' "
         . "AND ciniki_wng_sections.site_id = '" . ciniki_core_dbQuote($ciniki, $site_id) . "' "
-        . "AND (ciniki_wng_sections.flags&0x03) = '" . ciniki_core_dbQuote($ciniki, $flags) . "' "
+        . "AND (ciniki_wng_sections.flags&0x0F) = '" . ciniki_core_dbQuote($ciniki, $flags) . "' "
         . "ORDER BY sequence "
         . "";
     $rc = ciniki_core_dbQueryList2($ciniki, $strsql, 'ciniki.wng', 'sections');

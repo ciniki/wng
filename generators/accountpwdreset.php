@@ -12,7 +12,7 @@ function ciniki_wng_generators_accountpwdreset(&$ciniki, $tnid, $request, $block
 
     $content = '';
 
-    $content .= "<div class='block-accountlogin block-accountpwdreset"
+    $content .= "<div class='block block-accountlogin block-accountpwdreset"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

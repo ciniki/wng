@@ -28,7 +28,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
         || (isset($block['title']) && $block['title'] != '')
         || (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0)  
         ) {
-        $content .= "<div class='block-contentphoto"
+        $content .= "<div class='block block-contentphoto"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['image-position']) && $block['image-position'] != '' ? ' image-' . $block['image-position'] : ' image-top-right')
             . (isset($block['image-size']) && $block['image-size'] != '' ? ' image-' . $block['image-size'] : '')

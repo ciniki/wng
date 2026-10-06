@@ -14,7 +14,7 @@ function ciniki_wng_generators_gallery(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( isset($block['items']) && count($block['items']) > 0 ) {
-        $content .= "<div class='block-gallery"
+        $content .= "<div class='block block-gallery"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['layout']) && $block['layout'] != '' ? ' layout-' . $block['layout'] : '')
             . "'>";

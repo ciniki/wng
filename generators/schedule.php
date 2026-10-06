@@ -15,7 +15,7 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-    $content .= "<div class='block-schedule"
+    $content .= "<div class='block block-schedule"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . (isset($block['times']) && $block['times'] == 'no' ? ' no-times' : '')
         . (isset($block['subtitle']) && $block['subtitle'] != '' ? ' subtitle' : '')

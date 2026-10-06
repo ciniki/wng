@@ -17,7 +17,7 @@ function ciniki_wng_generators_tablefilter(&$ciniki, $tnid, $request, $block) {
 
     $id = isset($block['id']) ? $block['id'] : (isset($block['sequence']) ? $block['sequence'] : 1);
         
-    $content .= "<div class='block-tablefilter search"
+    $content .= "<div class='block block-tablefilter search"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

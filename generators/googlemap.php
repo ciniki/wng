@@ -17,7 +17,7 @@ function ciniki_wng_generators_googlemap(&$ciniki, $tnid, &$request, $block) {
         && isset($block['longitude']) && $block['longitude'] != '' 
         ) {
         
-        $content .= "<div class='block-googlemap"
+        $content .= "<div class='block block-googlemap"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['map-position']) && $block['map-position'] != '' ? ' map-' . $block['map-position'] : ' map-top-right')
             . "'>";

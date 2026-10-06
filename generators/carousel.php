@@ -30,7 +30,7 @@ function ciniki_wng_generators_carousel(&$ciniki, $tnid, &$request, $block) {
     //
     $carousel_id = isset($block['sequence']) ? $block['sequence'] : 1;
 
-    $content .= "<div class='block-carousel"
+    $content .= "<div class='block block-carousel"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

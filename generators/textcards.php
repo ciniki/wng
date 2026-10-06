@@ -40,7 +40,7 @@ function ciniki_wng_generators_textcards(&$ciniki, $tnid, &$request, $block) {
     // Use the sequence number to give each carousel a unique id which 
     // allows several carousels on the same page
     //
-    $content .= "<div class='block-textcards"
+    $content .= "<div class='block block-textcards"
         . (isset($block['collapsible']) && $block['collapsible'] == 'yes' ? ' collapsible' : '')
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";

@@ -16,7 +16,7 @@ function ciniki_wng_generators_headlinescroll(&$ciniki, $tnid, $request, $block)
     $content = '';
 
     if( isset($block['data']) && is_array($block['data']) && count($block['data']) > 0 ) {
-        $content .= "<div class='block-headlinescroll"
+        $content .= "<div class='block block-headlinescroll"
             . (isset($block['speed']) && $block['speed'] != '' ? ' speed-' . $block['speed'] : '')
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";

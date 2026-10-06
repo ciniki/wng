@@ -27,7 +27,7 @@ function ciniki_wng_generators_text(&$ciniki, $tnid, $request, $block) {
         if( $rc['content'] != '' ) {
             $content .= "<div "
                 . (isset($block['id']) && $block['id'] != '' ? "id='{$block['id']}' " : '')
-                . "class='block-text"
+                . "class='block block-text"
                 . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
                 . (isset($block['columns']) && $block['columns'] != 'no' ? ' columns-' . $block['columns'] : '')
                 . "'>";

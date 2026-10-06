@@ -22,7 +22,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
 //        return array('stat'=>'ok', 'content'=>'');
 //    }
 
-    $content .= "<div class='block-tradingcards"
+    $content .= "<div class='block block-tradingcards"
         . (isset($block['size']) && $block['size'] != '' ? ' size-' . ($block['size'] == '20' ? 'regular' : $block['size']): ' size-regular')
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";

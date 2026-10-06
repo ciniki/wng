@@ -522,6 +522,30 @@ function ciniki_wng_main() {
                     'visible':function() { M.modFlagSet('ciniki.sapos', 0x800000); },
                     },
             }},
+        'cartsections':{'label':'Below Cart Extras', 'type':'simplegrid', 'num_cols':1,
+            'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },
+            'addTxt':'Add Content',
+            'addFn':'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',0,\'cart\',M.ciniki_wng_main.site.site_id);");',
+            'seqDrop':function(e,from,to) {
+                M.api.getJSONCb('ciniki.wng.site', {'tnid':M.curTenantID, 
+                    'action':'sectionsequenceupdate',
+                    'view':M.ciniki_wng_main.site.view,
+                    'site_id':M.ciniki_wng_main.site.site_id,
+                    'page_id':M.ciniki_wng_main.site.data.site.homepage_id,
+                    'section_id':M.ciniki_wng_main.site.data.cartsections[from].id, 
+                    'section_sequence':M.ciniki_wng_main.site.data.cartsections[to].sequence, 
+                    'section_flags':0x08,
+                    }, function(rsp) {
+                        if( rsp.stat != 'ok' ) {
+                            M.api.err(rsp);
+                            return false;
+                        }
+                        var p = M.ciniki_wng_main.site;
+                        p.data.cartsections = rsp.cartsections;
+                        p.refreshSection("cartsections");
+                    });
+                },
+            },
         'cartmessages':{'label':'Cart Messages', 'data':'settings',
             'active':function() { return (M.ciniki_wng_main.site.view == 'cart' ? 'yes' : 'no'); },
             'fields':{
@@ -715,7 +739,7 @@ function ciniki_wng_main() {
                 case 0: return d.name + ((d.flags&0x01) == 0 ? ' (Hidden)' : '');
             }
         }
-        if( s == 'headersections' || s == 'pagesections' || s == 'footersections' ) {
+        if( s == 'headersections' || s == 'pagesections' || s == 'footersections' || s == 'cartsections' ) {
             switch(j) {
                 case 0: return d.label + ((d.flags&0x10) == 0x10 ? ' (Hidden)' : '');
             }
@@ -739,6 +763,9 @@ function ciniki_wng_main() {
         }
         if( s == 'footersections' ) {
             return 'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',\'footer\',M.ciniki_wng_main.site.site_id);");';
+        }
+        if( s == 'cartsections' ) {
+            return 'M.ciniki_wng_main.site.save("M.ciniki_wng_main.section.open(\'M.ciniki_wng_main.site.open();\',\'' + d.id + '\',\'cart\',M.ciniki_wng_main.site.site_id);");';
         }
         return '';
     }

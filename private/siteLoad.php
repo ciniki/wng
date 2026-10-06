@@ -184,6 +184,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
     //
     $site['headersections'] = array();
     $site['footersections'] = array();
+    $site['cartsections'] = array();
     $strsql = "SELECT ciniki_wng_sections.id, "
         . "ciniki_wng_sections.page_id, "
         . "ciniki_wng_sections.sequence, "
@@ -194,7 +195,7 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
         . "FROM ciniki_wng_sections "
         . "WHERE ciniki_wng_sections.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND ciniki_wng_sections.page_id = '" . ciniki_core_dbQuote($ciniki, $site['homepage_id']) . "' "
-        . "AND (ciniki_wng_sections.flags&0x03) > 0 "
+        . "AND (ciniki_wng_sections.flags&0x0F) > 0 "
         . "ORDER BY sequence "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
@@ -224,6 +225,9 @@ function ciniki_wng_siteLoad(&$ciniki, $tnid, $site_id, $theme='no') {
             }
             if( ($section['flags']&0x02) == 0x02 ) {
                 $site['footersections'][] = $section;
+            }
+            if( ($section['flags']&0x08) == 0x08 ) {    
+                $site['cartsections'][] = $section;
             }
         }
     }

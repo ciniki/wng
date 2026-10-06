@@ -15,7 +15,7 @@ function ciniki_wng_generators_dropdown(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( (isset($block['list']) && is_array($block['list']) && count($block['list']) > 0) ) {
-        $content .= "<div class='block-dropdown"
+        $content .= "<div class='block block-dropdown"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

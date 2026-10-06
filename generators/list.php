@@ -15,7 +15,7 @@ function ciniki_wng_generators_list(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( (isset($block['items']) && is_array($block['items']) && count($block['items']) > 0) ) {
-        $content .= "<div class='block-list"
+        $content .= "<div class='block block-list"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

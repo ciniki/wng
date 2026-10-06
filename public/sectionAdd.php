@@ -47,7 +47,7 @@ function ciniki_wng_sectionAdd(&$ciniki) {
     if( !isset($args['flags']) ) {
         $args['flags'] = 0;
     }
-    if( $args['page_id'] == 'header' || $args['page_id'] == 'footer' ) {
+    if( $args['page_id'] == 'header' || $args['page_id'] == 'footer' || $args['page_id'] == 'cart' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'siteLoad');
         $rc = ciniki_wng_siteLoad($ciniki, $args['tnid'], $args['site_id']);
         if( $rc['stat'] != 'ok' ) {
@@ -57,6 +57,8 @@ function ciniki_wng_sectionAdd(&$ciniki) {
             $args['flags'] |= 0x01;
         } elseif( $args['page_id'] == 'footer' ) {
             $args['flags'] |= 0x02;
+        } elseif( $args['page_id'] == 'cart' ) {
+            $args['flags'] |= 0x08;
         }
         $args['page_id'] = $rc['site']['homepage_id'];
     }
@@ -120,7 +122,7 @@ function ciniki_wng_sectionAdd(&$ciniki) {
     // Update the section sequences
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionSequencesUpdate');
-    $rc = ciniki_wng_sectionSequencesUpdate($ciniki, $args['tnid'], $args['site_id'], $args['page_id'], ($args['flags']&0x03), $section_id, $args['sequence']);
+    $rc = ciniki_wng_sectionSequencesUpdate($ciniki, $args['tnid'], $args['site_id'], $args['page_id'], ($args['flags']&0x0F), $section_id, $args['sequence']);
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.47', 'msg'=>'Unable to move section', 'err'=>$rc['err']));
     }

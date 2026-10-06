@@ -18,7 +18,7 @@ function ciniki_wng_generators_image(&$ciniki, $tnid, $request, $block) {
     if( (isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']))
         || (isset($block['image-url']) && $block['image-url'] != '')
         ) {
-        $content .= "<div class='block-image"
+        $content .= "<div class='block block-image"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')
             . (isset($block['layout']) && $block['layout'] != '' ? ' layout-' . $block['layout'] : '')

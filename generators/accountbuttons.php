@@ -18,7 +18,7 @@ function ciniki_wng_generators_accountbuttons(&$ciniki, $tnid, $request, $block)
     $content = '';
 
     if( isset($block['data']) && is_array($block['data']) && count($block['data']) > 0 ) {
-        $content .= "<div class='block-accountbuttons"
+        $content .= "<div class='block block-accountbuttons"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? ' showat-' . $block['toggle-em'] . '-em': '')
             . "'>";

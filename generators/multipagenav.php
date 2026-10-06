@@ -30,7 +30,7 @@ function ciniki_wng_generators_multipagenav(&$ciniki, $tnid, $request, $block) {
         //
         // Start the block
         //
-        $content .= "<div class='block-multipagenav"
+        $content .= "<div class='block block-multipagenav"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

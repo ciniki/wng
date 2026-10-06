@@ -28,7 +28,7 @@ function ciniki_wng_generators_accordion(&$ciniki, $tnid, &$request, $block) {
     // Use the sequence number to give each carousel a unique id which 
     // allows several carousels on the same page
     //
-    $content .= "<div class='block-accordion"
+    $content .= "<div class='block block-accordion"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

@@ -54,7 +54,7 @@ function ciniki_wng_generators_pricecards(&$ciniki, $tnid, &$request, $block) {
     // Use the sequence number to give each carousel a unique id which 
     // allows several carousels on the same page
     //
-    $content .= "<div class='block-pricecards"
+    $content .= "<div class='block block-pricecards"
         . (isset($block['collapsible']) && $block['collapsible'] == 'yes' ? ' collapsible' : '')
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";

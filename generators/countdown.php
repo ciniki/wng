@@ -29,7 +29,7 @@ function ciniki_wng_generators_countdown(&$ciniki, $tnid, $request, $block) {
 
     $content = "<div "
         . (isset($block['id']) && $block['id'] != '' ? "id='{$block['id']}' " : '')
-        . "class='block-countdown {$state}"
+        . "class='block block-countdown {$state}"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

@@ -17,7 +17,7 @@ function ciniki_wng_generators_livesearch(&$ciniki, $tnid, $request, $block) {
 
     $id = isset($block['id']) ? $block['id'] : (isset($block['sequence']) ? $block['sequence'] : 1);
         
-    $content .= "<div class='block-livesearch search"
+    $content .= "<div class='block block-livesearch search"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";
@@ -36,7 +36,7 @@ function ciniki_wng_generators_livesearch(&$ciniki, $tnid, $request, $block) {
     //
     // The search hands back blocks html which will be placed inside this div
     //
-    $content .= "<div id='livesearch-results-{$id}' class='block-livesearch results'>"
+    $content .= "<div id='livesearch-results-{$id}' class='block block-livesearch results'>"
         . "</div>";
 
     //

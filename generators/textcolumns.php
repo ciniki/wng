@@ -18,7 +18,7 @@ function ciniki_wng_generators_textcolumns(&$ciniki, $tnid, $request, $block) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
        
     if( isset($block['data']) && is_array($block['data']) ) {
-        $content .= "<div class='block-textcolumns columns-" . count($block['data'])
+        $content .= "<div class='block block-textcolumns columns-" . count($block['data'])
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

@@ -16,7 +16,7 @@ function ciniki_wng_generators_breadcrumbs(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( (isset($block['items']) && is_array($block['items']) && count($block['items']) > 0) ) {
-        $content .= "<div class='block-breadcrumbs"
+        $content .= "<div class='block block-breadcrumbs"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['align']) && $block['align'] != '' ? ' align' . $block['align'] : '')
             . "'>";

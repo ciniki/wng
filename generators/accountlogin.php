@@ -94,7 +94,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
     }
 
 
-    $content .= "<div class='block-accountlogin"
+    $content .= "<div class='block block-accountlogin"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . ($signin_signup == 'yes' ? ' signin-signup' : '')
         . "'>";
@@ -494,7 +494,7 @@ function ciniki_wng_generators_accountlogin(&$ciniki, $tnid, $request, $block) {
             $content .= "<h2>Create Account</h2>";
         }
         // Start a form, to be displayed the same way as the
-        $content .= "<div class='block-form sectioned'>"
+        $content .= "<div class='block block-form sectioned'>"
             . "<div class='wrap'>"
             . "<div class='content'>"
             . "<div class='form'>"

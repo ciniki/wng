@@ -14,7 +14,7 @@ function ciniki_wng_generators_asideimage(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']) ) {
-        $content .= "<div class='block-asideimage"
+        $content .= "<div class='block block-asideimage"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['image-position']) && $block['image-position'] != '' ? ' image-' . $block['image-position'] : ' image-top-right')
             . (!isset($block['image-id']) || $block['image-id'] == 0 ? ' no-image' : '')

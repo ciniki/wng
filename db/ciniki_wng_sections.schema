@@ -25,8 +25,8 @@
 #
 #                               0x01 - Header
 #                               0x02 - Footer
-#                               0x04 - 
-#                               0x08 -
+#                               0x04 - Account
+#                               0x08 - Cart
 #                               0x10 - Hidden (Not currently displayed on website)
 #                               0x20 - 
 #                               0x40 - 

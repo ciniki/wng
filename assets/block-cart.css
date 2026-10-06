@@ -1,6 +1,11 @@
 .block-cart {
     padding: 1rem;
 }
+.block-cart div.block,
+.block-cart div.block .content {
+    padding-left: 0;
+    padding-right: 0;
+}
 .block-cart table.items {
     width: 100%;
 }

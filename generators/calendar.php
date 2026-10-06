@@ -13,7 +13,7 @@ function ciniki_wng_generators_calendar(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-    $content .= "<div class='block-calendar"
+    $content .= "<div class='block block-calendar"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . "'>";
     $content .= "<div class='wrap'>";

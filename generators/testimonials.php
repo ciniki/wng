@@ -15,7 +15,7 @@ function ciniki_wng_generators_testimonials(&$ciniki, $tnid, $request, $block) {
 
     if( isset($block['data']) && is_array($block['data']) && count($block['data']) > 0 ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'contentProcess');
-        $content .= "<div class='block-testimonials"
+        $content .= "<div class='block block-testimonials"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . (isset($block['scrolling']) && $block['scrolling'] == 'yes' ? ' scrolling' : '')
             . (isset($block['size']) && $block['size'] != '' ? ' size-' . $block['size'] : '')

@@ -14,7 +14,7 @@ function ciniki_wng_generators_sponsors(&$ciniki, $tnid, $request, $block) {
     $content = '';
 
     if( isset($block['items']) && count($block['items']) > 0 ) {
-        $content .= "<div class='block-sponsors"
+        $content .= "<div class='block block-sponsors"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . "'>";
         $content .= "<div class='wrap'>";

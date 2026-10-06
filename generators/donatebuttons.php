@@ -14,7 +14,7 @@
 function ciniki_wng_generators_donatebuttons(&$ciniki, $tnid, $request, $block) {
 
 
-    $content = "<div class='block-donatebuttons'>"
+    $content = "<div class='block block-donatebuttons'>"
         . "<div class='wrap'>"
         . "<div class='content'>";
     

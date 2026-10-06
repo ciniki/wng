@@ -2066,6 +2066,56 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 }
             }
 
+            //
+            // Check if any cart extras
+            //
+            if( $cart_edit == 'yes' && isset($request['site']['cartsections']) && count($request['site']['cartsections']) > 0 ) {
+                //
+                // Remove hidden sections
+                //
+//                foreach($request['site']['footersections'] as $sid => $section) {
+//                        unset($request['site']['cartsections'][$sid]);
+//                }
+                $cartblocks = [];
+                $request['page'] = [
+                    'id' => 'cart',
+                    'path' => '/cart',
+                    ];
+                foreach($request['site']['cartsections'] as $section) {
+                    if( ($section['flags']&0x10) == 0x10 ) {
+                        continue;
+                    }
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sectionRequestProcess');
+                    $rc = ciniki_wng_sectionRequestProcess($ciniki, $tnid, $request, $section);
+                    if( $rc['stat'] == 'exit' ) {
+                        return $rc;
+                    }
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.272', 'msg'=>'Unable to process the section', 'err'=>$rc['err']));
+                    }
+
+                    //
+                    // Add any resulting blocks to the request['response']['blocks'] array
+                    //
+                    if( isset($rc['blocks']) ) {
+                        foreach($rc['blocks'] as $block) {
+                            $cartblocks[] = $block;
+                        }
+                    }
+                }
+                //
+                // Generate the blocks
+                //
+                if( count($cartblocks) > 0 ) {
+                    ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'blocksGenerate');
+                    $rc = ciniki_wng_blocksGenerate($ciniki, $tnid, $request, $cartblocks);
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.273', 'msg'=>'', 'err'=>$rc['err']));
+                    }
+                    $content .= $rc['content'];
+                }
+            }
+
             if( $cart_edit == 'yes' && isset($settings['cart-noaccount-message']) && $settings['cart-noaccount-message'] != '' 
                 && (!isset($request['session']['customer']['id']) || $request['session']['customer']['id'] == 0)
                 ) {

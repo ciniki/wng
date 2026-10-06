@@ -22,7 +22,7 @@ function ciniki_wng_generators_socialicons(&$ciniki, $tnid, $request, $block) {
         || (isset($block['icons']) && count($block['icons']) > 0)  
         ) {
 
-        $content .= "<div class='block-socialicons"
+        $content .= "<div class='block block-socialicons"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
             . ' showat-' . (isset($block['toggle-em']) && $block['toggle-em'] != '' ? $block['toggle-em'] : '60') . '-em'
             . "'>";

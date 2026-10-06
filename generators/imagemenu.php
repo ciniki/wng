@@ -13,7 +13,7 @@ function ciniki_wng_generators_imagemenu(&$ciniki, $tnid, $request, $block) {
 
     $content = '';
 
-    $content .= "<div class='block-imagemenu"
+    $content .= "<div class='block block-imagemenu"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . (isset($block['image-id']) && $block['image-id'] > 0 ? '' : ' no-image')
         . "'>";

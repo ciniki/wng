@@ -164,11 +164,15 @@ function ciniki_wng_sectionUpdate(&$ciniki) {
     // Check if header or footer 
     //
     $flags = 0;
-    if( isset($args['page_id']) && ($args['page_id'] == 'header' || $args['page_id'] == 'footer') ) {
+    if( isset($args['page_id']) 
+        && ($args['page_id'] == 'header' || $args['page_id'] == 'footer' || $args['page_id'] == 'cart') 
+        ) {
         if( $args['page_id'] == 'header' ) {
             $flags |= 0x01;
         } elseif( $args['page_id'] == 'footer' ) {
             $flags |= 0x02;
+        } elseif( $args['page_id'] == 'cart' ) {
+            $flags |= 0x08;
         }
         unset($args['page_id']);
     }

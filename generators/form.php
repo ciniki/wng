@@ -23,7 +23,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     //
     // Setup error message area
     //
-    $content .= "<div id='form-errors' class='block-msg error center form-errors"
+    $content .= "<div id='form-errors' class='block block-msg error center form-errors"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : ' limit-width')
         . (isset($block['problem-list']) && $block['problem-list'] != '' ? '' : ' hidden')
         . "'>";
@@ -49,7 +49,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
     //
     // Start the form block
     //
-    $content .= "<div class='block-form"
+    $content .= "<div class='block block-form"
         . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
         . (isset($block['form-sections']) ? ' sectioned' : '')
         . (isset($block['section-selector']) && $block['section-selector'] == 'yes' ? ' section-selector' : '')
