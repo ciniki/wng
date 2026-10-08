@@ -129,6 +129,7 @@
     .block-schedule .timeslot .time {
         min-width: 8rem;
     }
+    .block-schedule .timeslot-synopsis,
     .block-schedule .timeslot .synopsis,
     .block-schedule .timeslot .details-table {
         margin-left: 8rem;
