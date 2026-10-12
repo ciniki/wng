@@ -1207,7 +1207,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
         'module' => 'Website',
         'settings'=>array(
             'title' => array('label'=>'Title', 'type'=>'text'),
-            'content' => array('label'=>'Intro', 'type'=>'textarea'),
+            'content' => array('label'=>'Intro', 'type'=>'htmlarea'),
             ),
         'repeats' => array(
             'label' => 'Blocks',
@@ -1217,7 +1217,7 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
             'addTxt' => 'Add Block',
             'fields' => array(
                 'title' => array('label'=>'Title', 'type'=>'text'),
-                'content' => array('label'=>'Content', 'type'=>'textarea', 'size'=>'large'),
+                'content' => array('label'=>'Content', 'type'=>'htmlarea', 'size'=>'large'),
                 ),
             ));
 

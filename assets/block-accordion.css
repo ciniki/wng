@@ -38,7 +38,7 @@
 .block-accordion .toggle:after {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
     padding: 0rem;
     content: "-";
     background: #aaa;
