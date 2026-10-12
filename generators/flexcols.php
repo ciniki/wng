@@ -68,7 +68,7 @@ function ciniki_wng_generators_flexcols(&$ciniki, $tnid, &$request, $block) {
                         isset($item['url']) ? $item['url'] : ''
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.97', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.283', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
                     }
                     if( isset($rc['url']) ) {
                         $link_url = $rc['url'];

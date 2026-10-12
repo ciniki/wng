@@ -74,7 +74,7 @@ function ciniki_wng_generators_buttoncards(&$ciniki, $tnid, &$request, $block) {
                 isset($item['url']) ? $item['url'] : ''
                 );
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.228', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.286', 'msg'=>'Unable to process url', 'err'=>$rc['err']));
             }
             $content .= "<a target='" . $rc['target'] . "' href='" . $rc['url'] . "' />";
             $url = 'yes';
@@ -91,7 +91,7 @@ function ciniki_wng_generators_buttoncards(&$ciniki, $tnid, &$request, $block) {
         if( isset($item['content']) && $item['content'] != '' ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.229', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.287', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='text'>" . $rc['content'] . "</div>";
         }
@@ -109,7 +109,7 @@ function ciniki_wng_generators_buttoncards(&$ciniki, $tnid, &$request, $block) {
                         $button['url']
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.240', 'msg'=>'', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.288', 'msg'=>'', 'err'=>$rc['err']));
                     }
                     $content .= "<div class='button-wrap"
                         . (isset($button['class']) && $button['class'] != '' ? ' ' . $button['class'] : '')

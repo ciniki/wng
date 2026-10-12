@@ -197,7 +197,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'image');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.267', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.274', 'msg'=>'Unable to load image', 'err'=>$rc['err']));
         }
         if( isset($rc['image']) ) {
             $filename = preg_replace("/^.*\.(gif|png|jpg|jpeg|webp|svg)$/", "og_image.$1", $rc['image']['original_filename']);
@@ -220,7 +220,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                 . "";
             $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.wng', 'setting');
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.270', 'msg'=>'Unable to load setting', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.275', 'msg'=>'Unable to load setting', 'err'=>$rc['err']));
             }
             if( isset($rc['setting']) ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
@@ -228,10 +228,10 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                     'detail_value' => $filename,
                     ], 0x04);
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.268', 'msg'=>'Unable to update the setting', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.276', 'msg'=>'Unable to update the setting', 'err'=>$rc['err']));
                     }
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.269', 'msg'=>'Unable to update open graph image', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.277', 'msg'=>'Unable to update open graph image', 'err'=>$rc['err']));
                 }
 
             } else {
@@ -242,7 +242,7 @@ function ciniki_wng_cacheThemeUpdate(&$ciniki, $tnid, $site_id) {
                     'detail_value' => $filename,
                     ), 0x04);
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.271', 'msg'=>'Unable to add the setting', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.278', 'msg'=>'Unable to add the setting', 'err'=>$rc['err']));
                 }
             }
         }

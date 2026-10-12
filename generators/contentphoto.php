@@ -135,7 +135,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
                         isset($item["link-url"]) ? $item["link-url"] : ''
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.117', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.297', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
                     }
                     $url = $rc['url'];
                 }
@@ -286,7 +286,7 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
                     isset($block["button-{$i}-url"]) ? $block["button-{$i}-url"] : ''
                     );
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.110', 'msg'=>'', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.296', 'msg'=>'', 'err'=>$rc['err']));
                 }
                 if( isset($rc['url']) && $rc['url'] != '' ) {
                     $buttons .= "<a "

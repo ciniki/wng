@@ -49,7 +49,7 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
         //        'clickload' => (isset($block['clickload']) && $block['clickload'] == 'no' ? 'no' : 'yes'),
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.292', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
             }
             $videocontent .= $rc['content'];
             if( !isset($block['js']) ) {
@@ -63,7 +63,7 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
     if( isset($block['content']) && $block['content'] != '' ) {
         $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $block['content']);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.246', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.289', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
         }
         $textcontent = $rc['content'];
     }
@@ -121,7 +121,7 @@ function ciniki_wng_generators_schedule(&$ciniki, $tnid, $request, $block) {
                 'url' => $timeslot['video-url'],
                 ]);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.178', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.290', 'msg'=>'Unable to process video', 'err'=>$rc['err']));
             }
             $videocontent = $rc['content'];
             if( !isset($block['js']) ) {

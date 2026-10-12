@@ -128,7 +128,7 @@ function ciniki_wng_generators_tradingcards(&$ciniki, $tnid, $request, $block) {
         } elseif( isset($item['content']) ) {
             $rc = ciniki_wng_contentProcess($ciniki, $tnid, $request, $item['content']);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.13', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.279', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
             }
             $content .= "<div class='synopsis'>" . $rc['content'] . "</div>";
         }

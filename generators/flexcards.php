@@ -76,7 +76,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
                 'webp' => 'yes',
                 ));
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.103', 'msg'=>'', 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.295', 'msg'=>'', 'err'=>$rc['err']));
             }
             $image = $rc;
         } else {
@@ -182,7 +182,7 @@ function ciniki_wng_generators_flexcards(&$ciniki, $tnid, &$request, $block) {
                         $button['url']
                         );
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.240', 'msg'=>'', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.294', 'msg'=>'', 'err'=>$rc['err']));
                     }
                     $content .= "<div class='button-wrap"
                         . (isset($button['class']) && $button['class'] != '' ? ' ' . $button['class'] : '')

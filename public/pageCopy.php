@@ -62,7 +62,7 @@ function ciniki_wng_pageCopy($ciniki) {
         return $rc;
     }
     elseif( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.176', 'msg'=>'Unable to validate page title', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.291', 'msg'=>'Unable to validate page title', 'err'=>$rc['err']));
     }
 
     //
@@ -94,7 +94,7 @@ function ciniki_wng_pageCopy($ciniki) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'pathsUpdate');
     $rc = ciniki_wng_pathsUpdate($ciniki, $args['tnid'], $page['site_id']);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.24', 'msg'=>'Unable to update page paths', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.280', 'msg'=>'Unable to update page paths', 'err'=>$rc['err']));
     }
 
     //

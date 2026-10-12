@@ -239,7 +239,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
         $request['session']['cart']['num_items'] = 0;
     } 
     elseif( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.25', 'msg'=>'Error processing shopping cart, please try again.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.281', 'msg'=>'Error processing shopping cart, please try again.'));
     } 
     else {
         $cart = $rc['cart'];
@@ -940,7 +940,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                     $updated .= ($updated != '' ? "\n" : '') . $rc['err']['msg'];
                 }
                 elseif( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.119', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.284', 'msg'=>'Unable to confirm availability', 'err'=>$rc['err']));
                 }
             }
         }
@@ -1046,7 +1046,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                 if( isset($rc['blocks']) ) {
                     return $rc;
                 } elseif( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.177', 'msg'=>'Unable to check address', 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.285', 'msg'=>'Unable to check address', 'err'=>$rc['err']));
                 } elseif( isset($rc['cart']) ) {
                     $cart = $rc['cart'];
                 }
