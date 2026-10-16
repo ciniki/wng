@@ -256,6 +256,7 @@
 }
 .block-form .field input.button:hover {
     background: #fff;
+    color: #555;
 }
 .block-form .field-phone-type-number input {
     display: inline-block;
