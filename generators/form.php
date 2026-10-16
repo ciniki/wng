@@ -745,7 +745,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
             }
             $prev = $fid;
         }
-        
+       
         //
         // Process the fields
         //
@@ -1045,7 +1045,8 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 }
                 if( $editable == 'no' ) {
                     $fields_html .= "<div id='f-{$field['id']}' class='textarea-readonly'>"
-                        . (isset($field['value']) ? nl2br($field['value']) : '')
+//                        . (isset($field['value']) ? nl2br($field['value']) : '')  //NOTE: textarea-readonly already preserves whitespace
+                        . (isset($field['value']) ? $field['value'] : '')
                         . "</div>";
                 } else {
                     $fields_html .= "<textarea id='f-{$field['id']}' name='f-{$field['id']}'"
@@ -1345,6 +1346,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= "<input type='submit' name='submit' class='button' value='"
                     . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
                     . "' >";
+                $block['submit-hide'] = 'yes';
             }
             elseif( $field['ftype'] == 'cancel' ) {
                 if( isset($field['url']) && $field['url'] != '' ) {
