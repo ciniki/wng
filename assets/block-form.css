@@ -745,6 +745,10 @@
     .block-form .size-medium {
         flex-basis: 50%;    
     }
+    .block-form .field-formula.size-small,
+    .block-form .field-number.size-small {
+        flex-basis: 15%;
+    }
     .block-form.simple.viewonly .field.field-textarea.size-small,
     .block-form.simple.viewonly .field.field-textarea.size-small-medium,
     .block-form.simple.viewonly .field.field-textarea.size-medium {
