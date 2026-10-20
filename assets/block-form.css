@@ -267,6 +267,7 @@
     gap: 0.5rem;
     justify-content: stretch;
 }
+.block-form .field-formula input,
 .block-form .field-number input {
     width: 12em;
 }
@@ -710,6 +711,8 @@
         flex-grow: 1;
         flex-shrink: 1;
     }
+    .block-form .field-formula.size-small input,
+    .block-form .field-formula.size-small-medium input,
     .block-form .field-number.size-small input,
     .block-form .field-number.size-small-medium input {
         width: 100%;
