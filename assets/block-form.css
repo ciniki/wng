@@ -762,6 +762,8 @@
         flex-basis: 25%;
         flex-shrink: 1;
     }
+    .block-form .field-formula.size-small,
+    .block-form .field-formula.size-small-medium,
     .block-form .field-number.size-small,
     .block-form .field-number.size-small-medium {
         flex-basis: 15%;
