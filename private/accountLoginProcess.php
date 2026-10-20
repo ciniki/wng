@@ -482,7 +482,8 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'wng', 'passwordRequestReset');
                 $rc = ciniki_customers_wng_passwordRequestReset($ciniki, $tnid, $request, $_POST['signupemail'], $url);
                 if( $rc['stat'] == 'ok' ) {
-                    header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+//                    header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+                    header("Location: " . $request['ssl_domain_base_url'] . '/account' . "?forgot-success");
                     return array('stat'=>'exit');
                 }
                 $blocks[] = array(
@@ -563,7 +564,8 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                     );
                 $display_form = 'forgot';
             } else {
-                header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+//                header("Location: " . $_SERVER['REQUEST_URI'] . "?forgot-success");
+                header("Location: " . $request['ssl_domain_base_url'] . '/account' . "?forgot-success");
                 return array('stat'=>'exit');
             }
         } else {
@@ -626,11 +628,11 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
                 error_log('ERR PWD RESET: ' . print_r($rc['err']['code'], true));
                 $display_form = 'reset';
             } else {
-                if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
-                    header("Location: " . $request['session']['login-return-url'] . '?reset-pwd-success');
-                    unset($request['session']['login-return-url']);
-                    return array('stat'=>'exit');
-                }
+//                if( isset($request['session']['login-return-url']) && $request['session']['login-return-url'] != '' ) {
+//                    header("Location: " . $request['session']['login-return-url'] . '?reset-pwd-success');
+//                    unset($request['session']['login-return-url']);
+//                    return array('stat'=>'exit');
+//                }
                 $blocks[] = array(
                     'type' => 'msg', 
                     'level' => 'success', 
@@ -642,7 +644,7 @@ function ciniki_wng_accountLoginProcess(&$ciniki, $tnid, &$request, $args=array(
     }
     elseif( isset($_GET['reset-pwd-success']) ) {
         if( isset($request['session']['login-return-url']) ) {
-            $request['session']['login-return-url'] = '';
+//            $request['session']['login-return-url'] = '';
         }
         if( isset($request['session']['loginform']) ) {
             $request['session']['loginform'] = '';
