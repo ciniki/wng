@@ -12,7 +12,7 @@
 // Returns
 // ---------
 // 
-function ciniki_wng_wng_apiSearch(&$ciniki, $tnid, $request) {
+function ciniki_wng_wng_apiSearch(&$ciniki, $tnid, &$request) {
 
     $search_str = urldecode($request['uri_split'][4]);
     $limit = 50;
