@@ -31,10 +31,10 @@ if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 
 // standard functions
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/dbQuote.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/dbHashQuery.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleActive.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/dbQuote.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/dbHashQuery.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleActive.php');
 
 //
 // Initialize Database
@@ -45,6 +45,11 @@ if( $rc['stat'] != 'ok' ) {
     ciniki_wng_printError($ciniki, null, 'There is currently a problem with our systems.  We are working to fix it as quickly as possible.  Please try again in a few minutes.');
     exit;
 }
+
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkModuleFlags');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkModuleActive');
 
 //
 // Setup the defaults

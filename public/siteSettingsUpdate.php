@@ -50,6 +50,7 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'account-create-type',
         'account-children-update',
         'account-public-member-info',
+        'account-member-categories',
         'account-shipping-address',
         'account-allowed-countries',
         'account-menu-toggle-em',
