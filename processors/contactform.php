@@ -209,6 +209,12 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                     $error_message = "I'm sorry, we had a problem delivering your message. Please try again, or contact us by phone.";
                     error_log('WEB [' . $ciniki['tenant']['details']['name'] . ']: Error with form submit (2606)');
                 }
+                //
+                // Load message for tracking spam
+                //
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'contactform', 
+                    'Subject: ' . $_POST['contact-form-subject'] . ' Email: ' . $_POST['contact-form-email']);
             } 
             
             //
@@ -259,6 +265,12 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                             );
                     }
                 }
+                //
+                // Load message for tracking spam
+                //
+                ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
+                ciniki_core_logFileMsg($ciniki, $tnid, 'contactform', 
+                    'Subject: ' . $_POST['contact-form-subject'] . ' Email: ' . $_POST['contact-form-email']);
             }
 
             //
