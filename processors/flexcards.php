@@ -42,6 +42,7 @@ function ciniki_wng_processors_flexcards(&$ciniki, $tnid, &$request, $section) {
     if( isset($s['title']) && $s['title'] != '' ) {
         $blocks[] = array(
             'type' => 'title',
+            'class' => 'section-' . ciniki_core_makePermalink($ciniki, $section['label']),
             'title' => $s['title'],
             );
     }
