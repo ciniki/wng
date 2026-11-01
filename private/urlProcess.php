@@ -26,6 +26,10 @@ function ciniki_wng_urlProcess(&$ciniki, $tnid, &$request, $page_id, $url) {
         $url = $request['base_url'] . $request['site']['pages'][$page_id]['path'];
         $display_url = $request['site']['pages'][$page_id]['title'];
     }
+    elseif( isset($url[0]) && $url[0] == '#' ) {
+        $target = '';
+        $url = $url;
+    } 
     elseif( isset($url[0]) && $url[0] == '/' ) {
         $url = $request['base_url'] . $url;
     } 
