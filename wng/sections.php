@@ -1199,6 +1199,28 @@ function ciniki_wng_wng_sections(&$ciniki, $tnid, $args) {
                 ),
             ));
 
+    // 
+    // Section for adding audio files that will display with play button in website
+    //
+    $sections['ciniki.wng.audiofiles'] = array(
+        'name' => 'Audio Files',
+        'module' => 'Website',
+        'settings' => array(
+            'title' => array('label'=>'Title', 'type'=>'text'),
+            'content' => array('label'=>'Content', 'type'=>'textarea'),
+            ),
+        'repeats' => array(
+            'label' => 'Files',
+            'headerValues' => array('Name', 'File'),
+            'cellClasses' => array(''),
+            'dataMaps' => array('name', 'file-id_filename'),
+            'addTxt' => 'Add File',
+            'fields' => array(
+                'file-id' => array('label'=>"File", 'type'=>'file_id'),
+                'name' => array('label'=>"Name", 'type'=>'text'),
+                ),
+            ));
+
     //
     // Accordion section
     //

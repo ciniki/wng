@@ -17,6 +17,7 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
     if( (isset($block['items']) && is_array($block['items']) && count($block['items']) > 0) ) {
         $content .= "<div class='block block-filelist"
             . (isset($block['class']) && $block['class'] != '' ? ' ' . $block['class'] : '')
+            . (isset($block['audio-files']) && $block['audio-files'] == 'yes' ? ' audio-files' : '')
             . "'>";
         $content .= "<div class='wrap'>";
         $content .= "<div class='content'>";
@@ -61,11 +62,25 @@ function ciniki_wng_generators_filelist(&$ciniki, $tnid, $request, $block) {
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.146', 'msg'=>'', 'err'=>$rc['err']));
                 }
-                $content .= "<div class='file'>"
-                    . "<a target='_blank' class='" . (isset($block['link-class']) ? $block['link-class'] : 'link') . "' href='" . $rc['url'] . "'>" 
-                    . $item['name'] 
-                    . "</a>"
-                    . "</div>";
+                if( isset($block['audio-files']) && $block['audio-files'] == 'yes' 
+                    && isset($item['content_type']) && preg_match("/audio\/[^ ]+/", $item['content_type'], $m) 
+                    ) {
+                    $content .= "<div class='file audio'>"
+                        . "<div class='title'>{$item['name']}</div>"
+                        . "<audio controls src='{$rc['url']}'></audio>"
+//                        . "<a target='_blank' class='" . (isset($block['link-class']) ? $block['link-class'] : 'link') . "' href='" . $rc['url'] . "'>Save " 
+//                        . $item['name'] 
+//                        . "</a>"
+                        . "</div>";
+                      
+
+                } else {
+                    $content .= "<div class='file'>"
+                        . "<a target='_blank' class='" . (isset($block['link-class']) ? $block['link-class'] : 'link') . "' href='" . $rc['url'] . "'>" 
+                        . $item['name'] 
+                        . "</a>"
+                        . "</div>";
+                }
             }  
         }
         $content .= '</div>';
