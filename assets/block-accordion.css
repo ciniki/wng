@@ -61,6 +61,11 @@
 .block-accordion .info {
     padding: 1rem;
 }
+.block-accordion .buttons {
+    display: flex; 
+    flex-flow: row wrap;
+    gap: 1rem;
+}
 @media screen and (min-width: 40em) {
     .block-accordion .items {
         padding-left: 1.5rem;
