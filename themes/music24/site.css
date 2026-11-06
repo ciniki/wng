@@ -425,6 +425,30 @@ header .block-imagemenu .main-menu nav {
     }
 }
 
+/* Syllabus Accordion */
+.block-accordion .title-wrap { 
+}
+.block-accordion .title { 
+    padding: 1rem 1rem; 
+}
+.block-accordion .toggle { 
+    padding: 0rem 1rem; 
+}
+.block-accordion .toggle:after { 
+    display: inline; 
+    background: transparent; 
+    font-size: 2em; 
+}
+.block-accordion .item-wrap { 
+    height: auto; 
+}
+@media screen and (min-width: 60em) {
+    .block-accordion .item { 
+        width: 50%; 
+        max-width: 50%; 
+    }
+}
+
 /* Titles */
 .block-title.trophy-title {
     clear: both;
