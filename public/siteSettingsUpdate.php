@@ -83,6 +83,8 @@ function ciniki_wng_siteSettingsUpdate(&$ciniki) {
         'stripe-sk',
         'stripe-version',
         'stripe-whsec',
+        'paynow-button-text',
+        'etransfer-button-text',
         // Theme options
         'theme-css-imports',
         'theme-css-overrides',
