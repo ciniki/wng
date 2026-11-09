@@ -2220,7 +2220,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $content .= "<input id='stripe-email' type='hidden' name='stripe-email' value=''/>";
                         $content .= "<button class='button submit' onclick='stripeCheckout.open(); return false;' type='submit' name='stripecheckout'>Pay Now</button>";
                     } */
-//                    if( $stripe_checkout == 'elements' ) {
+                    if( $stripe_checkout == 'elements' ) {
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'sapos', 'wng', 'stripeCheckoutCreate');
                         $rc = ciniki_sapos_wng_stripeCheckoutCreate($ciniki, $tnid, $request, array(
                             'invoice_id' => $cart['id'],
@@ -2229,7 +2229,7 @@ function ciniki_wng_cartRequestProcess(&$ciniki, $tnid, &$request) {
                         $content .= "<button class='button submit' onclick='{$rc['js']}; return false;' name='stripecheckout'>"
                             . (isset($settings['paynow-button-text']) && $settings['paynow-button-text'] != '' ? $settings['paynow-button-text'] : 'Pay Now')
                             . "</button>";
-//                    }
+                    }
                 }
                 $content .= "</span>";
             } elseif( $display_cart == 'regreview' ) {
