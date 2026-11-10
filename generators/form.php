@@ -319,7 +319,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                             $sections .= $field_description;
                             $sections .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                                 . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
-                                . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+                                . (isset($field['onkeyup']) ? " oninput='{$field['onkeyup']}'" : '')
                                 . ($editable == 'no' ? " readonly" : '')
                                 . ">";
                         }
@@ -947,7 +947,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                 $fields_html .= $field_description;
                 $fields_html .= "<input type='{$field['ftype']}' name='f-{$field['id']}' id='f-{$field['id']}'"
                     . ' value="' . (isset($field['value']) ? htmlspecialchars($field['value']) : '') . '"'
-                    . (isset($field['onkeyup']) ? " onkeyup='{$field['onkeyup']}'" : '')
+                    . (isset($field['onkeyup']) ? " oninput='{$field['onkeyup']}'" : '')
                     . ($editable == 'no' ? " readonly" : '')
                     . (isset($field['disabled']) ? " disabled" : '')
                     . ">";
