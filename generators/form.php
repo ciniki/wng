@@ -102,7 +102,10 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
         if( isset($block['cur-section-id']) && $block['cur-section-id'] != '' ) {
             $cur_section_id = $block['cur-section-id'];
         }
-        $sections .= "<form action='' method='POST'>";
+        $sections .= "<form"
+            . (isset($block['form-id']) && $block['form-id'] != '' ? " id={$block['form-id']}" : '')
+            . " enctype='multipart/form-data'"
+            . " action='" . (isset($block['form-action']) ? $block['form-action'] : '') . "' method='POST'>";
         if( isset($block['checkout']) && $block['checkout'] == 'yes' ) {
             $sections .= "<input type='hidden' name='checkout' value='Checkout' />";
             $sections .= "<input type='hidden' name='regreviewed' value='yes' />";
@@ -622,9 +625,15 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         }
                         elseif( $field['ftype'] == 'submit' ) {
                             $sections .= "<input type='hidden' name='action' value='submit'>";
-                            $sections .= "<input type='submit' name='submit' class='button' value='"
-                                . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
-                                . "' >";
+                            if( isset($block['form-id']) && $block['form-id'] != '' ) {
+                                $sections .= "<a class='button' href=\"javascript:C.form.sF({$block['form-id']});\">"
+                                    . (isset($field['label']) && $field['label'] != '' ? $field['label'] : 'Submit')
+                                    . "</a>";
+                            } else {
+                                $sections .= "<input type='submit' name='submit' class='button' value='"
+                                    . (isset($field['label']) && $field['label'] != '' ? $field['label'] : '')
+                                    . "' >";
+                            }
 //                            $sections .= "<a class='button' onclick='C.form.validate();'>Validate</a>";
                         }
                         elseif( $field['ftype'] == 'cancel' ) {

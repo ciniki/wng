@@ -96,6 +96,62 @@ C.form = {
             this.aa = rsp.api_args;
         }
     },
+    /* Submit form - used when submit button part of section, will save current section and validate form */
+    sF: function(id) {
+        /* Check if form is to be updated via api */
+        if( this.ssu != null && this.ssu != '' ) {
+            /* Check if the section is repeatable */
+            var e = C.gE('b-' + this.cs);
+            if( e != null ) {
+                if( e.classList.contains('repeatable') ) {
+                    var d = C.gE('s-' + this.cs + '-' + this.cr);
+                } else {
+                    var d = C.gE('s-' + this.cs);
+                }
+            } else {
+                /* Load entire form */
+                var d = C.gE('s-' + this.cs).parentNode;
+            }
+            var fD = new FormData;
+            var inputs = d.getElementsByTagName('input');
+            for(var i = 0; i < inputs.length; i++) {
+                if( inputs[i].type == 'checkbox' ) {
+                    fD.append(inputs[i].id, (inputs[i].checked ? 'on' : 'off'));
+                } else if( inputs[i].type == 'radio' ) {
+                    if( inputs[i].checked ) {
+                        fD.append(inputs[i].name, inputs[i].value);
+                    }
+                } else if( inputs[i].type != 'file' ) {
+                    fD.append(inputs[i].id, inputs[i].value);
+                }
+            }
+            var inputs = d.getElementsByTagName('select');
+            for(var i = 0; i < inputs.length; i++) {
+                fD.append(inputs[i].id, inputs[i].value);
+            }
+            var inputs = d.getElementsByTagName('textarea');
+            for(var i = 0; i < inputs.length; i++) {
+                fD.append(inputs[i].id, inputs[i].value);
+            }
+            fD.append('validate', 'yes');
+            C.postFDBg(this.ssu, this.aa, fD, C.form.submitted);
+        }
+    },
+    /* Submit form - submitted successfully, now submit form */
+    submitted: function(rsp) {
+        if( rsp.stat != 'ok' ) {
+            C.form.showErrors(rsp, "Oops, we had a problem saving, please click on save at the bottom or refresh the page.");
+        } else {
+            C.form.updateLastSaved(rsp);
+        }
+        if( rsp.api_args != null ) {   
+            this.aa = rsp.api_args;
+        }
+        if( rsp.stat == 'ok' ) {
+            // From submit will change status of submission to submitted.
+            C.gE(rsp['form-id']).submit();
+        }
+    },
     /* Check textarea word count */
     wC: function(e,i,m) {
         var len = e.target.value.split(/[\s]+/);
@@ -289,7 +345,6 @@ C.form = {
         var s=C.gE('search-'+f).value.toLowerCase();
         for(var i in e.children) {
             if( e.children[i].classList != null && e.children[i].classList.contains('dropdown-option') ) {
-                console.log(e.children[i].innerText);
                 if( s != '' && e.children[i] != null && !e.children[i].innerText.toLowerCase().includes(s) ) {
                     C.aC(e.children[i], 'hidden');
                 } else {
