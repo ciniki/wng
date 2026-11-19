@@ -626,7 +626,7 @@ function ciniki_wng_generators_form(&$ciniki, $tnid, $request, $block) {
                         elseif( $field['ftype'] == 'submit' ) {
                             $sections .= "<input type='hidden' name='action' value='submit'>";
                             if( isset($block['form-id']) && $block['form-id'] != '' ) {
-                                $sections .= "<a class='button' href=\"javascript:C.form.sF({$block['form-id']});\">"
+                                $sections .= "<a class='button' href=\"javascript:C.form.sF('{$block['form-id']}');\">"
                                     . (isset($field['label']) && $field['label'] != '' ? $field['label'] : 'Submit')
                                     . "</a>";
                             } else {
