@@ -21,6 +21,10 @@
 .block-contentphoto .content-wrap p {
     text-align: left;
 }
+.block-contentphoto.image-bottom-right .content-wrap,
+.block-contentphoto.image-bottom-right .content-wrap {
+    padding-bottom: 1rem;
+}
 .block-contentphoto.iconlistphoto p {
     margin-bottom: 0px;
     text-align: left;
