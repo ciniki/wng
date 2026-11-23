@@ -178,6 +178,7 @@ function ciniki_wng_processors_contactform(&$ciniki, $tnid, &$request, $section)
                 || preg_match("/revenuecreato.ai/", $_POST['contact-form-email']) 
                 || preg_match("/revenuecreator.ai/", $_POST['contact-form-email']) 
                 || preg_match("/sendproud.com/", $_POST['contact-form-email']) 
+                || preg_match("/example.com/", $_POST['contact-form-email']) 
                 ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logFileMsg');
                 ciniki_core_logFileMsg($ciniki, $tnid, 'spam', 
