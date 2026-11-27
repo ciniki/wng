@@ -40,6 +40,19 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
         $content .= "<div id='{$link_id}' class='content'>";
 
         if( isset($block['image-id']) && $block['image-id'] > 0 && is_numeric($block['image-id']) ) {
+            $image_link_url = '';
+            if( isset($block['image-page']) && $block['image-page'] >= 0 ) {
+                $rc = ciniki_wng_urlProcess($ciniki, $tnid, $request, 
+                    isset($block["image-page"]) ? $block["image-page"] : 0,
+                    isset($block["image-url"]) ? $block["image-url"] : ''
+                    );
+                    error_log(print_r($rc,true));
+                if( $rc['stat'] != 'ok' ) {
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.298', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
+                }
+                $image_link_url = $rc['url'];
+            }
+
             //
             // Copy image to cache
             //
@@ -61,6 +74,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
             // Make sure the image is in the cache
             //
             $image_content .= "<div class='image-wrap'>";
+            if( $image_link_url != '' ) {
+                $image_content .= "<a href='" . $image_link_url . "'>";
+            }
             $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "' />";
 //            $image_content .= "<img alt='" . (isset($block['title']) ? $block['title'] : '') . "' src='" . $rc['url'] . "'"
 //                . (isset($rc['srcset']) && $rc['srcset'] != '' ? " srcset=\"{$rc['srcset']}\"" : '')
@@ -71,6 +87,9 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.109', 'msg'=>'Unable to process content', 'err'=>$rc['err']));
                 }
                 $image_content .= "<div class='caption'>{$rc['content']}</div>";
+            }
+            if( $image_link_url != '' ) {
+                $image_content .= "</a>";
             }
             $image_content .= '</div>';
         }
