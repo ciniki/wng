@@ -46,7 +46,6 @@ function ciniki_wng_generators_contentphoto(&$ciniki, $tnid, &$request, $block) 
                     isset($block["image-page"]) ? $block["image-page"] : 0,
                     isset($block["image-url"]) ? $block["image-url"] : ''
                     );
-                    error_log(print_r($rc,true));
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.wng.298', 'msg'=>'Unable to prepare url', 'err'=>$rc['err']));
                 }
